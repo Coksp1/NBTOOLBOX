@@ -1,0 +1,42 @@
+endogenous
+cc
+d_yt
+y
+yc
+yn
+yt
+;
+
+exogenous
+ecc
+ec
+en
+et
+;
+
+parameters
+
+lambda_c
+lambda_t
+
+std_ec
+std_en
+std_et
+
+;
+
+model
+
+y    = yc + yn + yt + cc;
+yc   = lambda_c*yc(-1) + std_ec*ec;
+yn   = std_en*en;
+d_yt = yt - yt(-1);
+d_yt = lambda_t*d_yt(-1) + std_et*et;
+cc   = ecc;
+
+end
+
+observables
+cc
+y
+;

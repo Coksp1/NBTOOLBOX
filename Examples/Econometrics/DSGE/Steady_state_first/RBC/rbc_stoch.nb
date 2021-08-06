@@ -1,0 +1,62 @@
+// Implementation of the standard RBC model
+
+endogenous
+a           // Productivity
+c           // Consumption
+k           // Capital
+i           // Investment
+y           // Production
+y_gap       // Production gap
+y_gap_init  // Production gap from inital steady state
+z_i         // Investment technology shock process
+z_y         // Innventory shock process
+
+exogenous
+e_a // Productivity innovation
+e_i // Investment technology innovation
+e_y // Innventory innovation
+
+parameters
+alpha
+beta
+delta
+rho_a
+rho_i
+rho_y
+std_a
+std_i
+std_y
+
+model
+
+    // Consumption euler equation
+    c(+1)/c = beta*(alpha*exp(a(+1))*k^(alpha-1) + 1 - delta);
+
+    // Production function
+    y          = exp(a)*k(-1)^alpha;
+    y_gap      = y - steady_state(y);
+    y_gap_init = y - steady_state_first(y);
+
+    // Market clearing
+    y = c + i + z_y;
+
+    // Capital accumulation
+    k = (1-delta)*k(-1) + exp(z_i)*i;
+
+    // Productivity shock process
+    a          = rho_a*a(-1) + std_a*e_a;
+    [static] a = 0;
+
+    // Investment technology shock process
+    z_i = rho_i*z_i(-1) + std_i*e_i;
+
+    // Innventory shock process
+    z_y = rho_y*z_y(-1) + std_y*e_y;
+
+end
+
+observables
+c
+i
+y
+

@@ -1,0 +1,84 @@
+% Simple model for detrending GDP (y), consumption (c), inventories (l) 
+% and investment (i) 
+
+% Declare the endogenous variables of the RBC model
+endogenous 
+a     // Temporary productivity
+c     // Consumption
+dc    // Consumption growth
+di    // Investment growth
+dy    // Production growth 
+k     // Capital
+i     // Investment
+y     // Production
+z_i   // Investment technology shock process
+z_y   // Innventory shock process
+
+exogenous
+e_a   // Productivity innovation
+e_i   // Investment technology innovation
+e_y   // Innventory innovation
+
+% Declare the parameters of the model of the model 
+parameters 
+
+% Parameters of the RBC model
+alpha
+beta
+delta
+rho_a
+rho_i
+rho_y
+std_a
+std_i
+std_y
+
+% Core model of stationary part of the observables. 
+%
+% This part can:
+% - include forward looking variables.
+% - have exogenous innovations.
+% - have endogneous parameters.
+% - have parameters with break-point (Be aware that endogneous parameters 
+%   cannot also be declared as having a break-point).
+%
+% This part cannot:
+% - include non-stationary variables.
+% - include constant term.
+%
+% Caution: This part must be possible to solve independ of the 
+%          observation_model block. Except for the steady-state, which
+%          will be solved combinding both parts of the model
+model 
+
+// Consumption euler equation
+c(+1)/c = beta*(alpha*exp(a(+1))*k^(alpha-1) + 1 - delta);
+
+// Production function
+y = exp(a)*(k(-1))^alpha;
+
+// Market clearing
+y = c + i + z_y;
+
+// Capital accumulation
+k = (1-delta)*(k(-1)) + exp(z_i)*i;
+
+// Productivity shock process
+a = rho_a*a(-1) + std_a*e_a;
+
+// Innventory shock process
+z_y = rho_y*z_y(-1) + std_y*e_y;
+
+// Investment technology shock process
+z_i = rho_i*z_i(-1) + std_i*e_i;
+
+// Growth variables
+dc = c - c(-1);
+di = i - i(-1);
+dy = y - y(-1);
+
+observables
+dc
+di
+dy
+

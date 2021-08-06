@@ -1,0 +1,349 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  VERSION: Justiniano, A., Primiceri, G. and Tambalotti, A. (2011), 
+%  "Investment shocks and the relative price of investment" with:
+%  - Rotemberg adjustement cost instead of calvo price setting.
+%  - Rotemberg adjustement cost instead of calvo wage setting.
+%  - Different functional forms for the cost of capital utilization and 
+%    the adjustment cost in investment.
+%  - Non-stationary version 
+%
+%  DATE: March 2021
+%
+%  DOCUMENTATION: Canova and Paulsen (2021), ""
+%
+%  CONTENTS:
+%      1. Declaration of variables and parameters
+%      2. Specification of the model
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 1. Declaration of variables and parameters
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+endogenous
+A_NW % Final goods production
+C_NW % Consumption
+DPQ_C_NW % Consumption growth
+DPQ_I_NW % Investment growth
+DPQ_P_NW % Inflation
+DPQ_PQ_NW % Intermidate goods inflation
+DPQ_REAL_PI_NW % Real investment inflation
+DPQ_REAL_W_NW % Real wage inflation
+DPQ_W_NW % Wage inflation
+DPQ_Y_NW % Output growth
+DSA_NW % Stochastic discount factor
+GAMMAPRIME_U_NW % Marginal cost of utilizing the capital
+GAMMA_U_NW % Cost of utilize the capital
+GAMMA_W_NW % Wage adjustment cost
+I_NW % Investment
+K_NW % Capital
+KBAR_NW % Utilized capital
+KNEW_NW % Capital goods produced each period
+L_NW % Hours worked
+MC_NW % Marginal cost
+MRS_NW % Marginal rate of substitution
+NAT_Y_NW % Output
+PSI_NW % Competition in the labor market shock process
+Q_NW % Demand for intermediate goods
+REAL_PI_NW % Real price of investment
+REAL_PK_NW % Real price of capital
+REAL_PQ_NW % Real intermediate goods price
+REAL_W_NW % Real wage rate
+RHO_NW % Discount factor shock process
+RK_NW % Rental rate of capital
+RN3M_NW % Money market interest rate
+S_NW % Investment adjustment cost function
+S_PRIME1_NW % Derivative of the investment adjustment cost function wrt 1st input times I_NW
+S_PRIME2_NW % Derivative of the investment adjustment cost function wrt 2nd input times I_NW
+T_NW % Intermediate goods production
+THETAH_NW % Price markup shock process
+U_NW % Utilization rate
+UPRIME_NW % Derivative of the utility function of households wrt consumption 
+VPRIME_NW % Derivative of the utility function of households wrt labor 
+Y_I_NW % Input to investment production
+Z_I_NW % Marginal efficiency of investment shock process
+Z_L_NW % Temporary labor augmenting technology shock process
+Z_RN3M_NW % Monetary policy shock process
+Z_U_NW % Consumption preference shock process
+
+exogenous
+E_DUT_NW  % Investment-specific technological innovation
+E_DZT_NW % Permanent labor-augmenting technology innovation
+E_I_NW % Marginal efficiency of investment innovation
+E_L_NW % Temporary labor augmenting technology innovation
+E_PSI_NW % Competition in the labor market innovation
+E_RHO_NW % Discount factor innovation
+E_RN3M_NW % Monetary policy innovation
+E_THETAH_NW % Price markup innovation
+E_U_NW % Consumption preference innovation
+
+parameters
+ALPHA_NW % Capital share
+BC_NW % Habit in consumption
+BETA_NW % Discount factor
+BL_NW % Habit in hours worked
+DELTA_NW % Depreciation rate
+DPQ_P_NW_SS % Steady-state inflation
+DUT_NW_SS % Steady-state growth rate in investment-specific technology
+DZT_NW_SS % Steady-state growth rate in labor-augmenting technology
+LAMBDA_DUT_NW % Shock persistent parameter for the investment-specific technology shock
+LAMBDA_DZT_NW % Shock persistent parameter for the labor-augmenting technology shock
+LAMBDA_I_NW % Shock persistent parameter for the marginal efficiency of investment shock
+LAMBDA_L_NW % Shock persistent parameter for the temporary labor augmenting technology shock
+LAMBDA_PSI_NW % Shock persistent parameter for the competition in the labor market shock
+LAMBDA_RHO_NW % Shock persistent parameter for the discount factor shock
+LAMBDA_RN3M_NW % Shock persistent parameter for the monetary policy shock
+LAMBDA_U_NW % Shock persistent parameter for the price markup shock
+LAMBDA_THETAH_NW % Shock persistent parameter for the consumption preference shock
+OMEGA_Y_NW % Taylor rule coefficient on ouput gap.
+OMEGA_DPQ_Y_NW  % Taylor rule coefficient on ouput growth gap.
+OMEGA_P_NW % Taylor rule coefficient on inflation gap.
+OMEGA_R_NW % Interest rate smoothing in the taylor rule
+PHI_PQ_NW % Intermediate goods price adjustment cost parameter
+PHI_I1_NW % Investment adjustment cost parameter
+PHI_W_NW % Wage adjustment cost parameter
+PHI_U_NW % Capital utilization cost parameter
+PSI_NW_SS % Steady-state elasticity of substitution between differentiated labor
+RHO_NW_SS % Discount factor shock process in steady state
+THETAH_NW_SS % Steady-state elasticity of substitution between intermidate goods  
+ZETA_NW % Inverse Frisch elasticity
+Z_I_NW_SS % Marginal efficiency of investment shock in steady-state
+Z_L_NW_SS % Temporary labor augmenting technology shock in steady-state
+Z_RN3M_NW_SS % Monetary policy shock in steady-state
+Z_U_NW_SS % Consumption preference shock in steady-state
+std_E_DUT_NW % Standard deviation of the innovation to the Z_DUT_NW shock process
+std_E_DZT_NW % Standard deviation of the innovation to the Z_DZT_NW shock process
+std_E_I_NW % Standard deviation of the innovation to the Z_I_NW shock process
+std_E_L_NW % Standard deviation of the innovation to the Z_L_NW shock process
+std_E_PSI_NW % Standard deviation of the innovation to the PSI_NW shock process
+std_E_RHO_NW % Standard deviation of the innovation to the RHO_NW shock process
+std_E_RN3M_NW % Standard deviation of the innovation to the Z_RN3M_NW shock process 
+std_E_THETAH_NW % Standard deviation of the innovation to the THETAH_NW shock process
+std_E_U_NW % Standard deviation of the innovation to the Z_U_NW shock process
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 2. Model equations
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+model
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Final goods sector
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Production function (A_NW)
+A_NW = Q_NW;
+
+% FOC (Q_NW)
+REAL_PQ_NW = 1;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Intermediate goods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Intermidate production function (KBAR_NW)
+T_NW = (Z*Z_L_NW*L_NW)^(1-ALPHA_NW)*KBAR_NW^ALPHA_NW;
+
+% Optimality condition wrt utilized capital (I.e. demand function) (MC_NW)
+KBAR_NW = ALPHA_NW*(MC_NW/RK_NW)*T_NW; 
+
+% Optimality condition wrt aggregated labor (I.e. demand function) (L_NW)
+L_NW = (1 - ALPHA_NW)*(MC_NW/REAL_W_NW)*T_NW;
+
+% Pricing (REAL_PQ_NW)
+Q_NW - THETAH_NW*Q_NW + MC_NW*THETAH_NW*Q_NW/REAL_PQ_NW 
+     - 100*PHI_PQ_NW*(DPQ_PQ_NW/DPQ_PQ_NW(-1) - 1)*DPQ_PQ_NW/DPQ_PQ_NW(-1)*Q_NW 
+     + DSA_NW*100*PHI_PQ_NW*(DPQ_PQ_NW(+1)/DPQ_PQ_NW - 1)
+     *DPQ_PQ_NW(+1)^2/DPQ_PQ_NW*Q_NW(+1) = 0;
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Investment producer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Investment production function (Y_I_NW)
+I_NW = UPSILON*Y_I_NW;
+
+% First order condition of investment decision (REAL_PI_NW)
+UPSILON*REAL_PI_NW = 1;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Capital producer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Capital production function (KNEW_NW)
+KNEW_NW = Z_I_NW*(1 - S_NW)*I_NW;
+
+% Investment adjustment cost function (S_NW)
+S_NW = (PHI_I1_NW/2)*(I_NW/I_NW(-1) - bgp(I_NW))^2;
+
+% Derivative of the investment adjustment cost function wrt 1st input
+% (Multiplied by I_NW!) (S_PRIME1_NW)
+S_PRIME1_NW = PHI_I1_NW*(I_NW/I_NW(-1) - bgp(I_NW))*I_NW/I_NW(-1);
+
+% Derivative of the investment adjustment cost function wrt 2nd input
+% (Multiplied by I_NW!) (S_PRIME2_NW)
+S_PRIME2_NW = -PHI_I1_NW*(I_NW/I_NW(-1) - bgp(I_NW))*(I_NW/I_NW(-1))^2; 
+
+% Optimal capital investment (I_NW)
+0 = DSA_NW*REAL_PK_NW(+1)*Z_I_NW(+1)*S_PRIME2_NW(+1) 
+  + REAL_PK_NW*Z_I_NW*(1 - S_NW - S_PRIME1_NW) - REAL_PI_NW;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Households
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Derivative of the utility function of households wrt consumption 
+% (UPRIME_NW)
+UPRIME_NW   = Z_U_NW*((C_NW - C_NW(-1)*BC_NW)/(1 - BC_NW/bgp(C_NW)))^(-1) ;
+
+% Derivative of the utility function of households wrt labor (VPRIME_NW)
+VPRIME_NW   = ((L_NW - BL_NW*L_NW(-1))/(1-BL_NW))^ZETA_NW ;
+
+% Stochastic discount factor (DSA_NW) 
+DSA_NW = BETA_NW*RHO_NW(+1)*UPRIME_NW(+1)/(DPQ_P_NW(+1)*RHO_NW*UPRIME_NW);
+
+% FOC wrt B (Consumption euler equation) (RN3M_NW)
+DSA_NW*RN3M_NW = 1;
+
+% Wage-setting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% FOC wrt W (REAL_W_NW)
+REAL_W_NW = PSI_NW*MRS_NW/((PSI_NW-1)*(1-GAMMA_W_NW) 
+          + 1000*PHI_W_NW*DPQ_W_NW/DPQ_W_NW(-1)*(DPQ_W_NW/DPQ_W_NW(-1) - 1) 
+          - DSA_NW*DPQ_W_NW(+1)*L_NW(+1)/L_NW*1000*PHI_W_NW*DPQ_W_NW(+1)
+          /DPQ_W_NW*(DPQ_W_NW(+1)/DPQ_W_NW - 1));
+    
+% Wage adjusment cost (GAMMA_W_NW)
+GAMMA_W_NW = 1000*PHI_W_NW/2*(DPQ_W_NW/DPQ_W_NW(-1) - 1)^2 ;
+
+% Marginal rate of substitution of consumption for leisure (MRS_NW)
+MRS_NW = VPRIME_NW/UPRIME_NW; 
+
+% "Entrepreneurs"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% FOC wrt K (REAL_PK_NW)
+REAL_PK_NW = DSA_NW*DPQ_P_NW(+1)*( REAL_PK_NW(+1)*(1 - DELTA_NW) + RK_NW(+1)*U_NW(+1) - GAMMA_U_NW(+1));
+
+% FOC wrt U (RK_NW)
+RK_NW = GAMMAPRIME_U_NW;
+
+% Cost of utilize the capital (GAMMA_U_NW)
+GAMMA_U_NW = steady_state(RK_NW)/PHI_U_NW*(exp(PHI_U_NW*(U_NW - 1)) - 1) ;
+
+% Marginal cost of utilizing the capital (GAMMAPRIME_U_NW)
+GAMMAPRIME_U_NW  = steady_state(RK_NW)*exp(PHI_U_NW*(U_NW - 1)) ; 
+
+% Capital decision
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Capital accumulation (K_NW)
+K_NW = (1-DELTA_NW)*K_NW(-1) + KNEW_NW;
+
+% Capital utilization (U_NW)
+KBAR_NW = U_NW*K_NW(-1);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Market clearing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Final good market (C_NW)
+A_NW = C_NW + Y_I_NW;
+
+% Intermediate good market (T_NW)
+T_NW = Q_NW;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Definition of output
+NAT_Y_NW = A_NW;
+
+% Consumption growth (DPQ_C_NW)
+DPQ_C_NW = C_NW/C_NW(-1);
+
+% Investment growth (DPQ_I_NW)
+DPQ_I_NW = I_NW/I_NW(-1);
+
+% Output growth (DPQ_A_NW)
+DPQ_Y_NW = NAT_Y_NW/NAT_Y_NW(-1);
+
+% Intermidate good inflation (DPQ_PQ_NW)
+DPQ_PQ_NW = DPQ_P_NW*REAL_PQ_NW/REAL_PQ_NW(-1);
+
+% Real investment inflation
+DPQ_REAL_PI_NW = REAL_PI_NW/REAL_PI_NW(-1);
+
+% Real wage inflation
+DPQ_REAL_W_NW = REAL_W_NW/REAL_W_NW(-1);
+
+% Wage inflation (DPQ_W_NW)
+DPQ_W_NW = REAL_W_NW/REAL_W_NW(-1)*DPQ_P_NW;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Monetary policy
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Taylor rule (DPQ_P_NW)
+RN3M_NW = RN3M_NW(-1)^OMEGA_R_NW*(steady_state(RN3M_NW)
+        *(DPQ_P_NW/steady_state(DPQ_P_NW))^OMEGA_P_NW
+        *(NAT_Y_NW/steady_state(NAT_Y_NW))^OMEGA_Y_NW
+        *(DPQ_Y_NW/steady_state(DPQ_Y_NW))^OMEGA_DPQ_Y_NW)
+        ^(1-OMEGA_R_NW)*(Z_RN3M_NW/steady_state(Z_RN3M_NW));
+[static] DPQ_P_NW = DPQ_P_NW_SS;
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shock processes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Competition in the labor market shock process (PSI_NW)
+log(PSI_NW) = (1-LAMBDA_PSI_NW)*log(PSI_NW_SS) + LAMBDA_PSI_NW*log(PSI_NW(-1)) + E_PSI_NW*std_E_PSI_NW ;
+
+% Discount factor shock process (RHO_NW)
+log(RHO_NW) = (1-LAMBDA_RHO_NW)*log(RHO_NW_SS) + LAMBDA_RHO_NW*log(RHO_NW(-1)) + E_RHO_NW*std_E_RHO_NW ;
+
+% Price markup shock process (THETAH_NW)
+log(THETAH_NW) = (1-LAMBDA_THETAH_NW)*log(THETAH_NW_SS) 
+               + LAMBDA_THETAH_NW*log(THETAH_NW(-1)) 
+               + E_THETAH_NW*std_E_THETAH_NW ;
+
+% Marginal efficiency of investment shock process (Z_I_NW) 
+log(Z_I_NW) = (1-LAMBDA_I_NW)*log(Z_I_NW_SS) 
+            + LAMBDA_I_NW*log(Z_I_NW(-1)) + E_I_NW*std_E_I_NW ;
+
+% Temporary labor augmenting technology shock process (Z_L_NW)
+log(Z_L_NW) = (1-LAMBDA_L_NW)*log(Z_L_NW_SS) 
+            + LAMBDA_L_NW*log(Z_L_NW(-1)) + E_L_NW*std_E_L_NW ;
+
+% Consumption preference shock process (Z_U_NW)
+log(Z_U_NW) = (1-LAMBDA_U_NW)*log(Z_U_NW_SS) 
+            + LAMBDA_U_NW*log(Z_U_NW(-1)) + E_U_NW*std_E_U_NW ;
+
+% Monetary policy shock process (Z_RN3M_NW)
+log(Z_RN3M_NW)     = (1-LAMBDA_RN3M_NW)*log(Z_RN3M_NW_SS) + LAMBDA_RN3M_NW*log(Z_RN3M_NW(-1)) + E_RN3M_NW*std_E_RN3M_NW;
+
+unitroot
+Z, DZT_NW_SS, LAMBDA_DZT_NW, E_DZT_NW, std_E_DZT_NW;
+UPSILON, DUT_NW_SS, LAMBDA_DUT_NW, E_DUT_NW, std_E_DUT_NW;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Observables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+observables
+DPQ_C_NW
+DPQ_I_NW
+DPQ_P_NW
+DPQ_REAL_PI_NW
+DPQ_REAL_W_NW
+DPQ_Y_NW
+RN3M_NW
+

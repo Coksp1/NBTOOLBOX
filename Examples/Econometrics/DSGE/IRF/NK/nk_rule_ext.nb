@@ -1,0 +1,46 @@
+
+endogenous
+y   // Output gap
+pie // Inflation gap
+i   // Interest rate gap
+u   // Supply shock
+e   // Demand shock
+m   // Monetary policy shock
+;
+
+exogenous
+e_e // Demand innovation
+e_i // Monetary policy innovation
+e_u // Supply innovation
+;
+
+parameters
+alpha
+beta
+epsilon
+eta
+gamma_pie
+gamma_pie1
+gamma_y
+rho_e
+rho_m
+rho_u
+theta
+varphi;
+
+model
+
+    y   = y(+1) - eta*(i - pie(+1)) + e;
+    pie = beta*pie(+1) + ((1 - alpha/(1 - alpha + alpha*epsilon))*(1- theta)*(1-beta*theta)/theta)*(1/eta + (varphi + alpha)/(1- alpha))*y + u;
+    e   = rho_e*e(-1) + e_e;
+    u   = rho_u*u(-1) + e_u;
+    m   = rho_m*m(-1) + e_i;
+    i   = gamma_pie1*pie(+1) + gamma_pie*pie + gamma_y*y + m; 
+
+end
+
+
+
+
+
+

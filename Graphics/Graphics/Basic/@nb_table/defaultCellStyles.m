@@ -1,0 +1,19 @@
+function cell = defaultCellStyles()
+    cell.Color = [0 0 0];
+    cell.BackgroundColor = [1 1 1];
+    cell.FontWeight = 'normal';
+    cell.FontName = 'Arial';
+    cell.FontSize = 10;
+    cell.FontUnits = 'points';
+    cell.Interpreter = 'none';
+    cell.HorizontalAlignment = 'left';
+    cell.VerticalAlignment = 'top';
+    cell.Margin = 0;
+    cell.ColumnSpan = 1;
+    cell.RowSpan = 1;
+    cell.BorderTop = 1;
+    cell.BorderBottom = 1;
+    cell.BorderLeft = 1;
+    cell.BorderRight = 1;
+    cell.DateFormat = '';
+end

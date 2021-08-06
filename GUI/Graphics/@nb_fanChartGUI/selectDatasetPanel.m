@@ -1,0 +1,69 @@
+function selectDatasetPanel(gui)
+% Syntax:
+%
+% selectDatasetPanel(gui)
+%
+% Description:
+%
+% Part of DAG. Creates a panel for editing baseline properties.
+% 
+% Written by Kenneth Sæterhagen Paulsen 
+
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+
+    % Create panel
+    %--------------------------------------------------------------
+    uip = uipanel('parent',              gui.figureHandle,...
+                  'title',               '',...
+                  'visible',             'on',...
+                  'borderType',          'none',... 
+                  'units',               'normalized',...
+                  'position',            [0, 0, 1, 1]); 
+    gui.panelHandle1 = uip;
+    
+    % Panel with dataset selection list
+    %--------------------------------------------------------------
+    uip = uipanel('parent',              gui.panelHandle1,...
+                  'title',               'Select',...
+                  'units',               'normalized',...
+                  'position',            [0.04, 0.04, 0.44, 0.92]);
+    
+    % List of datasets
+    %_-------------------------------------------------------------
+    if isa(gui.plotter.parent,'nb_GUI')
+        appData = gui.plotter.parent.data;
+    else
+        close(gui.figureHandle);
+        nb_errorWindow('Not supported option outside the NB Toolbox GUI.')
+        return
+    end
+    datasets = fieldnames(appData);
+
+    if isempty(datasets)
+        nb_errorWindow('There are no stored datasets to load.')
+        close(gui.figureHandle)
+        return
+    end
+    
+    gui.handle1 = uicontrol(...
+                     'units',       'normalized',...
+                     'position',    [0.04, 0.02, 0.92, 0.96],...
+                     'parent',      uip,...
+                     'background',  [1 1 1],...
+                     'style',       'listbox',...
+                     'string',      datasets,...
+                     'max',         1);            
+                                  
+    % Create next button
+    %--------------------------------------------------------------
+    width  = 0.2;
+    height = 0.06;
+    uicontrol('units',          'normalized',...
+              'position',       [0.5 + 0.25 - width/2 - 0.01, 0.4, width, height],...
+              'parent',         gui.panelHandle1,...
+              'style',          'pushbutton',...
+              'Interruptible',  'off',...
+              'string',         'Next',...
+              'callback',       @gui.setFanDataset); 
+    
+end

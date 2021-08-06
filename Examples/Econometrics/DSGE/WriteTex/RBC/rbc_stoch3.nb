@@ -1,0 +1,54 @@
+// Implementation of the standard RBC model
+
+endogenous
+a       // Productivity
+a_gap   // Productivity gap
+c       // Consumption
+c_gap   // Consumption gap
+cy      // Consumption as share of production
+cy_gap  // Consumption as share of production gap
+k       // Capital
+k_gap   // Capital gap
+i       // Investment
+i_gap   // Investment gap
+y       // Production
+y_gap;  // Production gap
+
+exogenous
+e_a; // Productivity innovation
+
+parameters
+alpha
+beta
+delta
+rho;
+
+model
+
+    // Consumption euler equation
+    c(+1)/c = beta*(alpha*a(+1)*k^(alpha-1) + 1 - delta);
+
+    // Production function
+    y = a*k(-1)^alpha;
+
+    // Market clearing
+    y = c + i;
+
+    // Conumption share definition
+    cy = c/y;
+
+    // Capital accumulation
+    k = (1-delta)*k(-1) + i;
+
+    // Productivity shock process
+    log(a) = rho*log(a(-1)) + e_a;
+
+    // Gap variables definitions
+    a_gap  = log(a/steady_state(a));
+    c_gap  = log(c/steady_state(c));
+    cy_gap = log(cy/steady_state(cy));
+    i_gap  = log(i/steady_state(i));
+    k_gap  = log(k/steady_state(k));
+    y_gap  = log(y/steady_state(y));
+
+end

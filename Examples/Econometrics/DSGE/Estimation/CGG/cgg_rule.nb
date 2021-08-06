@@ -1,0 +1,49 @@
+
+endogenous
+y   // Output gap
+pie // Inflation gap
+i;  // Interest rate gap
+
+exogenous
+eps // Demand shock
+eta // Supply shock
+e;  // Monetary policy shock
+
+parameters
+alpha
+beta
+gamma_eps
+gamma_eta
+gamma_i
+gamma_pie
+gamma_y
+phi
+std_e
+std_eps
+std_eta
+theta
+varphi;
+
+model
+
+    // IS relation
+    y   = theta*y(-1) + (1-theta)*y(+1) - varphi*(i - pie(+1)) + std_eps*eps;
+
+    // Phillips curve
+    pie = phi*pie(-1) + (1-phi)*beta*pie(+1) + alpha*y + std_eta*eta;
+
+    // Interest rate rule
+    i   = gamma_i*i(-1) + (1-gamma_i)*(gamma_pie*pie(-1) + gamma_y*y(-1) + gamma_eps*eps + gamma_eta*eta) + std_e*e; 
+
+end
+
+varobs
+y
+pie
+i
+;
+
+
+
+
+

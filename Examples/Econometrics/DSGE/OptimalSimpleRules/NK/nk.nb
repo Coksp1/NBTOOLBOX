@@ -1,0 +1,43 @@
+
+endogenous
+y   // Output gap
+pie // Inflation gap
+i   // Interest rate gap
+u   // Supply shock
+e   // Demand shock
+;
+
+exogenous
+e_u // Supply innovation
+e_e // Demand innovation
+;
+
+parameters
+alpha
+beta
+epsilon
+eta
+rho_e
+rho_u
+theta
+varphi;
+
+model
+
+    // IS relation
+    y   = y(+1) - eta*(i - pie(+1)) + e;
+
+    // Phillips curve
+    pie = beta*pie(+1) + ((1 - alpha/(1 - alpha + alpha*epsilon))*(1- theta)*(1-beta*theta)/theta)*(1/eta + (varphi + alpha)/(1- alpha))*y + u;
+
+    // Shock processes
+    e   = rho_e*e(-1) + e_e;
+    u   = rho_u*u(-1) + e_u;
+
+end
+
+
+
+
+
+

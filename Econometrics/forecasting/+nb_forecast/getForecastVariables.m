@@ -1,0 +1,106 @@
+function dep = getForecastVariables(options,model,inputs,type)
+% Syntax:
+%
+% dep = nb_forecast.getForecastVariables(options,model,inputs,type)
+%
+% Description:
+%
+% Get forecast variables from model
+%
+% Written by Kenneth Sæterhagen Paulsen
+
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+
+    if any(strcmpi(model.class,{'nb_sa','nb_midas','nb_fmsa'}))
+        dep = unique(regexprep(options(end).dependent,'_{0,1}lead[0-9]*$',''));
+    elseif strcmpi(model.class,'nb_ecm')
+        dep = model.endo; 
+    elseif strcmpi(model.class,'nb_tvp')
+        dep = model.observables;  
+    elseif strcmpi(model.class,'nb_mfvar')
+        if strcmpi(type,'pointForecast') || strcmpi(type,'densityForecast')
+            dep = model.endo;
+        else
+            if strcmpi(inputs.output,'fullendo')  || strcmpi(inputs.output,'full')
+                % Also include lags
+                dep = [options(end).dependent,model.endo];
+            else
+                % Here the lags are not returned.
+                dep  = [options(end).dependent, options(end).block_exogenous];
+                nDep = length(dep) - sum(options.indObservedOnly);
+                dep  = [dep, model.endo(1:nDep)];
+            end
+        end
+    else
+        if strcmpi(inputs.output,'fullendo')  || strcmpi(inputs.output,'full') 
+            if strcmpi(model.class,'nb_arima')
+                dep = [options(end).dependent,model.endo];
+            else
+                dep = model.endo;
+            end
+        elseif strcmpi(model.class,'nb_fmdyn') % Dynamic Factor model
+            dep = model.endo(1:options.nFactors);
+            if ~strcmpi(type,'pointForecast')
+                % In point forecast these are added later on
+                if isempty(inputs.observables)
+                    dep = [dep,model.observables];
+                else
+                    dep = [dep,inputs.observables];
+                end
+            end
+        else
+            if isfield(options,'dependent')
+                dep = options(end).dependent;
+            else
+                dep = model.endo;
+            end
+            if isfield(options,'block_exogenous')
+                dep = [dep,options(end).block_exogenous];
+            end
+        end
+        
+        if strcmpi(model.class,'nb_pitvar')
+            dep = strrep(dep,'_normal','');
+        end
+        
+        if strcmpi(model.class,'nb_favar')% F-VAR
+            dep = [dep,options(end).factors];
+            if ~strcmpi(type,'pointForecast')
+                % In point forecast these are added later on
+                if isempty(inputs.observables)
+                    dep = [dep,model.observables];
+                else
+                    dep = [dep,inputs.observables];
+                end
+            end
+        end
+        
+    end
+    
+    if strcmpi(type,'all')
+        
+        % Markov switching model
+        if nb_isModelMarkovSwitching(model)      
+            dep = [dep,'states',model.regimes];
+        end
+        
+        if ~isempty(inputs.reporting)
+            dep = [dep,inputs.reporting(:,1)']; % Include reported variables as well
+        end
+        
+        if or(strcmpi(inputs.output,'all'), strcmpi(inputs.output,'full'))
+            if any(strcmpi(model.class,{'nb_sa','nb_midas','nb_fmsa'}))
+                return
+            end
+            if strcmpi(model.class,'nb_arima')
+                dep = [dep,model.exo,model.factors,model.res];
+            elseif strcmpi(model.class,'nb_tvp')
+                dep = [dep,model.factors,model.res,model.parameters,model.paramRes];
+            else
+                dep = [dep,model.exo,model.res];
+            end
+        end   
+        
+    end
+    
+end

@@ -1,0 +1,227 @@
+% Simple model for detrending GDP (y), consumption (c), inventories (l) 
+% and investment (i) 
+
+% Declare the endogenous variables of the RBC model
+endogenous 
+c     // Consumption
+c_hat // Consumption gap
+dA    // Permanent productivity
+k     // Capital
+i     // Investment
+i_hat // Investment gap
+r     // Real interest rate
+y     // Production
+y_hat // Production gap
+z_c   // Discount factor shock process
+z_i   // Investment technology shock process
+z_y   // Innventory shock process
+
+% Declare the endogenous variables of the observation model
+obs_endogenous
+c_det     // Deterministic trend in consumption
+c_noise   // Noise part of consumption
+c_obs     // Observed consumption
+c_star    // Stochastic trend in consumption
+d_c_det   // Growth of deterministic trend in consumption
+d_c_star  // Growth of stochastic trend in consumption 
+
+i_det     // Deterministic trend in investment  
+i_noise   // Noise part of investment
+i_obs     // Observed investment
+i_star    // Stochastic trend in investment
+d_i_det   // Growth of deterministic trend in investment  
+d_i_star  // Growth of stochastic trend in investment  
+
+l_obs     // Inventories
+
+y_det     // Deterministic trend in GDP  
+y_noise   // Noise part of GDP
+y_obs     // Observed GDP
+y_star    // Stochastic trend in GDP
+d_y_det   // Growth of deterministic trend in GDP 
+d_y_star  // Growth of stochastic trend in GDP               
+
+% Declare the exogenous disturbances of the RBC model
+exogenous 
+e_a // Productivity innovation
+e_c // Discount factor innovation
+e_i // Investment technology innovation
+e_y // Innventory innovation
+
+% Declare the exogenous disturbances of the observation model
+obs_exogenous
+e_c_star  // Consumption trend innovation
+e_c_noise // Consumption noise innovation
+e_i_star  // Investment trend innovation
+e_i_noise // Investment noise innovation  
+e_y_noise // GDP noise innovation
+
+% Declare the parameters of the model of the model 
+parameters 
+
+% Parameters of the RBC model
+alpha
+beta
+delta
+rho_a
+rho_c
+rho_i
+rho_y
+std_a
+std_c
+std_i
+std_y
+
+% Parameters of the observation model      
+std_e_y_noise   
+y_growth              
+   
+lambda_c_star    
+std_e_c_noise  
+std_e_c_star    
+c_growth  
+    
+lambda_i_star    
+std_e_i_noise  
+std_e_i_star   
+i_growth 
+
+% Parameters used for estimating inital conditions of the filter
+c_det_init
+i_det_init
+y_det_init
+
+% Core model of stationary part of the observables. 
+%
+% This part can:
+% - include forward looking variables.
+% - have exogenous innovations.
+% - have endogneous parameters.
+% - have parameters with break-point (Be aware that endogneous parameters 
+%   cannot also be declared as having a break-point).
+%
+% This part cannot:
+% - include non-stationary variables.
+% - include constant term.
+%
+% Caution: This part must be possible to solve independ of the 
+%          observation_model block. Except for the steady-state, which
+%          will be solved combinding both parts of the model
+model 
+
+// Consumption euler equation
+c(+1)/c*dA(+1) = exp(z_c)*beta*(1 + r);
+
+// Marginal efficiency condition
+(1 - alpha)*y(+1)/k*dA(+1) = r + delta;
+
+// Production function
+y = (k(-1)/dA)^(1 - alpha);
+
+// Market clearing
+y = c + i + z_y;
+
+// Capital accumulation
+k = (1-delta)*(k(-1)/dA) + exp(z_i)*i;
+
+// Productivity shock process
+log(dA) = (1 - rho_a)*log(y_growth) + rho_a*log(dA(-1)) + std_a*e_a;
+
+// Discount factor shock process
+z_c = (1 - rho_c)*steady_state(z_c) + rho_c*z_c(-1) + std_c*e_c;
+
+// Investment technology shock process
+z_i = (1 - rho_i)*steady_state(z_i) + rho_i*z_i(-1) + std_i*e_i;
+
+// Innventory shock process
+z_y = (1 - rho_y)*steady_state(z_y) + rho_y*z_y(-1) + std_y*e_y;
+
+% Gap variables definition
+%-------------------------
+
+c_hat = log(c/steady_state(c));
+i_hat = log(i/steady_state(i));
+y_hat = log(y/steady_state(y));
+
+
+% Model of the non-stationary part of the observables. 
+%
+% This part can:
+% - include non-stationary variables.
+% - have exogenous innovations.
+% - have endogneous parameters.
+% - parameters with break-point (Be aware that endogneous parameters 
+%   cannot also be declared as having a break-point).
+% - include constant term using the constant abbreviation.
+%
+% This part cannot:
+% - include forward looking variables.
+% - include non-linear equations in the endogenous or exogenous variables.
+%
+obs_model
+
+% GDP block
+%-----------
+
+% Decompostion of observed level series
+y_obs = y_det + y_hat + y_star + y_noise;
+
+% Noise component
+y_noise = std_e_y_noise*e_y_noise;
+
+% Stochastic trend component
+d_y_star = log(dA);
+d_y_star = y_star - y_star(-1);
+
+% Deterministic trend component
+d_y_det   = y_det - y_det(-1);
+d_y_det   = log(y_growth)*Constant;
+
+% Comsumption block
+%------------------
+
+% Decompostion of observed level series
+c_obs = c_det + c_hat + y_star + c_star + c_noise;
+
+% Noise component
+c_noise = std_e_c_noise*e_c_noise;
+
+% Stochastic trend component
+d_c_star = c_star - c_star(-1);
+d_c_star = lambda_c_star*d_c_star(-1) + std_e_c_star*e_c_star;
+
+% Deterministic trend component
+d_c_det = c_det - c_det(-1);
+d_c_det = log(c_growth)*Constant;
+
+% Investment block
+%-----------------
+
+% Decompostion of observed level series
+i_obs = i_det + i_hat + y_star + i_star + i_noise;
+
+% Noise component
+i_noise = std_e_i_noise*e_i_noise;
+
+% Stochastic trend component
+d_i_star  = i_star - i_star(-1);
+d_i_star  = lambda_i_star*d_i_star(-1) + std_e_i_star*e_i_star;
+
+% Deterministic trend component
+d_i_det   = i_det - i_det(-1);
+d_i_det   = log(i_growth)*Constant;
+
+% Inventories should be the sum of the noise components
+l_obs = c_noise + i_noise;
+
+% Construct reported variables that can be asked for in IRFs, but
+% are not part of the model. Here you can use all MATLAB functions
+% that act on a double vector, and returns an output with the same
+% size as the input.
+reporting
+
+    c_share   = exp(c_obs - y_obs);
+    i_share   = exp(i_obs - y_obs);
+    c_obs_det = c_obs - c_det;
+    i_obs_det = i_obs - i_det;
+    y_obs_det = y_obs - y_det;

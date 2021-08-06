@@ -1,0 +1,326 @@
+///////////////////////////////////////////////////////
+// Non-linear version of Justiniano & Preston (2010) with Rotemberg and
+// local currency export price setting. 
+//
+// Written by Nicolai Ellingsen, Caroline Espegren and Pål Ulvedal
+//
+// Edited by Kenneth S. Paulsen
+// - Fitted to the NB toolbox
+///////////////////////////////////////////////////////
+
+
+// Simple rule (1) or loss function (0)
+@#define SR = 1
+
+// Commitment (1) or discretion (0)
+@#define COM = 1
+
+// If eta equals 1, some of the equations must be re-written
+@#define eta_dummy = 1      
+
+// Declaration of variables (capital letters are level variables - small letters are gaps (log deviations from steady state))
+endogenous
+
+// Domestic variables
+r R
+i I
+pi PI
+pih PIH
+pih_index PIH_INDEX
+pif PIF
+pif_index PIF_INDEX
+piw PIW
+piw_index PIW_INDEX
+pf PF
+ph PH
+mc MC
+a A
+w W
+n N
+y Y
+yf YF
+gammahw GAMMAHW
+gammaf GAMMAF
+lambda LAMBDA
+c C
+d D
+psi PSI
+ch CH
+cf CF
+ch_star CH_STAR
+q Q
+bf BF
+bf_bar BF_BAR
+rp RP
+rp_shock RP_SHOCK
+epsilon_h
+epsilon_f
+epsilon_w
+muh MUH
+muf MUF
+muw MUW
+@#if SR == 1
+    z Z
+@#endif
+
+// Foreign variables
+r_star R_STAR
+i_star I_STAR
+pi_star PI_STAR
+lambda_star LAMBDA_STAR
+c_star C_STAR
+n_star N_STAR
+w_star W_STAR
+mc_star MC_STAR
+y_star Y_STAR
+gamma_star GAMMA_STAR
+a_star A_STAR
+z_star Z_STAR
+d_star D_STAR
+;
+
+// Declaration of shocks
+exogenous
+
+// Domestic shocks
+e_a
+e_d
+e_psi
+e_rp
+e_muh
+e_muf
+e_muw
+@#if SR == 1
+    e_z
+@#endif
+
+// Foreign shocks
+e_a_star
+e_d_star
+e_z_star
+;
+
+// Declaration of parameters
+parameters
+
+//Domestic parameters
+sigma
+h
+phi
+betta
+alpha
+eta
+chi
+rch
+rcf
+rcw
+gamma_fw
+gamma_hw
+gamma_tw
+gamma_ww
+gamma_fh
+gamma_hh
+gamma_th
+gamma_wh
+gamma_ff
+gamma_hf
+gamma_tf
+gamma_wf
+
+// Policy parameters
+@#if SR == 1
+    // Parameters in the policy rule
+    omega_pi
+    omega_y
+    rho_z
+@#else
+    // Parameters in the loss function
+    lambdaLoss
+@#endif
+
+// Shock persistence
+rho_a
+rho_d
+rho_psi
+rho_rp
+rho_a_star
+rho_d_star
+rho_z_star
+rho_muh
+rho_muf
+rho_muw
+
+// Foreign parameters
+sigma_star
+phi_star
+psi_star
+betta_star
+rc_star
+epsilon_star
+omega_pi_star
+omega_y_star
+eta_star
+alpha_star
+
+// Parameter values in steady state file
+epsilon_f_ss
+epsilon_h_ss
+epsilon_w_ss
+
+;
+
+////////////////// The model //////////////////////
+model;
+//////// The domestic economy /////////////////////
+// Definition of the real rate (1)
+1+R = (1+I)/PI(+1);
+
+// Equations from the household's maximization problem (7) (2-8)
+               LAMBDA    = (C-h*C(-1))^(-sigma)*D;
+[discount=0.8] W         = (epsilon_w/(epsilon_w - 1))*(D*PSI*N^phi/LAMBDA) - PH*(rcw/(epsilon_w - 1))*(PIW/PIW_INDEX(-1) - 1)*(Y/N)*(PIW/PIW_INDEX(-1)) + betta*(LAMBDA(+1)/LAMBDA)*PH(+1)*(rcw/(epsilon_w - 1))*(PIW(+1)/PIW_INDEX - 1)*(Y(+1)/N)*(PIW(+1)/PIW_INDEX);
+               LAMBDA    = betta*LAMBDA(+1)*(1+R);
+               LAMBDA    = betta*LAMBDA(+1)*(Q(+1)/Q)*(1+R_STAR)*RP;
+               CH        = alpha*PH^(-eta)*C;
+               CF        = (1-alpha)*PF^(-eta)*C;
+               PIW_INDEX = PIF^gamma_fw*PIH^gamma_hw*PI^gamma_tw*PIW^gamma_ww*steady_state(PI)^(1-gamma_fw-gamma_hw-gamma_tw-gamma_ww);
+
+// Risk premium and net foreign assets (3) (9-11)
+RP     = exp(-chi*BF_BAR+RP_SHOCK);
+BF_BAR = Q*BF/steady_state(CF);
+BF     = (1+R_STAR(-1))*BF(-1)*RP(-1) + (PH/Q)*CH_STAR - CF*GAMMAF;
+
+// Equations from the intermediate firm's maximization prolem (4) (12-15)
+               MC        = W/(PH*A);
+[discount=0.8] rch*((PIH/PIH_INDEX(-1))-1)*(PIH/PIH_INDEX(-1)) = (1 - epsilon_h) + epsilon_h*MC + betta*rch*(LAMBDA(+1)/LAMBDA)*(PH(+1)/PH)*((PIH(+1)/PIH_INDEX) - 1)*(PIH(+1)/PIH_INDEX)*(Y(+1)/Y);
+               Y         = A*N;
+               PIH_INDEX = PIF^gamma_fh*PIH^gamma_hh*PI^gamma_th*PIW^gamma_wh*steady_state(PI)^(1-gamma_fh-gamma_hh-gamma_th-gamma_wh);
+
+// Equations from the importers maximization problem (2) (16-17)
+[discount=0.8] rcf*(PIF/PIF_INDEX(-1)-1)*PIF/PIF_INDEX(-1) = (1 - epsilon_f) + epsilon_f*(Q/PF) + betta*rch*(LAMBDA(+1)/LAMBDA)*(PF(+1)/PF)*(PIF(+1)/PIF_INDEX - 1)*(PIF(+1)/PIF_INDEX)*(YF(+1)/YF);
+               PIF_INDEX = PIF^gamma_ff*PIH^gamma_hf*PI^gamma_tf*PIW^gamma_wf*steady_state(PI)^(1-gamma_ff-gamma_hf-gamma_tf-gamma_wf);
+
+// Equilibrium conditions (4) (18-21)
+Y/GAMMAHW = CH + CH_STAR;
+YF/GAMMAF = CF;
+GAMMAHW   = 1/(1 - (rch/2)*((PIH/PIH_INDEX(-1)) - 1)^2 - (rcw/2)*((PIW/PIW_INDEX(-1)) - 1)^2);
+GAMMAF    = 1/(1 - (rcf/2)*((PIF/PIF_INDEX(-1)) - 1)^2);
+
+// Definitions (7) (22-28)
+@#if eta_dummy == 1
+    PI = (PH(-1)*PIH)^alpha*(PF(-1)*PIF)^(1-alpha);
+@#else
+    PI = (alpha*(PH(-1)*PIH)^(1-eta)+(1-alpha)*(PF(-1)*PIF)^(1-eta))^(1/(1-eta));
+@#endif
+
+PIH = (PH/PH(-1))*PI;
+PIF = (PF/PF(-1))*PI;
+PIW = (W/W(-1))*PI;
+
+MUH = epsilon_h/(epsilon_h - 1);
+MUF = epsilon_f/(epsilon_f - 1);
+MUW = epsilon_w/(epsilon_w - 1);
+
+// Monetary policy (2) (29-30)
+@#if SR == 1
+    (1+I)/(1+steady_state(I)) = (PI/steady_state(PI))^omega_pi*(Y/steady_state(Y))^omega_y*Z;
+    Z = Z(-1)^rho_z*exp(e_z);
+@#endif
+
+// Domestic shocks (7) (31-37) or (29-35 with OP)
+A                     = A(-1)^rho_a*exp(e_a);
+D                     = D(-1)^rho_d*exp(e_d);
+PSI/steady_state(PSI) = (PSI(-1)/steady_state(PSI))^rho_psi*exp(e_psi);
+(1+RP_SHOCK)          = (1+RP_SHOCK(-1))^rho_rp*exp(e_rp);
+MUH/steady_state(MUH) = (MUH(-1)/steady_state(MUH))^rho_muh*exp(e_muh);
+MUF/steady_state(MUF) = (MUF(-1)/steady_state(MUF))^rho_muf*exp(e_muf);
+MUW/steady_state(MUW) = (MUW(-1)/steady_state(MUW))^rho_muw*exp(e_muw);
+
+// The foreign economy (14) (38-51) or (36-49 with OP)
+(1 + R_STAR) = (1 + I_STAR)/(PI_STAR(+1));
+LAMBDA_STAR  = C_STAR^(-sigma_star)*D_STAR;
+LAMBDA_STAR  = psi_star*(N_STAR^phi_star/W_STAR)*D_STAR;
+LAMBDA_STAR  = betta_star*LAMBDA_STAR(+1)*(1 + R_STAR);
+MC_STAR      = W_STAR/A_STAR;
+Y_STAR       = C_STAR*GAMMA_STAR;
+Y_STAR       = A_STAR*N_STAR;
+GAMMA_STAR   = 1/(1 - (rc_star/2)*(PI_STAR - 1)^2);
+
+rc_star*(PI_STAR - 1)*PI_STAR       = (1 - epsilon_star) + epsilon_star*MC_STAR + betta_star*rc_star*(LAMBDA_STAR(+1)/LAMBDA_STAR)*(PI_STAR(+1) -1)*PI_STAR(+1)*(Y_STAR(+1)/Y_STAR);
+(1+I_STAR)/(1+steady_state(I_STAR)) = (PI_STAR/steady_state(PI_STAR))^omega_pi_star*(Y_STAR/steady_state(Y_STAR))^omega_y_star*Z_STAR;
+
+Z_STAR  = Z_STAR(-1)^rho_z_star*exp(e_z_star);
+A_STAR  = A_STAR(-1)^rho_a_star*exp(e_a_star);
+D_STAR  = D_STAR(-1)^rho_d_star*exp(e_d_star);
+CH_STAR = (1-alpha_star)*(PH/Q)^(-eta_star)*C_STAR;
+
+// Gaps (52-102)
+r         = log((1+R)/(1+steady_state(R)));
+i         = log((1+I)/(1+steady_state(I)));
+pi        = log(PI/steady_state(PI));
+pih       = log(PIH/steady_state(PIH));
+pih_index = log(PIH_INDEX/steady_state(PIH_INDEX));
+pif       = log(PIF/steady_state(PIF));
+pif_index = log(PIF_INDEX/steady_state(PIF_INDEX));
+piw       = log(PIW/steady_state(PIW));
+piw_index = log(PIW_INDEX/steady_state(PIW_INDEX));
+pf        = log(PF/steady_state(PF));
+ph        = log(PH/steady_state(PH));
+mc        = log(MC/steady_state(MC));
+a         = log(A /steady_state(A));
+w         = log(W/steady_state(W));
+n         = log(N/steady_state(N));
+y         = log(Y /steady_state(Y));
+yf        = log(YF/steady_state(YF));
+gammahw   = log(GAMMAHW/steady_state(GAMMAHW));
+gammaf    = log(GAMMAF/steady_state(GAMMAF));
+lambda    = log(LAMBDA/steady_state(LAMBDA));
+c         = log(C/steady_state(C));
+d         = log(D/steady_state(D));
+psi       = log(PSI/steady_state(PSI));
+ch        = log(CH/steady_state(CH));
+cf        = log(CF/steady_state(CF));
+ch_star   = log(CH_STAR/steady_state(CH_STAR));
+q         = log(Q/steady_state(Q));
+bf        = BF-steady_state(BF);
+bf_bar    = BF_BAR-steady_state(BF_BAR);
+rp        = log(RP/steady_state(RP));
+rp_shock  = RP_SHOCK-steady_state(RP_SHOCK);
+muh       = log(MUH/steady_state(MUH));
+muf       = log(MUF/steady_state(MUF));
+muw       = log(MUW/steady_state(MUW));
+
+@#if SR == 1
+    z = log(Z/steady_state(Z));
+@#endif
+
+// Foreign variables
+r_star      = log((1+R_STAR)/(1+steady_state(R_STAR)));
+i_star      = log((1+I_STAR)/(1+steady_state(I_STAR)));
+pi_star     = log(PI_STAR/steady_state(PI_STAR));
+lambda_star = log(LAMBDA_STAR/steady_state(LAMBDA_STAR));
+c_star      = log(C_STAR/steady_state(C_STAR));
+n_star      = log(N_STAR/steady_state(N_STAR));
+w_star      = log(W_STAR/steady_state(W_STAR));
+mc_star     = log(MC_STAR/steady_state(MC_STAR));
+y_star      = log(Y_STAR/steady_state(Y_STAR));
+gamma_star  = log(GAMMA_STAR/steady_state(GAMMA_STAR));
+a_star      = log(A_STAR/steady_state(A_STAR));
+z_star      = log(Z_STAR/steady_state(Z_STAR));
+d_star      = log(D_STAR/steady_state(Z_STAR));
+
+end;
+
+// Optimal monetary policy
+@#if SR == 0
+	@#if COM == 1
+        planner_objective{discount = 0.99,commitment=1}.5*(pi^2 + lambdaLoss*y^2); 
+    @#else
+        planner_objective{discount = 0.99,commitment=0}.5*(pi^2 + lambdaLoss*y^2);
+    @#endif
+@#endif
+
+
+
+
+
+

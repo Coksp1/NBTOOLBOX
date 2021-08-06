@@ -1,0 +1,36 @@
+// Implementation of the standard RBC model
+
+endogenous
+a   // Productivity
+c   // Consumption
+k   // Capital
+i   // Investment
+y;  // Production
+
+exogenous
+e_a; // Productivity innovation
+
+parameters
+alpha
+beta
+delta
+rho;
+
+model
+
+    // Consumption euler equation
+    c(+1)/c = beta*(alpha*exp(a(+1))*k^(alpha-1) + 1 - delta);
+
+    // Production function
+    y = exp(a)*k(-1)^alpha;
+
+    // Market clearing
+    y = c + i;
+
+    // Capital accumulation
+    k = (1-delta)*k(-1) + i;
+
+    // Productivity shock process
+    a = rho*a(-1) + e_a;
+
+end

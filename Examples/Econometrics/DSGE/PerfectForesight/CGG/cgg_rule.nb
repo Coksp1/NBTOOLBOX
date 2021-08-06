@@ -1,0 +1,59 @@
+
+endogenous
+y   // Output gap
+pie // Inflation gap
+i   // Interest rate gap
+//is  // Shadow rate gap
+eta // Supply shock
+eps // Demand shock
+em  // Monetary policy shock
+;
+
+exogenous
+e_eta // Innovation to supply shock 
+e_eps // Innovation to demand shock
+e_em  // Innovation to monetary policy shock
+;
+
+parameters
+alpha
+beta
+gamma_i
+gamma_pie
+gamma_y
+lambda_eps
+lambda_eta
+lambda_em
+phi
+theta
+varphi;
+
+model
+
+    // IS relation
+    y   = theta*y(-1) + (1-theta)*y(+1) - varphi*(i - pie(+1)) + eps;
+    
+    // Demand shock AR process
+    eps = lambda_eps*eps(-1) + e_eps;
+
+    // Phillips curve
+    pie = phi*pie(-1) + (1-phi)*beta*pie(+1) + alpha*y + eta;
+
+    // Markup shock AR process
+    eta = lambda_eta*eta(-1) + e_eta;
+
+    // Interest rate rule
+    i   = max(gamma_i*i(-1) + (1-gamma_i)*(gamma_pie*pie + gamma_y*y) + em,-0.15);
+
+    // Monetary policy shock AR process
+    em = lambda_em*em(-1) + e_em;
+
+    // Shadow rate
+    //is = gamma_i*is(-1) + (1-gamma_i)*(gamma_pie*pie + gamma_y*y);
+
+end
+
+
+
+
+

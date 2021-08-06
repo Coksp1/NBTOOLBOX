@@ -1,0 +1,39 @@
+
+@#define lags = [1:12]
+
+dependent
+CAI
+;
+
+exogenous
+PIE
+;
+
+parameters
+beta0
+beta1
+w0
+@#for lag in lags 
+    , w@{lag}  
+@#endfor
+;
+
+model
+
+CAI = beta0 + beta1*(w0*PIE
+@#for lag in lags 
+    + w@{lag}*PIE(-@{lag})     
+@#endfor
+);
+
+end
+
+constraints
+
+w0  
+@#for lag in lags 
+    + w@{lag}  
+@#endfor
+= 1;
+
+end

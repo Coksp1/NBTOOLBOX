@@ -1,0 +1,32 @@
+endogenous 
+PAI  // Inflation 
+Y    // Output
+R    // Interest rate
+RR;  // Real interest rate
+
+exogenous 
+EPS_R; // Monetary policy shock
+
+parameters 
+betta
+eta
+kappa
+rhor 
+sigr
+mu
+psi
+PAI_SS;
+
+model
+	1 = betta*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*Y*R(+1)/((1 - 0.5*kappa*(PAI(+1) - steady_state(PAI))^2)*Y(+1)*exp(mu)*PAI(+1));
+	
+	1 - eta + eta*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*Y
+    + betta*kappa*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*(PAI(+1) - steady_state(PAI))*PAI(+1)/(1 - .5*kappa*(PAI(+1) - steady_state(PAI))^2)
+	-kappa*(PAI - steady_state(PAI))*PAI;
+
+	(R(-1)/steady_state(R))^rhor*(PAI/steady_state(PAI))^((1-rhor)*psi)*exp(sigr*EPS_R) - R/steady_state(R);
+
+    RR = R/PAI(+1);
+
+end
+

@@ -1,0 +1,66 @@
+endogenous
+c
+dA
+i
+k
+l
+r
+y
+
+exogenous
+u
+
+parameters
+beta
+delta
+g
+gamma
+lambda
+std_u
+
+model
+
+    % Core model equations in non-stationary form
+    c(+1)/c           = beta*(1 + r);
+    l                 = 1;
+    y                 = (A*l)^gamma * k(-1)^(1-gamma);
+    (1-gamma)*y(+1)/k = r + delta;
+    k                 = (1-delta)*k(-1) + i;
+    y                 = c + i;
+    dA                = A/A(-1);
+
+% The variable specified here follows the following process:
+%
+% A/A(-1) = g^(1-lambda)*(A(-1)/A(-2))^lambda*exp(u);
+% 
+% or equivalent to
+%
+% dA = g^(1-lambda)*dA(-1)^lambda*exp(u);
+%
+% or equivalent to
+%
+% log(dA) = (1-lambda)*log(g) + lambda*log(dA(-1)) + u;
+%
+% in this example. g is in this case the steady-state growth rate of the
+% balanced growth path.
+unitroot
+%   Name, growthRate, AR coeff, exogenous, stdError;
+    A,    g,          lambda,   u,         std_u;
+
+% Construct reported variables that can be asked for in IRFs, but
+% are not part of the model. Here you can use all MATLAB functions
+% that act on a double vector, and returns an output with the same
+% size as the input.
+reporting
+
+    A         = exp(cumsum(log(dA) - log(steady_state(dA))));
+    C         = c*A;
+    I         = i*A;
+    K         = k*A;
+    Y         = y*A;
+    c_log_dev = exp(log(c) - log(steady_state(c)));
+    i_log_dev = exp(log(i) - log(steady_state(i)));
+    k_log_dev = exp(log(k) - log(steady_state(k)));
+    r_dev     = r - steady_state(r);
+    y_log_dev = exp(log(y) - log(steady_state(y)));
+

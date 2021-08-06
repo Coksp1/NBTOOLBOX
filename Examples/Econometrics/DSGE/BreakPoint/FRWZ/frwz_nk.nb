@@ -1,0 +1,45 @@
+endogenous 
+DR          // Difference in interest rate
+PAI         // Inflation
+PAI_GAP     // Inflation gap
+PAI_GAP_POL // Inflation policy gap
+Y           // Output
+Y_GAP       // Output gap
+R           // Interest rate
+R_GAP       // Interest rate gap
+RR          // Real interest rate
+RR_GAP;     // Real interest rate gap
+
+exogenous 
+EPS_R; // Inflation target shock
+
+parameters 
+betta
+eta
+kappa 
+sigr
+mu
+lam_y
+lam_dr
+PAI_SS;
+
+model
+
+	1 = betta*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*Y*R(+1)/((1 - 0.5*kappa*(PAI(+1) - steady_state(PAI))^2)*Y(+1)*exp(mu)*PAI(+1));
+	
+	1 - eta + eta*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*Y
+    + betta*kappa*(1 - .5*kappa*(PAI - steady_state(PAI))^2)*(PAI(+1) - steady_state(PAI))*PAI(+1)/(1 - .5*kappa*(PAI(+1) - steady_state(PAI))^2)
+	-kappa*(PAI - steady_state(PAI))*PAI;
+
+    RR = R/PAI(+1);
+
+    PAI_GAP     = log(PAI/steady_state(PAI));
+    PAI_GAP_POL = PAI_GAP + EPS_R;
+    R_GAP       = log(R/steady_state(R));
+    RR_GAP      = log(RR/steady_state(RR));
+    Y_GAP       = log(Y/steady_state(Y));
+    DR          = R - R(-1);
+
+end
+
+planner_objective{discount = 0.99,commitment=1}.5*(PAI_GAP_POL^2+lam_y*Y_GAP^2+lam_dr*DR^2);  

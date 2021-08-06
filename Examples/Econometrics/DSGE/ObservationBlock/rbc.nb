@@ -1,0 +1,64 @@
+// Implementation of the standard RBC model
+
+endogenous
+c   // Consumption
+dA  // Permanent productivity
+k   // Capital
+i   // Investment
+r   // Real interest rate
+y   // Production
+z_c // Discount factor shock process
+z_i // Investment technology shock process
+z_y // Innventory shock process
+
+exogenous
+e_a // Productivity innovation
+e_c // Discount factor innovation
+e_i // Investment technology innovation
+e_y // Innventory innovation
+
+parameters
+alpha
+beta
+delta
+rho_a
+rho_c
+rho_i
+rho_y
+std_a
+std_c
+std_i
+std_y
+y_growth
+
+model
+
+    // Consumption euler equation
+    c(+1)/c*dA(+1) = exp(z_c)*beta*(1 + r);
+
+    // Marginal efficiency condition
+    (1 - alpha)*y(+1)/k*dA(+1) = r + delta;
+
+    // Production function
+    y = (k(-1)/dA)^(1 - alpha);
+
+    // Market clearing
+    y = c + i + z_y;
+
+    // Capital accumulation
+    k = (1-delta)*(k(-1)/dA) + exp(z_i)*i;
+
+    // Productivity shock process
+    log(dA) = (1 - rho_a)*log(y_growth) + rho_a*log(dA(-1)) + std_a*e_a;
+
+    // Discount factor shock process
+    z_c = (1 - rho_c)*steady_state(z_c) + rho_c*z_c(-1) + std_c*e_c;
+
+    // Investment technology shock process
+    z_i = (1 - rho_i)*steady_state(z_i) + rho_i*z_i(-1) + std_i*e_i;
+
+    // Innventory shock process
+    z_y = (1 - rho_y)*steady_state(z_y) + rho_y*z_y(-1) + std_y*e_y;
+
+end
+

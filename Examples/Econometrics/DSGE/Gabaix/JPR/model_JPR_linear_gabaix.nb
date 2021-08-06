@@ -1,0 +1,249 @@
+///////////////////////////////////////////////////////
+// Linear version of Justiniano & Preston (2010) with Rotemberg and
+// local currency export price setting.
+// 
+// Written by Nicolai Ellingsen, Caroline Espegren and Pål Ulvedal
+//
+// Edited by Kenneth S. Paulsen
+// - Fitted to the NB toolbox
+// - Applied the Gabaix discounting to phillips curve
+///////////////////////////////////////////////////////
+
+// Simple rule (1) or loss function (0)
+@#define SR = 1
+
+// Commitment (1) or discretion (0)
+@#define COM = 1
+
+// Declaration of variables (capital letters are level variables - small letters are gaps (log deviations from steady state))
+endogenous
+
+// Domestic variables
+r 
+i 
+pi
+pih 
+pih_index 
+pif 
+pif_index 
+piw 
+piw_index 
+pf 
+ph 
+mc 
+a 
+w 
+n 
+y 
+//yf 
+c 
+d 
+psi 
+ch 
+cf 
+ch_star 
+q 
+BF 
+BF_BAR
+NX
+rp 
+rp_shock 
+muh 
+muf 
+muw 
+@#if SR == 1
+    z 
+@#endif
+
+// Foreign variables
+r_star 
+i_star 
+pi_star 
+//c_star 
+n_star 
+w_star 
+mc_star 
+y_star 
+a_star 
+z_star 
+d_star 
+;
+
+// Declaration of shocks
+exogenous
+
+// Domestic shocks
+e_a
+e_d
+e_psi
+e_rp
+e_muh
+e_muf
+e_muw
+@#if SR == 1
+    e_z
+@#endif
+
+// Foreign shocks
+e_a_star
+e_d_star
+e_z_star
+;
+
+// Declaration of parameters
+parameters
+
+//Domestic parameters
+sigma
+h
+phi
+betta
+alpha
+eta
+chi
+rch
+rcf
+rcw
+gamma_fw
+gamma_hw
+gamma_tw
+gamma_ww
+gamma_fh
+gamma_hh
+gamma_th
+gamma_wh
+gamma_ff
+gamma_hf
+gamma_tf
+gamma_wf
+epsilon_h
+epsilon_f
+epsilon_w
+
+// Policy parameters
+@#if SR == 1
+    // Parameters in the policy rule
+    omega_pi
+    omega_y
+    rho_z
+@#else
+    // Parameters in the loss function
+    lambdaLoss
+@#endif
+
+// Shock persistence
+rho_a
+rho_d
+rho_psi
+rho_rp
+rho_a_star
+rho_d_star
+rho_z_star
+rho_muh
+rho_muf
+rho_muw
+
+// Foreign parameters
+sigma_star
+phi_star
+betta_star
+rc_star
+epsilon_star
+omega_pi_star
+omega_y_star
+eta_star
+alpha_star
+
+// Added auxiliary parameters
+ssQ
+ssCF
+
+// Gabaix parameter
+gabaix
+
+;
+
+////////////////// The model //////////////////////
+model;
+//////// The domestic economy /////////////////////
+
+// Definition of the real rate (1)
+r = i - pi(+1);
+
+// Equations from the household's maximization problem (6) (2-7)
+[discount=gabaix] piw       = betta*piw(+1) + piw_index(-1) - betta*piw_index + ((epsilon_w-1)/rcw)*((epsilon_h-1)/epsilon_h)*(phi*n + psi + (sigma/(1-h))*(c - h*c(-1)) + muw - w);
+                  c         = (1/(1+h))*c(+1) + (h/(1+h))*c(-1) - ((1-h)/((1+h)*sigma))*(r + d(+1) - d);
+                  r         = r_star + q(+1) - q + rp;
+                  ch        = c - eta*ph;
+                  cf        = c - eta*pf;
+                  piw_index = gamma_fw*pif + gamma_hw*pih + gamma_tw*pi + gamma_ww*piw;
+
+// Risk premium and net foreign assets (4) (8-11)
+rp     = -chi*BF_BAR - rp_shock;
+BF_BAR = BF/ssCF;
+BF     = (1/betta_star)*BF(-1)+NX;
+NX     = ssQ*ssCF*(ph + ch_star - q - cf); 
+
+// Equations from the intermediate firm's maximization prolem (4) (12-15)
+                  mc        = w - ph - a;
+[discount=gabaix] pih       = betta*pih(+1) + ((epsilon_h - 1)/rch)*(mc + muh) + pih_index(-1) - betta*pih_index;
+                  y         = a + n;
+                  pih_index = gamma_fh*pif + gamma_hh*pih + gamma_th*pi + gamma_wh*piw;
+
+// Equations from the importers maximization problem (2) (16-17)
+[discount=gabaix] pif       = betta*pif(+1) + ((epsilon_f - 1)/rcf)*(q - pf + muf) + pif_index(-1) - betta*pif_index;
+                  pif_index = gamma_ff*pif + gamma_hf*pih + gamma_tf*pi + gamma_wf*piw;
+
+// Equilibrium conditions (1) (18)
+y = (alpha/(alpha + ssQ*(1 - alpha)))*ch + (ssQ*(1 - alpha)/(alpha + ssQ*(1 - alpha)))*ch_star;
+// yf = cf;
+
+// Definitions (4) (19-22)
+pi  = alpha*pih + (1-alpha)*pif;
+pif = pf - pf(-1) + pi;
+pih = ph - ph(-1) + pi;
+piw = w - w(-1) + pi;
+
+// Monetary policy (2) (23-24)
+@#if SR == 1
+    i = omega_pi*pi + omega_y*y + z;
+    z = rho_z*z(-1) + e_z;
+@#endif
+
+// Domestic shocks (4) (25-28)
+a        = rho_a*a(-1) + e_a;
+d        = rho_d*d(-1) + e_d;
+psi      = rho_psi*psi(-1) + e_psi;
+rp_shock = rho_rp*rp_shock(-1) + e_rp;
+muw      = rho_muw*muw(-1) + e_muw;
+muh      = rho_muh*muh(-1) + e_muh;
+muf      = rho_muf*muf(-1) + e_muf;
+				
+// The foreign economy (10) (29-38) 
+r_star  = i_star - pi_star(+1);
+w_star  = phi_star*n_star + sigma_star*y_star;
+y_star  = y_star(+1) - (1/sigma_star)*(r_star + d_star(+1) - d_star);
+mc_star = w_star - a_star;
+pi_star = betta_star*pi_star(+1) + ((epsilon_star - 1)/rc_star)*mc_star;
+y_star  = a_star + n_star;
+i_star  = omega_pi_star*pi_star + omega_y_star*y_star + z_star;
+z_star  = rho_z_star*z_star(-1) + e_z_star;
+a_star  = rho_a_star*a_star(-1) + e_a_star;
+d_star  = rho_d_star*d_star(-1) + e_d_star;
+
+// Foreign imports (1) (39)
+ch_star = -eta_star*(ph - q) + y_star;
+
+end;
+
+@#if SR == 0
+	@#if COM == 1
+        planner_objective{discount = 0.99,commitment=1}.5*(pi^2 + lambdaLoss*y^2); 
+    @#else
+        planner_objective{discount = 0.99,commitment=0}.5*(pi^2 + lambdaLoss*y^2);
+    @#endif
+@#endif
+
+
+
+

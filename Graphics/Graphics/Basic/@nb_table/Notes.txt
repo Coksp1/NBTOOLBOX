@@ -1,0 +1,6 @@
+- Style template
+- Changed event
+- notify hvilken streng?
+- Legge til metoder i hovedfilen
+- Assertions må virke med []
+- cellstextfontsize

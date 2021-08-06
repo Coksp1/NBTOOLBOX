@@ -1,0 +1,55 @@
+dependent
+CAI
+;
+exogenous
+PIE
+;
+parameters
+beta0
+beta1
+w0
+, w1
+, w2
+, w3
+, w4
+, w5
+, w6
+, w7
+, w8
+, w9
+, w10
+, w11
+, w12
+;
+model
+CAI = beta0 + beta1*(w0*PIE
++ w1*PIE(-1)
++ w2*PIE(-2)
++ w3*PIE(-3)
++ w4*PIE(-4)
++ w5*PIE(-5)
++ w6*PIE(-6)
++ w7*PIE(-7)
++ w8*PIE(-8)
++ w9*PIE(-9)
++ w10*PIE(-10)
++ w11*PIE(-11)
++ w12*PIE(-12)
+);
+end
+constraints
+w0
++ w1
++ w2
++ w3
++ w4
++ w5
++ w6
++ w7
++ w8
++ w9
++ w10
++ w11
++ w12
+= 1;
+end

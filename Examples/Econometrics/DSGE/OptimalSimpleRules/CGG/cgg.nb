@@ -1,0 +1,34 @@
+
+endogenous
+y   // Output gap
+pie // Inflation gap
+i   // Interest rate gap
+;
+
+exogenous
+eps // Demand shock
+eta // Supply shock
+;
+
+parameters
+alpha
+beta
+phi
+theta
+varphi;
+
+model
+
+    // IS relation
+    y   = theta*y(-1) + (1-theta)*y(+1) - varphi*(i - pie(+1)) + eps;
+
+    // Phillips curve
+    pie = phi*pie(-1) + (1-phi)*beta*pie(+1) + alpha*y + eta;
+
+end
+
+
+
+
+
+

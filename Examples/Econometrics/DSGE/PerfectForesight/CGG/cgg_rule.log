@@ -1,0 +1,112 @@
+Starting Dynare (version 4.5.0).
+Starting preprocessing of the model file ...
+Found 7 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+
+--------------------------------------------------------
+MODEL SIMULATION:
+
+Iter: 1,	 err. = 0.1, 	 time = 0.024
+Iter: 2,	 err. = 0.023779, 	 time = 0.007
+Iter: 3,	 err. = 0.12333, 	 time = 0.005
+Iter: 4,	 err. = 0.023779, 	 time = 0.003
+Iter: 5,	 err. = 0.12333, 	 time = 0.009
+Iter: 6,	 err. = 0.023779, 	 time = 0.002
+Iter: 7,	 err. = 0.12333, 	 time = 0.001
+Iter: 8,	 err. = 0.023779, 	 time = 0.002
+Iter: 9,	 err. = 0.12333, 	 time = 0.001
+Iter: 10,	 err. = 0.023779, 	 time = 0.002
+Iter: 11,	 err. = 0.12333, 	 time = 0.002
+Iter: 12,	 err. = 0.023779, 	 time = 0.001
+Iter: 13,	 err. = 0.12333, 	 time = 0.002
+Iter: 14,	 err. = 0.023779, 	 time = 0.002
+Iter: 15,	 err. = 0.12333, 	 time = 0.001
+Iter: 16,	 err. = 0.023779, 	 time = 0.003
+Iter: 17,	 err. = 0.12333, 	 time = 0.001
+Iter: 18,	 err. = 0.023779, 	 time = 0.002
+Iter: 19,	 err. = 0.12333, 	 time = 0.002
+Iter: 20,	 err. = 0.023779, 	 time = 0.001
+Iter: 21,	 err. = 0.12333, 	 time = 0.002
+Iter: 22,	 err. = 0.023779, 	 time = 0.002
+Iter: 23,	 err. = 0.12333, 	 time = 0.002
+Iter: 24,	 err. = 0.023779, 	 time = 0.002
+Iter: 25,	 err. = 0.12333, 	 time = 0.002
+Iter: 26,	 err. = 0.023779, 	 time = 0.002
+Iter: 27,	 err. = 0.12333, 	 time = 0.002
+Iter: 28,	 err. = 0.023779, 	 time = 0.001
+Iter: 29,	 err. = 0.12333, 	 time = 0.002
+Iter: 30,	 err. = 0.023779, 	 time = 0.002
+Iter: 31,	 err. = 0.12333, 	 time = 0.002
+Iter: 32,	 err. = 0.023779, 	 time = 0.001
+Iter: 33,	 err. = 0.12333, 	 time = 0.001
+Iter: 34,	 err. = 0.023779, 	 time = 0.002
+Iter: 35,	 err. = 0.12333, 	 time = 0.003
+Iter: 36,	 err. = 0.023779, 	 time = 0.002
+Iter: 37,	 err. = 0.12333, 	 time = 0.003
+Iter: 38,	 err. = 0.023779, 	 time = 0.003
+Iter: 39,	 err. = 0.12333, 	 time = 0.002
+Iter: 40,	 err. = 0.023779, 	 time = 0.001
+Iter: 41,	 err. = 0.12333, 	 time = 0.002
+Iter: 42,	 err. = 0.023779, 	 time = 0.002
+Iter: 43,	 err. = 0.12333, 	 time = 0.001
+Iter: 44,	 err. = 0.023779, 	 time = 0.002
+Iter: 45,	 err. = 0.12333, 	 time = 0.002
+Iter: 46,	 err. = 0.023779, 	 time = 0.001
+Iter: 47,	 err. = 0.12333, 	 time = 0.002
+Iter: 48,	 err. = 0.023779, 	 time = 0.001
+Iter: 49,	 err. = 0.12333, 	 time = 0.002
+Iter: 50,	 err. = 0.023779, 	 time = 0.001
+
+Total time of simulation: 0.19.
+Maximum number of iterations is reached (modify option maxit).
+--------------------------------------------------------------
+
+
+Simulation of the perfect foresight model failed!
+Switching to a homotopy method...
+
+Iter. 	 | Lambda 	 | status 	 | Max. residual
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1 	 | 0.50000 	 | succeeded 	 | 2.775558e-17
+2 	 | 1.00000 	 | failed 	 | 5.000000e-02
+3 	 | 0.75000 	 | succeeded 	 | 2.775558e-17
+4 	 | 1.00000 	 | failed 	 | 2.500000e-02
+5 	 | 0.87500 	 | succeeded 	 | 2.775558e-17
+6 	 | 1.00000 	 | failed 	 | 1.250000e-02
+7 	 | 0.93750 	 | failed 	 | 6.250000e-03
+8 	 | 0.90625 	 | failed 	 | 3.125000e-03
+9 	 | 0.89063 	 | failed 	 | 1.562500e-03
+10 	 | 0.88281 	 | failed 	 | 7.812500e-04
+11 	 | 0.87891 	 | failed 	 | 3.906250e-04
+12 	 | 0.87695 	 | succeeded 	 | 2.775558e-17
+13 	 | 0.87891 	 | failed 	 | 1.953125e-04
+14 	 | 0.87793 	 | succeeded 	 | 1.387779e-17
+15 	 | 0.87891 	 | failed 	 | 9.765625e-05
+16 	 | 0.87842 	 | succeeded 	 | 2.775558e-17
+17 	 | 0.87891 	 | failed 	 | 4.882812e-05
+18 	 | 0.87866 	 | failed 	 | 2.441406e-05
+19 	 | 0.87854 	 | succeeded 	 | 2.775558e-17
+20 	 | 0.87866 	 | failed 	 | 1.220703e-05
+21 	 | 0.87860 	 | succeeded 	 | 6.103516e-06
+22 	 | 0.87866 	 | failed 	 | 1.220703e-05
+23 	 | 0.87863 	 | succeeded 	 | 9.155273e-06
+24 	 | 0.87866 	 | failed 	 | 1.220703e-05
+25 	 | 0.87865 	 | succeeded 	 | 8.002368e-06
+26 	 | 0.87866 	 | succeeded 	 | 8.002368e-06
+27 	 | 0.87868 	 | succeeded 	 | 8.002368e-06
+28 	 | 0.87871 	 | succeeded 	 | 8.002368e-06
+29 	 | 0.87874 	 | succeeded 	 | 9.155273e-06
+30 	 | 0.87877 	 | failed 	 | 1.220703e-05
+31 	 | 0.87875 	 | failed 	 | 1.068115e-05
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Failed to solve perfect foresight model
+
+Total computing time : 0h00m02s

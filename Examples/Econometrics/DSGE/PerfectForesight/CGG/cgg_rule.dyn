@@ -1,0 +1,78 @@
+
+var
+y   // Output gap
+pie // Inflation gap
+i   // Interest rate gap
+is  // Shadow rate gap
+eta // Supply shock
+eps // Demand shock
+em  // Monetary policy shock
+;
+
+varexo
+e_eta // Innovation to supply shock 
+e_eps // Innovation to demand shock
+e_em  // Innovation to monetary policy shock
+;
+
+parameters
+alpha
+beta
+gamma_i
+gamma_pie
+gamma_y
+lambda_eps
+lambda_eta
+lambda_em
+phi
+theta
+varphi;
+
+alpha      = 0.1;
+beta       = 1;
+gamma_i    = 0;
+gamma_pie  = 1.2;
+gamma_y    = 0.338;
+lambda_eps = 0.7;
+lambda_eta = 0.7;
+lambda_em  = 0.7;
+phi        = 0.5;
+theta      = 0.5;
+varphi     = 0.8;
+
+model;
+
+    // IS relation
+    y   = theta*y(-1) + (1-theta)*y(+1) - varphi*(i - pie(+1)) + eps;
+    
+    // Demand shock AR process
+    eps = lambda_eps*eps(-1) + e_eps;
+
+    // Phillips curve
+    pie = phi*pie(-1) + (1-phi)*beta*pie(+1) + alpha*y + eta;
+
+    // Markup shock AR process
+    eta = lambda_eta*eta(-1) + e_eta;
+
+    // Interest rate rule
+    //[mcp = 'i > -0.15']
+    i   = max(gamma_i*i(-1) + (1-gamma_i)*(gamma_pie*pie + gamma_y*y) + em,-0.15);
+
+    // Monetary policy shock AR process
+    em = lambda_em*em(-1) + e_em;
+
+    // Shadow rate
+    is = gamma_i*is(-1) + (1-gamma_i)*(gamma_pie*pie + gamma_y*y);
+
+end;
+
+shocks;
+    var e_eps;
+    periods 1;
+    values -0.1;
+end;
+
+simul(periods=80);
+
+
+
