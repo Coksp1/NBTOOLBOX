@@ -111,7 +111,11 @@ function ss = getSteadyState(obj,vars,out)
             ssIn = permute(ss,[3,1,2]);
             ss   = nan(length(vars),1,size(ssIn,3));
             for ii = 1:length(vars)
-                ss(ii,:,:) = nb_eval(vars{ii},obj.dependent.name,ssIn);
+                try
+                    ss(ii,:,:) = nb_eval(vars{ii},obj.dependent.name,ssIn);
+                catch Err
+                    warning('getSteadyState:reportingError','%s',Err.message);
+                end
             end
             ss = permute(ss,[1,3,2]);
             ss = num2cell(ss);
