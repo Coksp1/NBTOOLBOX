@@ -1106,8 +1106,8 @@ function [irfs,allNames,inputs] = getSteadyStateFromModels(irfs,obj,names,inputs
     vars      = irfs.(fields{1}).variables;
 
     % Add gaps as deviation from inital steady-state
-    ss        = nan(inputs.periods+1,length(vars),nobj);
-    ss(1,:,:) = double(window(irfs.(fields{1}),'0','0')); % The IRFs start from the initial SS!
+    ss          = nan(inputs.periods+1,length(vars),nobj);
+    ss(1,:,:)   = double(window(irfs.(fields{1}),'0','0')); % The IRFs start from the initial SS!
     for mm = 1:length(fields) 
         irfData    = double(irfs.(fields{mm}));
         irfInitGap = real(bsxfun(@minus, log(irfData), log(ss(1,:,:))));
@@ -1131,7 +1131,7 @@ function [irfs,allNames,inputs] = getSteadyStateFromModels(irfs,obj,names,inputs
     vars      = irfs.(fields{1}).variables;
     ss        = nan(inputs.periods+1,length(vars),nobj);
     ss(1,:,:) = double(window(irfs.(fields{1}),'0','0')); % The IRFs start from the initial SS!
-    indInit   = ismember(vars,varsInitG);
+    indInit   = ismember(vars,ssInitGap.variables);
     varsLevel = strrep(vars(indInit),'_GAP_INIT','');
     if ~isempty(varsLevel)
         for mm = 1:nobj 
