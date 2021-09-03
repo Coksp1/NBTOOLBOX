@@ -28,6 +28,7 @@ A_NW % Final goods production
 C_NW % Consumption
 DPQ_C_NW % Consumption growth
 DPQ_I_NW % Investment growth
+DPQ_K_NW % Capital growth
 DPQ_P_NW % Inflation
 DPQ_PQ_NW % Intermidate goods inflation
 DPQ_REAL_PI_NW % Real investment inflation
@@ -282,7 +283,10 @@ NAT_Y_NW = A_NW;
 DPQ_C_NW = (C_NW/C_NW(-1))*DZT_NW*DUT_NW^(ALPHA_NW/(1 - ALPHA_NW));
 
 % Investment growth (DPQ_I_NW)
-DPQ_I_NW = (I_NW/I_NW(-1))*DZT_NW*DUT_NW^(ALPHA_NW/(1 - ALPHA_NW));
+DPQ_I_NW = (I_NW/I_NW(-1))*DZT_NW*DUT_NW^(1/(1 - ALPHA_NW));
+
+% Capital growth (DPQ_K_NW)
+DPQ_K_NW = (K_NW/K_NW(-1))*DZT_NW*DUT_NW^(1/(1 - ALPHA_NW));
 
 % Output growth (DPQ_A_NW)
 DPQ_Y_NW = (NAT_Y_NW/NAT_Y_NW(-1))*DZT_NW*DUT_NW^(ALPHA_NW/(1 - ALPHA_NW));
@@ -291,7 +295,7 @@ DPQ_Y_NW = (NAT_Y_NW/NAT_Y_NW(-1))*DZT_NW*DUT_NW^(ALPHA_NW/(1 - ALPHA_NW));
 DPQ_PQ_NW = DPQ_P_NW*REAL_PQ_NW/REAL_PQ_NW(-1);
 
 % Real investment inflation (DPQ_REAL_PI_NW)
-DPQ_REAL_PI_NW = (REAL_PI_NW/REAL_PI_NW(-1))*DUT_NW;
+DPQ_REAL_PI_NW = (REAL_PI_NW/REAL_PI_NW(-1))/DUT_NW;
 
 % Real wage inflation (DPQ_REAL_W_NW)
 DPQ_REAL_W_NW = (REAL_W_NW/REAL_W_NW(-1))*DZT_NW*DUT_NW^(ALPHA_NW/(1 - ALPHA_NW));
@@ -348,3 +352,14 @@ log(Z_U_NW) = (1-LAMBDA_U_NW)*log(Z_U_NW_SS)
 
 % Monetary policy shock process (Z_RN3M_NW)
 log(Z_RN3M_NW)     = (1-LAMBDA_RN3M_NW)*log(Z_RN3M_NW_SS) + LAMBDA_RN3M_NW*log(Z_RN3M_NW(-1)) + E_RN3M_NW*std_E_RN3M_NW;
+
+% Construct reported variables that can be asked for in IRFs, but
+% are not part of the model. Here you can use all MATLAB functions
+% that act on a double vector, and returns an output with the same
+% size as the input.
+reporting
+
+    C_NW_LEVEL = exp(cumsum(log(DPQ_C_NW) - log(steady_state(DPQ_C_NW))));
+    I_NW_LEVEL = exp(cumsum(log(DPQ_I_NW) - log(steady_state(DPQ_I_NW))));
+    K_NW_LEVEL = exp(cumsum(log(DPQ_K_NW) - log(steady_state(DPQ_K_NW))));
+    Y_NW_LEVEL = exp(cumsum(log(DPQ_Y_NW) - log(steady_state(DPQ_Y_NW))));
