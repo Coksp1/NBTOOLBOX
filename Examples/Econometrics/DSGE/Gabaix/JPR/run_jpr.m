@@ -85,6 +85,7 @@ param.epsilon_h_ss = param.epsilon_h;
 param.epsilon_f_ss = param.epsilon_f;
 param.epsilon_w_ss = param.epsilon_w;
 param              = rmfield(param,{'epsilon_h','epsilon_f','epsilon_w'});
+param.gabaix       = 0.8;
 mnlg               = assignParameters(mnlg,param);
 
 %% Solve steady-state

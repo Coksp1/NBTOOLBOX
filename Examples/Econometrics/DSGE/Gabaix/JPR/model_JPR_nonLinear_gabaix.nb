@@ -167,6 +167,8 @@ epsilon_f_ss
 epsilon_h_ss
 epsilon_w_ss
 
+// Gabaix parameter
+gabaix
 ;
 
 ////////////////// The model //////////////////////
@@ -177,7 +179,7 @@ model;
 
 // Equations from the household's maximization problem (7) (2-8)
                LAMBDA    = (C-h*C(-1))^(-sigma)*D;
-[discount=0.8] W         = (epsilon_w/(epsilon_w - 1))*(D*PSI*N^phi/LAMBDA) - PH*(rcw/(epsilon_w - 1))*(PIW/PIW_INDEX(-1) - 1)*(Y/N)*(PIW/PIW_INDEX(-1)) + betta*(LAMBDA(+1)/LAMBDA)*PH(+1)*(rcw/(epsilon_w - 1))*(PIW(+1)/PIW_INDEX - 1)*(Y(+1)/N)*(PIW(+1)/PIW_INDEX);
+[discount=gabaix] W         = (epsilon_w/(epsilon_w - 1))*(D*PSI*N^phi/LAMBDA) - PH*(rcw/(epsilon_w - 1))*(PIW/PIW_INDEX(-1) - 1)*(Y/N)*(PIW/PIW_INDEX(-1)) + betta*(LAMBDA(+1)/LAMBDA)*PH(+1)*(rcw/(epsilon_w - 1))*(PIW(+1)/PIW_INDEX - 1)*(Y(+1)/N)*(PIW(+1)/PIW_INDEX);
                LAMBDA    = betta*LAMBDA(+1)*(1+R);
                LAMBDA    = betta*LAMBDA(+1)*(Q(+1)/Q)*(1+R_STAR)*RP;
                CH        = alpha*PH^(-eta)*C;
@@ -191,12 +193,12 @@ BF     = (1+R_STAR(-1))*BF(-1)*RP(-1) + (PH/Q)*CH_STAR - CF*GAMMAF;
 
 // Equations from the intermediate firm's maximization prolem (4) (12-15)
                MC        = W/(PH*A);
-[discount=0.8] rch*((PIH/PIH_INDEX(-1))-1)*(PIH/PIH_INDEX(-1)) = (1 - epsilon_h) + epsilon_h*MC + betta*rch*(LAMBDA(+1)/LAMBDA)*(PH(+1)/PH)*((PIH(+1)/PIH_INDEX) - 1)*(PIH(+1)/PIH_INDEX)*(Y(+1)/Y);
+[discount=gabaix] rch*((PIH/PIH_INDEX(-1))-1)*(PIH/PIH_INDEX(-1)) = (1 - epsilon_h) + epsilon_h*MC + betta*rch*(LAMBDA(+1)/LAMBDA)*(PH(+1)/PH)*((PIH(+1)/PIH_INDEX) - 1)*(PIH(+1)/PIH_INDEX)*(Y(+1)/Y);
                Y         = A*N;
                PIH_INDEX = PIF^gamma_fh*PIH^gamma_hh*PI^gamma_th*PIW^gamma_wh*steady_state(PI)^(1-gamma_fh-gamma_hh-gamma_th-gamma_wh);
 
 // Equations from the importers maximization problem (2) (16-17)
-[discount=0.8] rcf*(PIF/PIF_INDEX(-1)-1)*PIF/PIF_INDEX(-1) = (1 - epsilon_f) + epsilon_f*(Q/PF) + betta*rch*(LAMBDA(+1)/LAMBDA)*(PF(+1)/PF)*(PIF(+1)/PIF_INDEX - 1)*(PIF(+1)/PIF_INDEX)*(YF(+1)/YF);
+[discount=gabaix] rcf*(PIF/PIF_INDEX(-1)-1)*PIF/PIF_INDEX(-1) = (1 - epsilon_f) + epsilon_f*(Q/PF) + betta*rch*(LAMBDA(+1)/LAMBDA)*(PF(+1)/PF)*(PIF(+1)/PIF_INDEX - 1)*(PIF(+1)/PIF_INDEX)*(YF(+1)/YF);
                PIF_INDEX = PIF^gamma_ff*PIH^gamma_hf*PI^gamma_tf*PIW^gamma_wf*steady_state(PI)^(1-gamma_ff-gamma_hf-gamma_tf-gamma_wf);
 
 // Equilibrium conditions (4) (18-21)
