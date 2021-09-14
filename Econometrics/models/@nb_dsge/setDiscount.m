@@ -27,7 +27,7 @@ function discount = setDiscount(discount,parameters,beta)
 % Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     for ii = 1:length(discount)
-        if isnan(str2double(discount(ii).name))
+        if ~isempty(discount(ii).name)
             % Look for the parameter
             ind = strcmp(discount(ii).name,parameters);
             if ~any(ind)

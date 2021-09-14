@@ -1,7 +1,6 @@
 %% Help on this example
 
 nb_dsge.help
-help nb_dsge.perfectForesight
 
 %% Parse linear model
 
@@ -35,7 +34,7 @@ mlg = nb_dsge('nb_file','model_JPR_linear_gabaix.nb',...
 param        = load('parametersJPR_NB.mat');
 param.ssQ    = (param.epsilon_f - 1)/(param.epsilon_f);
 param.ssCF   = 1/(param.alpha/(1 - param.alpha) + (param.epsilon_f - 1)/param.epsilon_f);
-param.gabaix = 0.8;
+param.gabaix = 0.9;
 mlg          = assignParameters(mlg,param);
 
 %% Solve steady-state
@@ -102,7 +101,7 @@ mnlg = solve(mnlg);
 mnlga = nb_dsge('nb_file','model_JPR_nonLinear.nb',...
                 'macroProcessor',true,'name','linearized (Gabaix all)',...
                 'steady_state_file','model_JPR_nonLinear_steadystate',...
-                'discount',struct('eq','all','value',0.8,'name',''));
+                'discount',struct('eq','all','value',0.9,'name',''));
 
 %% Assign parameters
 
