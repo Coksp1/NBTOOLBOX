@@ -13,7 +13,7 @@ function [out,parser] = interpretSteadyStateChange(parser,inputValue,inParsing)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if isempty(inputValue)
         out = inputValue;
@@ -47,16 +47,18 @@ function [out,parser] = interpretSteadyStateChange(parser,inputValue,inParsing)
     out.parameters = inputValue(:,1);
     out.endogenous = inputValue(:,2);
     
-    out.indParam = ismember(out.parameters,parser.parameters);
-    if any(~out.indParam)
+    out.indParam = ismember(parser.parameters,out.parameters);
+    test         = ismember(out.parameters,parser.parameters);
+    if any(~test)
         error(['The ''steady_state_change'' ' str ' provided some parameter that are not part of the model; '...
-               toString(out.parameters(~out.indParam)) '.'])
+               toString(out.parameters(~test)) '.'])
     end
     
-    out.indEndo = ismember(out.endogenous,parser.endogenous);
-    if any(~out.indEndo)
+    out.indEndo = ismember(parser.endogenous,out.endogenous);
+    test        = ismember(out.endogenous,parser.endogenous);
+    if any(~test)
         error(['The ''steady_state_change'' ' str ' provided some endogenous variables that are not part of the model; '...
-               toString(out.endogenous(~out.indEndo)) '.'])
+               toString(out.endogenous(~test)) '.'])
     end
     parser.createStatic = true;
     

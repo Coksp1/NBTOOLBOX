@@ -43,7 +43,7 @@ function data = getFiltered(obj,type,normalize,econometricians,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 4
         econometricians = false;
@@ -97,15 +97,26 @@ function data = getFiltered(obj,type,normalize,econometricians,varargin)
         isMarkovSwitching   = false;
     end
     
-    if isMarkovSwitching
-        goThrough = {'variables','shocks','regime_probabilities','state_probabilities'};
+    
+    if isa(obj,'nb_fmdyn')
+        if strcmpi(obj.options.estim_method,'tvpmfsv')
+            goThrough = {'variables','shocks','errors'};
+        else
+            goThrough = {'variables','shocks'};
+        end
     else
-        goThrough = {'variables','shocks'};
-    end
-    if isNB(obj) && strcmpi(type,'filtered')
-        goThrough = [goThrough(1),goThrough(3:end)];
-    elseif isa(obj,'nb_mfvar') && strcmpi(type,'updated')
-        goThrough = goThrough(1);
+        if isfield(obj.options,'estim_method') && strcmpi(obj.options.estim_method,'tvpmfsv')
+            goThrough = {'variables','shocks','errors'};
+        elseif isMarkovSwitching
+            goThrough = {'variables','shocks','regime_probabilities','state_probabilities'};
+        else
+            goThrough = {'variables','shocks'};
+        end
+        if isNB(obj) && strcmpi(type,'filtered')
+            goThrough = [goThrough(1),goThrough(3:end)];
+        elseif isa(obj,'nb_mfvar') && strcmpi(type,'updated')
+            goThrough = goThrough(1);
+        end
     end
     if isNB(obj) 
         if isa(obj,'nb_dsge')

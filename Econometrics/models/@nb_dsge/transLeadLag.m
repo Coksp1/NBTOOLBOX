@@ -10,9 +10,9 @@ function eqs = transLeadLag(eqs)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
-    eqs = regexprep(eqs,'(?<=[^+-\*\^])\({1}[+]{1}\d{1,2}\){1}','_lead');
-    eqs = regexprep(eqs,'(?<=[^+-\*\^])\({1}[-]{1}\d{1,2}\){1}','_lag');
+    eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[+]{1}\d{1,2}\){1}','_lead');
+    eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[-]{1}\d{1,2}\){1}','_lag');
 
 end

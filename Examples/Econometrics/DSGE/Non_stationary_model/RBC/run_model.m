@@ -47,12 +47,11 @@ modelNS = assignParameters(modelNS,param);
 
 %% Solve for the balanced growth path
 
-modelNS  = solveBalancedGrowthPath(modelNS);
-ssGrowth = getBalancedGrowthPath(modelNS)
+modelNS = solveBalancedGrowthPath(modelNS);
 
 %% Stationarize the non-stationary model
 
-modelNS = stationarize(modelNS)
+modelNS = stationarize(modelNS);
 
 %% Solve steady-state numerically
 

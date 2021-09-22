@@ -41,7 +41,7 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 5
         bgp = [];
@@ -154,6 +154,8 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
             parser.parametersChanged = [parser.parameters(~indParam),parser.endogenous(indEndo)];
             ssInit                   = [ssInit(~indEndo);pVals(indParam)];
             parser.endogenousChanged = [parser.endogenous(~indEndo),parser.parameters(indParam)];
+            tempIsAuxiliary          = parser.isAuxiliary;
+            parser.isAuxiliary       = [parser.isAuxiliary(~indEndo);false(sum(indParam),1)];
             parser.createStatic      = true;
             
         end
@@ -214,7 +216,8 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
             pSolved = cell2struct(num2cell(pInSS),options.steady_state_change.parameters);
             
             % Delete some temporary fields
-            parser = rmfield(parser,{'endogenousChanged','parametersChanged'});
+            parser             = rmfield(parser,{'endogenousChanged','parametersChanged'});
+            parser.ssAuxiliary = tempIsAuxiliary;
             
         end
         

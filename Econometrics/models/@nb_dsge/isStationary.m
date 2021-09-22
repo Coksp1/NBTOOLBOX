@@ -17,14 +17,14 @@ function ret = isStationary(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     [s1,s2,s3] = size(obj);
     ret        = true(s1,s2,s3);
     for ii = 1:s1
         for jj = 1:s2
             for kk = 1:s3
-                if ~isempty(obj(ii,jj,kk).parser.unitRoot)
+                if ~isempty(obj(ii,jj,kk).parser.unitRootVars)
                     ret(ii,jj,kk) = obj.isStationarized;
                 end
             end

@@ -125,6 +125,10 @@ std_E_RN3M_NW % Standard deviation of the innovation to the Z_RN3M_NW shock proc
 std_E_THETAH_NW % Standard deviation of the innovation to the THETAH_NW shock process
 std_E_U_NW % Standard deviation of the innovation to the Z_U_NW shock process
 
+unitrootvars
+Z
+UPSILON
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % 2. Model equations
@@ -330,9 +334,9 @@ log(Z_U_NW) = (1-LAMBDA_U_NW)*log(Z_U_NW_SS)
 % Monetary policy shock process (Z_RN3M_NW)
 log(Z_RN3M_NW)     = (1-LAMBDA_RN3M_NW)*log(Z_RN3M_NW_SS) + LAMBDA_RN3M_NW*log(Z_RN3M_NW(-1)) + E_RN3M_NW*std_E_RN3M_NW;
 
-unitroot
-Z, DZT_NW_SS, LAMBDA_DZT_NW, E_DZT_NW, std_E_DZT_NW;
-UPSILON, DUT_NW_SS, LAMBDA_DUT_NW, E_DUT_NW, std_E_DUT_NW;
+% Unit root processes
+Z/Z(-1)             = DZT_NW_SS^(1-LAMBDA_DZT_NW)*(Z(-1)/Z(-2))^LAMBDA_DZT_NW*exp(std_E_DZT_NW*E_DZT_NW);
+UPSILON/UPSILON(-1) = DUT_NW_SS^(1-LAMBDA_DUT_NW)*(UPSILON(-1)/UPSILON(-2))^LAMBDA_DUT_NW*exp(std_E_DUT_NW*E_DUT_NW);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Observation equations

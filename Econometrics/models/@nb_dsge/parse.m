@@ -29,7 +29,7 @@ function obj = parse(filename,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     ind = cellfun(@(x)isa(x,'nb_dsge'),varargin);
     if any(ind) % Used by reparse!
@@ -119,7 +119,7 @@ function obj = parse(filename,varargin)
     % Check that all symbolic expression are declared.
     endo  = [parser.endogenous, parser.unitRootVars, parser.obs_endogenous];
     exo   = [parser.exogenous, parser.obs_exogenous, 'Constant'];
-    eqs   = [parser.equations; parser.unitRoot; parser.obs_equations];
+    eqs   = [parser.equations; parser.obs_equations];
     check = nb_dsge.getUniqueMatches(eqs,parser.parameters,exo,endo);
     if ~isempty(check) 
         ind   = ismember(check,strcat(endo,nb_dsge.steadyStateInitPostfix));
@@ -127,7 +127,7 @@ function obj = parse(filename,varargin)
         if any(ind)
             parser.steadyStateInitUsed = true;
         end
-        if ~isempty(parser.unitRoot)
+        if ~isempty(parser.unitRootVars)
             ind   = ismember(check,strcat(nb_dsge.growthPrefix,parser.unitRootVars));
             check = check(~ind);
         end
@@ -236,7 +236,7 @@ function obj = parse(filename,varargin)
     numEndo     = size(parser.endogenous,2);
     numEq       = size(parser.equationsParsed,1);
     runEqs2Func = true;
-    if ~isempty(parser.unitRoot) || parser.steadyStateInitUsed
+    if ~isempty(parser.unitRootVars) || parser.steadyStateInitUsed
         runEqs2Func = false;
     else
         if parser.optimal
@@ -379,6 +379,12 @@ function parser = parseFunction(parser,nbFile,lineNum)
         return
     end
     
+    % Is it a unit root variables
+    if strncmpi(next,'unitrootvars',12) 
+        parser = parseVarBlock(parser,next(13:end),nbFile,lineNum,'unitRootVars');
+        return
+    end
+    
     % Is it a parameters(static) block
     if strncmpi(next,'parameters(static)',18) 
         parser = parseVarBlock(parser,next(19:end),nbFile,lineNum,'parametersStatic');
@@ -495,10 +501,10 @@ function parser = parseFunction(parser,nbFile,lineNum)
     end
     
     % Is it a unit root block?
-    if strncmpi(next,'unitroot',8)
-        parser = parseUnitRootBlock(parser,next(9:end),nbFile,lineNum,'unitRoot','');
-        return
-    end
+%     if strncmpi(next,'unitroot',8)
+%         parser = parseUnitRootBlock(parser,next(9:end),nbFile,lineNum,'unitRoot','');
+%         return
+%     end
     
     % Is it a reporting block?
     if strncmpi(next,'reporting',9) 
@@ -926,10 +932,6 @@ function parser = checkParametersInUse(parser)
         matchesS = nb_dsge.getUniqueMatches(parser.static,parser.endogenous,parser.exogenous);
         matches  = [matches,matchesS];
     end
-    if ~isempty(parser.unitRoot)
-        matchesU = nb_dsge.getUniqueMatches(parser.unitRoot,parser.endogenous,parser.exogenous);
-        matches  = [matches,matchesU];
-    end
     if ~isempty(parser.obs_equations)
         all_endogenous = [parser.endogenous,parser.obs_endogenous];
         all_exogenous  = [parser.exogenous,parser.obs_exogenous,'Constant'];
@@ -1037,7 +1039,7 @@ function types = getBlocks()
     types = {'endogenous','var','exogenous','varexo','parameters',...
              'parameterization','observables','varobs','planner_objective',...
              'breakpoint','model','steady_state_model','reporting',...
-             'unitroot','unitrootvars','obs_endogenous','obs_exogenous',...
+             'unitrootvars','obs_endogenous','obs_exogenous',...
              'obs_model'};
 
 end

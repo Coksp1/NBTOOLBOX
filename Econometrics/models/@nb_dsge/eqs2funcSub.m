@@ -26,7 +26,7 @@ function [eqs,eqFunc] = eqs2funcSub(parser,eqs,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 3
         type = 0;
@@ -61,14 +61,6 @@ function [eqs,eqFunc] = eqs2funcSub(parser,eqs,type)
         
     else % Core model
         vars = nb_dsge.getOrderingNB(parser,[]);
-        if ~isempty(parser.unitRootVars)
-            % When we solve for the balanced growth path we have unit
-            % root variables in the equations, and we need to add those
-            vars = [vars,...
-                    strcat(parser.unitRootVars,'_lead'),...
-                    strcat(parser.unitRootVars),...
-                    strcat(parser.unitRootVars,'_lag')];
-        end
         pars = parser.parameters;
     end
     all = [vars,pars];

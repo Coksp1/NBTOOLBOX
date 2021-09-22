@@ -1,0 +1,75 @@
+endogenous
+c
+dA
+i
+k
+l
+pa
+r
+s
+srd
+ups
+upsprime
+y
+
+exogenous
+e
+u
+
+unitrootvars
+A
+
+parameters
+beta
+delta
+delta_a
+g
+gamma
+lambda_srd
+srd_ss
+std_e
+std_u
+theta
+zeta
+
+model
+
+    % Optimality condition of the households
+    c(+1)/c           = beta*(1 + r);
+    l                 = 1;
+    y                 = (A(-1)*l)^gamma * k(-1)^(1-gamma);
+    (1-gamma)*y(+1)/k = r + delta;
+    1 + r             = (pa(+1)/pa)*(1 - delta_a) + (1/pa)*gamma*y(+1)/A;
+    k                 = (1-delta)*k(-1) + i;
+
+    % Optimality condition of the capital producers
+    log(srd)                     = (1 - lambda_srd)*log(srd_ss) + lambda_srd*log(srd(-1)) + std_e*e;
+    pa*(A(-1)/A)*upsprime*exp(u) = 1 - srd;
+    ups                          = g + theta/(1 - 1/zeta)*(s/A)^(1 - 1/zeta);
+    upsprime                     = theta*(s/A)^(-1/zeta);
+    A                            = (1 - delta_a + ups*exp(std_u*u))*A(-1);
+
+    % Market clearing
+    y = c + i + s;
+
+    % Other
+    dA = A/A(-1);
+
+% Construct reported variables that can be asked for in IRFs, but
+% are not part of the model. Here you can use all MATLAB functions
+% that act on a double vector, and returns an output with the same
+% size as the input.
+reporting
+
+    A         = exp(cumsum(log(dA) - log(steady_state(dA))));
+    C         = c*A;
+    I         = i*A;
+    K         = k*A;
+    S         = s*A;
+    Y         = y*A;
+    c_log_dev = exp(log(c) - log(steady_state(c)));
+    i_log_dev = exp(log(i) - log(steady_state(i)));
+    k_log_dev = exp(log(k) - log(steady_state(k)));
+    s_log_dev = exp(log(s) - log(steady_state(s)));
+    r_dev     = r - steady_state(r);
+    y_log_dev = exp(log(y) - log(steady_state(y)));

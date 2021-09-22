@@ -38,12 +38,15 @@ classdef nb_stTerm < nb_st
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     methods
        
         function obj = nb_stTerm(varName,trend,leadOrLag,unitRoot)
             
+            if nargin == 0
+                return;
+            end
             if nargin < 4
                 unitRoot = [];
                 if nargin < 3

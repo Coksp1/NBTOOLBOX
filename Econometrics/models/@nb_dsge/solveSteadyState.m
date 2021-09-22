@@ -52,7 +52,7 @@ function [obj,err] = solveSteadyState(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     err  = '';
     obj  = obj(:);
@@ -121,7 +121,11 @@ function [obj,err] = solveSteadyState(obj,varargin)
     
     % Assign values of parameters solved for in the steady-state
     if ~nb_isempty(p)
-        obj = assignParameters(obj,p);
+        oldBGS                   = obj.balancedGrowthSolved;
+        oldS                     = obj.isStationarized;
+        obj                      = assignParameters(obj,p);
+        obj.balancedGrowthSolved = oldBGS;
+        obj.isStationarized      = oldS;
     end
     
     % Save the steady-state to the object

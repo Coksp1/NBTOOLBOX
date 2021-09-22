@@ -20,7 +20,7 @@ function obj = solveBalancedGrowthPath(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if obj.balancedGrowthSolved
         return
@@ -35,7 +35,7 @@ function obj = solveBalancedGrowthPath(obj)
     if isfield(obj.parser,'growthVariables')
         obj = revert2NonStationary(obj);
     else
-        obj.parser.originalEndogenous = obj.parser.endogenous;
+        obj.parser.originalEndogenous = obj.parser.endogenous(~obj.parser.isAuxiliary);
     end
     
     % Initial check and create the eqFunction to evaluate derivatives
@@ -56,15 +56,13 @@ function obj = solveBalancedGrowthPath(obj)
     endoLCL      = order(type~=2);
     endoLCL      = regexprep(endoLCL,'_lead$','');
     endoLCL      = regexprep(endoLCL,'_lag$','');
-    unitRoot     = [obj.parser.unitRootVars,obj.parser.unitRootVars,obj.parser.unitRootVars];
     exo          = order(type==2);
     param        = obj.parameters.name';
     
     % Convert to nb_bgrowth objects
     endoLCLG  = nb_bgrowth(endoLCL,false);
     exoG      = nb_bgrowth(exo,true);
-    unitRootG = nb_bgrowth(unitRoot,false);
-    vars      = [endoLCLG;exoG;unitRootG];
+    vars      = [endoLCLG;exoG];
     paramG    = nb_bgrowth(param,true);
     
     % Translate into growth equations
@@ -73,14 +71,13 @@ function obj = solveBalancedGrowthPath(obj)
 
     % Make into a function handle
     [~,paramNS,pars]  = nb_createGenericNames(obj.parser.parameters,'pars');
-    allEndo           = [obj.parser.endogenous,obj.parser.unitRootVars];
-    [~,varsNS,vars,~] = nb_createGenericNames(strcat(nb_dsge.growthPrefix,allEndo),'vars');
+    [~,varsNS,vars,~] = nb_createGenericNames(strcat(nb_dsge.growthPrefix,obj.parser.endogenous),'vars');
     eqGrowthTrans     = translateEq(eqGrowth,pars,paramNS,vars,varsNS,true(size(vars)));
     growthEq          = nb_cell2func(eqGrowthTrans,'(vars,pars)');
     
     % Take derivatives (These are linear equations so the values is not 
     % important)
-    myDeriv   = myAD(ones(size(allEndo,2),1));
+    myDeriv   = myAD(ones(size(obj.parser.endogenous,2),1));
     derivator = growthEq(myDeriv,obj.results.beta);
     growthJAC = getderivs(derivator);
     if any(isnan(growthJAC(:)))
@@ -93,11 +90,12 @@ function obj = solveBalancedGrowthPath(obj)
     end
     
     % Append the restrictions created by the unit root variables
-    [nEq,nVar]               = size(growthJAC);
-    nUnitRoot                = length(obj.parser.unitRootVars);
-    nEndo                    = nVar - nUnitRoot;
-    A                        = [growthJAC;zeros(nUnitRoot,nVar)];
-    A(nEq+1:end,nEndo+1:end) = diag(ones(nUnitRoot,1));
+    [nEq,nVar]         = size(growthJAC);
+    nUnitRoot          = length(obj.parser.unitRootVars);
+    nEndo              = nVar - nUnitRoot;
+    indUR              = ismember(obj.parser.endogenous, obj.parser.unitRootVars);
+    A                  = [growthJAC;zeros(nUnitRoot,nVar)];
+    A(nEq+1:end,indUR) = diag(ones(nUnitRoot,1));
     
     % Check the rank condition for BGP
     rankA = rank(full(A));
@@ -122,8 +120,7 @@ function obj = solveBalancedGrowthPath(obj)
     % Solve for the BGP (in log diff)
     nEq            = size(A,1) - nUnitRoot;
     G              = zeros(nEq+nUnitRoot,1);
-    detTrendGrowth = log(nb_dsge.parseGrowth(obj.parameters.name,obj.results.beta,...
-                        obj.parser.unitRootVars,obj.parser.unitRootGrowth));
+    detTrendGrowth = log(1.01); % Just set it to a value to be able to identify the basis
     G(nEq+1:end)   = detTrendGrowth;
     BGP            = A\G;
     r2zero         = abs(BGP) < obj.options.steady_state_tol;
@@ -143,26 +140,8 @@ function obj = solveBalancedGrowthPath(obj)
         error([mfilename ':: No balanced growth path exist. See the equations that must hold above.'])
     end
     
-    % Assign solution
-    BGP                      = exp(BGP);
-    obj.solution.bgp         = BGP;
-    obj.balancedGrowthSolved = true;
-    
-    % Indicate that the model need to be stationarized
-    obj.isStationarized = false;
-    
-    % Are some of the unit root processes without a growth rate?
-    if any(abs(detTrendGrowth) < obj.options.steady_state_tol)
-        % Just set the deterministic growth rate to a number, so we can
-        % identify the basis for the growth rates correctly
-        detTrendGrowth(abs(detTrendGrowth) < obj.options.steady_state_tol) = obj.options.growth_basis_tol;
-        
-        % Resolve for the balanace growth, to get the variables that trend
-        % in this case
-        G(nEq+1:end) = detTrendGrowth;
-        BGP          = A\G;
-        r2zero       = abs(BGP) < obj.options.steady_state_tol;
-    end
+    % Assign temporary solution
+    obj.solution.bgp = exp(BGP);
     
     % Indentify the basis for the growth equations
     indV          = r2zero(1:nEndo);
@@ -192,22 +171,31 @@ function obj = solveBalancedGrowthPath(obj)
     eqGrowth      = eqGrowth(i);
     eqGrowthTrans = translateEq(eqGrowth,pars,paramNS,vars,varsNS,true(size(vars)));
     growthEq      = nb_cell2func(eqGrowthTrans,'(vars,pars)');
-    num           = size(allEndo,2);
+    num           = size(obj.parser.endogenous,2);
     clearvars vars;
     
     % Get the symbolic representation of the growth equations
     vars(num,1)                = nb_base;
     vars(r2zero)               = nb_num(0);
-    vars(~r2zero)              = nb_base(strcat('log(',nb_dsge.growthPrefix,allEndo(~r2zero)',')'));
+    vars(~r2zero)              = nb_base(strcat('log(',nb_dsge.growthPrefix,obj.parser.endogenous(~r2zero)',')'));
     pars                       = nb_base(obj.parser.parameters');
     obj.parser.growthEquations = cellstr(growthEq(vars,pars));
     
     % Then we add the growth processes
-    obj.parser.growthEquations = [obj.parser.growthEquations;obj.parser.unitRoot];
-    obj.parser.growthVariables = strcat(nb_dsge.growthPrefix,allEndo(~r2zero));
+    obj.parser.growthVariables = strcat(nb_dsge.growthPrefix,obj.parser.endogenous(~r2zero));
+    
+    % Do we have some auxiliary equations we want to get rid of?
+    indRemove                  = nb_contains(obj.parser.growthVariables,'D_Z_AUX_');
+    obj.parser.growthVariables = obj.parser.growthVariables(~indRemove);
+    numRemoved                 = sum(indRemove);
+    
+    % The auxiliary variables are allways added last, so we just remove
+    % those
+    obj.parser.growthEquations = obj.parser.growthEquations(1:end - numRemoved);
     
     % Wrap up
     obj.parser.equationsParsed = oldEqs;
+    obj.balancedGrowthSolved   = true;
     
 end
 
@@ -246,5 +234,3 @@ function out = translateEq(eqs,pars,paramN,vars,varsN,r2zero)
     end
     
 end
-
-%==========================================================================

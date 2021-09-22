@@ -14,15 +14,19 @@ function parser = getLeadLag(parser)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
+    endo = parser.endogenous; 
     if isfield(parser,'stationaryEquations')
         eqs = parser.stationaryEquations;
         eqs = [eqs;parser.growthEquations];
     else
         eqs = parser.equations;
+        if ~isempty(parser.unitRootVars) && ~ismember(parser.unitRootVars{1},endo)
+            endo = [endo, parser.unitRootVars];
+        end
     end
-    [eqs,test,leadCLag,endoS] = nb_dsge.getLeadLagCore(parser,eqs,parser.endogenous,parser.exogenous);
+    [eqs,test,leadCLag,endoS] = nb_dsge.getLeadLagCore(parser,eqs,endo,parser.exogenous);
     
     % Create auxiliary variables if needed
     checkForMoreLeads = cellfun(@(x)any(x > 1),test);
@@ -32,7 +36,7 @@ function parser = getLeadLag(parser)
     
     numEndo          = size(endoS,2);
     checkForMoreLags = cellfun(@(x)any(x < -1),test);
-    index            = 1:length(parser.endogenous);
+    index            = 1:length(endo);
     isAuxiliary      = false(numEndo,1);
     if any(checkForMoreLags)
         [eqs,leadCLag,auxLag] = nb_dsge.addAuxiliaryLagVariables(eqs,leadCLag,index(checkForMoreLags),endoS(checkForMoreLags),test(checkForMoreLags));

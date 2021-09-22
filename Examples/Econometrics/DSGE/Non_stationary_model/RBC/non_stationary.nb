@@ -10,6 +10,9 @@ y
 exogenous
 u
 
+unitrootvars
+A
+
 parameters
 beta
 delta
@@ -28,24 +31,7 @@ model
     k                 = (1-delta)*k(-1) + i;
     y                 = c + i;
     dA                = A/A(-1);
-
-% The variable specified here follows the following process:
-%
-% A/A(-1) = g^(1-lambda)*(A(-1)/A(-2))^lambda*exp(u);
-% 
-% or equivalent to
-%
-% dA = g^(1-lambda)*dA(-1)^lambda*exp(u);
-%
-% or equivalent to
-%
-% log(dA) = (1-lambda)*log(g) + lambda*log(dA(-1)) + u;
-%
-% in this example. g is in this case the steady-state growth rate of the
-% balanced growth path.
-unitroot
-%   Name, growthRate, AR coeff, exogenous, stdError;
-    A,    g,          lambda,   u,         std_u;
+    A/A(-1)           = g^(1-lambda)*(A(-1)/A(-2))^lambda*exp(std_u*u);
 
 % Construct reported variables that can be asked for in IRFs, but
 % are not part of the model. Here you can use all MATLAB functions

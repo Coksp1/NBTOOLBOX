@@ -31,7 +31,7 @@ function bgp = getBalancedGrowthPath(obj,vars,out)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 3
         out = 'cell';
@@ -78,16 +78,19 @@ function bgp = getBalancedGrowthPath(obj,vars,out)
         if ~isNB(obj)
             error([mfilename ':: Cannot solve for the balanced growth path when no using NB toolbox parser and solver.'])
         end
-        
-        if ~isfield(obj.solution,'bgp')
-            error([mfilename ':: The balanced growth path is not yet solved for. See the nb_dsge.solveBalancedGrowthPath method.'])
+        if ~obj.isStationarized
+            error([mfilename ':: The model need to be stationarized using the unitrootvars block to be able to call this method.'])
         end
-        
-        bgp = obj.solution.bgp;
-        if iscell(bgp)
-            bgp = [bgp{:}];
+        if ~isfield(obj.solution,'ss')
+            error([mfilename ':: The balanced growth path is not yet solved for. See the nb_dsge.checkSteadyState method.'])
         end
-        potVars = [obj.parser.originalEndogenous,obj.unitRootVariables.name];
+         
+        indG     = ismember(obj.dependent.name,obj.parser.growthVariables);
+        bgp      = ones(sum(~indG) + length(obj.parser.unitRootVars),1);
+        potVars  = [obj.dependent.name(~indG), obj.parser.unitRootVars];
+        gVars    = strrep(obj.dependent.name(indG),'D_Z_','');
+        [~,loc]  = ismember(gVars,potVars);
+        bgp(loc) = obj.solution.ss(indG);
         if isempty(vars)
             bgp = num2cell(bgp);
             bgp = [potVars',bgp];

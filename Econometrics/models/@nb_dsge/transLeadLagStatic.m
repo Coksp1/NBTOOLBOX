@@ -12,10 +12,10 @@ function eqs = transLeadLagStatic(eqs)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
-    eqs = regexprep(eqs,'(?<=[^+-\*\^])\({1}[+]{1}\d{1,2}\){1}','');
-    eqs = regexprep(eqs,'(?<=[^+-\*\^])\({1}[-]{1}\d{1,2}\){1}','');
+    eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[+]{1}\d{1,2}\){1}','');
+    eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[-]{1}\d{1,2}\){1}','');
     
     % Remove calls to the steady_state function
     for ii = 1:size(eqs,1)

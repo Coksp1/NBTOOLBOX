@@ -24,7 +24,7 @@ function obj = stationarize(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@stationarize,@nb_dsge,varargin{:});
@@ -59,13 +59,10 @@ function obj = stationarize(obj,varargin)
     endoLCL      = order(type~=2);
     endoLCL      = regexprep(endoLCL,'_lead$','');
     endoLCL      = regexprep(endoLCL,'_lag$','');
-    unitLCL      = [obj.parser.unitRootVars,obj.parser.unitRootVars,obj.parser.unitRootVars];
     exo          = order(type==2);
     param        = obj.parameters.name';
     leadOrLag    = type(type ~= 2);
-    leadOrLagU   = [ones(1,obj.unitRootVariables.number),zeros(1,obj.unitRootVariables.number),...
-                    -ones(1,obj.unitRootVariables.number)];
-                
+     
     % Correct auxiliary lag variables, so they lagged one more period than
     % stored in the lead, current and lagged indicies
     indAux = not(cellfun(@(x)isempty(x),regexp(endoLCL,'^AUX_LAG')));
@@ -87,18 +84,25 @@ function obj = stationarize(obj,varargin)
         % policy already.
         lcl  = lcl(~obj.parser.isMultiplier,:);
     end
-    bgp  = obj.solution.bgp;
-    bgp  = [bgp(lcl(:,1));bgp(lcl(:,2));bgp(lcl(:,3))];
-    ubgp = nb_dsge.parseGrowth(obj.parameters.name,obj.results.beta,obj.parser.unitRootVars,obj.parser.unitRootGrowth);
-    ubgp = ubgp(:,ones(1,3));
-    ubgp = ubgp(:)';
-          
+    bgp = obj.solution.bgp;
+    bgp = [bgp(lcl(:,1));bgp(lcl(:,2));bgp(lcl(:,3))];
+     
+    % Which are the unit root variables?
+    indUnitRoot = ismember(endoLCL,obj.parser.unitRootVars);
+    
     % Stationarize the model using the nb_st class
-    endoG = nb_stTerm(endoLCL,log(bgp),leadOrLag);
+    endoG = nb_stTerm(endoLCL(~indUnitRoot),log(bgp(~indUnitRoot)),...
+                      leadOrLag(~indUnitRoot));
     exoG  = nb_stTerm(exo,zeros(size(exo)));
-    unitG = nb_stTerm(unitLCL,log(ubgp),leadOrLagU,true);
-    vars  = [endoG;exoG;unitG];
-    pars  = nb_stParam(param,obj.results.beta);
+    unitG = nb_stTerm(endoLCL(indUnitRoot),log(bgp(indUnitRoot)),...
+                      leadOrLag(indUnitRoot),true);
+                               
+    numE               = size(endoLCL,2);              
+    vars(numE,1)       = nb_stTerm();
+    vars(indUnitRoot)  = unitG;
+    vars(~indUnitRoot) = endoG;
+    vars               = [vars;exoG];
+    pars               = nb_stParam(param,obj.results.beta);
     
     % Translate into stationary equations
     stationaryObj = obj.parser.eqFunction(vars,pars);
@@ -131,6 +135,10 @@ function obj = stationarize(obj,varargin)
     obj.parser.stationaryEquations = obj.parser.stationaryEquations(1:nNormalEqs);
     obj.parser.endogenous          = obj.parser.endogenous(~obj.parser.isAuxiliary);
     
+    % Remove the unit root variables
+    indUnitRoot           = ismember(obj.parser.endogenous,obj.parser.unitRootVars);
+    obj.parser.endogenous = obj.parser.endogenous(~indUnitRoot);
+    
     % Append growth variables
     if waitbar
         h.status1 = 2;
@@ -154,8 +162,10 @@ function obj = stationarize(obj,varargin)
     varsWithTrend                = regexprep(obj.parser.growthVariables,['^', nb_dsge.growthPrefix],'');
     indUnitRoot                  = ismember(varsWithTrend,obj.parser.unitRootVars);
     indG                         = ismember(obj.parser.all_endogenous,obj.parser.growthVariables);
-    texNamesUpdated              = cell(size(obj.dependent.name));
-    texNamesUpdated(~indG)       = obj.dependent.tex_name;
+    [indKeep,locKeep]            = ismember(obj.dependent.name,obj.parser.all_endogenous);
+    locKeep                      = locKeep(indKeep);
+    texNamesUpdated              = obj.parser.all_endogenous;
+    texNamesUpdated(locKeep)     = obj.dependent.tex_name(indKeep);
     indVarsWithTrend             = ismember(obj.parser.all_endogenous,varsWithTrend(~indUnitRoot));
     texNamesGrowth               = cell(size(varsWithTrend));
     texNamesGrowth(~indUnitRoot) = strcat({'\delta '},texNamesUpdated(indVarsWithTrend));

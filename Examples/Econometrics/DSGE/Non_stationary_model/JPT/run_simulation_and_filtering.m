@@ -14,8 +14,7 @@ modelNS = assignParameters(modelNS,param);
 
 %% Solve for the balanced growth path
 
-modelNS  = solveBalancedGrowthPath(modelNS);
-ssGrowth = getBalancedGrowthPath(modelNS)
+modelNS = solveBalancedGrowthPath(modelNS);
 
 %% Stationarize the non-stationary model
 
@@ -37,7 +36,8 @@ modelNS = checkSteadyState(modelNS,...
     'steady_state_solve',   true,...
     'steady_state_init',    ssInit,...
     'steady_state_default', @ones);
-ss = getSteadyState(modelNS)
+ss  = getSteadyState(modelNS)
+bgp = getBalancedGrowthPath(modelNS)
 
 %% Solve stationary model
 
@@ -62,7 +62,3 @@ smoothed = getFiltered(modelNS);
 plotter  = nb_graph_ts(smoothed);
 plotter.set('subPlotSize',[4,4]);
 nb_graphSubPlotGUI(plotter);
-
-
-
-

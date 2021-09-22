@@ -13,7 +13,7 @@ function obj = revert2NonStationary(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     % Remove and clean up fields set during stationarization of the model,
     % i.e. in solveBalancedGrowthPath and stationarize
@@ -30,7 +30,7 @@ function obj = revert2NonStationary(obj)
     obj.dependent.name        = obj.parser.endogenous;
     obj.dependent.tex_name    = obj.dependent.tex_name(indKeep);
     obj.dependent.number      = length(obj.parser.endogenous);
-    obj.dependent.isAuxiliary = obj.parser.isAuxiliary';
+    obj.dependent.isAuxiliary = obj.parser.isAuxiliary(indKeep)';
     obj.endogenous            = obj.dependent;
     
 end
