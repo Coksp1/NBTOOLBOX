@@ -29,7 +29,7 @@ function obj = parse(filename,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     ind = cellfun(@(x)isa(x,'nb_dsge'),varargin);
     if any(ind) % Used by reparse!

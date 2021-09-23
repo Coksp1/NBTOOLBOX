@@ -99,7 +99,7 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     properties 
         

@@ -52,7 +52,7 @@ function [obj,err] = solveSteadyState(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     err  = '';
     obj  = obj(:);

@@ -13,7 +13,7 @@ function obj = revert2NonStationary(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     % Remove and clean up fields set during stationarization of the model,
     % i.e. in solveBalancedGrowthPath and stationarize

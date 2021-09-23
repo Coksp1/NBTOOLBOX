@@ -13,6 +13,8 @@ function obj = obsModel2func(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+
     obj = checkObsModelEqs(obj);
     
     % Now we need to convert the equation into a function handle

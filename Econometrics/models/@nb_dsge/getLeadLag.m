@@ -14,7 +14,7 @@ function parser = getLeadLag(parser)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     endo = parser.endogenous; 
     if isfield(parser,'stationaryEquations')

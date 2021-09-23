@@ -38,7 +38,7 @@ classdef nb_stTerm < nb_st
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     methods
        

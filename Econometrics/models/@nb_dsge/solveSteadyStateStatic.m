@@ -41,7 +41,7 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         bgp = [];
