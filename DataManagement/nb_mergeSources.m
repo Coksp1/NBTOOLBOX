@@ -27,9 +27,9 @@ function [sources,vintages,variables ] = nb_mergeSources(dbNames,vintages,variab
 % See also:
 % nb_ts.merge
 %
-% Original code by Kenneth Sæterhagen Paulsen, tweaks by Eyo I. Herstad
+% Original code by Kenneth SÃ¦terhagen Paulsen, tweaks by Eyo I. Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dbN       = dbNames;
     tempVints = vintages;

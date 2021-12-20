@@ -48,9 +48,9 @@ function range = nb_excelRange(base,r,c,br,bc)
 % See also:
 % nb_excelCellOffset, nb_letter2num, nb_num2letter
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         br = 0;

@@ -22,9 +22,9 @@ function x = kernel_mode(domain,density)
 % nb_distribution.kernel_median, nb_distribution.kernel_mean, 
 % nb_distribution.kernel_variance, nb_distribution.kernel_rand
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,ind] = max(density);
     x       = domain(ind);

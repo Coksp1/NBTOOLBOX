@@ -14,9 +14,9 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfu
 % from the distributions of the shocks/residual to match the conditional
 % information.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Make waitbar or append already made waitbar
     if isfield(inputs,'waitbar')

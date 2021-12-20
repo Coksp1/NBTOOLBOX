@@ -17,9 +17,9 @@ classdef nb_calendar
 % nb_numDaysCalendar
 % nb_SMARTVariableCalendar
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen    
     
     methods (Abstract=true)
         
@@ -41,7 +41,9 @@ classdef nb_calendar
         % - finish      : End date of calendar window, as a nb_day object.
         %
         % - modelGroup  : A vector of objects of class 
-        %                 nb_model_forecast_vintages.
+        %                 nb_model_forecast_vintages or a cellstr where
+        %                 each element is on the format 'yyyymmdd' or
+        %                 'yyyymmddhhnnss'.
         %
         % - doRecursive : If the modelGroup input is a scalar 
         %                 nb_model_group_vintages object you may want to 
@@ -60,7 +62,7 @@ classdef nb_calendar
         % - calendar : The calendar for the selected window, as a  
         %              N x 1 double.
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
         calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResults);
         
         % Syntax:
@@ -71,7 +73,7 @@ classdef nb_calendar
         %
         % Convert object to a struct.
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
         s = struct(obj)
         
     end
@@ -112,7 +114,7 @@ classdef nb_calendar
         %
         % Convert struct to a object.
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
         
             if isa(s,'nb_calendar')
                 obj = s; % backward compatibility
@@ -141,7 +143,7 @@ classdef nb_calendar
         %
         % Load object from .mat
         %
-        % Written by Kenneth Sæterhagen Paulsen    
+        % Written by Kenneth SÃ¦terhagen Paulsen    
             
             obj = nb_calendar.unstruct(s);
             

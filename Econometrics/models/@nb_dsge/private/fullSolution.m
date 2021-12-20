@@ -18,9 +18,9 @@ function obj = fullSolution(obj)
 % See also:
 % nb_dsge.solve, nb_dsge.solveNB
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     parser = obj.estOptions.parser;
     if ~isempty(parser.obs_equations)

@@ -21,9 +21,9 @@ function x = finvgamma_median(m,k)
 % nb_distribution.finvgamma_mode, nb_distribution.finvgamma_mean, 
 % nb_distribution.finvgamma_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         x = nb_distribution.finvgamma_icdf(0.5,m,k);

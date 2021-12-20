@@ -6,9 +6,9 @@ function obj = callPowerOnSub(obj,another)
 % See also:
 % nb_term.power
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isnumeric(obj)
         % Call nb_num.callPowerOnSub

@@ -22,7 +22,7 @@ modelS = set(modelS,'name','Stationarize manually');
 
 modelS  = assignParameters(modelS,param); 
 
-%% Solve steady-state numerically using a provided guess
+%% Solve steady state numerically using a provided guess
 
 modelS = checkSteadyState(modelS,...
     'steady_state_file',    'rbc_steadystate',...
@@ -52,7 +52,7 @@ modelNS  = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 init    = struct('dA',1.03);
 modelNS = checkSteadyState(modelNS,...

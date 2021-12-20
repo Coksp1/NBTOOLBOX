@@ -4,9 +4,9 @@ function mv = fillInForMissing(DYbar,myv,nVarY,nCondPer,mev,nVarE,nCondPerE)
 % MUc = nb_forecast.fillInForMissing(DYbar,myv,nVarY,nCondPer,...
 %                   mev,nVarE,nCondPerE)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Replace the conditional mean by its theoretical counterpart for the
     % conditioning variables that do not have a mean at all conditioning

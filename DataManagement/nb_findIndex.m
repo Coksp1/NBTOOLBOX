@@ -3,9 +3,9 @@ function index = nb_findIndex(cellstr1,cellstr2)
 %
 % index = nb_findIndex(cellstr1,cellstr2)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     index = zeros(size(cellstr2));
     for ii = 1:length(cellstr1)

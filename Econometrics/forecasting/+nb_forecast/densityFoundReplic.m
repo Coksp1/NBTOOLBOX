@@ -8,9 +8,9 @@ function [Y,XE,states,PAI] = densityFoundReplic(y0,restrictions,model,options,re
 %
 % Produce density forecast using already solved models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if strcmpi(model.type,'rise')

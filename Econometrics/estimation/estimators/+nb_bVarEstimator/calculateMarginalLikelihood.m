@@ -7,9 +7,9 @@ function fh = calculateMarginalLikelihood(par,hyperParam,nCoeff,y,X,yFull,XFull,
 % See also:
 % nb_bVarEstimator.doEmpiricalBayesian
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Assign the current value of the hyperparameters
     N  = length(hyperParam);

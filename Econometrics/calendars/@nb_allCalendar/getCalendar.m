@@ -32,8 +32,14 @@ function calendar = getCalendar(~,start,finish,modelGroup,doRecursive,fromResult
                 calendar{ii} = modelGroup(ii).forecastOutput.context;
             end
         end
+    elseif iscellstr(modelGroup)
+        calendar = {modelGroup};
     else
         error([mfilename ':: The modelGroup cannot be of class ' class(modelGroup) '.'])
+    end
+    for ii = 1:size(calendar,2)
+        % Secure the date format 'yyyymmdd'
+        calendar{ii} = cellfun(@(x)x(1:8),calendar{ii},'uniformOutput',false);
     end
     calendar = unique([calendar{:}])';
     calendar = char(calendar);

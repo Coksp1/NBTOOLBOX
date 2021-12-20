@@ -6,9 +6,9 @@ function options = correctOptionsForUnbalanced(options)
 % See also:
 % nb_olsEstimator.estimate, nb_quantileEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if iscell(options.nLags)
         error([mfilename ':: The unbalanced option cannot be set to true at the same time as the nLags option is a cell.'])

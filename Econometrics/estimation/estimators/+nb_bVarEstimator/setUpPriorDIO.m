@@ -12,9 +12,9 @@ function [yPlus,xPlus] = setUpPriorDIO(prior,y,x,lags,constant,timeTrend)
 % See also:
 % nb_bVarEstimator.applyDummyPrior
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if timeTrend
         error([mfilename ':: If you apply the dummy-initial-observation prior you cannot include a time trend.'])

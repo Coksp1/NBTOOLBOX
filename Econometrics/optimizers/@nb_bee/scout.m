@@ -30,9 +30,9 @@ function obj = scout(obj,lowerBound,upperBound,hasConstraints)
 % See also:
 % nb_bee.relocate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nBees = size(obj,1);
     if nBees == 0

@@ -12,9 +12,9 @@ function [Y,states,AA] = uncondForecastEngine(y0,A,B,ss,Qfunc,E,states,transProb
 % See also:
 % nb_forecast.conditionalProjectionEngine, ms.uncondForecastEngine
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(Qfunc) % Markov switching model
         [Y,states,AA] = ms.uncondForecastEngine(y0,A,B,ss,Qfunc,E,states,transProbInit,maxiter);

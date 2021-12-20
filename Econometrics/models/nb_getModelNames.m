@@ -17,9 +17,9 @@ function names = nb_getModelNames(varargin)
 % 
 % - names     : A 1 x N cellstr.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     names = cell(1,nargin);
     for ii = 1:nargin

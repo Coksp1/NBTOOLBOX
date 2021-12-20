@@ -11,9 +11,9 @@ function [ys,allEndo,exo] = getAllMFVariablesRec(options,ys,H,tempDep,ss,start)
 % See also:
 % nb_bVarEstimator.recursiveEstimation
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     N   = size(H,1);
     T   = size(ys,1);

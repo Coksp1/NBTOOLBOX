@@ -11,9 +11,9 @@ function [betaD,sigmaD,XX,posterior,pY] = doBayesian(options,h,nLags,restriction
 % See also:
 % nb_bVarEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     pY = [];
 

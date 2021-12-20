@@ -31,9 +31,9 @@ function contextsStart = getStartOfCalendar(modelGroup,doRecursive,fromResults)
 %                   input, each element stores the first context of the
 %                   that particular model.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isscalar(modelGroup) && isa(modelGroup,'nb_model_group_vintages') && doRecursive
         if fromResults

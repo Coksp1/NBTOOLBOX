@@ -10,7 +10,7 @@ function tempOpt = createEstOptionsStruct(obj)
 % See also:
 % nb_dsge.irf, nb_dsge.getEstimationOptions
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     modOpt  = obj.estOptions;
     tempOpt = nb_rmfield(obj.options,{'data','estim_end_date','estim_start_date'});

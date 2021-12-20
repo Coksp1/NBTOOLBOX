@@ -34,9 +34,9 @@ function str = printDecisionRules(obj,variables,precision,asCell)
 % See also:
 % nb_dsge.solve, nb_dsge.findRESolution, dsge.print_solution
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         asCell = false;

@@ -20,9 +20,9 @@ function y = nb_invpsi(x,err)
 % See also:
 % psi
 %
-% Kenneth Sæterhagen Paulsen
+% Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         err = eps^(1/2);

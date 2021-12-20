@@ -27,7 +27,7 @@ function obj = stdise(obj,flag)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = mean(obj)./std(obj,flag);
 

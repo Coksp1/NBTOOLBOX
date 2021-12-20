@@ -47,9 +47,9 @@ function [d,H,R,c,A,B,Q,G,obs] = nb_varStateSpace(par,nDep,nLags,constant,nExo,r
 % See also:
 % nb_kalmanlikelihood
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the equation x = c + A*x_1 + F z + B*u for the dynamic system
     %---------------------------------------------------------------

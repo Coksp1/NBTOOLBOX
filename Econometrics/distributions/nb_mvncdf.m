@@ -24,9 +24,9 @@ function p = nb_mvncdf(x,mu,sigma)
 % 
 % p       : A nPoints x 1 double with the evaluated probabilities.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nPoints,nVars] = size(x);
     [smu1,smu2]     = size(mu);

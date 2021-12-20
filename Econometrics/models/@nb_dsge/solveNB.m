@@ -15,7 +15,7 @@ function obj = solveNB(obj,varargin)
 % "Loose commitment in medium-scale macroeconomic models: Theory and an 
 % application" by Debortoli, Maih and Nunes (2010).
 %
-% "DAG.pdf" by Kenneth Sæterhagen Paulsen.
+% "DAG.pdf" by Kenneth SÃ¦terhagen Paulsen.
 %
 % Input:
 % 
@@ -33,9 +33,9 @@ function obj = solveNB(obj,varargin)
 % nb_dsge.solve, nb_dsge.optimalMonetaryPolicySolver, 
 % nb_dsge.backwardSolver, nb_dsge.rationalExpectationSolver
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj  = set(obj,varargin{:});
     nobj = numel(obj);

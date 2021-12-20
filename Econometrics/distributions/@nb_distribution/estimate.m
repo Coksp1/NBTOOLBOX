@@ -34,9 +34,9 @@ function obj = estimate(x,xi,varargin)
 % See also:
 % nb_distribution.estimateDomain
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Find the domain of the distribution
     if nargin < 2
@@ -79,8 +79,8 @@ function obj = estimate(x,xi,varargin)
         binsL   = xi(2) - xi(1);
         testCDF = cumsum(f)*binsL; 
         topCDF  = max(testCDF);
-        if topCDF > 1.01 || topCDF < 0.99
-            error([mfilename ':: A CDF return by the ksdensity function did not sum to 1, which is not possible by definition of a density. '...
+        if topCDF > nb_kernelCDFBounds(0) || topCDF < nb_kernelCDFBounds(1)
+            warning([mfilename ':: A CDF return by the ksdensity function did not sum to 1, which is not possible by definition of a density. '...
                              'Is (' num2str(topCDF) '). This is probably due to a mispecified domain.']);
         end
         

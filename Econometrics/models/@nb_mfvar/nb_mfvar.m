@@ -23,9 +23,9 @@ classdef nb_mfvar < nb_var
 % See also:
 % nb_model_generic, nb_model_estimate.set, nb_mfvar.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods
         
@@ -56,7 +56,11 @@ classdef nb_mfvar < nb_var
             obj = set(obj,varargin{:});
             
             if ~nb_isempty(obj.options.prior)
-                obj.options.estim_method = 'bVar';
+                if strcmpi(obj.options.prior.type,'kkse')
+                    obj.options.estim_method = 'tvpmfsv';
+                else
+                    obj.options.estim_method = 'bVar';
+                end
             else
                 obj.options.estim_method = 'ml';
             end

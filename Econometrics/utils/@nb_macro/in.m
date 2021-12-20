@@ -40,9 +40,9 @@ function obj = in(obj,objIn)
 % mNum2    = nb_macro('var2',1);
 % mLogical = mNum.in(mNum2) 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error('The in method is only supported for scalar nb_macro objects.')

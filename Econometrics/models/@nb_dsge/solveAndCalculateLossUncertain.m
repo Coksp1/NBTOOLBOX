@@ -12,9 +12,9 @@ function L = solveAndCalculateLossUncertain(srCoeff,srInd,param,parser,sol,optio
 % See also:
 % nb_dsge.optimalSimpleRules, nb_dsge.calculateLossCommitment
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nDraws = size(param,2);
     if strcmpi(options.osr_type,'discretion')

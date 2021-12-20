@@ -4,9 +4,9 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = varEsti
 % [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,XX,lik,Omega] = 
 % nb_mlEstimator.varEstimator(y,X,options,init)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize
     %----------------------------------------------------------------------

@@ -7,9 +7,9 @@ function notifyWaitbar(h,kk,note)
 %
 % Notify waitbar for producing posterior draws.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if rem(kk,note) == 0
         h.status4 = kk;

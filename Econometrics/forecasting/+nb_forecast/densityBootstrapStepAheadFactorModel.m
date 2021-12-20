@@ -8,9 +8,9 @@ function [Y,XE] = densityBootstrapStepAheadFactorModel(y0,restrictions,model,opt
 %
 % Produce density forecast of a step ahead factor model using bootstrap.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;

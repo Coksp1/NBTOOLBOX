@@ -89,9 +89,9 @@ function [xf,xs,us,xu,uu,A,B,C,ss,p] = nb_kalmanSmootherDiffuseStochasticTrendDS
 % nb_kalmanLikelihoodDiffuseStochasticTrendDSGE, nb_dsge.updateSolution
 % nb_kalmanSmootherUnivariateStochasticTrendDSGE, nb_setUpForDiffuseFilter
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

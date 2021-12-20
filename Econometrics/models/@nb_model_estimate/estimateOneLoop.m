@@ -7,9 +7,9 @@ function [res,estOpt] = estimateOneLoop(estOpt)
 %
 % Call estimator of a given model.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
   
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     real_time_estim = false;
     if isfield(estOpt,'real_time_estim')

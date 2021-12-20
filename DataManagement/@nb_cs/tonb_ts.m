@@ -24,10 +24,11 @@ function nb_ts_DB = tonb_ts(obj)
 % 
 % Written by Kenneth S. Paulsen      
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dataC    = asCell(obj);
     nb_ts_DB = nb_cell2obj(dataC,0,obj.sorted);
+    nb_ts_DB.localVariables = obj.localVariables;
     
     if obj.isUpdateable()
         

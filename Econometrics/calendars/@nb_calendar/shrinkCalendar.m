@@ -21,9 +21,9 @@ function [calendar,ind] = shrinkCalendar(calendar,start,finish)
 %
 % - ind      : A logical of size N x 1. True for each elements kept.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     indS = [];
     if ~isempty(start)

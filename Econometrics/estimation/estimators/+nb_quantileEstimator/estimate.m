@@ -24,9 +24,9 @@ function [results,options] = estimate(options)
 % nb_quantileEstimator.print, nb_quantileEstimator.help, 
 % nb_quantileEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 
@@ -227,7 +227,7 @@ function [results,options] = estimate(options)
         % Estimate the model recursively
         %--------------------------------------------------
         numDep     = size(y,2);
-        beta       = nan(numCoeff,numDep,length(q),iter);
+        beta       = zeros(numCoeff,numDep,length(q),iter);
         stdBeta    = nan(numCoeff,numDep,length(q),iter);
         constant   = options.constant;
         time_trend = options.time_trend;

@@ -18,7 +18,7 @@ function test = eq(obj,another)
 %
 % - test    : true or false.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if isnumeric(obj)
         test = abs(obj - [another.value]) < 1e-10;

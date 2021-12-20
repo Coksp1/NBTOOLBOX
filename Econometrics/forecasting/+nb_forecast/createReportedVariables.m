@@ -11,9 +11,9 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
 % See also:
 % nb_forecast.pointForecast, nb_forecast.densityForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % If we are dealing with real-time data we need to index the
     % options struct to get hold of the correct vintage of historical 
@@ -120,7 +120,10 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
                     warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ' returned nan values']);
                 end 
             else
-                warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ' returned nan values']);
+                d   = dates(dataTSOne(nHistObs+1:end,:));
+                ind = isnan(double(dataTSOne(nHistObs+1:end,:)));
+                warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ,...
+                    ' returned nan values for the dates ' toString(d(ind))]);
             end
         end
 

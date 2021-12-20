@@ -7,9 +7,9 @@ function options = interpretRScale(options)
 %
 % Get indicies of priors on the measurement error.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isfield(options.prior,'R_scale')
         return

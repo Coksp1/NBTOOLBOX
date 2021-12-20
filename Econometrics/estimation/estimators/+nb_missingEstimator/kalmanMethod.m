@@ -7,9 +7,9 @@ function options = kalmanMethod(options)
 %
 % Fill in for missing observations a Kalman filter.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~any(strcmpi(options.class,{'nb_var','nb_pitvar'}))
         error([mfilename ':: Setting missingMethod to ''kalmanFilter'' is only possible for nb_var and nb_pitvar objects.'])
@@ -49,7 +49,7 @@ function options = kalmanMethod(options)
     model      = solveFunc(results,tempOpt);
     
     % Data to filter
-    [~,indObs]  = ismember(options.dependent,options.dataVariables);
+    [~,indObs]  = ismember(dep,options.dataVariables);
     yT          = tempOpt.data(:,indObs)';
     nDep        = size(yT,1);
     [~,indXObs] = ismember(options.exogenous,options.dataVariables);
@@ -76,6 +76,17 @@ function options = kalmanMethod(options)
     XT = XT(:,start:finish);
     if options.constant
         XT = [ones(1,size(XT,2)); XT];
+    end
+    if any(any(isnan(XT)))
+        
+        exo = options.exogenous;
+        if options.constant
+            exo = ['constant',exo];
+        end
+        ind = any(isnan(XT),2);
+        error(['Cannot have any missing observations on an exogneous variable ',...
+               'when setting missingMethod to ''kalmanFilter''. This is the case ',...
+               'for the following variables; ' toString(exo(ind))])
     end
     
     % Do the filtering

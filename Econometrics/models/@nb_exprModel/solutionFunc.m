@@ -30,9 +30,9 @@ function Z = solutionFunc(Z,t,E,h,beta,depTransFunc,depLagFunc,exoFuncs,nLags,nE
 % See also:
 % nb_exprModel.solveRecursive
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Predict left hand side expression
     for ii = 1:nDep

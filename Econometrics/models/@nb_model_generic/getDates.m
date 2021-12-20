@@ -10,9 +10,9 @@ function [sInd,eInd,indM] = getDates(opt,inputs)
 % See also:
 % nb_model_generic.shock_decomposition
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nobj    = size(opt,2);
     indM    = true(1,nobj); % The models that will be decomposed, sometimes the dates are outside the model samples

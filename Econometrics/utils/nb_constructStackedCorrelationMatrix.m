@@ -22,9 +22,9 @@ function sigmaF = nb_constructStackedCorrelationMatrix(c)
 % See also:
 % nb_calculateMoments, nb_model_generic.theoreticalMoments
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nDep   = size(c,1);
     nLags  = size(c,3) - 1;

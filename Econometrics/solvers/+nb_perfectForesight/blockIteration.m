@@ -8,9 +8,9 @@ function [YT,err] = blockIteration(obj,funcs,inputs,iter,outer,YT)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Solve for the prologue
     [YT,err] = nb_perfectForesight.proSolver(obj,inputs,YT,iter);

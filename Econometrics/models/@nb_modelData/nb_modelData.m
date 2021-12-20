@@ -12,9 +12,9 @@ classdef (Abstract) nb_modelData < nb_model_options
 % See also: 
 % nb_model_generic, nb_model_selection_group
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess = protected)
         
@@ -111,7 +111,7 @@ classdef (Abstract) nb_modelData < nb_model_options
 
                     links = get(dataT,'links');
                     if numel(links) > 1
-                        error([mfilename ':: Contact Kenneth Sæterhagen Paulsen.'])
+                        error([mfilename ':: Contact Kenneth SÃ¦terhagen Paulsen.'])
                     end
                     operations  = links.subLinks(1).operations;
                     shiftFound  = false;
@@ -159,7 +159,7 @@ classdef (Abstract) nb_modelData < nb_model_options
                 
                     links = get(dataT,'links');
                     if numel(links) > 1
-                        error([mfilename ':: Contact Kenneth Sæterhagen Paulsen.'])
+                        error([mfilename ':: Contact Kenneth SÃ¦terhagen Paulsen.'])
                     end
                     operations = links.subLinks(1).operations;
                     checkFound = false;

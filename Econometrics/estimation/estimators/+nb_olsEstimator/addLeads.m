@@ -8,9 +8,9 @@ function options = addLeads(options)
 % Add leads to right hand side of estimation equation. Only in the case
 % that the unbalanced options is set to true. 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [testX,indX] = ismember(options.uniqueExogenous,options.dataVariables);
     if any(~testX)

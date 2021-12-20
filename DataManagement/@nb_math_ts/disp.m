@@ -22,7 +22,7 @@ function disp(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dates     = obj.startDate:obj.endDate;
     displayed = cell(obj.dim1,obj.dim2 + 1,obj.dim3);

@@ -46,9 +46,9 @@ function obj = squeeze(obj)
 %     'Time'    'Var1_b'    'Var1_c'
 %     '2012'    [     1]    [     1]    
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     oldObj = obj;
     if obj.numberOfDatasets > 1

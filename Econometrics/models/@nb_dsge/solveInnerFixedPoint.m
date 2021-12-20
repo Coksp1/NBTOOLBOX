@@ -11,9 +11,9 @@ function [H,GAM,failed] = solveInnerFixedPoint(Alead,A0,Alag,H0,tol,rcondTol,max
 % See also:
 % nb_dsge.optimalSimpleRules, nb_dsge.calculateLossDiscretion
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     crit   = inf;
     iter   = 0;

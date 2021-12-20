@@ -8,9 +8,9 @@ function funcs = updateEpiFunctionOnePeriod(funcs,YNotEpi,parExoVal,varsSS)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
      % Update with the inputs that does not change for each period.
     G       = funcs.G;

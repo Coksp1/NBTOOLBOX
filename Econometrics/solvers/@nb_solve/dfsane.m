@@ -6,15 +6,15 @@ function results = dfsane(opt,fVal)
 % Description:
 %
 % Solve the problem using the Spectral Residual Method of 
-% La Cruz W, Mart´?nez JM, Raydan M (2006). The implementation follows  
+% La Cruz W, MartÂ´?nez JM, Raydan M (2006). The implementation follows  
 % Varadhan and Gilbert (2009) with some adjustments.
 % 
 % See also:
 % nb_solve.solve
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % For now set defaults
     timeSincLast     = 0;

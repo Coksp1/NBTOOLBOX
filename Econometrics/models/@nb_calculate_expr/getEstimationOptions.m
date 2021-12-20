@@ -3,9 +3,9 @@ function outOpt = getEstimationOptions(obj)
 %
 % outOpt = getEstimationOptions(obj)
 %
-% Written by Kenneth Sæterhagen Paulsen       
+% Written by Kenneth SÃ¦terhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -57,7 +57,6 @@ function outOpt = getEstimationOptions(obj)
         else
             tempOpt.recursive_estim_start_ind = [];
         end
-        tempOpt.requiredDegreeOfFreedom = 3;
         tempOpt = rmfield(tempOpt,{'estim_end_date','estim_start_date','recursive_estim_start_date'});
 
         % Assign estimation method (to make it possible to prevent 

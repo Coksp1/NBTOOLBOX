@@ -58,9 +58,9 @@ function [condDB,obj] = getCondDB(obj,endDate,nSteps,exoOnly,recursive,recStart)
 % See also:
 % nb_modelData.createVariables, nb_model_generic.forecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         recStart = '';

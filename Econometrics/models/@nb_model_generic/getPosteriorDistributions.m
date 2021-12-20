@@ -17,9 +17,9 @@ function [distr,paramNames] = getPosteriorDistributions(obj)
 %
 % - paramNames : A 1 x numCoeff cellstr with the names of the parameters.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: This method only works on a scalar object.']) 

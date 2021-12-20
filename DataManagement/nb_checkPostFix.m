@@ -7,18 +7,18 @@ function message = nb_checkPostFix(postfix)
 %
 % Check the postfix for unsupported chars
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     message        = '';
     indN           = regexp(postfix,'\d','start');
     postfixT       = postfix;
     postfixT(indN) = '';
-    ind            = regexp(postfixT,'[!"@#£¤$%&/()=?`\^~¨*-:;§|><{},]','once');
+    ind            = regexp(postfixT,'[!"@#Â£Â¤$%&/()=?`\^~Â¨*-:;Â§|><{},]','once');
     if ~isempty(ind)
-        message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, £, ¤, $, '...
-                   '%, &, /, (, ), =, ?, `, \, ^, ~, ¨, *, -, :, ;, §, |, >, <, {, }, ], and ,'];
+        message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, Â£, Â¤, $, '...
+                   '%, &, /, (, ), =, ?, `, \, ^, ~, Â¨, *, -, :, ;, Â§, |, >, <, {, }, ], and ,'];
         return
     end
     

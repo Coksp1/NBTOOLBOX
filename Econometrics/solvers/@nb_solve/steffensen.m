@@ -10,9 +10,9 @@ function results = steffensen(opt,fVal)
 % See also:
 % nb_solve.solve
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     exitFlag     = 1;
     x            = opt.initialXValue;

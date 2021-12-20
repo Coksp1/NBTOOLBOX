@@ -59,7 +59,7 @@ function obj = extrapolate(obj,toDate,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     if isempty(obj)
         error([mfilename ':: Object is empty, and no extrapolation can be done.'])

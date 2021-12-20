@@ -36,9 +36,9 @@ function ss = ssStruct2ssDouble(parser,s,default)
 % See also:
 % nb_dsge.solveSteadyStateStatic, nb_dsge.assignSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         default = @zeros;

@@ -98,7 +98,7 @@ function obj = set_identification(obj,type,varargin)
 % Examples:
 % See ...\Econometrics\test\test_nb_var 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 % Subfunctions are written by Andrew Binning 2013
 
 % Copyright Andrew Binning 2013
@@ -108,7 +108,7 @@ function obj = set_identification(obj,type,varargin)
 % "Underidentified SVAR models: A framework for combining short and long-run restrictions with sign-restrictions,"
 % Working Paper 2013/14, Norges Bank.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         type = 'cholesky';

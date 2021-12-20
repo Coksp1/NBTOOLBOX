@@ -3,9 +3,9 @@ function options = varModifications(options)
 %
 % options = nb_olsEstimator.varModifications(options)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Add first lag to right hand side variable. nLags change to
     % refer to number of lags of the already lagged right hand side

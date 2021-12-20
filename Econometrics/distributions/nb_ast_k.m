@@ -3,9 +3,9 @@ function f = nb_ast_k(x)
 %
 % f = nb_ast_k(x)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f1 = gamma((x + 1)./2);
     f2 = sqrt(pi.*x).*gamma(x./2);

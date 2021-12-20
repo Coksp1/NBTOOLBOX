@@ -7,9 +7,9 @@ function [varsExo,varsExoN,varsExoNS] = getExo(parser)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [varsExoN,varsExoNS,varsExo] = nb_createGenericNames(parser.exogenous,'varsExo');
     

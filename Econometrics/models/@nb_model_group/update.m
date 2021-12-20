@@ -45,9 +45,9 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
 %           'write' is not used an error will be thrown instead, so in 
 %           this case this output will be true for all models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         groupIndex = [];
@@ -77,9 +77,9 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
         return
     end
     
-    [inputs,varargin] = nb_model_generic.parseOptional(varargin{:});
-    inputs            = nb_logger.openLoggerFile(inputs,obj);
-    inputs.inGUI      = inGUI;
+    inputs       = nb_model_generic.parseOptional(varargin{:});
+    inputs       = nb_logger.openLoggerFile(inputs,obj);
+    inputs.inGUI = inGUI;
         
     % Update the data, re-estimate, solve and forecast sub-models
     models = obj.models;
@@ -92,12 +92,12 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
     modelGroups   = models(indMGroup);
     modelsGeneric = models(~indMGroup);
     if ~isempty(modelGroups)
-        [modelsG,validG]    = update([modelGroups{:}],type,warningOn,'off',[],varargin{:});
+        [modelsG,validG]    = update([modelGroups{:}],type,warningOn,'off',[],inputs);
         models(indMGroup)   = nb_obj2cell(modelsG);
         validSub(indMGroup) = validG;
     end
     if ~isempty(modelsGeneric)
-        [modelsG,validG]     = update([modelsGeneric{:}],type,warningOn,'off',[],varargin{:});
+        [modelsG,validG]     = update([modelsGeneric{:}],type,warningOn,'off',[],inputs);
         models(~indMGroup)   = nb_obj2cell(modelsG);
         validSub(~indMGroup) = validG;
     end
@@ -154,16 +154,16 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
         
         if ~nb_isempty(obj.forecastOutput)
             
-            inputs = obj.forecastOutput.inputs;
-            func   = inputs.function;
-            inputs = rmfield(inputs,{'function'});
+            inputsGroup = obj.forecastOutput.inputs;
+            func        = inputsGroup.function;
+            inputsGroup = rmfield(inputsGroup,{'function'});
             if strcmpi(func,'aggregateForecast')
                 
                 type = 're-aggregated';
-                if isa(inputs.weights,'nb_ts')
-                    if isUpdateable(inputs.weights)
+                if isa(inputsGroup.weights,'nb_ts')
+                    if isUpdateable(inputsGroup.weights)
                         try
-                            inputs.weights = update(inputs.weights,warningOn,inGUI);
+                            inputsGroup.weights = update(inputsGroup.weights,warningOn,inGUI);
                         catch Err
                             
                             if strcmpi(warningOn,'on') && strcmpi(inGUI,'off')
@@ -180,7 +180,7 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
                 end
                 
                 try
-                    obj = aggregateForecast(obj,inputs);
+                    obj = aggregateForecast(obj,inputsGroup);
                 catch Err
                     valid   = false;
                     message = ['Error while aggregating forecast of model group; ' obj.name '::'];
@@ -191,7 +191,7 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
                 
                 type = 're-combined';
                 try
-                    obj = combineForecast(obj,inputs);
+                    obj = combineForecast(obj,inputsGroup);
                 catch Err
                     valid   = false;
                     message = ['Error while combining forecast of model group; ' obj.name '::'];

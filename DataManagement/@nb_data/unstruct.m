@@ -15,9 +15,9 @@ function obj = unstruct(s)
 % 
 % - obj : An nb_data object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = nb_data();
     if isempty(s.data)

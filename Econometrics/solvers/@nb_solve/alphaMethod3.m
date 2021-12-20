@@ -15,9 +15,9 @@ function alpha = alphaMethod3(s,y)
 % See also:
 % nb_solve.alphaMethod1, nb_solve.alphaMethod2
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     alpha = sgn(s'*y)*norm(s,2)/norm(y,2);
 

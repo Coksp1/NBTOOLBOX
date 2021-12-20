@@ -23,9 +23,9 @@ function f = laplace_cdf(x,m,k)
 % nb_distribution.laplace_pdf, nb_distribution.laplace_rand,
 % nb_distribution.laplace_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = 0.5 + 0.5*sign(x - m).*(1 + exp(-abs(x - m)./k));
     

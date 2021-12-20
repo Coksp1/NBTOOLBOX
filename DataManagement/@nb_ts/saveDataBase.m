@@ -85,6 +85,10 @@ function saveDataBase(obj,varargin)
 %                  nb_month, nb_quarter, nb_semiAnnual and nb_year
 %                  for more information on the date formats
 %
+% - 'sheets'     : Set the names of the sheets to write to, as a cellstr.
+%                  The length must match the number of pages of the nb_ts
+%                  object. Only supported if 'ext' is sat to 'xlsx'.
+%
 % Output:
 % 
 % The nb_ts object saved to the wanted file format.
@@ -109,7 +113,7 @@ function saveDataBase(obj,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(obj)
         return
@@ -150,6 +154,9 @@ function saveDataBase(obj,varargin)
             case 'sheets'
                 
                 foundSheets   = varargin{ii+1};
+                if nb_isOneLineChar(foundSheets)
+                    foundSheets = cellstr(foundSheets);
+                end
                 if size(foundSheets,2) ~= obj.numberOfDatasets || size(foundSheets,1) ~= 1
                     error([mfilename ':: The ''sheets'' input must be a 1 x ' int2str(obj.numberOfDatasets) ' cellstr.'])
                 end

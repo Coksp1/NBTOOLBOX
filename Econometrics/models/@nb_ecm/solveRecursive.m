@@ -3,9 +3,9 @@ function tempSol = solveRecursive(results,opt)
 %
 % tempSol = nb_ecm.solveRecursive(results,opt,ident)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     iter     = size(results.beta,3);
     nEndo    = length(opt.endogenous);

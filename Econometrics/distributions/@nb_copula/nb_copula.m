@@ -34,9 +34,9 @@ classdef nb_copula < handle
 %                                      'parameters',{{6,2},{2,2}});
 %   obj   = nb_copula(distr);
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    properties (SetAccess=protected)
        

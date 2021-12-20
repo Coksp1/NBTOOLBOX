@@ -9,9 +9,9 @@ function evalFcst = evaluatePointForecastLowFreq(evalFcst,options,Y,dep,model,in
 % Evaluate point forecast of low frequency variable of mixed frequency 
 % models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fcstEval = inputs.fcstEval;
     if isempty(fcstEval)

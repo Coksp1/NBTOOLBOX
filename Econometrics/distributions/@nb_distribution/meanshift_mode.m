@@ -28,9 +28,9 @@ function x = meanshift_mode(dist,param,lb,ub,ms)
 % nb_distribution.meanshift_median, nb_distribution.meanshift_mean, 
 % nb_distribution.meanshift_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     lb = lb - ms;
     ub = ub - ms;

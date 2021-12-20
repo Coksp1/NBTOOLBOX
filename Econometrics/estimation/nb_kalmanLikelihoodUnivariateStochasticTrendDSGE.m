@@ -52,9 +52,9 @@ function lik = nb_kalmanLikelihoodUnivariateStochasticTrendDSGE(par,estStruct)
 % nb_kalmanSmootherUnivariateStochasticTrendDSGE, nb_dsge.updateSolution  
 % nb_kalmanLikelihoodDiffuseStochasticTrendDSGE, nb_setUpForDiffuseFilter
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     y     = estStruct.y;
     m     = ~isnan(y);

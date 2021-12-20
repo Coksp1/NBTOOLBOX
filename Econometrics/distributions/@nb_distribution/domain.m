@@ -36,9 +36,9 @@ function d = domain(obj,out)
 % See also:
 % nb_distribution.getEndOfDomain, nb_distribution.getStartOfDomain
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         out = 0;

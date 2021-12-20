@@ -106,9 +106,9 @@ function [x,fVal,exitflag,err] = nb_homotopy(algorithm,steps,start,finish,names,
 %
 %       > names     : Same as the names input.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     display = true;
     if isfield(options,'silent')

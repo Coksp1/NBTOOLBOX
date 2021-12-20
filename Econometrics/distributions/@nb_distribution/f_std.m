@@ -24,9 +24,9 @@ function x = f_std(m,k)
 % nb_distribution.f_mode, nb_distribution.f_median, 
 % nb_distribution.f_mean, nb_distribution.f_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = sqrt(nb_distribution.f_variance(m,k));
 

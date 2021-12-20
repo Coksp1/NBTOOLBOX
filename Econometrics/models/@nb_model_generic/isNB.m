@@ -20,9 +20,9 @@ function ret = isNB(obj)
 % - ret : A M x N x Q logical. An element is set to true if the model uses
 %         a NB toolbox solver. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 	[s1,s2,s3] = size(obj);
     ret        = true(s1,s2,s3);

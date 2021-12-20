@@ -51,7 +51,7 @@ function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restric
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 7
         waitbar = true;

@@ -28,9 +28,9 @@ function x = skewness(obj,type)
 % - x   : numel(obj) == 1 : A double with size as 1 x 1
 %         otherwise       : A double with size 1 x nobj
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         type = 'default';

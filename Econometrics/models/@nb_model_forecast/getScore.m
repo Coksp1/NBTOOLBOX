@@ -68,9 +68,9 @@ function scores = getScore(obj,type,allPeriods,startDate,endDate,invert,rollingW
 % See also:
 % nb_model_group.combineForecast, nb_model_generic.constructScore
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 8
         lambda = [];

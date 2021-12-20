@@ -7,9 +7,9 @@ function [num,eqs] = seperateTerms(obj,op)
 %
 % Separate out the nb_num part of a nb_term object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_base')
         num = nb_num(1); 

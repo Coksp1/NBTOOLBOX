@@ -25,9 +25,9 @@ function x = t_skewness(m,~,~)
 % nb_distribution.t_median, nb_distribution.t_mean, 
 % nb_distribution.t_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if m > 3
         x = 0;

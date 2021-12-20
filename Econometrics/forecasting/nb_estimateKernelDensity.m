@@ -22,9 +22,9 @@ function density = nb_estimateKernelDensity(Y,int,varargin)
 % See also:
 % nb_getDensityPoints, nb_evaluateDensityForecast, ksdensity
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,nVar,~] = size(Y);
     density    = cell(1,nVar);

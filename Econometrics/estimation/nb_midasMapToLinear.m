@@ -38,9 +38,9 @@ function beta = nb_midasMapToLinear(p,func,AR,constant,nExo,nLags)
 % See also:
 % nb_midasFunc
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nCoeff = nLags*nExo;
     beta   = nan(AR+constant+nCoeff,1);

@@ -29,9 +29,9 @@ function [obj,loss] = calculateLoss(obj,varargin)
 % See also:
 % nb_dsge.setLossFunction
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isfield(obj.parser,'lossFunction')
         error([mfilename ':: The loss function must be specified. See the setLossFunction method.'])

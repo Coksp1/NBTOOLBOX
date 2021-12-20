@@ -79,9 +79,9 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
 %             > x          : The exogenous variables included in the 
 %                            transition equation.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 8
         x = [];

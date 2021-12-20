@@ -58,9 +58,9 @@ function [sim,plotter,ssTable] = permanentShock(obj,varargin)
 % nb_dsge.getEndVal, nb_dsge.perfectForesight, nb_dsge.checkSteadyState,
 % nb_dsge.addBreakPoint
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~obj.options.silent
         t = tic;

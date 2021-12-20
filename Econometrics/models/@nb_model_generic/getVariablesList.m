@@ -27,9 +27,9 @@ function [vars,observables] = getVariablesList(obj,type)
 %                 nb_model_generic forecast, when the 'output' input is 
 %                 set to 'all'. Only some specific class of models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         type = 'forecast';

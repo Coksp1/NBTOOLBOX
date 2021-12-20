@@ -40,9 +40,9 @@ function out = callrtfun(obj,varargin)
 % See also:
 % nb_dataSource.getClassOfData
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [func,varargin] = nb_parseOneOptional('func',@(x)x,varargin{:});
     [name,varargin] = nb_parseOneOptional('name','new',varargin{:});

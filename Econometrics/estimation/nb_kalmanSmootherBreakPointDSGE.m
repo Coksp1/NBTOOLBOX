@@ -58,9 +58,9 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherBreakPointDSGE(H,A,C,ss,obs,x0,P0,y
 % See also:
 % nb_kalmanSmootherDSGE, nb_kalmanLikelihoodBreakPointDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

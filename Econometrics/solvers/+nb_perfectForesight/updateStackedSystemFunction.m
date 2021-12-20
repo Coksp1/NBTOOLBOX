@@ -8,9 +8,9 @@ function funcs = updateStackedSystemFunction(obj,funcs,inputs,iter)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if iter == 1
         initVal = cell2mat(struct2cell(inputs.initVal));

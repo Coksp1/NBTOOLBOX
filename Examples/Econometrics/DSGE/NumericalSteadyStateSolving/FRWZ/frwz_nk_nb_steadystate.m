@@ -30,7 +30,7 @@ function [ss,param] = frwz_nk_nb_steadystate(~,pp)
 % See also:
 % nb_dsge.assignSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % If any parameters are solved for in the steady state they can be
     % returned by the param struct. struct('paramName',paramValue,...)

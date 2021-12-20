@@ -9,9 +9,9 @@ function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
 % Check if there has been done enough posterior draws. If there isn't 
 % we draw more.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     yD = [];
     if isfield(coeffDraws,'yD')

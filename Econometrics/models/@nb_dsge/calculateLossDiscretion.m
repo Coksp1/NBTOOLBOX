@@ -11,9 +11,9 @@ function [L,failed] = calculateLossDiscretion(options,solution,traceOnly)
 % nb_dsge.optimalSimpleRules, nb_dsge.calculateLoss, 
 % nb_dsge.calculateLossCommitment, nb_dsge.solveAndCalculateLoss 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Options
     tol      = options.fix_point_TolFun;

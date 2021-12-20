@@ -9,19 +9,19 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
 % This is the function that project the exogenous variables of the model
 % when the 'exoProj' input is not empty.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         type = 'X';
     end
     if strcmpi(type,'Z')
-        exo    = restr.exoObs(restr.indExoObs);
-        nSteps = size(restr.Z,1);
+        exo     = restr.exoObs(restr.indExoObs(:,:,restr.index));
+        nSteps  = size(restr.Z,1);
     else
-        exo    = restr.exo(restr.indExo);
-        nSteps = size(restr.X,1);
+        exo     = restr.exo(restr.indExo(:,:,restr.index));
+        nSteps  = size(restr.X,1);
     end
     exoKeep       = exo;
     inputs        = nb_defaultField(inputs,'exoProjHist',false);
@@ -90,8 +90,30 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                     nExtra  = size(XtExtra,1);
                     nStepsT = nSteps - nExtra;
                 else
-                    nStepsT = nSteps;
-                    nExtra  = 0;
+                    % Do we have any conditional info we got from the
+                    % condDB input? See nb_forecast.prepareRestrictions
+                    if strcmpi(type,'Z')
+                        XtExtra = restr.Z(:,strcmpi(exo{ii},restr.exoObs));
+                    else
+                        XtExtra = restr.X(:,strcmpi(exo{ii},restr.exo));
+                    end
+                    XtExtra = XtExtra(~isnan(XtExtra));
+                    Xt      = [Xt;XtExtra]; %#ok<AGROW>
+                    nExtra  = size(XtExtra,1);
+                    nStepsT = nSteps - nExtra;
+                end
+                
+                % Take differences
+                doUndiff = false;
+                if ~isempty(inputs.exoProjDiff)
+                    loc = find(strcmpi(exo{ii},inputs.exoProjDiff),1,'last');
+                    if ~isempty(loc)
+                        if inputs.exoProjDiff{loc+1}
+                            xHist    = X(end,ii); % Last observation on historical data
+                            Xt       = diff(Xt,1);
+                            doUndiff = true;
+                        end
+                    end
                 end
                 
                 if nStepsT == 0
@@ -134,7 +156,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                         results = nb_arimaFunc(Xt,inputs.exoProjAR,0,0,0,0,'maxAR',maxAR,'constant',true,...
                                         'test',false,'alpha',0.1,'texo',texo);
                         lambda  = results.beta;
-                        reg     = results.X;
+                        reg     = Xt - lambda(1);
                         int     = results.i;
                         calib   = false;
                         numAR   = results.AR;
@@ -164,7 +186,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                     if inputs.parameterDraws > 1 && ~calib
                         E       = nb_bootstrap(results.residual,1,'bootstrap'); % A nEq x 1 x nobs double
                         E       = permute(E,[3,1,2]); % A nobs x nEq x 1 double
-                        Xart    = reg*lambda + E;
+                        Xart    = lambda(1) + results.X*lambda(2:end) + E;
                         texo    = texo(size(Xt,1) - size(Xart,1) + 1:end,:);
                         results = nb_arimaFunc(Xart,results.AR,int,0,0,0,'constant',true,'test',false,'texo',texo);
                         lambda  = results.beta;
@@ -224,6 +246,12 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                     % Add observations found in the dataset
                     Xhist = Xt(end-nExtra+1:end,1)';
                     XV    = [Xhist(:,:,ones(1,draws)),XV]; %#ok<AGROW>
+                end
+                
+                % Do undiff
+                if doUndiff
+                    XUD = nb_undiff(permute([nan(1,1,draws), XV],[2,1,3]),xHist);
+                    XV  = permute(XUD(2:end,:),[2,1,3]);
                 end
                 
                 % Assign final output
@@ -327,7 +355,6 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                 t.recursive_estim = 0;
             end
             
-            
             var    = nb_var(t);
             var    = estimate(var);
             var    = solve(var);
@@ -339,7 +366,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                 var = forecast(var,nSteps,'draws',draws);%,'draws',1000
             end
             
-            XAR      = var.forecastOutput.data';
+            XAR = var.forecastOutput.data';
 
         otherwise
             error([mfilename ':: The ''exoProj'' method ' inputs.exoProj ' is not supported.'])

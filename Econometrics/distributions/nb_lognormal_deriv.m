@@ -25,9 +25,9 @@ function x = nb_lognormal_deriv(x,m,k)
 % nb_distribution, nb_distribution.lognormal_pdf, 
 % nb_distribution.lognormal_cdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     t = exp(-0.5*((x - m)./k).^2)/sqrt(2*pi*k^2);
     x = -(1/x)*((log(x) - m)/k)*t;

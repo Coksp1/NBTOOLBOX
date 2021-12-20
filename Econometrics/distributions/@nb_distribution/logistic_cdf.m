@@ -23,9 +23,9 @@ function f = logistic_cdf(x,m,k)
 % nb_distribution.logistic_pdf, nb_distribution.logistic_rand,
 % nb_distribution.logistic_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = 1 + exp(-(x - m)./k);
     f = 1./f;

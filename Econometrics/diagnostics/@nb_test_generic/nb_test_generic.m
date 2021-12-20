@@ -9,9 +9,9 @@ classdef nb_test_generic
 %   Not possible to initialize an nb_test_generic object. The class
 %   is abstract.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

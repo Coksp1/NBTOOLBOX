@@ -10,9 +10,9 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
 %
 % This function does not handle Markov switching models!
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if strcmpi(model.class,'nb_sa')
         [Y,XE] = nb_forecast.densityBootstrapStepAheadModel(restrictions,model,options,results,nSteps,iter,inputs);

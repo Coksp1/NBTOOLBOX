@@ -17,7 +17,7 @@ modelS = set(modelS,'name','Stationarize manually');
 
 modelS  = assignParameters(modelS,param); 
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 modelS = checkSteadyState(modelS,...
     'solver',               'fsolve',...
@@ -25,7 +25,7 @@ modelS = checkSteadyState(modelS,...
     'steady_state_default', @ones);
 ss = getSteadyState(modelS)
 
-%% Solve steady-state analytically
+%% Solve steady state analytically
 
 modelTemp = checkSteadyState(modelS,...
     'steady_state_file',    'rbc_steadystate',...
@@ -53,7 +53,7 @@ modelNS = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 modelNS = checkSteadyState(modelNS,...
     'solver','fsolve',...

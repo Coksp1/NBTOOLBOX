@@ -26,9 +26,9 @@ function obj = initialize(objClass,template)
 % template = nb_var.template(4);
 % obj      = nb_model_generic.initialize('nb_var',template);
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     sStruct = size(template);
     func    = str2func(objClass);

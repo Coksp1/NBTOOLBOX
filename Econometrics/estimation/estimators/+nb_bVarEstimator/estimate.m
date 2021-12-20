@@ -51,9 +51,9 @@ function [results,options] = estimate(options)
 % nb_bVarEstimator.print, nb_bVarEstimator.help, nb_bVarEstimator.template
 % nb_var
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 
@@ -98,6 +98,9 @@ function [results,options] = estimate(options)
     end
     if ~(mfvar || missing)
         options = nb_olsEstimator.varModifications(options);  
+    end
+    if missing
+        options.missingMethod = 'kalman';
     end
     
     % Get the estimation options

@@ -38,14 +38,14 @@ function [thetaprime, rprime, gradprime, logpprime] = leapfrog(theta, r, grad, e
 % nb_mcmc.NUTS, nb_mcmc.dualAveraging
 %
 % Written by Matthew D. Hoffman
-% Edited by Kenneth Sæterhagen Paulsen
+% Edited by Kenneth SÃ¦terhagen Paulsen
 % - Separated out as an own function.
 % - Added documentation.
 % - Added the lower and upper bound on the parameters.
 
 % Copyright (c) 2011, Matthew D. Hoffman
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     rprime     = r + 0.5 * epsilon * grad;
     thetaprime = theta + epsilon * rprime;

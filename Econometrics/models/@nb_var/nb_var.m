@@ -41,9 +41,9 @@ classdef nb_var < nb_model_generic
 % nb_model_generic, nb_model_estimate.set, nb_olsEstimator.estimate,
 % nb_bVarEstimator.estimate, nb_mlEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         
@@ -91,7 +91,11 @@ classdef nb_var < nb_model_generic
             obj                         = set(obj,varargin{:});
             
             if ~nb_isempty(obj.options.prior)
-                obj.options.estim_method = 'bVar';
+                if strcmpi(obj.options.prior.type,'kkse')
+                    obj.options.estim_method = 'tvpmfsv';
+                else
+                    obj.options.estim_method = 'bVar';
+                end
             end
             
         end
@@ -182,7 +186,7 @@ classdef nb_var < nb_model_generic
     methods(Static=true,Hidden=true)
         
         function priors = mfPriors()      
-            priors = {'minnesotaMF','nwishartMF','inwishartMF','glpMF'};
+            priors = {'minnesotaMF','nwishartMF','inwishartMF','glpMF','kkse'};
         end
         
     end

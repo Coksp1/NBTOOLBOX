@@ -16,9 +16,9 @@ function sol = solveLevel(obj)
 % - sol : A struct on the same format as the solution property, but now the
 %         solution is in level variable only (dependent only!).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~issolved(obj)
         obj = solve(obj);

@@ -11,9 +11,9 @@ function domain = beta_domain(~,~)
 % 
 % - domain : A 1x2 double with the lower and upper limits of the domain.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     domain = [0,1];
     

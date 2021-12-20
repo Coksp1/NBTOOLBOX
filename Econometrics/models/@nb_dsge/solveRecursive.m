@@ -3,9 +3,9 @@ function tempSol = solveRecursive(results,opt)
 %
 % tempSol = nb_dsge.solveRecursive(results,opt)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: Recursive solving is not yet supported for nb_dsge.'])
 

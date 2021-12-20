@@ -40,7 +40,7 @@ function obj = append(obj,DB)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(obj,'nb_data') || ~isa(DB,'nb_data')
         error([mfilename ':: The appended objects must both be of class nb_data.'])

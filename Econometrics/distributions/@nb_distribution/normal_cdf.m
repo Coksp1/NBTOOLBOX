@@ -23,9 +23,9 @@ function f = normal_cdf(x,m,k)
 % nb_distribution.normal_pdf, nb_distribution.normal_rand,
 % nb_distribution.normal_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     z = (x - m)./(k.*sqrt(2));
     f = 0.5.*erfc(-z);

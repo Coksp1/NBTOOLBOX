@@ -37,7 +37,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nobj = size(obj,2);
     if nobj > 1
@@ -293,7 +293,16 @@ function set(obj,varargin)
                             else
                                 error([mfilename ':: When type is set to ''' obj.type ''' the parameters property must be set to a 1x4 cell; '...
                                     '{mean,std,skewness,kurtosis}.'])
-                            end    
+                            end  
+                            
+                        case 'skt'
+                            
+                            if iscell(propertyValue) && numel(propertyValue) == 4
+                                obj.parameters = propertyValue;
+                            else
+                                error([mfilename ':: When type is set to ''' obj.type ''' the parameters property must be set to a 1x4 cell; '...
+                                    '{location,scale,shape,dof}.'])
+                            end       
                             
                         case 't'
                             
@@ -360,7 +369,9 @@ function set(obj,varargin)
                     
                     if ischar(propertyValue)
                         
-                        supported = {'ast','beta','cauchy','chis','constant','exp','f','fgamma','finvgamma','gamma','hist','invgamma','kernel','empirical','lognormal','logistic','normal','skewedt','t','tri','uniform','wald'};
+                        supported = {'ast','beta','cauchy','chis','constant','exp','f','fgamma','finvgamma',...
+                                     'gamma','hist','invgamma','kernel','empirical','lognormal','logistic',...
+                                     'normal','skewedt','skt','t','tri','uniform','wald'};
                         ind       = strcmpi(propertyValue,supported);
                         if all(~ind)
                             error([mfilename ':: The distribution type ' propertyValue ' is not supported.'])

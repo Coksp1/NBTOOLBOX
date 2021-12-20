@@ -6,9 +6,9 @@ function sol = correctSolutionDuringRT(obj,sol,estOptions)
 % See also:
 % nb_model_vintages.forecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Here we must correct the solution of the model due to regressor may
     % change over time, as the observables may lead one period.

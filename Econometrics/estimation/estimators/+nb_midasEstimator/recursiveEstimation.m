@@ -11,9 +11,9 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
 % See also:
 % nb_midasEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check the sample
     if strcmpi(options.algorithm,'unrestricted')

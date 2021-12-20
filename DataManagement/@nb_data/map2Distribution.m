@@ -27,9 +27,9 @@ function obj = map2Distribution(obj,dist,varargin)
 % 
 % - obj  : An object of class nb_ts.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.numberOfVariables ~= size(dist,2)
         error([mfilename ':: The dist input must have size 1 x ' int2str(obj.numberOfVariables)])

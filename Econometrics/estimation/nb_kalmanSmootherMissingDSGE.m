@@ -53,9 +53,9 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherMissingDSGE(H,A,C,obs,x0,P0,y,kalma
 % See also:
 % nb_kalmanLikelihoodMissingDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

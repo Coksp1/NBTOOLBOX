@@ -24,9 +24,9 @@ function [test,obj] = equalToThePower(obj,another)
 %             But not yet:
 %             eq^2/(eq^2 + eq*x) -> eq/(eq + x)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(obj,'nb_equation') || ~isa(another,'nb_equation')
        test = false;

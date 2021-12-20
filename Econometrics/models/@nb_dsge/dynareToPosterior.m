@@ -17,9 +17,9 @@ function posterior = dynareToPosterior(dynare_file_short)
 % - posterior         : A struct with the posterior draws from the DSGE
 %                       model.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     posterior     = struct('betaD',[],'sigmaD',[],'type','dynare');
     posteriorPath = [dynare_file_short '\\metropolis\\' dynare_file_short '_mh%d_blck%d.mat'];

@@ -14,9 +14,9 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
 % Caution: We do not use MCMC methods to sample from the posterior of the
 %          hyperparameters even if options.hyperprior is set to true.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     % Get hyperparameters, inital values and bounds
     [hyperParam,nCoeff,init,lb,ub] = nb_bVarEstimator.getInitAndHyperParam(options);

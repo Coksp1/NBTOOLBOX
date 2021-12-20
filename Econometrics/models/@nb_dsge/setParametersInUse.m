@@ -18,9 +18,9 @@ function obj = setParametersInUse(obj,parameters)
 % 
 % - obj        : An object of class nb_dsge.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind = ismember(parameters,obj.parameters.name);
     if any(~ind)

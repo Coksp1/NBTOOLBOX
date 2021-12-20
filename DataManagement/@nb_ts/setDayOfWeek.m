@@ -21,9 +21,9 @@ function obj = setDayOfWeek(obj,dayOfWeek)
 % See also:
 % nb_ts.convert
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.startDate.frequency ~= 52
         error([mfilename ':: Cannot set the dayOfWeek option if frequency is ' nb_date.getFrequencyAsString(obj.startDate.frequency) '.'])

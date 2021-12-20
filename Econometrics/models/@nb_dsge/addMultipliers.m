@@ -11,9 +11,9 @@ function parser = addMultipliers(parser)
 % nb_dsge.looseOptimalMonetaryPolicySolver, 
 % nb_dsge.optimalMonetaryPolicySolver
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~nb_contains(parser.endogenous{end},'mult_')
         % Not yet added, so we add them know

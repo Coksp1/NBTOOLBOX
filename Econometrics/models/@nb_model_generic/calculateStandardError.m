@@ -63,9 +63,9 @@ function [obj,ci,dist] = calculateStandardError(obj,method,draws,alpha)
 % - dist   : Estimated distribution of the coefficients of the main
 %            equation. As a (nCoeff * nEq) x 1 nb_distribution object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         alpha = 0.05;

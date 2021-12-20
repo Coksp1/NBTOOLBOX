@@ -18,9 +18,9 @@ function printed = print(obj)
 % See also:
 % nb_model_recursive_detrending.print_estimation_results
 %
-% Written by Kenneth Sæterhagen Paulsen    
+% Written by Kenneth SÃ¦terhagen Paulsen    
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     printed = print_estimation_results(obj);
 

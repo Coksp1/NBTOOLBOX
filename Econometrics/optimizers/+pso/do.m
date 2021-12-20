@@ -136,7 +136,7 @@ function [xOpt,fval,exitflag,output,population,scores] = do(fitnessfcn,nvars,Ain
 
 % Copyright (c) 2009-2016, S. Samuel Chen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isstruct(fitnessfcn)
         nvars   = fitnessfcn.nvars ;

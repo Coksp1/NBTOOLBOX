@@ -8,9 +8,9 @@ function [Y,X,E] = forecastStochasticTrend(y0,restrictions,solution,options,resu
 %
 % Produce forecast of a DSGE model with a stochastic trends.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if inputs.parameterDraws > 1
         error([mfilename ':: Cannot produce density forecast of a DSGE model with stochastic trend yet.'])

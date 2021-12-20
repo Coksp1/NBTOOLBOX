@@ -48,7 +48,7 @@ function obj = createType(obj,nameOfNewType,expression)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ischar(expression)
         expression = cellstr(expression);

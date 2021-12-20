@@ -24,9 +24,9 @@ function obj = removeObservationsOfGroup(obj,numPer)
 % See also:
 % nb_model_selection_group.removeObservations
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_model_selection_group')
         

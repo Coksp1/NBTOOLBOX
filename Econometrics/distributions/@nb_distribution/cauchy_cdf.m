@@ -23,9 +23,9 @@ function f = cauchy_cdf(x,m,k)
 % nb_distribution.cauchy_pdf, nb_distribution.cauchy_rand,
 % nb_distribution.cauchy_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = (1/pi).*atan((x - m)./k) + 0.5;
     

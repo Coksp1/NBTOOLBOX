@@ -7,7 +7,7 @@ function obj = nan(start,obs,vars,pages,sorted)
 % Description:
 %
 % Create an nb_bd object with all data set to nan. Notice, this might not
-% make much sense as the raison d'être for this class is to strip NaNs from
+% make much sense as the raison d'Ãªtre for this class is to strip NaNs from
 % the data. The resulting object will be an empty nb_bd object, but with
 % locations and indicator preserved in the object.
 % 
@@ -40,7 +40,7 @@ function obj = nan(start,obs,vars,pages,sorted)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         sorted = true;

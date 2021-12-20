@@ -10,9 +10,9 @@ function [stackedFirst,initN,varsN] = getStackedFirst(eqs,matches,pars,paramN,va
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nEqs = size(eqs,1);
     

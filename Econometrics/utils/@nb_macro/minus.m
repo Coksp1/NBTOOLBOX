@@ -39,9 +39,9 @@ function obj = minus(obj1,obj2)
 % See also:
 % plus, times, power, rdivide
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check if we are going to loop the operator
     [looped,obj] = loopOperator(obj1,obj2,@minus);

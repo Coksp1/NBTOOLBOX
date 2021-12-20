@@ -10,9 +10,9 @@ function help = displayer()
 % See also:
 % nb_lasso.optimset
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     help = ['The displaying option used. See the nb_optimizerDisplayer class for more on this. ',...
             'Set ''display'' to ''off'' to prevent any displaying during call to nb_lasso.'];

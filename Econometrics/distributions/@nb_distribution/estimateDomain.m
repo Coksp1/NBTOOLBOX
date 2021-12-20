@@ -32,9 +32,9 @@ function xi = estimateDomain(x,numberOfStd,numDomain)
 % 
 % - xi : The domain of the distribution, as 1000 x nvars double
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         numDomain = 1000;

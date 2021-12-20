@@ -28,9 +28,9 @@ function x = meanshift_median(dist,param,lb,ub,ms)
 % nb_distribution.meanshift_mode, nb_distribution.meanshift_mean, 
 % nb_distribution.meanshift_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = nb_distribution.meanshift_icdf(0.5,dist,param,lb,ub,ms);
 

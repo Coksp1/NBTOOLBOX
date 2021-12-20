@@ -31,9 +31,9 @@ function draws = meanshift_rand(nrow,ncol,dist,param,lb,ub,ms)
 % - draws : A nrow x ncol matrix of random numbers from the mean shifted 
 %           possibly truncated distribution.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(ub) && isempty(lb)
         func  = str2func(['nb_distribution.' dist '_icdf']);

@@ -526,9 +526,9 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
 % See also:
 % nb_model_generic.parameterDraws
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         nSteps = 8;
@@ -877,7 +877,7 @@ function [inputsW,startInd,endInd,condDB,condDBVars,shockProps,cores,opt] = pars
             startInd{ii} = startD - date + 1;
             if inputs(ii).startIndWarning
                 startFcstDate = date + (startInd{ii}-1);
-                startInd{ii}  = opt{ii}.recursive_estim_start_ind + 1;
+                startInd{ii}  = opt{ii}(end).recursive_estim_start_ind + 1;
                 startRec      = date + (startInd{ii}-1);
                 warning('nb_forecast:adjustStartInd',['The start (' toString(startFcstDate) ') of recursive ',...
                         'forecast where before the recursive estim start date (' toString(startRec) '). Reset to ',...

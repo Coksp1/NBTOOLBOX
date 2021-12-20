@@ -23,9 +23,9 @@ function [out,outS,inS,reorder] = nb_createGenericNames(in,generic)
 %
 % - reorder : Reordering index.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     n    = length(in);
     num  = 1:n;

@@ -17,9 +17,9 @@ function int = intersect(obj,another)
 % 
 % - int     : The intersect, as a vector of nb_term objects.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,ind] = intersect(cellstr(obj),cellstr(another));
     int     = obj(ind);

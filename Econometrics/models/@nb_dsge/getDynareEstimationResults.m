@@ -15,9 +15,9 @@ function results = getDynareEstimationResults(dynare_file_short)
 % 
 % - posterior         : A struct with the dynare estimation results.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get priors
     results   = struct;

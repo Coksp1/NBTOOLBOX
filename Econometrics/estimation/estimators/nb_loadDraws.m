@@ -7,9 +7,9 @@ function posterior = nb_loadDraws(pathToLoad)
 %
 % Load posterior draws from file.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Load posterior draws of main model 
     draws     = load(pathToLoad);

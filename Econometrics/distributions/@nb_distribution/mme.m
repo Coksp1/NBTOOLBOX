@@ -26,6 +26,7 @@ function [obj,params] = mme(x,dist,lb,ub)
 %          > 'logistic'
 %          > 'lognormal'
 %          > 'normal'
+%          > 'skt'
 %          > 't'
 %          > 'tri'
 %          > 'uniform'
@@ -48,9 +49,9 @@ function [obj,params] = mme(x,dist,lb,ub)
 % See also:
 % nb_distribution.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         ub = [];
@@ -58,7 +59,10 @@ function [obj,params] = mme(x,dist,lb,ub)
             lb = [];
         end
     end
-
+    
+    if ~iscolumn(x)
+        error('The x input must be a column vector.')
+    end
     me   = mean(x,1);
     v    = var(x,0,1);
     s    = skewness(x,0,1);

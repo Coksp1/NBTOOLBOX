@@ -58,9 +58,9 @@ function [beta,exitflag,residual,X] = nb_lasso(y,X,t,constant,options)
 % See also:
 % nb_lasso.optimset, nb_ols
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         options = [];

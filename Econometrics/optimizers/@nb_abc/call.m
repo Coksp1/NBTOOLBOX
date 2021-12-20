@@ -56,9 +56,9 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 % See also:
 % nb_abc.optimset, fmincon, fminunc, fminsearch, bee_gate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6 
         constraints = [];

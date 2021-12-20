@@ -40,7 +40,7 @@ function [xOpt,fval,exitflag,output,population,scores] = binary(fitnessfcn,nvars
 
 % Copyright (c) 2009-2016, S. Samuel Chen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3 % Set default options
         options = struct ;

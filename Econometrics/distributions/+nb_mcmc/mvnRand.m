@@ -20,9 +20,9 @@ function betaDraw = mvnRand(output)
 % See also:
 % nb_mcmc.mhSampler
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     eps      = nb_mvnrand(1,1,0,output.sigmaLast);
     betaDraw = output.betaLast + eps;

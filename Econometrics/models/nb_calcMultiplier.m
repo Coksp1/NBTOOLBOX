@@ -26,9 +26,9 @@ function m = nb_calcMultiplier(dx,dy,r,gross)
 % See also:
 % nb_dsge.calculateMultiplers
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nObs,nVar,~] = size(dx);
     [nObsY,nY,~]  = size(dy);

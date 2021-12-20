@@ -7,15 +7,15 @@ function message = nb_checkPreFix(postfix)
 %
 % Check the prefix for unsupported chars
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     message = '';
-    ind     = regexp(postfix,'[!"@#£¤$%&/()=?`\^~¨*-:;§|><{},]','once');
+    ind     = regexp(postfix,'[!"@#Â£Â¤$%&/()=?`\^~Â¨*-:;Â§|><{},]','once');
     if ~isempty(ind)
-        message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, £, ¤, $, '...
-                   '%, &, /, (, ), =, ?, `, \, ^, ~, ¨, *, -, :, ;, §, |, >, <, {, }, ], and ,'];
+        message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, Â£, Â¤, $, '...
+                   '%, &, /, (, ), =, ?, `, \, ^, ~, Â¨, *, -, :, ;, Â§, |, >, <, {, }, ], and ,'];
         return
     end
     

@@ -25,9 +25,9 @@ function f = tri_cdf(x,m,k,d)
 % nb_distribution.tri_pdf, nb_distribution.tri_rand,
 % nb_distribution.tri_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x(x>k)  = k; 
     x(x<m)  = m;

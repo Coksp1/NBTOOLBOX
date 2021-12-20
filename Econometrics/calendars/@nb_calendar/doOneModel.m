@@ -28,9 +28,9 @@ function [index,isMatch] = doOneModel(model,calendar)
 %              doesn't provide a forecast at the given date, where N is  
 %              the length of the calendar. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the contexts of this model as double
     if isa(model,'nb_model_forecast_vintages')

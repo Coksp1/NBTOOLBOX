@@ -12,9 +12,9 @@ function fcst = loopForecast(names,sol,opt,res,startInd,endInd,nSteps,inputsW,co
 % See also:
 % nb_model_generic.forecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set up file to write if asked for
     writeInputs = nb_logger.openLoggerFile(writeInputs);
@@ -114,14 +114,15 @@ function fcst = loopForecast(names,sol,opt,res,startInd,endInd,nSteps,inputsW,co
                 end
             catch Err
                 message = ['Error while forecasting model; ' names{ii} '::'];
-                nb_logger.logging(nb_logger.ERROR,writeInputs,message,Err); 
-                if writeInputs.write
+                if ~writeInputs.write
+                    % Close waitbar if error is thrown
                     nb_closeWaitbar5();
                 end
+                nb_logger.logging(nb_logger.ERROR,writeInputs,message,Err); 
             end
             if rem(ii,notify) == 0
                 h.status5 = ii;
-                h.text5   = ['Model '  int2str(ii) ' of ' int2str(nobj) ' finished.']; 
+                h.text5   = ['Model '  int2str(ii) ' of ' int2str(nobj) ' finished.'];
             end
         end
         delete(h);

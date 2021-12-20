@@ -10,9 +10,9 @@ classdef (Abstract) nb_factor_model_generic
 % See also:
 % nb_favar, nb_fmdyn, nb_fmsa
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

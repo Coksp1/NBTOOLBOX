@@ -87,9 +87,9 @@ classdef nb_abcSolve < handle
 % See also: 
 % nb_abcSolve.optimset, nb_abcSolve.call, nb_solve, fsolve 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent=true)
 

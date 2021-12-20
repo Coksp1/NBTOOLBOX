@@ -41,9 +41,9 @@ function prob = calculateProbabilities(employed,hasConstraints)
 % See also:
 % nb_bee.joinDance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if hasConstraints
         nBees        = size(employed,1);

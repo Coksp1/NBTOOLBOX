@@ -7,9 +7,9 @@ function x = lognpdf(x,m,k)
 %
 % Log normal pdf.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x.derivatives = valXder(lognormal_deriv(x.values(:),m,k), x.derivatives);
     x.values      = nb_distribution.lognormal_pdf(x.values,m,k);

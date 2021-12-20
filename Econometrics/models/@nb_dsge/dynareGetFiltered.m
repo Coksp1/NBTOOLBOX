@@ -17,9 +17,9 @@ function results = dynareGetFiltered(results,oo_)
 % 
 % - results : A struct with the stored filtered variables, if any
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Load the filtered variables from dynare
     if isfield(oo_,'FilteredVariables')

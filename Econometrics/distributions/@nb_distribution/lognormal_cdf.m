@@ -23,9 +23,9 @@ function f = lognormal_cdf(x,m,k)
 % nb_distribution.lognormal_pdf, nb_distribution.lognormal_rand,
 % nb_distribution.lognormal_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [r,c,p] = size(x);
     s       = r*c*p;

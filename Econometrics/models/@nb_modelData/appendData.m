@@ -35,9 +35,9 @@ function obj = appendData(obj,DB,interpolateDate,method,rename,append,type)
 % See also:
 % nb_ts, nb_cs, nb_ts.merge
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 7
         type = '';

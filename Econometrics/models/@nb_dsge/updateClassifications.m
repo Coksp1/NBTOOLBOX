@@ -11,9 +11,9 @@ function parser = updateClassifications(parser)
 % See also:
 % nb_dsge.parse, nb_dsge
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get classification
     leadCurrentLag            = parser.leadCurrentLag;

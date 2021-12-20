@@ -26,9 +26,9 @@ function [stat,pval] = nb_breuschPaganTest(residual,X)
 %
 % - pval     : The p-value.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [T,nxvar] = size(X);
     N         = size(residual,2);

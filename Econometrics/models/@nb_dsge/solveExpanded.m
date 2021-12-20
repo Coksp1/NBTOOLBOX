@@ -4,9 +4,9 @@ function tempSol = solveExpanded(model,results,opt,numAntSteps,shockProperties)
 % tempSol = nb_dsge.solveExpanded(model,results,opt,numAntSteps,...
 %                       shockProperties)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(opt.riseObject) % Dealing with RISE
         tempSol = solveRISEExpanded(results,opt,numAntSteps,shockProperties);

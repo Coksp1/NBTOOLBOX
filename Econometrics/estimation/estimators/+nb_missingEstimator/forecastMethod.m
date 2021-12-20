@@ -8,9 +8,9 @@ function options = forecastMethod(options)
 % Fill in for missing observations using forecast with information up 
 % until time t-1, when the first missing observation is at time t.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     finish                  = options.estim_end_ind;
     tempOpt                 = options;

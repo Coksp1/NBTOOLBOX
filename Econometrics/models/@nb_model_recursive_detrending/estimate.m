@@ -28,9 +28,9 @@ function obj = estimate(obj,varargin)
 % - obj : A vector of nb_model_recursive_detrending objects, where the  
 %         estimation results are stored in the property results.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj  = obj(:);
     nobj = size(obj,1);

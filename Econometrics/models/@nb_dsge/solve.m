@@ -66,9 +66,9 @@ function [obj,solved] = solve(obj,varargin)
 % nb_model_generic, nb_model_estimate.set, nb_dsge.solveNormal, 
 % nb_dsge.solveExpanded
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj  = obj(:);
     nobj = numel(obj);

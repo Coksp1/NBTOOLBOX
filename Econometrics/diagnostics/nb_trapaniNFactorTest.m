@@ -36,9 +36,9 @@ function r = nb_trapaniNFactorTest(X,varargin)
 % See also:
 % nb_pca, nb_cfsTest
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [T,N,P] = size(X);
     if P > 1

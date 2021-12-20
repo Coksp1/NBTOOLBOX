@@ -107,7 +107,7 @@ function saveDataBase(obj,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(obj)
         return

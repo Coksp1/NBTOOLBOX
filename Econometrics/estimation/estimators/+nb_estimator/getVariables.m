@@ -3,9 +3,9 @@ function [vars,indV] = getVariables(options)
 %
 % [vars,indV] = nb_estimator.getVariables(options) 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     vars = options.dependent;
     if isfield(options,'block_exogenous')

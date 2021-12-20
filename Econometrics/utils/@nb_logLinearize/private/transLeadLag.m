@@ -8,9 +8,9 @@ function obj = transLeadLag(obj)
 % Rename Var(+1) and Var(-1) to Var_lead and Var_lag
 % The part (?<=[^+-\*\^]) is to prevent matches with ^(-1) and so forth.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj.equations = regexprep(obj.equations,'(?<=[^+-\*\^])\({1}[+]{1}\d{1,2}\){1}','_lead');
     obj.equations = regexprep(obj.equations,'(?<=[^+-\*\^])\({1}[-]{1}\d{1,2}\){1}','_lag');

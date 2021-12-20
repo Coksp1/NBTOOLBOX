@@ -23,9 +23,9 @@ function x = tri_median(m,k,d)
 % nb_distribution.tri_mode, nb_distribution.tri_mean, 
 % nb_distribution.tri_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = nb_distribution.tri_icdf(0.5,m,k,d);
 

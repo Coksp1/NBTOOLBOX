@@ -8,9 +8,9 @@ function [Y,XE] = tvp(restrictions,model,options,results,nSteps,iter,inputs,type
 %
 % Produce forecast of time-varying parameter models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try options = options(iter); catch; end %#ok<CTCH>
     

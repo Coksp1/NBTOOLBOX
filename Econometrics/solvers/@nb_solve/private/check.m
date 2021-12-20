@@ -7,9 +7,9 @@ function obj = check(obj)
 %
 % Check properties before solving.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     M = size(obj.initialXValue,1);
     try 

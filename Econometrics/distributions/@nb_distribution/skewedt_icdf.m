@@ -33,9 +33,9 @@ function x = skewedt_icdf(p,a,b,c,d)
 % nb_distribution.skewedt_cdf, nb_distribution.skewedt_rand, 
 % nb_distribution.skewedt_pdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

@@ -28,19 +28,26 @@ function start = getDefaultStart(modelGroup,doRecursive,fromResults)
 % - start      : The default start date of the calendar. As a nb_day 
 %                object. Is empty ('') if modelGroup is empty.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if length(modelGroup) == 0 %#ok<ISMT>
         start = '';
+    elseif iscellstr(modelGroup)
+        if size(modelGroup{1},2) < 8
+            error(['The first element of the provided dates is not on the ',...
+                   'correct date format; ' modelGroup{1}]);
+        end
+        start = nb_day(modelGroup{1}(1:8));
     else
         contextsStart = nb_calendar.getStartOfCalendar(modelGroup,doRecursive,fromResults);
         ind           = cellfun(@isempty,contextsStart);
         contextsStart = contextsStart(~ind);
         contextsStart = nb_convertContexts(contextsStart);
         contextsStart = min(contextsStart); % min is needed in constructing scores and weights. Why did we have max here??
-        start         = nb_day(num2str(contextsStart));
+        contextsStart = num2str(contextsStart);
+        start         = nb_day(contextsStart(1:8));
     end
     
 end

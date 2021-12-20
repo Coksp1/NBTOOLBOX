@@ -34,9 +34,9 @@ function obj = parse(expr,varargin)
 % See also:
 % nb_eq2Latex.writePDF
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     if ~iscellstr(expr) %#ok<ISCLSTR>
         error([mfilename ':: The expr input must be a cellstr.'])

@@ -50,9 +50,9 @@ function [condDB,shockProps] = constructCondDB(data,exo,endo,horizon,shocks,acti
 % - condDB : The restricted conditional database, which can be 
 %            given as input to the forecast method.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 7
         shockHorizon = [];

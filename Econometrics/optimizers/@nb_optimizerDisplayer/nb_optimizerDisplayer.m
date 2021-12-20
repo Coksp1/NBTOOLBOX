@@ -28,9 +28,9 @@ classdef nb_optimizerDisplayer < handle
 % See also: 
 % fmincon, fminunc, fminsearch, nb_fmin
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent=true)
         
@@ -313,7 +313,7 @@ classdef nb_optimizerDisplayer < handle
         % Set properties of the object using 'propertyName', propertyValue
         % pairs.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
             
             if size(varargin,1) && iscell(varargin{1})
                 varargin = varargin{1};
@@ -384,7 +384,7 @@ classdef nb_optimizerDisplayer < handle
         % 
         % - stop   : Always return false.
         %
-        % Written by Kenneth Sæterhagen Paulsen    
+        % Written by Kenneth SÃ¦terhagen Paulsen    
         
             stop = false;
             x    = nb_rowVector(x);
@@ -455,7 +455,7 @@ classdef nb_optimizerDisplayer < handle
         %
         % - err    : The error message to display.
         % 
-        % Written by Kenneth Sæterhagen Paulsen    
+        % Written by Kenneth SÃ¦terhagen Paulsen    
         
             obj.errorFunction(obj,err)
             

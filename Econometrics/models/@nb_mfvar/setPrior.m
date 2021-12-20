@@ -32,9 +32,9 @@ function obj = setPrior(obj,prior)
 % See also:
 % nb_var.priorTemplate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isempty(prior)
         return
@@ -49,15 +49,23 @@ function obj = setPrior(obj,prior)
     if numel(prior) == 1
         
         for ii = 1:nobj
-           obj(ii).options.prior        = prior; 
-           obj(ii).options.estim_method = 'bVar';
+           obj(ii).options.prior = prior; 
+           if strcmpi(prior.type,'kkse')
+                obj(ii).options.estim_method = 'tvpmfsv';
+            else
+                obj(ii).options.estim_method = 'bVar';
+            end
         end
         
     elseif numel(prior) == nobj
         
         for ii = 1:nobj
-           obj(ii).options.prior        = prior(ii); 
-           obj(ii).options.estim_method = 'bVar';
+           obj(ii).options.prior = prior(ii); 
+           if strcmpi(prior.type,'kkse')
+                obj(ii).options.estim_method = 'tvpmfsv';
+            else
+                obj(ii).options.estim_method = 'bVar';
+            end
         end
         
     else

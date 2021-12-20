@@ -15,9 +15,9 @@ function plotter = plot(obj)
 % 
 % - plotter : An object of class nb_graph_ts. Use the graph method.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     data    = nb_ts(obj.results.chowProb,'',obj.results.breakPoint{1},{'Recursive P-values'});
     plotter = nb_graph_ts(data);

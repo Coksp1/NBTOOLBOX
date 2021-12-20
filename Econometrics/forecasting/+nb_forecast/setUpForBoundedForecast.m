@@ -7,9 +7,9 @@ function inputs = setUpForBoundedForecast(nSteps,model,restrictions,inputs,nSim)
 %
 % Prepare stuff for bounded forecast.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isModelMarkovSwitching(model)
         error([mfilename ':: The bounds option is not yet supported for Markov-switching models.'])

@@ -20,9 +20,9 @@ function [x,fval,exitflag,hessian] = testSave()
 % See also:
 % nb_abc.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Do 10 sek first
     options                   = nb_abc.optimset('cutLimit',10,'maxTimeSinceUpdate',60,'maxTime',10,'saveTime',7,'saveName','saved');

@@ -8,6 +8,9 @@ function [fTest,fProb] = nb_restrictedFTest(A,c,X,beta,residual)
 % Calculates the F-statistics for a general linear restriction.
 %
 % A*beta = c
+%
+% This will be the null hypotheses, and we can reject it if fProb < alpha,
+% where alpha is the choosen significance level.
 % 
 % Input:
 % 
@@ -31,9 +34,9 @@ function [fTest,fProb] = nb_restrictedFTest(A,c,X,beta,residual)
 %
 % - fProb : F-test statistic p-value.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     T     = size(residual,1);
     k     = size(beta,1);

@@ -17,9 +17,9 @@ function x = mean(obj)
 % - x   : numel(obj) == 1 : A double with size as 1 x 1
 %         otherwise       : A double with size nobj1 x nobj2
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nobj1 = size(obj,1); 
     nobj  = size(obj,2);

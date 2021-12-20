@@ -20,9 +20,9 @@ function [x,fval,exitflag,hessian] = test()
 % See also:
 % nb_abc.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options                   = nb_abc.optimset('cutLimit',10,'maxTimeSinceUpdate',60,'maxTime',inf);
     [x,fval,exitflag,hessian] = nb_abc.call(@(x)rosenbrockVally(x),zeros(2,1),ones(2,1)*-2.048,ones(2,1)*2.048,options);

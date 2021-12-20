@@ -41,9 +41,9 @@ function [A,B,C,CE,ss,err] = addObsModelSolver(A,C,CE,parser,solution,options,ex
 % See also:
 % nb_solveLinearRationalExpModel, nb_dsge.selectSolveAlgorithm
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     err  = ''; 
     if ~expandedOnly

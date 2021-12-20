@@ -19,9 +19,9 @@ function obj = unstruct(s)
 % See also:
 % nb_model_recursive_detrending.struct
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(s,'nb_model_recursive_detrending')
         obj = s; % This is for backward compatibility

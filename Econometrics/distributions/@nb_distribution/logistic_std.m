@@ -21,9 +21,9 @@ function x = logistic_std(m,k)
 % nb_distribution.logistic_mode, nb_distribution.logistic_median, 
 % nb_distribution.logistic_mean, nb_distribution.logistic_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = sqrt(nb_distribution.logistic_variance(m,k));
 

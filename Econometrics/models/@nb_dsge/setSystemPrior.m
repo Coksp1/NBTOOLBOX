@@ -60,9 +60,9 @@ function obj = setSystemPrior(obj,varargin)
 % nb_dsge.setPrior, nb_model_generic.estimate, nb_model_sampling.sample,
 % nb_model_sampling.sampleSystemPrior
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nInp = length(varargin);
     if rem(nInp,2) ~= 0

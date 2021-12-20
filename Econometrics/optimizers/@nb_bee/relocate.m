@@ -30,9 +30,9 @@ function obj = relocate(obj,lowerBound,upperBound,cutLimit,hasConstraints)
 % See also:
 % nb_abc.doMinimization
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [employed,onlookers,scouts] = separate(obj,cutLimit);
     

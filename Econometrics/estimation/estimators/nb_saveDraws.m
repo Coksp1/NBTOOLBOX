@@ -7,9 +7,9 @@ function pathToSave = nb_saveDraws(modelName,posterior)
 %
 % Save posterior draws to file, and return the saved location.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     pathToSave = nb_userpath('gui');
     if exist(pathToSave,'dir') ~= 7

@@ -43,9 +43,9 @@ function obj = sample(obj,varargin)
 % nb_model_generic.checkPosteriors, nb_model_generic.plotPosteriors,
 % nb_model_sampling.geweke, nb_model_sampling.gelmanRubin
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles scalar ' class(obj) '.'])

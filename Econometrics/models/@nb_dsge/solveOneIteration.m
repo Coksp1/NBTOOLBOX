@@ -31,9 +31,9 @@ function [A,B,C,CE,ss,paramV,err] = solveOneIteration(options,results,obs)
 % - err : Non-empty if an error is thrown. If this output is not return
 %         a standard error is thrown in the command window.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     parser = options.parser;
     paramV = results.beta;

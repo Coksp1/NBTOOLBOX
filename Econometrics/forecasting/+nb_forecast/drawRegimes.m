@@ -8,9 +8,9 @@ function [E,X,states,solution] = drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,
 %
 % Draw regimes.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     regimeDraws  = inputs.regimeDraws;
 

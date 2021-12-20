@@ -21,9 +21,9 @@ function x = cauchy_median(m,~)
 % nb_distribution.cauchy_mode, nb_distribution.cauchy_mean, 
 % nb_distribution.cauchy_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = m;
 

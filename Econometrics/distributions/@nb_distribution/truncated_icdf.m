@@ -29,9 +29,9 @@ function x = truncated_icdf(p,dist,param,lb,ub)
 % nb_distribution.truncated_cdf, nb_distribution.truncated_rand, 
 % nb_distribution.truncated_pdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     func    = str2func(['nb_distribution.' dist '_icdf']);
     funcCDF = str2func(['nb_distribution.' dist '_cdf']);

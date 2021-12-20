@@ -51,7 +51,7 @@ modelNS  = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 ssInit = struct(...
     'GAMMA_W_NW',0,...
@@ -89,7 +89,7 @@ modelNS = solve(modelNS);
                 'legends',{'AUTOMATIC STATIONARY',...
                            'MANUAL  STATIONARY',...
                            '',...
-                           'Steady-state'}});
+                           'Steady state'}});
 nb_graphInfoStructGUI(plotter)
 % nb_saveas(gcf,'jpt_irfs_nb','pdf','-noflip');
 

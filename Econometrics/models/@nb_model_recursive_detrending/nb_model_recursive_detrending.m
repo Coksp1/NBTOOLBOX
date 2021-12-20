@@ -25,9 +25,9 @@ classdef nb_model_recursive_detrending < nb_model_forecast & nb_modelData
 % See also:
 % nb_model_generic
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected)
         

@@ -56,7 +56,7 @@ function [theta, alpha_ave, nfevals, logp, grad] = NUTS(f, epsilon, theta0, maxT
 % nb_mcmc.dualAveraging, nb_mcmc.leapFrog, nb_mcmc.nutSampler
 %
 % Written by Matthew D. Hoffman
-% Edited by Kenneth Sæterhagen Paulsen
+% Edited by Kenneth SÃ¦terhagen Paulsen
 % - Updated the documentation in line with NB Toolbox.
 % - Removed the global variable nfevals.
 % - Removed notifications when maximum tree depth where reached.
@@ -65,7 +65,7 @@ function [theta, alpha_ave, nfevals, logp, grad] = NUTS(f, epsilon, theta0, maxT
 
 % Copyright (c) 2011, Matthew D. Hoffman
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nfevals = 0;
 

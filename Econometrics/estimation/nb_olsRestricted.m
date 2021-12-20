@@ -79,7 +79,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x] = nb_olsRestricted(y,x,res
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         stdType = 'h';

@@ -8,9 +8,9 @@ function options = checkForMissing(options,startInd,endInd)
 %
 % Check for missing observations.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get data that is used by the model
     tempData = options.data(:,:,end); % Use last vintage for real-time data

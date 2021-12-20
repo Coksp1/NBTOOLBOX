@@ -6,9 +6,9 @@ classdef (Abstract) nb_model_name
 % See also:
 % nb_calculate_only, nb_model_forecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent=true)
 
@@ -156,9 +156,7 @@ classdef (Abstract) nb_model_name
     methods (Static=true, Access=protected)
        
         function ID = findIdentifier()
-            randNr = randi(9,6,1);
-            randNr = num2str(randNr);
-            ID     = [nb_clock('vintageshort'),'_', randNr'];
+            ID = nb_clock('vintagemilliseconds');
         end
             
     end

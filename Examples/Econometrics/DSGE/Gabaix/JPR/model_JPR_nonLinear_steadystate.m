@@ -50,7 +50,7 @@ function [ss,param,retcode] = model_JPR_nonLinear_steadystate(model,input1)
 %
 % - retcode : 1 if somethings does not work.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
 if nargin == 0
     model = nan; % Just to trigger dynare

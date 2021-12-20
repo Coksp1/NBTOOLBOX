@@ -103,7 +103,7 @@ function out = recursiveExtrapolate(obj,variables,nSteps,startDate,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     method         = nb_parseOneOptional('method','',varargin{:});
     isupdateable   = obj.isUpdateable();

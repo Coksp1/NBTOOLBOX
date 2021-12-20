@@ -21,12 +21,12 @@ function data = getFullRep(obj)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind  = obj.locations;
     temp = nan(size(ind));
     if obj.indicator
-        temp(ind) = obj.data;
+        temp(logical(ind)) = obj.data;
     else
         temp(~ind) = obj.data;
     end

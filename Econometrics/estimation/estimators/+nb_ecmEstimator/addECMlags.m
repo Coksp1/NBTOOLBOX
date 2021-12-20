@@ -3,9 +3,9 @@ function [options,maxLags] = addECMlags(options,fixed)
 %
 % [options,maxLags] = nb_ecmEstimator.addECMlags(options,fixed)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     maxLags = 0;
     if iscell(options.nLags)

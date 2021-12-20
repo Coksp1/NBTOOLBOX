@@ -18,9 +18,9 @@ function code = writeTex(obj,filename)
 % 
 % - code : A Q x 1 cellstr with the latex code.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         filename = '';

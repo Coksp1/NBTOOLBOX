@@ -20,9 +20,9 @@ function x = exp_variance(m)
 % nb_distribution.exp_mode, nb_distribution.exp_median, 
 % nb_distribution.exp_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = m^(-2);
 

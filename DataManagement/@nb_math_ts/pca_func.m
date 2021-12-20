@@ -26,9 +26,9 @@ function factors = pca_func(varargin)
 % See also:
 % nb_math_ts.pca
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
     [numFactors,varargin] = nb_parseOneOptional('numFactors',1,varargin{:});

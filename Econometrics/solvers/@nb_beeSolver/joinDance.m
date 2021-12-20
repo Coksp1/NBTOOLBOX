@@ -21,9 +21,9 @@ function obj = joinDance(obj,employed,lowerBound,upperBound,local)
 % See also:
 % nb_beeSolver.relocate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nEmployed = size(employed,1);
     if any(nEmployed == [0,1])

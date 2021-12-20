@@ -23,9 +23,9 @@ function f = fgamma_pdf(x,m,k)
 % nb_distribution.fgamma_cdf, nb_distribution.fgamma_rand, 
 % nb_distribution.fgamma_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x      = -x;
     f      = x.^(m-1).*exp(-(x/k));

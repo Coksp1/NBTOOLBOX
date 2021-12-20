@@ -21,9 +21,9 @@ function x = invgamma_kurtosis(m,~)
 % nb_distribution.invgamma_median, nb_distribution.invgamma_mean, 
 % nb_distribution.invgamma_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if m > 4
         x = (30*m - 66)/((m - 3)*(m - 4)) + 3;

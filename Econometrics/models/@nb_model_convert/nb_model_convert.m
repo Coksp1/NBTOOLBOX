@@ -49,7 +49,7 @@ classdef nb_model_convert < nb_model_forecast & nb_model_estimate
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected)
 

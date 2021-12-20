@@ -15,16 +15,22 @@ function obj = mean(obj,outputType,dimension,varargin)
 % 
 % - outputType :  
 % 
-%       > 'double' : Get the mean values as doubles, where
-%                    each column of the double matches the
-%                    variable location in the 'variables' property. 
-%                    If the object consist of more pages the double 
-%                    will also consist of more pages.
+%       > 'double'       : Get the mean values as doubles, where
+%                          each column of the double matches the
+%                          variable location in the 'variables' property. 
+%                          If the object consist of more pages the double 
+%                          will also consist of more pages.
 %
-%       > 'nb_cs'  : Get the mean values as nb_cs object.
-%                    The mean will when this option is used only be 
-%                    calculated over the number of types.
-%                    (I.e. dimension set to 1.)
+%       > 'nb_cs'        : Get the mean values as nb_cs object. The output
+%                          will keep the same size as the input object.
+%
+%       > 'nb_cs_scalar' : The result will be an object of class nb_cs 
+%                          where all the non-nan values of all the 
+%                          series are beeing set to their mean, but 
+%                          where the dimension taking the mean over is 
+%                          reduced to size 1. The name of the 
+%                          type/variable/page will be 'mean'.
+% 
 %
 % - dimension  : The dimension to calcualate the mean over. 
 % 
@@ -44,7 +50,7 @@ function obj = mean(obj,outputType,dimension,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         dimension = 1;
@@ -55,5 +61,5 @@ function obj = mean(obj,outputType,dimension,varargin)
 
     notHandleNaN = nb_parseOneOptionalSingle('notHandleNaN',false,true,varargin{:});
     obj          = evalStatOperator(obj,@mean,notHandleNaN,outputType,dimension,{});
-
+    
 end

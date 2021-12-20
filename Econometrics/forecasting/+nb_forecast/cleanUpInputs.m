@@ -8,9 +8,9 @@ function inputs = cleanUpInputs(inputs)
 % Clean up inputs so it may be given back to nb_model_generic.forecast
 % when object i being updated.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     inputs  = nb_rmfield(inputs,{'nObj','index','startInd','endInd','nPeriods','missing',...
                                  'reporting','shift','shiftVariables','waitbar'});

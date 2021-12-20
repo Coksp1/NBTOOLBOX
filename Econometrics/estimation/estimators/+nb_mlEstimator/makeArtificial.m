@@ -10,9 +10,9 @@ function YDRAW = makeArtificial(model,options,results,method,draws,iter)
 %
 % Caution: The options struct is assumed to already be index by iter!
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: Make artificial data from model by simulation for models estimated with maximum likelihood is not supported.'])
       

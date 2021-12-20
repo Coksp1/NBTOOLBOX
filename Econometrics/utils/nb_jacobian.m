@@ -23,9 +23,9 @@ function JAC = nb_jacobian(func,x,y)
 % 
 % G      : A m x m double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     m   = size(x,1);
     JAC = nan(m,m);

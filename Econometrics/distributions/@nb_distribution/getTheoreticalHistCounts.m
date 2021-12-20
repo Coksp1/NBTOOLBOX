@@ -21,9 +21,9 @@ function hist = getTheoreticalHistCounts(obj,intervals)
 % 
 % - hist      : A 1 x N double with the theoretical count of each interval.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    if numel(obj) > 1
        error([mfilename ':: This method only support scalar nb_distribution object.'])

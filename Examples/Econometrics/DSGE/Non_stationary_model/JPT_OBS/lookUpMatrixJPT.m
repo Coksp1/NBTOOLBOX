@@ -9,10 +9,10 @@
 obj.lookUpMatrix = {
 'C_NW',             'Consumption',                      'Konsum';
 'DPQ_P_NW',         'Inflation',                        'Inflasjon';
-'DPQ_W_NW',         'Wage inflation',                   'Lønnsinflasjon';
+'DPQ_W_NW',         'Wage inflation',                   'LÃ¸nnsinflasjon';
 'I_NW',             'Investment',                       'Investeringer';   
 'K_NW',             'Capital',                          'Kapital';
 'L_NW',             'Hours worked',                     'Timeverk';
 'NAT_Y_NW',         'Output',                           'Produksjons';
-'RN3M_NW',          'Money market interest rate',       'Pengemarkedsrenten';
+'RN3M_NW',          'Money market rate',                'Pengemarkedsrenten';
 };

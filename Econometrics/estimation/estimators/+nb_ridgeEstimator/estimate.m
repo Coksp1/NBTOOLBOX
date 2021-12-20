@@ -23,9 +23,9 @@ function [results,options] = estimate(options)
 % nb_ridgeEstimator.print, nb_ridgeEstimator.help, 
 % nb_ridgeEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 

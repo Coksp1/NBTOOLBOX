@@ -7,9 +7,9 @@ function model = getQuantileModel(options,model,quantile)
 %
 % Get the median model when it is estimated with quantile regression.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind = options(end).quantile == quantile;
     if ~any(ind)

@@ -17,9 +17,9 @@ function [uniq,ind] = unique(obj)
 %
 % - ind  : Vector such that uniq = obj(ind).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,ind] = unique(cellstr(obj));
     uniq    = obj(ind);

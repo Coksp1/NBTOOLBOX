@@ -11,9 +11,9 @@ function [AR,sigma,ys,us] = estimateARLowFreq(y,H)
 % See also:
 % nb_mlEstimator.minnesotaMF
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % No exogenous
     X = zeros(0,size(y,1));

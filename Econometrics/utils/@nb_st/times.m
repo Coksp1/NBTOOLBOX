@@ -20,9 +20,9 @@ function obj = times(obj,another)
 % See also:
 % nb_stTerm, nb_stParam, nb_st.mtimes
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isScalarNumber(obj)
         obj = nb_stParam(nb_num2str(obj,another.precision),obj);

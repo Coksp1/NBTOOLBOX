@@ -107,9 +107,9 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
 %                 method on to produce a graph of the weights over the
 %                 recusive periods if allPeriods is set to true. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: When combining forecast the obj input can only consist of one nb_model_group object'])
@@ -171,7 +171,11 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
     if isprop(obj,'valid')
         modelsT = modelsT(obj.valid);
     end
-    nobj           = size(modelsT,1);
+    nobj = size(modelsT,1);
+    if nobj == 0
+        error('There are no valid models to combine.')
+    end
+    
     forecastOutput = cell(1,nobj);
     names          = forecastOutput;
     for ii = 1:nobj
@@ -197,13 +201,34 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
     nowcast      = zeros(1,nobj);
     for ii = 1:nobj
         vars{ii}         = forecastOutput{ii}.dependent;
-        nHor(ii)         = forecastOutput{ii}.nSteps;
+        if isempty(forecastOutput{ii}.nSteps)
+            nHor(ii) = 0;
+        else
+            nHor(ii) = forecastOutput{ii}.nSteps;
+        end
         startFcstObj{ii} = forecastOutput{ii}.start;
         if isfield(forecastOutput{ii},'nowcast')
         	nowcast(ii)  = forecastOutput{ii}.nowcast;
         end
     end
     
+    % Don't no why this may happend, but just to be robust to this case.
+    indRemove = nHor == 0;
+    if any(indRemove)
+        vars           = vars(~indRemove);
+        nHor           = nHor(~indRemove);
+        startFcstObj   = startFcstObj(~indRemove);
+        nowcast        = nowcast(~indRemove);
+        names          = names(~indRemove);
+        forecastOutput = forecastOutput(~indRemove);
+        nobj           = size(forecastOutput,2);
+        if nobj == 0
+            error('There are no valid models to combine.')
+        end
+        
+    end
+    
+    % Adjust for nowcasts
     if any(nowcast)
         if isempty(inputs.varOfInterest)
             error([mfilename ':: If some model produce nowcast the ''varOfInterest'' input must be given (With only one variable).'])
@@ -230,13 +255,17 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
         end
     end
     nAllVars = length(allVars);
-    nHor     = min(nHor);
+    
+    % Check forecasting steps
+    nHor = min(nHor);
     if ~isempty(nSteps)
         if nHor < nSteps
             error([mfilename ':: Some of the models has not produced forecast at horizon ' int2str(nSteps) '. Minimum is ' int2str(nHor) '.'])
         end
         nHor = nSteps;
     end
+    
+    % Get start dates of forecasts
     startFcst    = nb_date.union(startFcstObj{:});
     startFcst1   = nb_date.date2freq(startFcst{1});
     startFcstEnd = nb_date.date2freq(startFcst{end});
@@ -504,11 +533,7 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
         if inputs.density
             meanFcst   = permute(combFcst(:,:,end,:),[1,2,4,3]); % nSteps x nVars x nPeriods
             for ii = 1:nDates
-                if inputs.estimateDensities
-                    evaluationT = nb_evaluateDensityForecast(inputs.fcstEval,actual(:,:,ii),Y(:,:,:,ii),meanFcst(:,:,ii),inputs);
-                else
-                    evaluationT = nb_evaluateDensity(inputs.fcstEval,actual(:,:,ii),[],[],meanFcst(:,:,ii),Y(:,:,:,ii));
-                end
+                evaluationT = nb_evaluateDensity(inputs.fcstEval,actual(:,:,ii),combinedDensity(:,:,ii),int(:,:,ii),meanFcst(:,:,ii),Y(:,:,:,ii));
                 try
                     evaluation = [evaluation,evaluationT]; %#ok<AGROW>
                 catch %#ok<CTCH>

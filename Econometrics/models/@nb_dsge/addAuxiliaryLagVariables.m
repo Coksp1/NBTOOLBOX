@@ -13,9 +13,9 @@ function [eqs,leadCLag,auxLag] = addAuxiliaryLagVariables(eqs,leadCLag,ind,laged
 % See also:
 % nb_dsge.parse, nb_dsge.addEquation
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the number of added equations
     nLaged = length(lagedEndo);

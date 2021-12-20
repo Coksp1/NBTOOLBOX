@@ -29,9 +29,9 @@ function obj = colon(obj1,obj2,~)
 % 
 % - obj  : An object of class nb_macro.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 3
         error('The colon operator A:B:C is not supported for nb_macro objects.')

@@ -18,9 +18,9 @@ function eqs = getStaticEquations(eqs,parser)
 % See also:
 % nb_dsge.solveSteadyStateStatic, nb_dsge.eqs2funcSub
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Substitute in the static equations, i.e. the equations that uses
     % the [static] syntax

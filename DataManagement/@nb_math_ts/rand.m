@@ -32,9 +32,9 @@ function obj = rand(start,obs,vars,pages,dist)
 % See also:
 % nb_math_ts
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         dist = nb_distribution('type', 'uniform');

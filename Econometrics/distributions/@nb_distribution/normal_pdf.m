@@ -23,9 +23,9 @@ function f = normal_pdf(x,m,k)
 % nb_distribution.normal_cdf, nb_distribution.normal_rand,
 % nb_distribution.normal_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = exp(-0.5*((x - m)./k).^2)./(sqrt(2*pi).*k);
     

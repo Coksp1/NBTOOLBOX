@@ -30,9 +30,9 @@ function f = meanshift_pdf(x,dist,param,lb,ub,ms)
 % nb_distribution.meanshift_cdf, nb_distribution.meanshift_rand, 
 % nb_distribution.meanshift_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Do the mean shift
     x = x - ms;

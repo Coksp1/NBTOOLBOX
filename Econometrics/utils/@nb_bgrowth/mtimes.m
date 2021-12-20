@@ -15,9 +15,9 @@ function obj = mtimes(obj,another)
 % 
 % - obj     : An object of class nb_bgrowth.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = times(obj,another);
 

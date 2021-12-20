@@ -36,7 +36,7 @@ function S = ABidentification(ident,A,sigma,maxDraws,draws)
 % - S     : A nb_struct with field W, with the stored map from structural
 %           shocks to dependent variables.
 %
-% Written by Kenneth Sæterhagen Paulsen, 
+% Written by Kenneth SÃ¦terhagen Paulsen, 
 % Subfunctions of this code are written by Andrew Binning.
 
 % Copyright Andrew Binning 2013
@@ -47,7 +47,7 @@ function S = ABidentification(ident,A,sigma,maxDraws,draws)
 % long-run restrictions with sign-restrictions",
 % Working Paper 2013/14, Norges Bank.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(A)
         A = zeros(size(sigma));

@@ -50,9 +50,9 @@ function [score,plotter] = getRecursiveScore(obj,type,dim,startDate,endDate,inve
 % See also:
 % nb_model_generic.forecast, nb_model_generic.constructScore
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         invert = true;

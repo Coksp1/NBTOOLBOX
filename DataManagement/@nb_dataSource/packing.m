@@ -55,9 +55,9 @@ function obj = packing(obj,packages,varargin)
 % See also:
 % nb_ts.createVariable, nb_data.createVariable, nb_cs.createVariable
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     inputs               = varargin; 
     [includeRest,inputs] = nb_parseOneOptional('includeRest',true,inputs{:});

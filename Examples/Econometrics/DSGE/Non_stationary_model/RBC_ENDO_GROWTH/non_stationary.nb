@@ -43,11 +43,11 @@ model
     k                 = (1-delta)*k(-1) + i;
 
     % Optimality condition of the capital producers
-    log(srd)                     = (1 - lambda_srd)*log(srd_ss) + lambda_srd*log(srd(-1)) + std_e*e;
-    pa*(A(-1)/A)*upsprime*exp(u) = 1 - srd;
-    ups                          = g + theta/(1 - 1/zeta)*(s/A)^(1 - 1/zeta);
-    upsprime                     = theta*(s/A)^(-1/zeta);
-    A                            = (1 - delta_a + ups*exp(std_u*u))*A(-1);
+    log(srd)                           = (1 - lambda_srd)*log(srd_ss) + lambda_srd*log(srd(-1)) + std_e*e;
+    pa*(A(-1)/A)*upsprime*exp(std_u*u) = 1 - srd;
+    ups                                = g + theta/(1 - 1/zeta)*(s/A)^(1 - 1/zeta);
+    upsprime                           = theta*(s/A)^(-1/zeta);
+    A                                  = (1 - delta_a + ups*exp(std_u*u))*A(-1);
 
     % Market clearing
     y = c + i + s;
@@ -67,9 +67,10 @@ reporting
     K         = k*A;
     S         = s*A;
     Y         = y*A;
-    c_log_dev = exp(log(c) - log(steady_state(c)));
-    i_log_dev = exp(log(i) - log(steady_state(i)));
-    k_log_dev = exp(log(k) - log(steady_state(k)));
-    s_log_dev = exp(log(s) - log(steady_state(s)));
+    c_log_dev = exp(log(C) - log(C(1)));
+    i_log_dev = exp(log(I) - log(I(1)));
+    k_log_dev = exp(log(K) - log(K(1)));
+    s_log_dev = exp(log(S) - log(S(1)));
     r_dev     = r - steady_state(r);
-    y_log_dev = exp(log(y) - log(steady_state(y)));
+    srd_dev   = srd - steady_state(srd);
+    y_log_dev = exp(log(Y) - log(Y(1)));

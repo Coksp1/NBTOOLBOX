@@ -27,9 +27,9 @@ classdef nb_sarganHansenTestStatistic < nb_test_generic
 % 
 %   - obj      : An nb_sarganHansenTestStatistic object
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods
         

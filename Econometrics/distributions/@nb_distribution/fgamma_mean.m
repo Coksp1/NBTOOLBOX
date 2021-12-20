@@ -21,9 +21,9 @@ function x = fgamma_mean(m,k)
 % nb_distribution.fgamma_mode, nb_distribution.fgamma_median, 
 % nb_distribution.fgamma_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = -m*k;
 

@@ -114,3 +114,38 @@ t.parallel        = true;
 model = nb_var(t);
 model = estimate(model);
 print(model)
+
+%% Recursive estimation
+% Missing observations
+
+simMissing              = sim; 
+simMissing(1:5,2)       = NaN;
+simMissing(end-1:end,3) = NaN;
+
+% Options
+t                            = nb_var.template();
+t.data                       = simMissing;
+t.dependent                  = {'VAR1','VAR2','VAR3'};
+t.prior                      = nb_var.priorTemplate('nwishartMF');
+t.constant                   = false;
+t.nLags                      = 2;
+t.recursive_estim            = true;
+t.recursive_estim_start_date = '2020M1';
+
+% Create model and estimate
+modelRec = nb_var(t);
+modelRec = estimate(modelRec);
+print(modelRec)
+
+%% Solve
+
+modelRecS = solve(modelRec);
+
+%% Forecast
+
+modelRecF = forecast(modelRecS,4,'fcstEval','SE');
+plotter   = plotForecast(modelRecF);
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
+plotter   = plotForecast(modelRecF,'hairyplot');
+nb_graphSubPlotGUI(plotter);

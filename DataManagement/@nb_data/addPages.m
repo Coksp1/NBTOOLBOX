@@ -36,7 +36,24 @@ function obj = addPages(obj,DB,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
+
+    if isempty(obj)
+        obj = DB;
+        if obj.isUpdateable()
+            % This method break the link to the data
+            obj.links      = struct([]);
+            obj.updateable = 0;
+        end
+        return;
+    elseif isempty(DB)
+        if obj.isUpdateable()
+            % This method break the link to the data
+            obj.links      = struct([]);
+            obj.updateable = 0;
+        end
+        return;
+    end
 
     if ~isa(DB,'nb_data') || ~isa(obj,'nb_data')
         error([mfilename ':: The added objects must be nb_data objects.'])

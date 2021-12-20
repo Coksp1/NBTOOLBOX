@@ -101,9 +101,9 @@ function [results,model] = nb_egcoint(y,varargin)
 % See also:
 % nb_cointTest
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
  
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     opt = parseInput(varargin{:});
     if isempty(opt.dependent)
@@ -186,7 +186,7 @@ function [results,model] = nb_egcoint(y,varargin)
             end
             
             % Get the critical value of the test statistic 
-            if false%exist('nb_getCointPValue.m','file')
+            if exist('nb_getCointPValue.m','file')
                 [results.rhoPValue,results.rhoCritValue] = nb_getCointPValue(opt.model,'t1',T,k,results.rhoTTest);   
             else
                 results.rhoPValue    = nan;

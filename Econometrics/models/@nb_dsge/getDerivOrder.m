@@ -24,9 +24,9 @@ function [order,type,ss] = getDerivOrder(obj)
 % - ss    : The steady-state of the ordered variables. As a 1 x N double.
 %           If model is not solved this will return [].
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isNB(obj)
         if ~isfield(obj.solution,'ss')

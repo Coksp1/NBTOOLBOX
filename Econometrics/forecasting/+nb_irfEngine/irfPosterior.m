@@ -7,9 +7,9 @@ function [irfDataD,paused] = irfPosterior(model,options,results,inputs)
 %
 % Produce IRFs with error bands using posterior draws.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check if we are going to parallelize
     if isfield(inputs,'parallelL')

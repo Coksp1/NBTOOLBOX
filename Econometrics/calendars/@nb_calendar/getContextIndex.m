@@ -1,7 +1,7 @@
 function [indC,locC] = getContextIndex(forecastContexts,contexts)
 % Syntax:
 %
-% [index,isMatch] = nb_calendar.getContextIndex(contexts,calendar)
+% [index,isMatch] = nb_calendar.getContextIndex(forecastContexts,calendar)
 %
 % Description:
 %
@@ -9,9 +9,9 @@ function [indC,locC] = getContextIndex(forecastContexts,contexts)
 % 
 % Input:
 % 
-% - contexts : A N x 1 or 1 x N double with the contexts.
+% - forecastContexts : A N x 1 or 1 x N double with the contexts.
 %
-% - calendar : A 1 x M or M x 1 double with the calendar dates.
+% - contexts         : A 1 x M or M x 1 double with the calendar dates.
 % 
 % Output:
 % 
@@ -25,9 +25,9 @@ function [indC,locC] = getContextIndex(forecastContexts,contexts)
 % See also:
 % nb_calendar.doOneModel, nb_modelDataSource.update
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(contexts)
         indC = [];

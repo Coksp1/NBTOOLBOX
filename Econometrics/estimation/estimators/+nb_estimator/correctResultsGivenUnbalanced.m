@@ -11,9 +11,9 @@ function [res,options] = correctResultsGivenUnbalanced(options,res)
 % See also:
 % nb_olsEstimator.estimate, nb_quantileEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     iter   = size(res.beta,3);
     nQuant = size(res.beta,4);

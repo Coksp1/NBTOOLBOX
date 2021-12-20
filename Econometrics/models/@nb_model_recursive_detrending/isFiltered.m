@@ -19,9 +19,9 @@ function ret = isFiltered(obj,tested)
 % 
 % - ret : 1 if filtered, otherwise 0.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin<2
         tested = 'smoothed';

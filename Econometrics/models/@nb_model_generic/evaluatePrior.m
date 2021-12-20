@@ -20,9 +20,9 @@ function logPriorD = evaluatePrior(prior,par)
 % See also:
 % nb_dsge.objective
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = prior(:,3); 
     p = num2cell(par);

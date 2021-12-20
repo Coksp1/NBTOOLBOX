@@ -334,9 +334,9 @@ classdef nb_ts < nb_dataSource
 % nb_date, nb_year, nb_semiAnnual, nb_quarter, nb_month, nb_day,
 % nb_math_ts, nb_cs, nb_graph_ts, nb_graph_cs, nb_fetchFromFame
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
@@ -445,7 +445,11 @@ classdef nb_ts < nb_dataSource
                     
                 elseif isa(datasets,'DataPackage.TS')
                     
-                    obj = nb_ts(datasets.getData(),cell(datasets.getDataNames())',char(datasets.getStartDateAsString()),cell(datasets.getVariables())',sorted);
+                    obj          = nb_ts(datasets.getData(),cell(datasets.getDataNames())',char(datasets.getStartDateAsString()),cell(datasets.getVariables())',sorted);
+                    obj.userData = datasets.getUserData();
+                    if isa(obj.userData,'DatesPackage.Date')
+                        obj.userData = nb_javaDate2Date(obj.userData);
+                    end
                     
                 else
                     try
@@ -620,9 +624,9 @@ classdef nb_ts < nb_dataSource
                                 case 1
                                     error([mfilename ':: Cannot take the ' func2str(func) ' over the '  int2str(dimension) ', when the demanded output is set to ''' outputType '''.'])
                                 case 2
-                                    obj = nb_ts(values,obj.dataNames,obj.startDate,{func2str(func)});
+                                    obj = nb_ts(values,obj.dataNames,obj.startDate,{func2str(func)},obj.sorted);
                                 case 3
-                                    obj = nb_ts(values,func2str(func),obj.startDate,obj.variables);
+                                    obj = nb_ts(values,func2str(func),obj.startDate,obj.variables,obj.sorted);
                             end
 
                         end
@@ -749,9 +753,9 @@ classdef nb_ts < nb_dataSource
                             case 1
                                 error([mfilename ':: Cannot take the ' func2str(func) ' over the '  int2str(dimension) ', when the demanded output i set to ''' outputType '''.'])
                             case 2
-                                obj = nb_ts(values,obj.dataNames,obj.startDate,{func2str(func)});
+                                obj = nb_ts(values,obj.dataNames,obj.startDate,{func2str(func)},obj.sorted);
                             case 3
-                                obj = nb_ts(values,func2str(func),obj.startDate,obj.variables);
+                                obj = nb_ts(values,func2str(func),obj.startDate,obj.variables,obj.sorted);
                         end
                         
                     end
@@ -901,30 +905,11 @@ classdef nb_ts < nb_dataSource
                     return
                 end
                 
-                locfold = nb_contains(dataset,'\');
-                if locfold
-                    num           = strfind(dataset,'\');
-                    FolderName    = dataset(1:num(end)-1);
-                    dataset       = dataset(num(end)+1:end);
-                    try
-                        OldFolderName = cd(FolderName);
-                    catch Err
-                        
-                        if strcmp(Err.identifier,'MATLAB:cd:NonExistentDirectory')
-                            error([mfilename ':: Can not locate the given path: ' FolderName '\' dataset])
-                        else
-                            rethrow(Err)
-                        end
-                            
-                    end
-                    
-                end
-
                 % Decide which type of file we are trying to load
                 dotIndex = strfind(dataset,'.');
                 if ~isempty(dotIndex)
-                    type    = dataset(dotIndex(1) + 1:end);
-                    dataset = dataset(1:dotIndex(1)-1);
+                    type    = dataset(dotIndex(end) + 1:end);
+                    dataset = dataset(1:dotIndex(end)-1);
                 else
                     if exist([dataset '.xlsx'],'file') == 2
                         type = 'xlsx';
@@ -960,7 +945,7 @@ classdef nb_ts < nb_dataSource
                         
                         sheet = vintage;
                         [data, variables, startDate, endDate, frequency] = nb_ts.xls2Properties([dataset '.xlsm'],sheet,sorted);
-
+                        
                     case 'csv'
                         
                         sheet = vintage;
@@ -970,7 +955,7 @@ classdef nb_ts < nb_dataSource
 
                         temp = load(dataset);
                         [data, variables, startDate, endDate, frequency, userData,localVariables] = nb_ts.structure2Properties(temp,'',sorted); % Here we assume that the startDate are the same for all databases
-
+                        
                     case 'xls'
 
                         sheet = vintage;
@@ -1006,18 +991,9 @@ classdef nb_ts < nb_dataSource
                             end
 
                         catch Err4
-
-                            if locfold
-                                cd(OldFolderName)
-                            end
                             error(['Did not find; ' dataset ', ' dataset '.xlsx, ' dataset '.xls or ' dataset '.mat in the current folder.']);
-
                         end
 
-                end
-
-                if locfold
-                    cd(OldFolderName)
                 end
 
             elseif isa(dataset,'nb_math_ts')

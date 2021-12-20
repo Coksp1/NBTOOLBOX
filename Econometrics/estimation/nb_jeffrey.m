@@ -60,7 +60,7 @@ function [beta,sigma,residual,X] = nb_jeffrey(y,x,prior,constant,timeTrend,restr
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         restrictions = {};

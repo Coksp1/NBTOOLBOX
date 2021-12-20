@@ -15,9 +15,9 @@ function obj = steady_state_first(obj)
 % 
 % - obj : An object of class nb_eq2Latex.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     objLatex = strrep(obj.latex,'_{t-1}','_{ss1}');
     objLatex = strrep(objLatex,'_{t}','_{ss1}');

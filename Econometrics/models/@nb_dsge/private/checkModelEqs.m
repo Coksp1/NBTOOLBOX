@@ -10,9 +10,9 @@ function obj = checkModelEqs(obj)
 % See also:
 % nb_dsge.solvNB, nb_dsge.blockDecompose, nb_dsge.optimalSimpleRules
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     numEndo = size(obj.parser.endogenous,2);
     if isfield(obj.parser,'equationsParsed')

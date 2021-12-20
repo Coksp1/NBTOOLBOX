@@ -24,9 +24,9 @@ function x = f_kurtosis(m,k)
 % nb_distribution.f_median, nb_distribution.f_mean, 
 % nb_distribution.f_variance, nb_distribution.f_skewness
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if k > 8
         x = m*(5*k-22)*(m + k - 2) + (k - 4)*(k -2)^2;

@@ -18,7 +18,7 @@ function cstr = cellstr(obj)
 % See also:
 % toString
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     cstr = nb_callMethod(obj,@toString,'cell');
     

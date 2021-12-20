@@ -7,9 +7,9 @@ function [DB,plotter] = tracePlot(obj)
 %
 % Redirect to checkPosteriors.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_model_generic')
         error([mfilename ':: The input must be of class nb_model_generic.'])

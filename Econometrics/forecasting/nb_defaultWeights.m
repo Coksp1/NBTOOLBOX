@@ -41,9 +41,9 @@ function weights = nb_defaultWeights(scores,varargin)
 % nb_model_group_vintages.constructWeights, 
 % nb_model_group_vintages.combineForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     default = {'num',    [],   @(x)nb_isScalarInteger(x,0);...
                'perc',   [],   @(x)nb_isScalarNumber(x,0,100);...   

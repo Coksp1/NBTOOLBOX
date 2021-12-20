@@ -6,7 +6,7 @@ function obj = callPlusOnSub(obj,another)
 % See also:
 % nb_term.plus
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if nb_isScalarNumber(obj)
         obj = nb_num(obj);

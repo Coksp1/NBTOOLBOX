@@ -56,7 +56,7 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseDSGE(H,A,C,obs,x0,P0S,P0INF,
 % nb_kalmanSmootherDSGE, nb_kalmanLikelihoodDiffuseDSGE,
 % nb_setUpForDiffuseFilter, nb_kalmanSmootherUnivariateDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

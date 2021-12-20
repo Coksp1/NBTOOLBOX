@@ -8,9 +8,9 @@ function [nbFile,file] = readFile(filename,remove)
 %
 % No doc provided. Used by nb_dsge.parse and nb_nonLinearEq.parse. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         remove = true;

@@ -23,9 +23,9 @@ function [I,J] = nb_getSymbolicDerivIndex(symDeriv,all,derivEqs)
 % - I,J : Sparse indexes that can be used to initialize the sparse 
 %         jacobian. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         derivEqs = [symDeriv.derivatives];

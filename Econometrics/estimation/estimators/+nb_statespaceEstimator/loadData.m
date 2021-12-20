@@ -7,9 +7,9 @@ function [y,options] = loadData(options,parser)
 %
 % Load data on observables.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Missing observations is not problem here, so just use the size of the
     % data field as default

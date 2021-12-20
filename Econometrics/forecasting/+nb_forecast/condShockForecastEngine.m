@@ -9,9 +9,9 @@ function [Y,states,PAI,MUs] = condShockForecastEngine(y0,A,B,C,ss,Qfunc,MUx,MUs,
 % Produce forecast conditional on shocks only forecast with or without 
 % Markov-switching 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 12
         inputs = [];

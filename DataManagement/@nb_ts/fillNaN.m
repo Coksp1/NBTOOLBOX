@@ -28,9 +28,9 @@ function obj = fillNaN(obj,date,variables)
 % 
 % - obj : An object of class nb_ts.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         variables = {};
@@ -89,7 +89,7 @@ function obj = fillNaN(obj,date,variables)
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@fillNaN,{inDate});
+        obj = obj.addOperation(@fillNaN,{inDate,variables});
     end
     
 end

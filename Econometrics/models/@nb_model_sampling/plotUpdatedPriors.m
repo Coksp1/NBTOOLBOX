@@ -37,9 +37,9 @@ function plotter = plotUpdatedPriors(obj,varargin)
 % See also:
 % nb_graph_data, nb_graphMultiGUI, nb_graphSubPlotGUI
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 

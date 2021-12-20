@@ -63,7 +63,7 @@ function obj = createVariable(obj,nameOfNewVariable,expression,parameters,vararg
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         parameters = [];

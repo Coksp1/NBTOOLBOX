@@ -30,9 +30,9 @@ function f = meanshift_cdf(x,dist,param,lb,ub,ms)
 % nb_distribution.meanshift_pdf, nb_distribution.meanshift_rand,
 % nb_distribution.meanshift_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     func = str2func(['nb_distribution.' dist '_cdf']);
     if isempty(lb) && isempty(ub)   

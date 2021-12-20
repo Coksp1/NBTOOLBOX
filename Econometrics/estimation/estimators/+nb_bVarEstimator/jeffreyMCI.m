@@ -21,9 +21,9 @@ function [beta,sigma] = jeffreyMCI(draws,X,T,numCoeff,nEq,initSigma,SSE,a_ols,re
 % 
 % See nb_bVarEstimator.jeffrey
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     sigmaD  = initSigma;
     nUnrest = size(a_ols,1);

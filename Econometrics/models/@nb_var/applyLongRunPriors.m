@@ -43,9 +43,9 @@ function obj = applyLongRunPriors(obj,H,phi)
 % See also:
 % nb_var.set, nb_var.setPrior
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@applyLongRunPriors,'nb_var',H,phi);

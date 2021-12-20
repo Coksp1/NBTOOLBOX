@@ -29,9 +29,9 @@ function actual = getActual(models,vars,startFcst,nSteps,inputs)
 %            each recursive forecast if nSteps is given, otherwise a nobs
 %            x nVars double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         inputs = struct('compareTo','','compareToRev','');

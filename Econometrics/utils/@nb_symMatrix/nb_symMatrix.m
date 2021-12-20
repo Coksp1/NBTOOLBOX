@@ -38,9 +38,9 @@ classdef nb_symMatrix
 %
 %       - obj  : A rows x cols nb_symMatrix object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     properties (Constant=true,Hidden=true)
        

@@ -74,7 +74,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;

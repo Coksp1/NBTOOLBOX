@@ -28,7 +28,7 @@ function cellMatrix = asCell(obj,page,strip)
 %
 % Written by Per Bjarne Bye              
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         strip = true;

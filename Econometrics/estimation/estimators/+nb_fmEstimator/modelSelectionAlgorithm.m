@@ -10,9 +10,9 @@ function options = modelSelectionAlgorithm(options)
 % See also:
 % nb_olsEstimator.etimate, nb_bVarEstimator.etimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
         
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tempData   = options.data;
 

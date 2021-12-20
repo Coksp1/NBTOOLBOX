@@ -43,9 +43,9 @@ function E = nb_bootstrap(resid,replic,method)
 % 
 % - E : A nEq x replic x nobs double
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     replic     = ceil(replic);  
     [nobs,nEq] = size(resid);

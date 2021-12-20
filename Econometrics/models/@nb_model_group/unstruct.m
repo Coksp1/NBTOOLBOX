@@ -19,9 +19,9 @@ function obj = unstruct(s)
 % See also:
 % nb_model_group.struct
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(s,'nb_model_group')
         obj = s; % This is for backward compatibility
@@ -73,7 +73,7 @@ function obj = unstruct(s)
         else
             % Here we need to secure backward compability
             func         = str2func([s.options.data.class '.unstruct']);
-            obj.dataOrig = getOrigData(func(s.options.data));
+            obj.dataOrig = getOrigData(obj,func(s.options.data));
         end
         obj.preventSettingData = true;
         

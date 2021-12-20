@@ -19,7 +19,7 @@ modelNS = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 ssInit = struct(...
     'GAMMA_W_NW',0,...
@@ -53,8 +53,8 @@ modelNS = solve(modelNS);
                  'K_NW_LEVEL','Y_NW_LEVEL'},...
     'settings',{'legBox','off','legFontSize',18,'subPlotSize',[4,3],...
                 'figureTitle',false,'lookUpMatrix','lookUpMatrixJPT',...
-                'legends',{'AUTOMATIC STATIONARY',
-                           'Steady-state'}});
+                'legends',{'AUTOMATIC STATIONARY'
+                           'Steady state'}});
 nb_graphInfoStructGUI(plotter)
 % nb_saveas(gcf,'jpt_pref_irfs_nb','pdf','-noflip');
 
@@ -91,7 +91,7 @@ modelW = solve(modelW);
                 'legends',{'Stationarize JPT automatically',...
                            'Written JPT model',...
                            '',...
-                           'Steady-state'}});
+                           'Steady state'}});
 nb_graphInfoStructGUI(plotter)
 
 %% Delete files

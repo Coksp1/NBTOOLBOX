@@ -29,9 +29,9 @@ function x = ast_skewness(a,b,c,d,e)
 % nb_distribution.ast_median, nb_distribution.ast_mean, 
 % nb_distribution.ast_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     cstar = nb_ast_cstar(c,d,e);
     if cstar == 1 % Symmetric distribution

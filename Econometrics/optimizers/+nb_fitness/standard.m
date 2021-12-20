@@ -24,9 +24,9 @@ function fit = standard(fVal,~,~)
 % 
 % - fit : Fitness score. As a N x M double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     pos      = fVal >= 0;
     neg      = ~pos;

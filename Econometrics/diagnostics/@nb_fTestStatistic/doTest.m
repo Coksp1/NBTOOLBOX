@@ -17,9 +17,9 @@ function obj = doTest(obj)
 % 
 % - obj : An object of class nb_fTestStatistics.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
             
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the estimation results
     if isa(obj.model,'nb_model_generic')

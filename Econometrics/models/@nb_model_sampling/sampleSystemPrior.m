@@ -28,9 +28,9 @@ function obj = sampleSystemPrior(obj,varargin)
 % nb_model_estimate.estimate, nb_model_generic.assignPosteriorDraws,
 % nb_dsge.systemPriorObjective
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles scalar ' class(obj) '.'])

@@ -10,9 +10,9 @@ function irfData = collect(options,inputs,Y,dep,results,ss)
 % See also:
 % nb_irfEngine.irfPoint, nb_irfEngine.irfPointStochTrend
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Reported variables
     Y = permute(Y,[2,1,3]);
@@ -27,9 +27,13 @@ function irfData = collect(options,inputs,Y,dep,results,ss)
         
         if strcmpi(options.class,'nb_dsge')
             % Set steady-state of reported variables to zero
-            ssMatVar           = getSteadyState(inputs,nShocks,ss);
-            ssMat              = zeros(size(Y));
-            indRep             = ismember(dep,inputs.reporting(:,1));
+            ssMatVar = getSteadyState(inputs,nShocks,ss);
+            ssMat    = zeros(size(Y));
+            if ~isempty(inputs.reporting)
+                indRep = ismember(dep,inputs.reporting(:,1));
+            else
+                indRep = false(1,length(dep));
+            end
             ssMat(:,~indRep,:) = ssMatVar;
             Ygap               = Y - ssMat; % Substract the steady-state before normalizing
         else

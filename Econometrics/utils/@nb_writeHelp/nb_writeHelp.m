@@ -25,9 +25,9 @@ classdef nb_writeHelp
 % 
 %   Examples:
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         
@@ -115,7 +115,7 @@ classdef nb_writeHelp
         % 
         % obj.set('propertyName',propertyValue,...);
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
 
             if size(varargin,1) && iscell(varargin{1})
                 varargin = varargin{1};
@@ -165,7 +165,7 @@ classdef nb_writeHelp
         % 
         % - helpText : A char with the help on the package or class.
         %
-        % Written by Kenneth Sæterhagen Paulsen    
+        % Written by Kenneth SÃ¦terhagen Paulsen    
            
             if strcmpi(obj.option,'all')
                 
@@ -358,28 +358,6 @@ classdef nb_writeHelp
             obj.helpStruct.comparetorev = ...
                 ['Which revision to compare to. Default is first release, i.e. 1. Give 5 to get fifth release. ',...
                  'Must be an integer. 0 means you compare to the final vintage, instead of any release series.'];
-        end
-        
-        function obj = conddatasource(obj)
-            if strcmpi(obj.nameOfPOrC,'nb_calculate_vintages')
-                obj.helpStruct.conddatasource = ...
-                    'A nb_modelCondFcstSource with the conditional information to use to extend data used for calculations.';
-            else
-                obj.helpStruct.conddatasource = ...
-                    'A nb_modelCondFcstSource with the conditional information to use for conditional forecasting.';
-            end
-        end
-        
-        function obj = conddbmergemethod(obj)
-            if strcmpi(obj.nameOfPOrC,'nb_calculate_vintages')
-                obj.helpStruct.conddbmergemethod = [...
-                    'The method to use when conditional information is merged with history. See the type input to ',...
-                    'the nb_ts.merge method. Either a one line char with the method to apply to all variables. Or ',...
-                    'a cellstr with the method to apply to the variables of the condDataSource on the format ',...
-                    '{''Var1'',''method1'',''Var2'',''method2''}.'];
-            else
-                obj = notDocumented(obj,'conddbmergemethod'); 
-            end
         end
         
         function obj = condlags(obj)
@@ -940,20 +918,8 @@ classdef nb_writeHelp
         function obj = fcstdb(obj)
             obj.helpStruct.fcstdb = ...
                 ['Assign a nb_manualDataSource object that return one variable. Each context provide a set '...
-                'of forecast. The first not nan observation is taken as the first forecasted period at the given '...
-                'context, i.e. no history can be provided for each context.'];
-        end
-        
-        function obj = fcstfunc(obj)
-            obj.helpStruct.fcstfunc = [...
-                'Sets the function handle to apply to all the contexts of the forecast. E.g. @(x)epcn(x,4). ',...
-                'Default is [], i.e. no transformation of the forecast.'];
-        end
-        
-        function obj = fcstname(obj)
-            obj.helpStruct.fcstname = [...
-                'Sets the name of the of variable forecasted by this model, as a one line char. E.g. ''Var''. ',...
-                'Default is '''', i.e. to use the name of the fetched forecast (i.e. fcstDB).'];
+                'of forecast. The last not nan observation of the dataSource option + 1 period is taken as ',...
+                'the start date of the forecast from this data source. See the var2Merge options for more info.'];
         end
         
         function obj = fcsteval(obj)
@@ -1015,7 +981,13 @@ classdef nb_writeHelp
             if strcmpi(obj.nameOfPOrC,'nb_mfvar') || strcmpi(obj.nameOfPOrC,'nb_mlestimator')
                 obj.helpStruct.frequency = ...
                     ['This options sets the frequency of the dependent and/or the block exogenous variables of ',...
-                     'the model. Supported frequencies are 1 (yearly), 4 (quarterly) or 12 (monthly). There is ',...
+                     'the model. Supported frequencies are 1 (yearly), 4 (quarterly), 12 (monthly) and 52 ',...
+                     '(weekly). There is no need to set the frequency of the variables with the same frequency as ',...
+                     'the supplied data. See also the setFrequency method.'];
+            elseif strcmpi(obj.nameOfPOrC,'nb_fmdyn')
+                obj.helpStruct.frequency = ...
+                    ['This options sets the frequency of the observed variables (observables) of ',...
+                     'the model. Supported frequencies are 4 (quarterly) or 12 (monthly). There is ',...
                      'no need to set the frequency of the variables with the same frequency as the supplied data. ',...
                      'See also the setFrequency method.'];
             elseif strcmpi(obj.nameOfPOrC,'nb_midas') || strcmpi(obj.nameOfPOrC,'nb_midasestimator')
@@ -1246,8 +1218,13 @@ classdef nb_writeHelp
                     ['This options sets the mapping used when high frequency variable is bridged with the low ',...
                      'frequency variable. Either ''sum'', ''average'', ''first'' or ''last''. ''average'' is default.'];
             else
+                if strcmpi(obj.nameOfPOrC,'nb_fmdyn')
+                    var = 'observed variables (observables)';
+                else
+                    var = 'dependent and/or the block exogenous variables';
+                end
                 obj.helpStruct.mapping = ...
-                    ['This options sets the mapping of the dependent and/or the block exogenous variables of the model.',...
+                    ['This options sets the mapping of the ' var ' of the model.',...
                      'Supported mappings are ''levelSummed'', ''diffSummed'', ''levelAverage'' or ''diffAverage''. ',...
                      'There is no need to set the frequency of the variables with the same frequency as the supplied ',...
                      'data. See also the setMapping method.'];
@@ -1645,8 +1622,9 @@ classdef nb_writeHelp
                     'See help on the ''nsteps'' input to the nb_model_generic.forecast method.';
             elseif strcmpi(obj.nameOfPOrC,'nb_calculate_vintages')
                 obj.helpStruct.nsteps = [...
-                    'The number of steps to fetch from the condDataSource. As a scalar ',...
-                    'integer. Default is 1. Only used if condDataSource is non-empty.'];
+                    'The number of steps to use conditional info when the dataSource option ',...
+                    'tests true on the hasConditionalInfo method. As a scalar integer. Default ',...
+                    'is 1.'];
             elseif strncmpi(obj.nameOfPOrC,'nb_model_group_vintages',23)
                 obj.helpStruct.nsteps = ...
                     ['The number of steps ahead forecast. The default is to take the minimum over ',...
@@ -2518,6 +2496,14 @@ classdef nb_writeHelp
             end
         end
         
+        function obj = var2merge(obj)
+            obj.helpStruct.var2merge = ...
+                ['Give the name of the variable to merge history and forecast of. The variable must be contain in the ',...
+                 'dataSource or be an output from using the transformation option on the dataSource, and it must be ',...
+                 'contained in fcstDB or be an output from using the forecastTransformation option on the fcstDB. This ',...
+                 'is the only variable that can be used in reporting that has forecast!'];
+        end
+        
         function obj = variables(obj)
             
             if strcmpi(obj.nameOfPOrC,'nb_model_group_vintages.aggregateForecast')
@@ -2551,7 +2537,7 @@ classdef nb_writeHelp
                 obj.helpStruct.varofinterest = ...
                     ['Must be set to a cellstr, and must include the variables to store the forecast of. The model ',...
                      'must produce forecast of the selected variables.'];
-            elseif strcmpi(obj.nameOfPOrC,'nb_calculate_vintages')
+            elseif any(strcmpi(obj.nameOfPOrC,{'nb_calculate_vintages','nb_manual_forecast_vintages'}))
                 obj.helpStruct.varofinterest = ...
                     'Select the variables that are to be stored for writing to the selected database.';    
             else

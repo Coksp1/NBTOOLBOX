@@ -7,9 +7,9 @@ function paused = report(inputs,h,index,kk,jj,display,note)
 %
 % Report status
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     replic = inputs.replic;
     paused = false;

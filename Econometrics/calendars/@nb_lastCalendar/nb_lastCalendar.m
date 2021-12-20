@@ -15,9 +15,9 @@ classdef nb_lastCalendar < nb_calendar
 % See also: 
 % nb_currentCalendar, nb_MPRCalendar, nb_allCalendar
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods 
         

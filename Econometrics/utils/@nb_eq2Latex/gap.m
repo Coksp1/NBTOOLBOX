@@ -15,9 +15,9 @@ function obj = gap(obj)
 % 
 % - obj : An object of class nb_eq2Latex.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     objLatex     = nb_eq2Latex.addLatexPar(obj.latex,false);
     obj.latex    = ['\widehat{' objLatex '}'];

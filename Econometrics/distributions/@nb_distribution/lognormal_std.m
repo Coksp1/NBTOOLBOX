@@ -21,9 +21,9 @@ function x = lognormal_std(m,k)
 % nb_distribution.lognormal_mode, nb_distribution.lognormal_median, 
 % nb_distribution.lognormal_mean, nb_distribution.lognormal_std 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = sqrt((exp(k^2) - 1)*exp(2*m + k^2));
 

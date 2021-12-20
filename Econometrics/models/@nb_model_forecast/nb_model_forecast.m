@@ -6,9 +6,9 @@ classdef (Abstract) nb_model_forecast < nb_model_name
 % See also:
 % nb_model_generic, nb_model_group
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
 

@@ -11,9 +11,9 @@ function [y,X,constant,options] = applyDummyPrior(options,y,X,yFull,XFull)
 % See also:
 % nb_bVarEstimator.doBayesian
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if options.prior.LR || options.prior.SC || options.prior.DIO
         nExo     = size(X,2) - size(y,2)*(options.nLags + 1);

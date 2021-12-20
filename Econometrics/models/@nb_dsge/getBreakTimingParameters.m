@@ -17,9 +17,9 @@ function params = getBreakTimingParameters(parser,init)
 % 
 % - params : A nParam x 1 cellstr with the names of the parameters.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if init
         params = strcat('break_',cellstr(toString([parser.breakPoints.initDate]))');

@@ -23,9 +23,9 @@ function f = uniform_pdf(x,m,k)
 % nb_distribution.uniform_cdf, nb_distribution.uniform_rand, 
 % nb_distribution.uniform_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f              = nan(size(x));
     f(x>=m & x<=k) = 1/(k - m);

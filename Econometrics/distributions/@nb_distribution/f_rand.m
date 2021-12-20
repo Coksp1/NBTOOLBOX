@@ -30,7 +30,7 @@ function draws = f_rand(nrow,ncol,m,k)
 %
 % Modified by Kenneth S. Paulsen
       
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     draws = nb_distribution.beta_rand(nrow,ncol,m/2,k/2);
     draws = draws.*k./((1-draws).*m);

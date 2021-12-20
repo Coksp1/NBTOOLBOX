@@ -22,9 +22,9 @@ function domain = truncated_domain(dist,param,lb,ub)
 % 
 % - domain : A 1x2 double with the lower and upper limits of the domain.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     func   = str2func(['nb_distribution.' dist '_domain']);
     domain = func(param{:});

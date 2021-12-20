@@ -126,7 +126,7 @@ function code = getCode(obj,preamble,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 % Edited by Thor Andreas Aursland, SSB, feb. 2021: added NaNrepl option
-% Copyright (c) 2021, Kenneth S�terhagen Paulsen
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     % Parse the optional input
     %--------------------------------------------------------------

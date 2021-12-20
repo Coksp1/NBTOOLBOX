@@ -18,20 +18,28 @@ function obj = mean(obj,outputType,dimension,varargin)
 % 
 % - outputType : 
 %
-%       > 'nb_ts'  : The result will be an object of class nb_ts 
-%                    where all the non-nan values of all the 
-%                    timeseries are beeing set to their mean. 
+%       > 'nb_ts'        : The result will be an object of class nb_ts 
+%                          where all the non-nan values of all the 
+%                          timeseries are beeing set to their mean. 
 % 
-%       > 'double' : Get the mean values as doubles, where
-%                    each column of the double matches the
-%                    variable location in the 'variables' property. 
-%                    If the object consist of more pages the double 
-%                    will also consist of more pages.
+%       > 'nb_ts_scalar' : The result will be an object of class nb_ts 
+%                          where all the non-nan values of all the 
+%                          timeseries are beeing set to their mean, but 
+%                          where the dimension taking the mean over is 
+%                          reduced to size 1. Not supported for dimension
+%                          1. The name of the variable/page will be
+%                          'mean'
+% 
+%       > 'double'       : Get the mean values as doubles, where
+%                          each column of the double matches the
+%                          variable location in the 'variables' property. 
+%                          If the object consist of more pages the double 
+%                          will also consist of more pages.
 %
-%       > 'nb_cs'  : Get the mean values as nb_cs object.
-%                    The mean will when this option is used only be 
-%                    calculated over the number of observations.
-%                    (I.e. dimension set to 1.)
+%       > 'nb_cs'        : Get the mean values as nb_cs object.
+%                          The mean will when this option is used only be 
+%                          calculated over the number of observations.
+%                          (I.e. dimension set to 1.)
 %
 % - dimension  : The dimension to calcualate the mean over. 
 % 
@@ -52,7 +60,7 @@ function obj = mean(obj,outputType,dimension,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         dimension = 1;

@@ -7,7 +7,7 @@ function Y = FEqs(GEqs,vars,parVal,exoVal,varsSS)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     Y = GEqs(vars,parVal,exoVal,varsSS);
     

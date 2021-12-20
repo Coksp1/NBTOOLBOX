@@ -7,9 +7,9 @@ function seasonal = getHP(results,options)
 %
 % Get the estimated HP-filtered series as a nb_ts object
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isfield(results,'F')
         seasonal = nb_ts();

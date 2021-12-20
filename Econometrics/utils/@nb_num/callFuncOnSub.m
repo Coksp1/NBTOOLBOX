@@ -6,9 +6,9 @@ function obj = callFuncOnSub(obj,func,varargin)
 % See also:
 % nb_term.generalFunc
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     all = vertcat(obj,varargin{:});
     if isa(all,'nb_num')

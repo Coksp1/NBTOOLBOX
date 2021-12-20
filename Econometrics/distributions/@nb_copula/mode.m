@@ -17,9 +17,9 @@ function x = mode(obj)
 % - x   : A double with size 1xN, where N is the number of marginal
 %         distributions combined with the copula.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = mode(obj.distributions);
 

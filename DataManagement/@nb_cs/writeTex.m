@@ -34,9 +34,9 @@ function writeTex(obj,filename,varargin)
 % See also:
 % nb_cs, nb_cs.getCode
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Test the filename input
     %--------------------------------------------------------------

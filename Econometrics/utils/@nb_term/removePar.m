@@ -7,9 +7,9 @@ function expr = removePar(expr)
 %
 % Is the expression enclosed with parentheses?
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     match = nb_getMatchingParentheses(expr);
     if match(1) == 1 && match(2) == size(expr,2)

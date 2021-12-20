@@ -14,9 +14,9 @@ function solve(obj,varargin)
 % See also:
 % nb_solve.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check and get options
     check(obj);

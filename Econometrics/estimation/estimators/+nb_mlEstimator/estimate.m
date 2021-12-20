@@ -22,9 +22,9 @@ function [results,options] = estimate(options)
 % See also:
 % nb_mlEstimator.print, nb_mlEstimator.help, nb_mlEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 
@@ -50,6 +50,8 @@ function [results,options] = estimate(options)
         % when producing forecast.
         options.missingMethod = ''; % For now!!!
         options               = nb_mlEstimator.interpretMeasurementError(options);
+    else
+        options.missingMethod = 'kalman';
     end
 
     % Get the estimation options
@@ -120,9 +122,12 @@ function [results,options] = estimate(options)
     if any(~test)
         error([mfilename ':: The variables ' toString(tempDep(~test)) ' is not found to be in the data.'])
     end
-    y  = options.data(:,indY);
+    y = options.data(:,indY);
     if isempty(y)
         error([mfilename ':: The selected sample cannot be empty.'])
+    end
+    if ~isfield(options,'indObservedOnly')
+        options.indObservedOnly = false(1,size(y,2));
     end
     
     [test,indX] = ismember(options.exogenous,options.dataVariables);
@@ -248,19 +253,31 @@ function [results,options] = estimate(options)
                 
             case 'nb_var'
 
-                ys    = nan(T,numDep,iter);
-                ys0   = nan(1,numDep,iter);
+                ys    = nan(T,numDep*options.nLags,iter);
+                ys0   = nan(1,numDep*options.nLags,iter);
                 resid = nan(T,numDep,iter);
                 for tt = start:T
                     [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resid(ss(kk):tt,:,kk),...
-                        ys(ss(kk):tt,:,kk),~,omega(:,:,kk)] = nb_mlEstimator.varEstimator(y,X,options,init);
+                        ys(ss(kk):tt,:,kk),~,omega(:,:,kk)] = nb_mlEstimator.varEstimator(...
+                        y(ss(kk):tt,:),X(ss(kk):tt,:),options,init);
                     
                     % Get initial values for next iteration
                     ys0(:,:,kk) = ys(tt,:,kk);
                     betaInit    = beta(:,:,kk)';
                     sigmaInit   = nb_reduceCov(sigma(:,:,kk));
                     init        = [betaInit(:);sigmaInit]; 
-                    kk          = kk + 1;
+                    
+                    % Notify waitbar
+                    if waitbar 
+                        nb_estimator.notifyWaitbar(h,kk,iter,note)
+                    end
+                    kk = kk + 1;
+                    
+                end
+                
+                % Delete the waitbar
+                if waitbar 
+                    nb_estimator.closeWaitbar(h);
                 end
                 
             otherwise
@@ -300,9 +317,6 @@ function [results,options] = estimate(options)
      
         % Get estimation results
         %--------------------------------------------------
-        if ~isfield(options,'indObservedOnly')
-            options.indObservedOnly = false(1,size(y,2));
-        end
         res            = struct();
         res.beta       = beta;
         res.stdBeta    = stdBeta;

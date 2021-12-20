@@ -14,9 +14,9 @@ function s = nb_availablePoolSize()
 % See also:
 % nb_openPool, nb_closePool, nb_poolSize
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     s = getenv('NUMBER_OF_PROCESSORS');
     if ischar(s)

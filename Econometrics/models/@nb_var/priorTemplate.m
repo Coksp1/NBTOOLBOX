@@ -189,6 +189,78 @@ function prior = priorTemplate(type,num)
 %                           drift. As such, the dummy-initialobservation 
 %                           prior is consistent with cointegration
 %
+%          - 'kkse'        : This is the prior used in the paper by 
+%                            Koop and Korobilis (2014) extended by Schroder 
+%                            and Eraslan (2021) to handle mixed frequency,
+%                            but adapted to the VAR setting.
+%
+%            > 'f0VarScale'      : Scale factor on the variance of the  
+%                                  prior on the initial value of factors.
+%                                  Default is 10. N(0,f0VarScale*I)
+%
+%            > 'lambda0VarScale' : Scale factor on the variance of the  
+%                                  prior on the initial value of the factor 
+%                                  loadings. Default is 1. 
+%                                  N(0,lambdaVarScale*I). !!Remove!!
+%           
+%            > 'V0VarScale'      : Scale factor on the mean of the  
+%                                  prior on the initial value of the 
+%                                  measurment equation covariance matrix.  
+%                                  Default is 0.1. Dogmatic prior set to 
+%                                  V0VarScale*I. !!Remove!!
+%
+%            > 'Q0VarScale'      : Scale factor on the mean of the  
+%                                  prior on the initial value of the 
+%                                  state equation covariance matrix.  
+%                                  Default is 0.1. Dogmatic prior set to 
+%                                  Q0VarScale*I.
+%
+%            > 'gamma'           : Hyperparameter on prior variance of the
+%                                  coefficients of the state equations. 
+%                                  On the form V(i,j) = gamma./
+%                                  (ceil(j/options.nFactors).^2). Where
+%                                  V is a matrix with size option.nFactors 
+%                                  x option.nLags*option.nFactors. Default 
+%                                  value is 0.1.
+%
+%            > 'l_1m'            : Decay factor for the measurement error
+%                                  variance of the monthly variables. A
+%                                  smaller value puts smaller weight on
+%                                  past observations and thus allows for
+%                                  faster parameter change. A value of 1
+%                                  implies constant parameters. Default
+%                                  is 1. Do not adjust!
+%
+%            > 'l_1q'           :  Decay factor for the measurement error
+%                                  variance of the quarterly variables. A
+%                                  smaller value puts smaller weight on
+%                                  past observations and thus allows for
+%                                  faster parameter change. A value of 1
+%                                  implies constant parameters. Default
+%                                  is 1. Do not adjust!
+%
+%            > 'l_2'             : Decay factor for the factor error
+%                                  variance. A smaller value puts smaller 
+%                                  weight on past observations and thus 
+%                                  allows for faster parameter change. A 
+%                                  value of 1 implies constant parameters. 
+%                                  Default is 0.9.
+%
+%            > 'l_3'             : Decay factor for the loadings' error
+%                                  variance. A smaller value puts smaller 
+%                                  weight on past observations and thus 
+%                                  allows for faster parameter change. A 
+%                                  value of 1 implies constant parameters.
+%                                  Default is 1. Do not adjust!
+%
+%            > 'l_4'             : Decay factor for the factor VAR
+%                                  parameters' error variance.
+%                                  A smaller value puts smaller 
+%                                  weight on past observations and thus 
+%                                  allows for faster parameter change. A 
+%                                  value of 1 implies constant parameters. 
+%                                  Default is 0.9.
+%
 % - num  : Number of prior templates to make.
 %
 % Output:
@@ -198,9 +270,9 @@ function prior = priorTemplate(type,num)
 % See also:
 % nb_var, nb_model_generic.checkPosteriors
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -348,6 +420,21 @@ function prior = priorTemplate(type,num)
             prior.S_scale = 1;
             prior.burn    = 500;
             prior.thin    = 2;
+            
+        case 'kkse'
+            
+            % TODO: update here to default correctly!
+            prior.f0VarScale      = 10;
+            prior.lambda0VarScale = 1;
+            prior.V0VarScale      = 0.1;
+            prior.Q0VarScale      = 0.1;
+            prior.gamma           = 0.1;
+            prior.method          = 'tvpmfsv';
+            prior.l_1m            = 1;
+            prior.l_1q            = 1;
+            prior.l_2             = 0.9;
+            prior.l_3             = 1;
+            prior.l_4             = 0.9;    
 
         otherwise
 

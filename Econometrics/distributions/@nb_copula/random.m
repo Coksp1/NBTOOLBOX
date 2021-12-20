@@ -37,9 +37,9 @@ function D = random(obj,nrow,npage)
 %   obj   = nb_copula(distr,'type','kendall','sigma',[1,0.5;0.5,1]);
 %   D     = random(obj,100);
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         npage = 1;

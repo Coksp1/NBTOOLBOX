@@ -13,7 +13,8 @@ function [modelGroup,plotter,errorReport] = modelSelection(obj)
 % This function will test combinations of the variables in the data 
 % and with different lag length.
 %
-% This code is inspired by a script made by Martin Blomhoff Holm 03/06/2014
+% This code is inspired by a script made by Martin Blomhoff Holm, 
+% Norges Bank 03/06/2014
 % 
 % - 'class' == 'nb_arima'
 % This function will test combinations of AR and MA terms.
@@ -39,9 +40,9 @@ function [modelGroup,plotter,errorReport] = modelSelection(obj)
 % See also:
 % nb_model_group.combineForecast, nb_getCombinations
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method is only supported for scalar nb_model_selection_group objects.'])

@@ -86,7 +86,7 @@ function obj = addDataset(obj,dataset,NameOfDataset,startDate,variables)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         variables = {};

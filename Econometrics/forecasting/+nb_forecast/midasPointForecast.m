@@ -8,9 +8,9 @@ function [Y,evalFcst] = midasPointForecast(y0,restrictions,model,options,~,nStep
 %
 % Produce point forecast of MIDAS models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get model solution
     [A,B] = nb_forecast.getModelMatrices(model,iter);

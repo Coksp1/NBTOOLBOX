@@ -39,9 +39,9 @@ function [forecastOutput,dist] = forecastPerc2ParamDist(forecastOutput,distribut
 % See also:
 % nb_model_forecast.forecast, nb_distribution.perc2ParamDist
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get forecasted percentiles and other info
     perc    = forecastOutput.perc;

@@ -20,9 +20,9 @@ function [x,fval,exitflag] = test2local(varargin)
 % See also:
 % nb_abcSolve.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options           = nb_abcSolve.optimset('maxSolutions',1,...
                             'toleranceX',1e-3,'maxTime',60,...

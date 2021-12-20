@@ -53,9 +53,9 @@ function [xf,xs,us] = nb_kalmanSmootherDiffuseTVPDSGE(H,A,C,obs,x0,P0,P0INF,y,ka
 % nb_kalmanLikelihoodDiffuseTVPDSGE, nb_kalmanSmootherTVPDSGE,
 % nb_setUpForDiffuseFilter
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

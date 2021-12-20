@@ -45,9 +45,9 @@ function [ci,limInd] = nb_hdi(data,limits,dim,varargin)
 % See also:
 % nb_ksdensity
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         dim = 1;

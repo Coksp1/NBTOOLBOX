@@ -29,9 +29,9 @@ function [fTest,fProb] = nb_fTest(residual1,residual2,nCoeff1,nCoeff2)
 %
 % - fProb : F-test statistic p-value.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     residual1 = residual1(:);
     residual2 = residual2(:);

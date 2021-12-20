@@ -21,9 +21,9 @@ function [results,options] = estimate(options)
 % See also:
 % nb_pcaEstimator.print, nb_pcaEstimator.help, nb_pcaEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 
@@ -32,12 +32,11 @@ function [results,options] = estimate(options)
     end
 
     % Get the estimation options
-    tempData = options.data;
-    tempObs  = cellstr(options.observables);
+    tempObs = cellstr(options.observables);
     if isempty(tempObs)
         error([mfilename ':: The observables must be given!.'])
     end
-    if isempty(tempData)
+    if isempty(options.data)
         error([mfilename ':: Cannot estimate without data.'])
     end
 
@@ -46,29 +45,32 @@ function [results,options] = estimate(options)
     if any(~test)
         error([mfilename ':: Cannot locate the observed variable(s); ' toString(tempObs(~test))])
     end
-    Z = tempData(:,indZ);
+    Z = options.data(:,indZ);
     
     % Shorten sample
     if options.unbalanced
         
         % In this case we may have a unbalanced data set
+        isNaN    = isnan(Z);
         dataS    = nb_date.date2freq(options.dataStartDate);
-        startInd = find(~all(isnan(Z),2),1,'first');
+        startInd = find(~all(isNaN,2),1,'first');
         if ~isempty(options.estim_start_ind)
             if options.estim_start_ind < startInd
                 error([mfilename ':: The selected start date introduce missing observations of all observed variables. ',...
                     'First valid start date is ' toString(dataS + startInd - 1)])
             end
+            startInd = options.estim_start_ind;
         else
             options.estim_start_ind = startInd;
         end
         
-        endInd = find(~all(isnan(Z),2),1,'last');
+        endInd = find(~all(isNaN,2),1,'last');
         if ~isempty(options.estim_end_ind)
             if options.estim_end_ind > endInd
                 error([mfilename ':: The selected end date introduce missing observations of all observed variables. ',...
                     'Last valid end date is ' toString(dataS + endInd - 1)])
             end
+            endInd = options.estim_end_ind;
         else
             options.estim_end_ind = endInd;
         end

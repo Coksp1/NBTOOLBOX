@@ -21,9 +21,9 @@ function A = invwish_rand(h,n)
 % 
 % - A : m x m matrix draw from the inverse wishart distribution.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ch    = nb_chol(h,'cov')';
     x     = randn(n,size(h,1));

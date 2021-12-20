@@ -31,7 +31,7 @@ function obj = reset(obj,dataObject,id)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(dataObject,'nb_ts') || isa(dataObject,'nb_cs') || isa(dataObject,'nb_data')
 

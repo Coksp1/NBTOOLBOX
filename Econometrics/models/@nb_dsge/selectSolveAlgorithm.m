@@ -12,9 +12,9 @@ function [A,B,C,CE,ss,parser,err] = selectSolveAlgorithm(parser,solution,options
 % See also:
 % nb_dsge.solveNB, nb_dsge.solveOneRegime
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     B = [];
     if parser.optimal % Find solution under optimal monetary policy 

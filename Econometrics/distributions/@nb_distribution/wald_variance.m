@@ -23,9 +23,9 @@ function x = wald_variance(m,k)
 % nb_distribution.wald_mode, nb_distribution.wald_median, 
 % nb_distribution.wald_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = m^3/k;
 

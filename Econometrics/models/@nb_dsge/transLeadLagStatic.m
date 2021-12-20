@@ -10,9 +10,9 @@ function eqs = transLeadLagStatic(eqs)
 %
 % The part (?<=[^+-\*\^]) is to prevent matches with ^(-1) and so forth.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[+]{1}\d{1,2}\){1}','');
     eqs = regexprep(eqs,'(?<=[^+-\*\^\(])\({1}[-]{1}\d{1,2}\){1}','');

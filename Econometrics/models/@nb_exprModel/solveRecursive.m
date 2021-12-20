@@ -3,9 +3,9 @@ function tempSol = solveRecursive(~,options)
 %
 % tempSol = nb_exprModel.solveRecursive(results,options)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if options.minLags < 1 && ~istril(options.indCont)
         error([mfilename ':: Cannot forecast a model with contemporaneous ',...

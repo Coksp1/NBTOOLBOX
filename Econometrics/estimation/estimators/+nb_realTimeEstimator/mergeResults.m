@@ -3,9 +3,9 @@ function res = mergeResults(res,resTemp)
 %
 % res = nb_realTimeEstimator.mergeResults(res,resTemp)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isempty(res)
         remove     = {'includedObservations','elapsedTime'};
@@ -27,7 +27,7 @@ function res = mergeResults(res,resTemp)
     end
 
     % Some outputs we don't want to merge
-    remove  = {'includedObservations','elapsedTime','smoothedRec'};
+    remove  = {'includedObservations','elapsedTime'};
     fields  = fieldnames(resTemp);
     ind     = ismember(remove,fields);
     resTemp = rmfield(resTemp,remove(ind));

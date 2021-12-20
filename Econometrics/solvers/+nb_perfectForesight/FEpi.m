@@ -7,7 +7,7 @@ function Y = FEpi(G,epivars,vars,pars,ssVars)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     Y = G(epivars,vars,pars,ssVars);
     

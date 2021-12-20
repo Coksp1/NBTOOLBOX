@@ -8,9 +8,9 @@ function reportStatus(obj,state)
 % Call the update method on the nb_optimizerDisplayer to report 
 % results to user.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     resForDisplay = struct('iteration',obj.iterations,'fval',obj.minFunctionValue);
     update(obj.displayer,obj.minXValue,resForDisplay,state);

@@ -24,9 +24,9 @@ function x = gamma_icdf(p,m,k)
 % nb_distribution.gamma_cdf, nb_distribution.gamma_rand, 
 % nb_distribution.gamma_pdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

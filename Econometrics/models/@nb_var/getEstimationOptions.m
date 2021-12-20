@@ -3,9 +3,9 @@ function outOpt = getEstimationOptions(obj)
 %
 % outOpt = getEstimationOptions(obj)
 %
-% Written by Kenneth Sæterhagen Paulsen       
+% Written by Kenneth SÃ¦terhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -24,7 +24,7 @@ function outOpt = getEstimationOptions(obj)
         estim_method = tempOpt.estim_method;
         switch lower(estim_method)
 
-            case {'ols','bvar','ml'}
+            case {'ols','bvar','ml','tvpmfsv'}
 
                 % Get estimation options
                 %-----------------------
@@ -46,10 +46,10 @@ function outOpt = getEstimationOptions(obj)
                     error([mfilename ':: Unsupported model selection option autometrics for a nb_var model'])
                 end
 
-                tempOpt.dependent           = obj.dependent.name;
-                tempOpt.block_exogenous     = obj.block_exogenous.name;
-                tempOpt.block_id            = obj.block_exogenous.block_id;
-                tempOpt.factors             = obj.factors.name;
+                tempOpt.dependent       = obj.dependent.name;
+                tempOpt.block_exogenous = obj.block_exogenous.name;
+                tempOpt.block_id        = obj.block_exogenous.block_id;
+                tempOpt.factors         = obj.factors.name;
                 if ~isempty(tempOpt.factors)
                     error([mfilename ':: The factors property is not yet supported.'])
                 end
@@ -86,16 +86,6 @@ function outOpt = getEstimationOptions(obj)
                 tempOpt.dataVariables  = dataObj.variables;
                 tempOpt.estim_types    = {};
                 tempOpt                = rmfield(tempOpt,{'estim_end_date','estim_start_date','recursive_estim_start_date'});
-                
-                if ~isempty(tempOpt.prior) 
-                    if tempOpt.recursive_estim || tempOpt.real_time_estim
-                        if any(strcmpi(tempOpt.prior.type,nb_var.mfPriors()))
-                            % Trigger nb_missingEstimator when dealing with
-                            % missing observation B-VAR models.
-                            tempOpt.missingMethod = 'kalman';
-                        end
-                    end
-                end
                 
             otherwise
 

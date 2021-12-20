@@ -24,9 +24,9 @@ function xlcell = nb_excelCellOffset(base,x,y)
 % See also:
 % nb_excelRange, nb_letter2num, nb_num2letter
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         y = 0;

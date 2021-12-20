@@ -39,9 +39,9 @@ function [C,lambda] = nb_covShrinkDiag(X,lambda)
 %
 % See also:
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % De-mean data
     [T,N] = size(X);

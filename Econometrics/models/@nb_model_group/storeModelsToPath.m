@@ -15,9 +15,9 @@ function storeModelsToPath(obj,pathName)
 % - pathName : Full path name of the folder the model files should be 
 %              stored. As a string. Must be ended with a '\'.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     pathName = fileparts(pathName);
     if isempty(pathName)

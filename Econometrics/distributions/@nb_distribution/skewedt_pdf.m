@@ -27,9 +27,9 @@ function f = skewedt_pdf(x,a,b,c,d)
 % nb_distribution.skewedt_cdf, nb_distribution.skewedt_rand, 
 % nb_distribution.skewedt_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     g05  = gamma(d - 0.5);
     g05p = gamma(d + 0.5);

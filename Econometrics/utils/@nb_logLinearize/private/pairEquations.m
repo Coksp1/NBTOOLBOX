@@ -7,9 +7,9 @@ function obj = pairEquations(obj)
 %
 % Pair log-linearized equations that are splitted by equality sign.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind = ~isnan(obj.eqInd);
     if any(ind)

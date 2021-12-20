@@ -38,7 +38,7 @@ function obj = transpose(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % We may need to sort the types before assigning them as variables
     var      = obj.types;

@@ -25,9 +25,9 @@ function x = skewedt_kurtosis(~,b,c,d)
 % nb_distribution.skewedt_median, nb_distribution.skewedt_mean, 
 % nb_distribution.skewedt_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if d > 2
         v   = d^(0.5)*sqrt((3*c^2 + 1)*(1/(2*c-2)) - 4*c^2/pi*((gamma(d-0.5)/gamma(d))^2));

@@ -8,9 +8,9 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
 %
 % Produce density forecast of a factor model using bootstrap.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(inputs.missing)
         error([mfilename ':: Density forecast of factor models that are estimated with missing '...

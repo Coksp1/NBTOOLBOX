@@ -29,9 +29,9 @@ function [obj,statement] = ifElseEnd(obj,condition,statementTrue,statmentFalse)
 % See also:
 % nb_macro.forEnd, nb_macro.parse
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isOneLineChar(condition)
         try

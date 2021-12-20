@@ -15,9 +15,9 @@ function cl = getClassOfData(obj)
 % 
 % - cl : Name of the class that the data of the object is stored as.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     cl = class(obj.data);
 

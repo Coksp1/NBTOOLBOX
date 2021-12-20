@@ -23,9 +23,9 @@ function joiners = joinBestDancer(joiners,minXValue,minFunctionValue,minFFunctio
 % See also:
 % nb_beeSolver.relocate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nBees = size(joiners,1);
     if nBees == 0

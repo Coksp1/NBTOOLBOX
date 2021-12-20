@@ -22,7 +22,7 @@ function disp(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     disp(char(obj.objectsID)) 
 

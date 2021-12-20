@@ -141,9 +141,9 @@ function obj = filter(obj,varargin)
 % See also:
 % dsge.smoother, dsge.filter, nb_dynareSmoother
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Parse optional inputs
     opt = obj.options;

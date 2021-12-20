@@ -23,7 +23,7 @@ function obj = pow2(obj)
 %
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj.data = pow2(obj.data);
 

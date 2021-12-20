@@ -32,7 +32,7 @@ function obj = rdivide(obj,DB)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(obj,'nb_cs') || ~isa(DB,'nb_cs')
         error([mfilename,':: You can only divide element-wise an object of class nb_cs with another object of class nb_cs'])

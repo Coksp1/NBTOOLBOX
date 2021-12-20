@@ -10,9 +10,9 @@ classdef (Abstract) nb_calculate_generic
 % See also:
 % nb_calculate_vintages
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
    
     methods (Sealed=true)
         
@@ -38,7 +38,7 @@ classdef (Abstract) nb_calculate_generic
         % 
         % - calc : An object of class nb_ts.
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
         calc = getCalculated(obj)
         
     end

@@ -19,7 +19,7 @@ modelNS  = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 ssInit = struct(...
     'GAMMA_W_NW',0,...
@@ -61,7 +61,7 @@ modelNSPref = solveBalancedGrowthPath(modelNSPref);
 
 modelNSPref = stationarize(modelNSPref);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 ssInit = struct(...
     'GAMMA_W_NW',0,...
@@ -130,9 +130,9 @@ VNSPref     = rename(VNSPref,'variable',...
                  'K_NW_LEVEL','Y_NW_LEVEL'},...
     'settings',{'legBox','off','legFontSize',18,'subPlotSize',[4,3],...
                 'figureTitle',false,'lookUpMatrix','lookUpMatrixJPT',...
-                'legends',{'Investment specific technology',
-                           'Preferences',
-                           ''
-                           'Steady-state'}});
+                'legends',{'Investment-specific technology (IST)'
+                           'Preferences'
+                           'Steady state (IST)'
+                           'Steady state (Preferences)'}});
 nb_graphInfoStructGUI(plotter)
 % nb_saveas(gcf,'jpt_compare_irfs_nb','pdf','-noflip');

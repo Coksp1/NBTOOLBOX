@@ -100,9 +100,9 @@ classdef nb_cell < nb_dataSource
 % See also: 
 % nb_table_cell
 % 
-% Written by Kenneth Sæterhagen Paulsen  
+% Written by Kenneth SÃ¦terhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent=true)
         
@@ -128,7 +128,7 @@ classdef nb_cell < nb_dataSource
         function obj = nb_cell(datasets,NameOfDatasets)
         % Constructor:      
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
             
             if nargin < 2
                 NameOfDatasets = {};
@@ -385,19 +385,11 @@ classdef nb_cell < nb_dataSource
 
             if ischar(dataset)
 
-                locfold = nb_contains(dataset,'\');
-                if locfold
-                    num           = strfind(dataset,'\');
-                    FolderName    = dataset(1:num(end)-1);
-                    dataset       = dataset(num(end)+1:end);
-                    OldFolderName = cd(FolderName);
-                end
-
                 % Decide which type of file we are trying to load
                 dotIndex = strfind(dataset,'.');
                 if ~isempty(dotIndex)
-                    type    = dataset(dotIndex(1) + 1:end);
-                    dataset = dataset(1:dotIndex(1)-1);
+                    type    = dataset(dotIndex(end) + 1:end);
+                    dataset = dataset(1:dotIndex(end)-1);
                 else
                     if exist([dataset '.xlsx'],'file') == 2
                         type = 'xlsx';
@@ -441,10 +433,6 @@ classdef nb_cell < nb_dataSource
                         error(['Did not find; ' dataset ', ' dataset '.xlsx, ' dataset '.xls or ' dataset '.xlsm in the current folder.']);
 
 
-                end
-
-                if locfold
-                    cd(OldFolderName)
                 end
 
             elseif iscell(dataset)

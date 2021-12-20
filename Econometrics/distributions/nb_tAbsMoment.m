@@ -19,9 +19,9 @@ function f = nb_tAbsMoment(x,r)
 % 
 % - f : The rth order absolute moment
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f1 = sqrt((x.^r)./pi).*gamma(r/2 + 0.5).*gamma((x - r)./2);
     f2 = gamma(x./2);

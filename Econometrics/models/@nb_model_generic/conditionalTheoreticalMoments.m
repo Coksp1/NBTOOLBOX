@@ -100,9 +100,9 @@ function c = conditionalTheoreticalMoments(obj,varargin)
 % 
 % - varargout{1} : The mean, as a 1 x nVar x draws nb_cs object or double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargout < 1
         return

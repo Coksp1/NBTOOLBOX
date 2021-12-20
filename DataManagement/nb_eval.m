@@ -30,9 +30,9 @@ function out = nb_eval(expression,variables,data,macro)
 % nb_ts.createVariable, nb_cs.createVariable, nb_cs.createType,
 % nb_data.createVariable, eval
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         macro = false;

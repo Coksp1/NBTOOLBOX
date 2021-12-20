@@ -21,9 +21,9 @@ function x = gamma_std(m,k)
 % nb_distribution.gamma_mode, nb_distribution.gamma_median, 
 % nb_distribution.gamma_mean, nb_distribution.gamma_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = sqrt(m*(k^2));
 

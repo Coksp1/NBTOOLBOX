@@ -11,9 +11,9 @@ function [ys,allEndo,exo] = getAllMFVariables(options,ys,H,tempDep)
 % See also:
 % nb_bVarEstimator.estimate, nb_mfvar.filter
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if size(H,3) > 1
         N   = size(H,1);

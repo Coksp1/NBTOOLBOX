@@ -36,9 +36,9 @@ function weights = nb_restrictedWeights(scores,limits,selectors)
 % nb_model_group_vintages.constructWeights, 
 % nb_model_group_vintages.combineForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         selectors = {@(x)max(3,round(x*0.5)),@(x)max(5,round(x*0.2)),@(x)20};

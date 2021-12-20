@@ -12,9 +12,9 @@ function [Hlead,H0,Hlag,D] = getOptimalMonetaryPolicyMatrices(Alead,A0,Alag,B,W,
 % See also:
 % nb_dsge.optimalMonetaryPolicySolver
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nMult,nEndo] = size(A0); 
     nExo          = size(B,2);

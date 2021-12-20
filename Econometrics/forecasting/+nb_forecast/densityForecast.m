@@ -9,9 +9,9 @@ function [fData,evalFcst,solution] = densityForecast(y0,restrictions,model,optio
 %
 % Produce density forecast with wanted method
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the variables to forecast
     dep = nb_forecast.getForecastVariables(options,model,inputs,'densityForecast');

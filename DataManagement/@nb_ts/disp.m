@@ -21,7 +21,7 @@ function disp(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Display the data
     if  obj.numberOfDatasets > 100

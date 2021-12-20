@@ -37,9 +37,9 @@ function E = nb_identifyShocks(A,B,C,Y0,X,E,MUy,indY)
 % 
 % - E    : Identified shocks, as nShock x nSteps double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nSteps = size(MUy,2);
     Yt     = Y0;

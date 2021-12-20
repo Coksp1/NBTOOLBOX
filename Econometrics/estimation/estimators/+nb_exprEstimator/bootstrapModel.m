@@ -10,9 +10,9 @@ function [betaDraws,sigmaDraws,options] = bootstrapModel(solution,options,result
 %
 % Caution: The options struct is assumed to already be index by iter!
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         iter = 'end';

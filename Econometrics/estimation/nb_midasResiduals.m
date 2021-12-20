@@ -34,9 +34,9 @@ function resid = nb_midasResiduals(p,y,x,constant,func,nExo,AR)
 % See also:
 % nb_midasMapToLinear, nb_midasFunc
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nLags = (size(x,2) - constant)/nExo;
     beta  = nb_midasMapToLinear(p,func,AR,constant,nExo,nLags);

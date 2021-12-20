@@ -7,9 +7,9 @@ function factors = getFactors(results,options)
 %
 % Get the estimated factors of the estimated model as a nb_ts object
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isfield(results,'predicted')
         factors = nb_ts();

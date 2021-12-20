@@ -39,9 +39,9 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
 % See also:
 % nb_dsge.solveSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         bgp = [];

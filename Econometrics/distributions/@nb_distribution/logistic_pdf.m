@@ -23,9 +23,9 @@ function f = logistic_pdf(x,m,k)
 % nb_distribution.logistic_cdf, nb_distribution.logistic_rand, 
 % nb_distribution.logistic_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f1 = exp((x - m)./k);
     f2 = k.*(1 + f1).^2;

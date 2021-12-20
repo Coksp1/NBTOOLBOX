@@ -29,9 +29,9 @@ function draws = truncated_rand(nrow,ncol,dist,param,lb,ub)
 % - draws : A nrow x ncol matrix of random numbers from the truncated 
 %           distribution  
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     func    = str2func(['nb_distribution.' dist '_icdf']);
     funcCDF = str2func(['nb_distribution.' dist '_cdf']);

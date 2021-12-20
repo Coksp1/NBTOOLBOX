@@ -32,7 +32,7 @@ function obj = subAvg(obj,k)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    obj.data = nb_subAvg(obj.data,k);
 

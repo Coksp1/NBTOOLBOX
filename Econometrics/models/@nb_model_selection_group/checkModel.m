@@ -16,9 +16,9 @@ function obj = checkModel(obj)
 % 
 % - obj : An object of class nb_model_group.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_model_selection_group')
         options     = obj.options;

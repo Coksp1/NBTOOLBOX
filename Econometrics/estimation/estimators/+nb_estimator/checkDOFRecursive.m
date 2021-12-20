@@ -3,9 +3,9 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
 %
 % [start,iter,ss] = nb_estimator.checkDOFRecursive(options,numCoeff,T)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options  = nb_defaultField(options,'requiredDegreeOfFreedom',3);
     if isempty(options.rollingWindow)
@@ -22,13 +22,23 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
         else
             start = options.recursive_estim_start_ind - options.estim_start_ind + 1;
             if start < options.requiredDegreeOfFreedom + numCoeff
+                
                 date         = nb_date.date2freq(options.dataStartDate);
                 recStartDate = date + (options.recursive_estim_start_ind - 1);
                 startDate    = date + (options.estim_start_ind - 1);
                 firstStart   = startDate + (options.requiredDegreeOfFreedom + numCoeff - 1);
-                error([mfilename ':: The start date (' toString(recStartDate) ') of the recursive estimation is '...
-                    'less than the number of degrees of fredom that is needed for estimation (' toString(firstStart) '). ',...
-                    'Start date of estimation is ' toString(startDate)])
+                if isfield(options,'nStep')
+                    recStartDate = recStartDate + options.nStep;
+                    firstStart   = firstStart + options.nStep;
+                end
+                if start < 0
+                    error([mfilename ':: The start date (' toString(recStartDate) ') of the recursive estimation is '...
+                        'less than the start date of the estimation ' toString(startDate)])
+                else
+                    error([mfilename ':: The start date (' toString(recStartDate) ') of the recursive estimation is '...
+                        'less than the number of degrees of fredom that is needed for estimation (' toString(firstStart) '). ',...
+                        'Start date of estimation is ' toString(startDate)])
+                end
             end
             iter = T - start + 1;
             if iter < 1

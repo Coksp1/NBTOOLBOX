@@ -103,9 +103,9 @@ function [fcstData,fcstPercData] = getForecast(obj,outputType,includeHist,vararg
 % See also:
 % nb_model_forecast.plotForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         includeHist = 0;
@@ -308,11 +308,7 @@ function [fcstData,fcstPercData] = getForecast(obj,outputType,includeHist,vararg
                 
                 % Get history of all the forecasted variables
                 if includeHist
-                    if isa(obj,'nb_model_vintages')
-                        histData = getHistory(obj,vars,ind);
-                    else
-                        histData = getHistory(obj,vars,outputType);
-                    end
+                    histData = getHistory(obj,vars,outputType);
                     histData = window(histData,'',fcstData.startDate-1);
                     try
                         fcstData = merge(fcstData,histData);

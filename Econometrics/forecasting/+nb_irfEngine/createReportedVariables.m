@@ -11,9 +11,9 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,results,ss)
 % See also:
 % nb_irfEngine.collect
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nSteps,~,nShocks] = size(Y);
     nHistObs           = 10;
@@ -96,7 +96,7 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,results,ss)
         try 
             newVarsD(:,ii,:) = nb_eval(expression,variables,data); 
         catch Err
-            warning('nb_irfEngine:createReportedVariables:couldNotEvaluate',Err.message); %#ok<MEXCEP>
+            warning('nb_irfEngine:createReportedVariables:couldNotEvaluate',strrep(Err.message,'\','\\'));
         end 
         
         % To make it possible to use newly created variables in the 

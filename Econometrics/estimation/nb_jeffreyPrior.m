@@ -37,9 +37,9 @@ function prior = nb_jeffreyPrior(varargin)
 % See also:
 % nb_jeffrey
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     input = '';
     if length(varargin) == 1

@@ -23,9 +23,9 @@ function f = finvgamma_pdf(x,m,k)
 % nb_distribution.finvgamma_cdf, nb_distribution.finvgamma_rand, 
 % nb_distribution.finvgamma_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x               = -x;
     f               = k^m.*x.^(-m-1).*exp(-(k./x));

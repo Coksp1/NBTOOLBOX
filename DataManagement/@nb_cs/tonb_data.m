@@ -24,10 +24,9 @@ function nb_data_DB = tonb_data(obj)
 % 
 % Written by Kenneth S. Paulsen      
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
-    dataC      = asCell(obj);
-    nb_data_DB = nb_cell2obj(dataC,0,obj.sorted);
+    nb_data_DB = nb_data(double(obj),obj.dataNames,1,obj.variables);
     
     if obj.isUpdateable()
         

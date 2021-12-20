@@ -8,9 +8,9 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
 %
 % Produce density forecast of MIDAS models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;

@@ -10,9 +10,9 @@ function help = beta0()
 % See also:
 % nb_lasso.optimset
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     help = 'The starting value of the optimization. Default is [], i.e. zeros.';
 

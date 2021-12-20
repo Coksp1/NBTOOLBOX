@@ -15,9 +15,9 @@ function lik = evalLikelihood(obj)
 % 
 % - lik : Minus the log likelihood.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options       = getEstimationOptions(obj);
     [~,estStruct] = nb_dsge.getObjectiveForEstimation(options{1},false);

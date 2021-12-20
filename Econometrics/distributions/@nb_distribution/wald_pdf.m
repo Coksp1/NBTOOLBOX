@@ -25,9 +25,9 @@ function f = wald_pdf(x,m,k)
 % nb_distribution.wald_cdf, nb_distribution.wald_rand,
 % nb_distribution.wald_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = sqrt(k./(2.*pi.*(x.^3))).*exp((-k.*(x - m).^2)./(2.*m^2.*x));
     

@@ -28,9 +28,9 @@ function [dist,dates,vars] = nb_estimateDensityForrecast(model,start,hor,vars)
 %
 % - vars  : A 1 x nVars cellstr with the variables of the forecast.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         vars = {};

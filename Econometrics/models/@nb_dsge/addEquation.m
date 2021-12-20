@@ -34,9 +34,9 @@ function obj = addEquation(obj,varargin)
 % See also:
 % nb_dsge.parse
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: The obj input must be a scalar nb_dsge object.'])
@@ -88,7 +88,7 @@ function obj = addEquation(obj,varargin)
         
     end
     
-    if ~isempty(obj.parser.unitRoot)
+    if ~isempty(obj.parser.unitRootVars)
         % Revert to the non-stationary representation of the model
         obj = revert2NonStationary(obj);
     end

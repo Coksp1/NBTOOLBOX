@@ -193,9 +193,9 @@ classdef nb_cs < nb_dataSource
 % See also: 
 % nb_graph_cs, nb_ts, nb_graph_ts
 % 
-% Written by Kenneth Sæterhagen Paulsen  
+% Written by Kenneth SÃ¦terhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
     properties (SetAccess=protected,Dependent=true)
@@ -222,7 +222,7 @@ classdef nb_cs < nb_dataSource
         function obj = nb_cs(datasets,NameOfDatasets,types,variables,sorted)
         % Constructor:      
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
             
             if nargin<5
                 sorted = true;
@@ -543,11 +543,11 @@ classdef nb_cs < nb_dataSource
 
                             switch dimension
                                 case 1
-                                    obj = nb_cs(values,obj.dataNames,{func2str(func)},obj.variables);
+                                    obj = nb_cs(values,obj.dataNames,{func2str(func)},obj.variables,obj.sorted);
                                 case 2
-                                    obj = nb_cs(values,obj.dataNames,obj.types,{func2str(func)});
+                                    obj = nb_cs(values,obj.dataNames,obj.types,{func2str(func)},obj.sorted);
                                 case 3
-                                    obj = nb_cs(values,func2str(func),obj.types,obj.variables);
+                                    obj = nb_cs(values,func2str(func),obj.types,obj.variables,obj.sorted);
                             end
 
                         end
@@ -680,11 +680,11 @@ classdef nb_cs < nb_dataSource
                         
                         switch dimension
                             case 1
-                                obj = nb_cs(values,obj.dataNames,{func2str(func)},obj.variables);
+                                obj = nb_cs(values,obj.dataNames,{func2str(func)},obj.variables,obj.sorted);
                             case 2
-                                obj = nb_cs(values,obj.dataNames,obj.types,{func2str(func)});
+                                obj = nb_cs(values,obj.dataNames,obj.types,{func2str(func)},obj.sorted);
                             case 3
-                                obj = nb_cs(values,func2str(func),obj.types,obj.variables);
+                                obj = nb_cs(values,func2str(func),obj.types,obj.variables,obj.sorted);
                         end
                         
                     end
@@ -729,19 +729,11 @@ classdef nb_cs < nb_dataSource
 
             if ischar(dataset)
 
-                locfold = nb_contains(dataset,'\');
-                if locfold
-                    num           = strfind(dataset,'\');
-                    FolderName    = dataset(1:num(end)-1);
-                    dataset       = dataset(num(end)+1:end);
-                    OldFolderName = cd(FolderName);
-                end
-
                 % Decide which type of file we are trying to load
                 dotIndex = strfind(dataset,'.');
                 if ~isempty(dotIndex)
-                    type    = dataset(dotIndex(1) + 1:end);
-                    dataset = dataset(1:dotIndex(1)-1);
+                    type    = dataset(dotIndex(end) + 1:end);
+                    dataset = dataset(1:dotIndex(end)-1);
                 else
                     if exist([dataset '.xlsx'],'file') == 2
                         type = 'xlsx';
@@ -792,17 +784,7 @@ classdef nb_cs < nb_dataSource
                         [data, variables, types] = nb_cs.xls2Properties(dataset,sheet,sorted);
 
                     otherwise
-
-                        if locfold
-                            cd(OldFolderName)
-                        end
                         error(['Did not find; ' dataset ', ' dataset '.xlsx, ' dataset '.xls or ' dataset '.mat in the current folder.']);
-
-
-                end
-
-                if locfold
-                    cd(OldFolderName)
                 end
 
             elseif isnumeric(dataset) || isa(dataset,'nb_distribution')

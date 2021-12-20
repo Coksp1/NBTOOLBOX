@@ -14,9 +14,9 @@ function nb_writePostMacroFile(parsedFile,filename)
 % - filename   : File to write the model file to. Extension will be
 %                automatically set to .nbm.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [path,name] = fileparts(filename);
     filename    = fullfile(path,[name '.nbm']);

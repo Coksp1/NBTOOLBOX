@@ -30,7 +30,7 @@ function [ss,param] = frwz_nk_nb_steadystate(~,pp)
 %           steady-state. The names of the parameters as fieldnames and
 %           the found values as as the fields. E.g. param = struct('p',2).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     param = struct();
 

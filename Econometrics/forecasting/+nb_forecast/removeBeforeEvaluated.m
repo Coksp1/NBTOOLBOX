@@ -7,9 +7,9 @@ function remove = removeBeforeEvaluated(model,inputs)
 %
 % Removed variables from evaluated forecast.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     remove = {};
     if strcmpi(inputs.output,'all') || strcmpi(inputs.output,'full')

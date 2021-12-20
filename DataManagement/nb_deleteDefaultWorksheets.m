@@ -11,9 +11,9 @@ function nb_deleteDefaultWorksheets(filename)
 % 
 % - filename : The excel filename, as a string.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         % First open Excel

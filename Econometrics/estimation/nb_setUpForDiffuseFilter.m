@@ -10,7 +10,7 @@ function [M,G,C,x0,PS0,PINF0,fail] = nb_setUpForDiffuseFilter(H,A,B)
 % See also:
 % nb_kalmanSmootherDiffuseDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % Do the Schur decomposition
     [W,G] = schur(A);  

@@ -11,9 +11,9 @@ function obj = revert2NonStationary(obj)
 % See also:
 % nb_dsge.solveNB
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Remove and clean up fields set during stationarization of the model,
     % i.e. in solveBalancedGrowthPath and stationarize

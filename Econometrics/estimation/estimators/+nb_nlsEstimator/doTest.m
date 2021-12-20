@@ -10,9 +10,9 @@ function res = doTest(res,options,residual)
 % See also:
 % nb_nlsEstimator.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     T                 = size(residual,1);
     numCoeff          = length(options.parameters);

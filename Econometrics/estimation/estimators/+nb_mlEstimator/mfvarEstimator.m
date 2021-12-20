@@ -4,9 +4,9 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = mfvarEs
 % [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,ysl,lik,Hessian] = 
 % nb_mlEstimator.mfvarEstimator(y,X,options,H,init)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get mixing options
     nObs                   = size(y,2);

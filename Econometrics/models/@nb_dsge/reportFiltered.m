@@ -36,9 +36,9 @@ function [reported,raw] = reportFiltered(obj,expression,extra,type,normalize,eco
 % - raw             : An object of class nb_ts with the raw filtered 
 %                     variables.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         econometricians = false;

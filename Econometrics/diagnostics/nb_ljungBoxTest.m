@@ -20,9 +20,9 @@ function [stat,pval] = nb_ljungBoxTest(residual,k)
 %
 % - pval     : The p-value.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Perform the regression:
     [T,nEq] = size(residual);
@@ -44,6 +44,6 @@ function [stat,pval] = nb_ljungBoxTest(residual,k)
     stat = T*(T + 2)*stat;
 
     % Compute p-values:
-    pval = 1 - nb_distribution.chis_cdf(stat,nEq*(T4 - k + 1) - nEq^2);%chi2cdf(stat,nEq*(T4 - k + 1) - nEq^2);
+    pval = 1 - nb_distribution.chis_cdf(stat,nEq*(T4 - k + 1) - nEq^2);
 
 end

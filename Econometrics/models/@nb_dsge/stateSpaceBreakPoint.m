@@ -54,9 +54,9 @@ function sol = stateSpaceBreakPoint(par,estStruct)
 % See also:
 % nb_kalmanlikelihoodDSGE, nb_model_generic.estimate, nb_dsge.objective
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Assign current estimate
     estStruct.beta(estStruct.indPar) = par(~estStruct.isBreakP & ~estStruct.isTimeOfBreakP);

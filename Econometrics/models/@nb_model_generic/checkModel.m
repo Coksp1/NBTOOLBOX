@@ -16,9 +16,9 @@ function obj = checkModel(obj)
 % 
 % - obj : An object of class nb_model_generic.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     estOptions = obj.estOptions;
     options    = obj.options;

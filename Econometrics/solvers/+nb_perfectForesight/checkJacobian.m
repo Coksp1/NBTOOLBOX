@@ -7,9 +7,9 @@ function checkJacobian(obj,inputs,JFM)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     eqs = obj.parser.equationsParsed; 
     per = size(JFM,1)/length(eqs);

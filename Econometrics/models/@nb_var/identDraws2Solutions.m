@@ -17,9 +17,9 @@ function sol = identDraws2Solutions(obj)
 % - sol : A struct storing the solution of the model. Same format
 %         as the solution property of the nb_var class.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     solAll = obj.solution;
     num    = size(solAll.C,4);

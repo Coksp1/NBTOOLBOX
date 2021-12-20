@@ -18,9 +18,9 @@ function test = eq(obj,another)
 %
 % - test    : true or false.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(obj,'nb_equation') || ~isa(another,'nb_equation')
        test = false;

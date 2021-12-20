@@ -15,9 +15,9 @@ function modelList = nb_getModelListFromLibrary(folder)
 % 
 % - modelList : A list of all models stores as .mat files.
 %
-% Written by Erlend Salvesen Njølstad
+% Written by Erlend Salvesen NjÃ¸lstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     modelList = dir(fullfile(folder,'*.mat'));
     modelList = join({modelList.folder;modelList.name}','/');

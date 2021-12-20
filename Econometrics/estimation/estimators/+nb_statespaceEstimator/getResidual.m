@@ -7,9 +7,9 @@ function residual = getResidual(results,options) %#ok<INUSD,STOUT>
 %
 % Get the estimated model residuals as a nb_ts object
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: This method is not supported by the nb_statespaceEstimator package.'])
 

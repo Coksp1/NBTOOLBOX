@@ -14,9 +14,9 @@ classdef nb_dataSource
 % See also: 
 % nb_ts, nb_cs, nb_data
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
@@ -82,10 +82,10 @@ classdef nb_dataSource
             indN           = regexp(postfix,'\d','start');
             postfixT       = postfix;
             postfixT(indN) = '';
-            ind            = regexp(postfixT,'[!"@#£¤$%&/()=?`\^~¨*-:;§|><{},]','once');
+            ind            = regexp(postfixT,'[!"@#Â£Â¤$%&/()=?`\^~Â¨*-:;Â§|><{},]','once');
             if ~isempty(ind)
-                message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, £, ¤, $, '...
-                           '%, &, /, (, ), =, ?, `, \, ^, ~, ¨, *, -, :, ;, §, |, >, <, {, }, ], and ,'];
+                message = ['Invalid postfix ''' postfix ''' provided. The postfix cannot contain [, !, ", @, #, Â£, Â¤, $, '...
+                           '%, &, /, (, ), =, ?, `, \, ^, ~, Â¨, *, -, :, ;, Â§, |, >, <, {, }, ], and ,'];
                 return
             end
             

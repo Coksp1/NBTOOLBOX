@@ -7,9 +7,9 @@ function parser = eq2func(parser)
 %
 % Convert equations to function handle.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Remove equality
     eqs = nb_model_parse.removeEquality(parser.equations);

@@ -32,9 +32,9 @@ function pY = logMarginalLikelihood(T,n,d,xx,PSI,Omega,OmageInv,SigmaPost)
 %
 % - pY : Log marginal likelihood.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Log determinant of prior on Sigma
     if isvector(PSI)

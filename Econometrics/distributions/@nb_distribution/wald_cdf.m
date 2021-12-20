@@ -25,9 +25,9 @@ function f = wald_cdf(x,m,k)
 % nb_distribution.wald_pdf, nb_distribution.wald_rand,
 % nb_distribution.wald_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     z = sqrt(m./x).*(x./k - 1);
     y = -sqrt(m./x).*(x./k + 1);

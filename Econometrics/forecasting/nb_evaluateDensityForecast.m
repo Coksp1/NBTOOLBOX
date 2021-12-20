@@ -55,9 +55,9 @@ function fcstEval = nb_evaluateDensityForecast(type,data,forecastData,meanForeca
 %                           points where the density is evaluated is 
 %                           stored. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         inputs = struct('bins',[],'estDensity','kernel');
@@ -84,6 +84,7 @@ function fcstEval = nb_evaluateDensityForecast(type,data,forecastData,meanForeca
     int = nb_getDensityPoints(forecastData,inputs.bins);
     if strcmpi(inputs.estDensity,'kernel')
         density = nb_estimateKernelDensity(forecastData,int);
+        dist    = [];
     else
         
         dist(nHor,nVar) = nb_distribution;
@@ -115,7 +116,7 @@ function fcstEval = nb_evaluateDensityForecast(type,data,forecastData,meanForeca
     end
     
     % Do the density evaluation
-    fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,forecastData);
+    fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,forecastData,dist);
     
 end
               

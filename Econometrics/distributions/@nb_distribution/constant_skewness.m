@@ -19,9 +19,9 @@ function x = constant_skewness(~)
 % nb_distribution.constant_median, nb_distribution.constant_mean, 
 % nb_distribution.constant_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = 0;
 

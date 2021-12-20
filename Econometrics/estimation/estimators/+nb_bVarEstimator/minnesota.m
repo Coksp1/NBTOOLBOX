@@ -60,7 +60,7 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 9
         waitbar = 0;

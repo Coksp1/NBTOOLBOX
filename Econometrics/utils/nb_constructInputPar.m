@@ -20,9 +20,9 @@ function inputs = nb_constructInputPar(vars,pars)
 % See also:
 % nb_cell2func
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     all    = [vars,pars];
     all    = strcat(all,',');

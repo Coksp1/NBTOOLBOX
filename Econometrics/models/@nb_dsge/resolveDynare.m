@@ -12,9 +12,9 @@ function resolveDynare(results)
 % See also:
 % nb_dsge.solveNormal, nb_dsge.solvExpanded, resol
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     global M_ oo_ options_
 

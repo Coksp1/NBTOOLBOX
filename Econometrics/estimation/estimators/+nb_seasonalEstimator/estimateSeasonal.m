@@ -3,7 +3,7 @@ function [res,options] = estimateSeasonal(options,Z)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
     [dataStart,freq] = nb_date.date2freq(options.dataStartDate);

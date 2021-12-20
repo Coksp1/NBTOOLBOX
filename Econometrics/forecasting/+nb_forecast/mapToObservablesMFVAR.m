@@ -7,9 +7,9 @@ function [Y,dep] = mapToObservablesMFVAR(Y,options,model,inputs,start)
 %
 % Get forecast on the observable variables of a MF-VAR and merge with rest.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dep   = nb_forecast.getForecastVariables(options,model,inputs,'notAll');
     YT    = permute(Y,[2,1,3]);

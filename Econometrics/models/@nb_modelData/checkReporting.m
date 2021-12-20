@@ -11,9 +11,9 @@ function obj = checkReporting(obj)
 % 
 % - obj : A NxM nb_modelData object with the reporting property set.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_model_vintages')
         error([mfilename ':: Cannot call this method on a nb_model_vintages object. This is done '...

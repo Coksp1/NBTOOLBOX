@@ -20,9 +20,9 @@ function [beta,sigma,yDraws] = inwishartMFGibbs(draws,y,x,H,R_prior,initBeta,ini
 % 
 % See nb_bVarEstimator.inwishart
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Waitbar
     [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(waitbar,burn + draws);

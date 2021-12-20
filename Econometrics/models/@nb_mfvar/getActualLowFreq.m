@@ -29,9 +29,9 @@ function actual = getActualLowFreq(obj,variable,freq,release,dates,nSteps)
 % - actual  : A nb_ts object with the wanted release, or if nargin > 3
 %             a nb_data object with size nSteps x nVars x nDates.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: The obj input must be a scalar nb_mfvar object.'])

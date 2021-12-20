@@ -44,9 +44,9 @@ function [beta,residual,X] = nb_ridge(y,X,k,constant)
 % See also:
 % nb_ols, nb_lasso
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         constant = false;

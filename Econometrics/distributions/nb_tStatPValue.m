@@ -21,9 +21,9 @@ function p = nb_tStatPValue(x,m)
 % nb_distribution.t_pdf, nb_distribution.t_rand,
 % nb_distribution.t_icdf, nb_distribution.t_cdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     p = (1 - nb_distribution.t_cdf(x,m))*2;
     

@@ -13,9 +13,9 @@ function [A,C,jacobian,err] = solveSimpleRule(parser,sol,srCoeff,srInd,param)
 % See also:
 % nb_dsge.optimalSimpleRules, nb_dsge.solveAndCalculateLoss
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get options and solution
     jacobian = full(sol.jacobian);

@@ -19,9 +19,9 @@ classdef nb_calculate_factors < nb_calculate_only
 % See also:
 % nb_calculate_vintages
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
    
     properties
         

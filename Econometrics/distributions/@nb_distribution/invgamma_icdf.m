@@ -24,9 +24,9 @@ function x = invgamma_icdf(p,m,k)
 % nb_distribution.invgamma_cdf, nb_distribution.invgamma_rand, 
 % nb_distribution.invgamma_pdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])
@@ -35,7 +35,7 @@ function x = invgamma_icdf(p,m,k)
     x  = max(k/(m+1),0.1);
     dx = 1;
     kk = 0;
-    while any(any(abs(dx) > 256*eps*max(x,1))) && kk < 10000
+    while any(any(abs(dx) > 256*eps*max(x,1))) && kk < 100000
         
         dx = (nb_distribution.invgamma_cdf(x,m,k) - p) ./ nb_distribution.invgamma_pdf(x,m,k);
         x  = x - dx;

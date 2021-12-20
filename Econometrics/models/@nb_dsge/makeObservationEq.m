@@ -18,9 +18,9 @@ function H = makeObservationEq(obsInd,nEndo)
 % 
 % - H      : A nObs x nEndo matrix.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nObs = length(obsInd);
     H    = zeros(nObs,nEndo);

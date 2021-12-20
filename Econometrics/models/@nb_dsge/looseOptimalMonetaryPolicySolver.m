@@ -33,9 +33,9 @@ function [H,D,DE,parser,err] = looseOptimalMonetaryPolicySolver(parser,solution,
 % - DE       : Shock impact matrix as a nEndo x nExo x nHor, when solved
 %              with anticipated shocks, otherwise [].
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     persistent H0;
     err = '';

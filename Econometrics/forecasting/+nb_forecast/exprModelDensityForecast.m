@@ -10,9 +10,9 @@ function [fData,evalFcst] = exprModelDensityForecast(Z,restrictions,model,option
 %
 % This function does not handle Markov switching models!
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;

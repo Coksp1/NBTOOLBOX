@@ -23,9 +23,9 @@ function ci = parameterIntervals(obj,alpha)
 % 
 % - ci    : A nPar x 3 cell matrix. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     parNames = obj.parameters.name;
     if strcmpi(obj.estOptions.estimType,'classic')

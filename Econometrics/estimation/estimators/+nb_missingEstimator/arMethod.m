@@ -7,9 +7,9 @@ function options = arMethod(options)
 %
 % Fill in for missing observations using AR models.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set up ARIMA models
     finish                = options.estim_end_ind;

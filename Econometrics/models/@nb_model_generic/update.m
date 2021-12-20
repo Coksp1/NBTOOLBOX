@@ -49,9 +49,9 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
 %           false. If 'write' is not used an error will be thrown instead, 
 %           so in this case this output will be true for all models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         groupIndex = [];
@@ -137,7 +137,7 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
     
     % Estimate model
     %======================================================================
-    valid = isestimated(obj) & valid;
+    %valid = isestimated(obj) & valid;
     try
         [obj(valid),success] = estimate(obj(valid),inputs);
     catch Err

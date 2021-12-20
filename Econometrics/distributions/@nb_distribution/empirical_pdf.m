@@ -24,9 +24,9 @@ function f = empirical_pdf(x,domain,CDF)
 % nb_distribution.empirical_cdf, nb_distribution.empirical_rand,
 % nb_distribution.empirical_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Find the PDF
     diffR   = (domain(end)-domain(1))/length(domain);

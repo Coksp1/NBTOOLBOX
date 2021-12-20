@@ -15,6 +15,7 @@ function [obj, params] = parameterization(me,v,dist,lb,ub,s,k,mo)
 % > Mean and variance only: 'beta', 'f', 'gamma', 'invgamma', 'laplace', 
 %   'logistic', 'lognormal', 'normal', 'uniform', 'wald'
 % > Mean, variance and kurtosis: 't' (3 parameter family)
+% > Mean, variance, skewness and kurtosis: 'skt'
 % > Mean, mode and variance: 'tri'
 % > Mode and variance (Set mean (me input) to []): 'gamma'
 %
@@ -53,9 +54,9 @@ function [obj, params] = parameterization(me,v,dist,lb,ub,s,k,mo)
 % See also:
 % nb_distribution.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 8
         mo = [];
@@ -229,6 +230,27 @@ function [obj, params] = parameterization(me,v,dist,lb,ub,s,k,mo)
             [x,~,e] = fminsearch(@triMME,start,opt,mo,me,v); 
             nb_interpretExitFlag(e,'fminsearch');
             params = num2cell([x;mo]');
+            
+        case 'skt'
+            
+            if isempty(s)
+                error([mfilename ':: To find a parametrization of the ''skt'' distribution you need to set the s input.'])
+            end
+            if isempty(k)
+                error([mfilename ':: To find a parametrization of the ''skt'' distribution you need to set the k input.'])
+            end
+            if k <= 3
+                % We are dealing with the skewed normal
+                [location,scale,shape] = mme_skn(me,v,s);
+                x                      = [location,scale,shape,inf];
+            else
+                % Use skew normal estimates as start values 
+                [location,scale,shape] = mme_skn(me,v,s);
+                start                  = [location,scale,shape,8];
+                [x,~,e]                = fmincon(@sktMME,start,[],[],[],[],[],[],[],nb_getOpt(),me,v,s,k); 
+                nb_interpretExitFlag(e,'fmincon');
+            end
+            params = num2cell(x);    
 
         case 'uniform'
 
@@ -296,6 +318,38 @@ function f = triMME(x,mo,me,v)
         f = inf;
     else
         f = sum(abs([m1-me,v1-v]));
+    end
+
+end
+
+function [location,scale,shape] = mme_skn(me,v,s)
+
+    s_abs     = abs(s);
+    k1        = s_abs^(2/3);
+    k2        = ((4 - pi)/2)^(2/3);
+    delta_abs = sqrt((pi/2)*(k1/(k1 + k2)));
+    delta     = sign(s)*delta_abs;
+    shape     = delta/sqrt(1 - delta^2);
+    scale     = sqrt(v/(1 - (2*delta^2)/pi));
+    location  = me - scale*delta*sqrt(2/pi);
+
+end
+
+function f = sktMME(x,me,v,s,k)
+
+    if (x(2) <= 0)
+        f = 1000;
+        return
+    end
+    
+    param = num2cell(x);
+    m1    = nb_distribution.skt_mean(param{:});
+    v1    = nb_distribution.skt_variance(param{:});
+    s1    = nb_distribution.skt_skewness(param{:});
+    k1    = nb_distribution.skt_kurtosis(param{:});
+    f     = sum(abs([10*(m1-me),10*(v1-v),s1-s,k1-k]));
+    if isnan(f)
+        f = 1000;
     end
 
 end

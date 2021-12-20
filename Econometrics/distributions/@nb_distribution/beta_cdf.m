@@ -24,9 +24,9 @@ function f = beta_cdf(x,m,k)
 % nb_distribution.beta_pdf, nb_distribution.beta_rand,
 % nb_distribution.beta_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x(x>1) = 1; 
     x(x<0) = 0;

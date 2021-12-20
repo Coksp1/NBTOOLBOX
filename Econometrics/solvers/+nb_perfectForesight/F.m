@@ -8,7 +8,7 @@ function Y = F(G,vars,parVal,exoVal,initVal,varsSS)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     Y = G(vars,parVal,exoVal,initVal,varsSS);
     

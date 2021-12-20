@@ -7,9 +7,9 @@ function u = getMeasurmentEqRes(options,sq,sp,beta,y,z,x)
 %
 % Get residual from the measurment equation.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     numDyn  = options.AR + options.MA + sq + sp;
     numExoT = size(x,2);

@@ -97,9 +97,9 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
 % nb_model_generic, nb_model_estimate.set, nb_dsge.template, nb_dsge.help,
 % nb_dsge.solveNB
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties 
         

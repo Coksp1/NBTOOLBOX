@@ -19,9 +19,9 @@ function x = chis_variance(m)
 % nb_distribution.chis_mode, nb_distribution.chis_median, 
 % nb_distribution.chis_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = 2*m;
 

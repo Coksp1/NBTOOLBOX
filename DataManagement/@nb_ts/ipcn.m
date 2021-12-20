@@ -1,7 +1,8 @@
-function obj = ipcn(obj,initialValues,periods)
+function obj = ipcn(obj,initialValues,periods,startAtNaN)
 % Syntax:
 %
-% obj = ipcn(obj,initialValues,periods)
+% obj = ipcn(obj,initialValues)
+% obj = ipcn(obj,initialValues,periods,startAtNaN)
 %
 % Description:
 %
@@ -28,6 +29,12 @@ function obj = ipcn(obj,initialValues,periods)
 % - periods           : The number of periods the initial series
 %                       has been taken growth over.
 % 
+% - startAtNaN        : true or false. If true it will start taking the
+%                       inverse growth when the nb_ts object with 
+%                       initialValues are nan, instead using the first
+%                       not nan observation in the same input. Default
+%                       is false.
+%
 % Output:
 % 
 % - Output            : An nb_ts object with the indicies.
@@ -43,10 +50,13 @@ function obj = ipcn(obj,initialValues,periods)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
-    if nargin < 3
-        periods = 1;
+    if nargin < 4
+        startAtNaN = false;
+        if nargin < 3
+            periods = 1;
+        end
     end
     
     if nargin < 2
@@ -67,13 +77,29 @@ function obj = ipcn(obj,initialValues,periods)
             error([mfilename ':: The initialValues input must have a start date (' toString(initialValues.startDate) ') that is before '...
                              'the start date of this object (' toString(obj.startDate) ').'])
         end
-        needed = obj.getRealStartDate('nb_date') + (periods - 1);
-        if initialValues.endDate < needed
-            error([mfilename ':: The initialValues input must have at least observation until ' toString(needed) '.'])
+        
+        if startAtNaN
+            initEnd = initialValues.getRealEndDate('nb_date');
+            needed  = initEnd - (periods - 1);
+            if initialValues.startDate > needed
+                error([mfilename ':: The initialValues input must start at ' toString(needed) '.'])
+            end
+            t  = (needed - obj.startDate) + 1;
+            d0 = double(window(initialValues,needed,initEnd));
+        else
+            needed = obj.getRealStartDate('nb_date') + (periods - 1);
+            if initialValues.endDate < needed
+                error([mfilename ':: The initialValues input must have at least observation until ' toString(needed) '.'])
+            end
+            t  = 1;
+            d0 = double(window(initialValues,obj.startDate,needed));
         end
-        d0 = double(window(initialValues,obj.startDate,needed));
         
     else
+        if startAtNaN
+            error('The startAtNaN is not supported when initialValues is not given as a nb_ts object.')
+        end
+        t  = 1;
         d0 = initialValues;
     end
 
@@ -84,14 +110,21 @@ function obj = ipcn(obj,initialValues,periods)
     elseif size(d0,1) < periods
         error([mfilename ':: The ''initialValues'' must has the same number of rows as the periods input indicates (I.e. ' int2str(periods) '.).'])
     end
-    obj.data = igrowthnan(obj.data./100,d0,periods);
-    
+    if t == 1  
+        obj.data = igrowthnan(obj.data./100,d0,periods);
+    else
+        d                   = obj.data(t:end,:,:);
+        d                   = igrowthnan(d./100,d0,periods);
+        obj.data(1:t-1,:,:) = initialValues.data(1:t-1,:,:);
+        obj.data(t:end,:,:) = d;
+    end
+        
     if obj.isUpdateable()
         
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@ipcn,{initialValues,periods});
+        obj = obj.addOperation(@ipcn,{initialValues,periods,startAtNaN});
         
     end
 

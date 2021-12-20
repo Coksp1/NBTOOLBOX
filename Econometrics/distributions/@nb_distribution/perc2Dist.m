@@ -41,9 +41,9 @@ function obj = perc2Dist(perc,values,nDraws,gridpoints,iter,varargin)
 % See also:
 % nb_distribution.perc2DistCDF
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         iter = 1;

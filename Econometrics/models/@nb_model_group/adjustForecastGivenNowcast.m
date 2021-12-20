@@ -13,9 +13,9 @@ function [forecastOutput,startFcstObj] = adjustForecastGivenNowcast(nowcast,fore
 % See also:
 % nb_model_group.combineForecast, nb_model_group.aggregateForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 % Remember: Here I only allow for combination of one variable! This means
 %           I don't care about the rest of the variable are dated 

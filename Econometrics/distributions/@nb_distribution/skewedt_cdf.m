@@ -31,9 +31,9 @@ function f = skewedt_cdf(x,a,b,c,d)
 % nb_distribution.skewedt_pdf, nb_distribution.skewedt_rand,
 % nb_distribution.skewedt_icdf, nb_mci
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dist       = nb_distribution('type','normal','parameters',{a,b});
     [s1,s2,s3] = size(x);

@@ -221,7 +221,7 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         output = 'normal';
@@ -305,12 +305,12 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
         GraphStruct = struct();
         for ii = 1:length(vars)
             field = strrep(vars{ii},' ','_');
-            field = strrep(field,'æ','ae');
-            field = strrep(field,'ø','oe');
-            field = strrep(field,'å','aa');
-            field = strrep(field,'Æ','Ae');
-            field = strrep(field,'Ø','Oe');
-            field = strrep(field,'Å','Aa');
+            field = strrep(field,'Ã¦','ae');
+            field = strrep(field,'Ã¸','oe');
+            field = strrep(field,'Ã¥','aa');
+            field = strrep(field,'Ã†','Ae');
+            field = strrep(field,'Ã˜','Oe');
+            field = strrep(field,'Ã…','Aa');
             GraphStruct.(field) = {plottedVar{ii*2 - 1},  {'title', vars{ii}, 'colorOrder',{'black','red'},'legends',{'Raw Data','Trend'}};
                                    plottedVar{ii*2},{'title', vars{ii}, 'colorOrder',{'blue'},'legends',{'Gap'}}};
         end

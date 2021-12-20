@@ -24,9 +24,9 @@ function template = priorTemplate(type)
 % See also:
 % nb_var.priorTemplate, nb_mfvar.priorTemplate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 1
         type = 'jeffrey';

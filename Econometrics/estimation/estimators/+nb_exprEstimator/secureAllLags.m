@@ -8,9 +8,9 @@ function options = secureAllLags(options)
 % Secure that all lags are added to the data, as they are needed for
 % forecasting, shock decomposition etc. later.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     numDep = length(options.dependent);
     pred   = cell(1,numDep);

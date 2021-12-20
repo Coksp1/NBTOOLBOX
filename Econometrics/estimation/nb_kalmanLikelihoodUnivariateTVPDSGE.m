@@ -70,9 +70,9 @@ function lik = nb_kalmanLikelihoodUnivariateTVPDSGE(par,model,y,varargin)
 % nb_kalmanLikelihoodTVPDSGE, nb_kalmanSmootherUnivariateTVPDSGE, 
 % nb_setUpForDiffuseFilter, nb_kalmanLikelihoodDiffuseTVPDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)

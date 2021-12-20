@@ -7,9 +7,9 @@ function notifyWaitbarQuantile(h,qq,note,numQ)
 %
 % Notify waitbar for producing bootstrapped draws.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numQ == 1
         return

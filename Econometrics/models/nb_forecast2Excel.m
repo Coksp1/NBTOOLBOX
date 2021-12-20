@@ -17,9 +17,9 @@ function nb_forecast2Excel(fcst,filename)
 % See also:
 % nb_model_vintages.getForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fcstP     = asCell(permute(fcst)); %#ok<LTARG>
     [~,s2,s3] = size(fcstP);

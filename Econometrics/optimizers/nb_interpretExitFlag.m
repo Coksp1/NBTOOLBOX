@@ -24,9 +24,9 @@ function message = nb_interpretExitFlag(e,type,extra,homotopyErr)
 % - homotopyErr : If nb_homotopy is used you can provide the err output
 %                 of that function as this input.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         homotopyErr = [];
@@ -203,6 +203,16 @@ function message = nb_interpretExitFlag(e,type,extra,homotopyErr)
                 message = ['Error during nb_lasso:: Numerical breakdown, check for dependent columns.',extra];
             elseif e == -2
                 message = ['Error during nb_lasso:: Maximum number of iteration reached.',extra];      
+            end
+            
+        case 'lsqnonlin'
+            
+            if e == 0
+                message = ['Error during lsqnonlin:: Too many function evaluations or iterations.',extra];
+            elseif e == -1
+                message = ['Error during lsqnonlin:: Stopped by output/plot function.',extra];    
+            elseif e == -2
+                message = ['Error during lsqnonlin:: Bounds are inconsistent.',extra];    
             end
             
         otherwise

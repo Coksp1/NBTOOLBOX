@@ -9,14 +9,14 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
 %
 % Identify the shocks/residuals to meet the conditional restriction.
 %
-% See Kenneth Sæterhagen Paulsen (2010), "Conditional forecast in DSGE 
+% See Kenneth SÃ¦terhagen Paulsen (2010), "Conditional forecast in DSGE 
 % models - A conditional copula approach".
 %
 % Implements the steps in section 3.1.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         solution = struct;

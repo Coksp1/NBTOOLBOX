@@ -3,9 +3,9 @@ function [ind,frequency] = nb_isQorM(date)
 %
 % [ind,frequency] = nb_isQorM(date)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind1      = ~isempty(strfind(date,'Q'));
     ind2      = ~isempty(strfind(date,'K'));

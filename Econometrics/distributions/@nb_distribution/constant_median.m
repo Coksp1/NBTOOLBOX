@@ -19,9 +19,9 @@ function x = constant_median(m)
 % nb_distribution.constant_mode, nb_distribution.constant_mean, 
 % nb_distribution.constant_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = m;
 

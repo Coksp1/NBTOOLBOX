@@ -21,9 +21,9 @@ function parser = removeUnitRootVariables(parser)
 % See also:
 % nb_dsge.parse, nb_dsge.addEquation, nb_dsge.solveSteadyStateStatic
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isfield(parser,'equationsParsed')
         nUnitRoot = length(parser.unitRootVars);

@@ -44,9 +44,9 @@ function infoCrit = nb_infoCriterion(type,logLikelihood,T,numCoeff,kappa)
 % - infoCrit : The calculated information criterion. A 1 x neq 
 %              double.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         kappa = 0;

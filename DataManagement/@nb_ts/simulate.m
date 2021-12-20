@@ -61,9 +61,9 @@ function [obj,res] = simulate(start,obs,vars,pages,lambda,rho,dist,burn,varargin
 % obj = nb_ts.simulate('1994Q1',100,2,1000,...
 %                 [0.9,-0.2,0.3,0;0.1,0,0.7,0.05],[0.5;0.3])
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 8
         burn = 10;

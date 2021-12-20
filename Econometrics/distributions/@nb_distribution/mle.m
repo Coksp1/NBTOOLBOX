@@ -46,9 +46,9 @@ function obj = mle(x,dist)
 % See also:
 % nb_distribution.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nvar = size(x,2);
     if nvar > 1
@@ -216,7 +216,7 @@ function obj = mle(x,dist)
             m   = mean(x,1);
             s   = std(x,0,1);
             obj = nb_distribution('type','normal','parameters',{m,s});
-            
+               
         case 't'
             
             % Start at mme estimates
@@ -275,6 +275,17 @@ end
 
 function f = logistic_lik(x,n,me,data)
     f = -n*me/x(2) + n*x(1)/x(2) + n*log(x(2)) + 2*sum(log(1 + exp((data - x(1))/x(2)))); %-logLikelihood 
+end
+
+function f = skt_lik(x,data)
+    location = x(1);
+    scale    = x(2);
+    shape    = x(3);
+    dof      = x(4);
+    
+    
+    term = log(1 + ((data - a).^2)/(b^2*m));
+    f    = size(data,1)*log(sqrt(m)*b*beta(0.5,m/2)) + ((m + 1)/2)*sum(term); %-logLikelihood 
 end
 
 function f = t_lik(x,data)

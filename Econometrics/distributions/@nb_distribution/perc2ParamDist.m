@@ -50,9 +50,9 @@ function [obj,err] = perc2ParamDist(dist,perc,values,varargin)
 % See also:
 % nb_distribution.perc2Dist, nb_callOptimizer
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     [optimizer,varargin] = nb_parseOneOptional('optimizer','fmincon',varargin{:});
     optimset             = nb_parseOneOptional('optimset',[],varargin{:});

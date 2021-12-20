@@ -45,9 +45,9 @@ function obj = ecdf(obj,varargin)
 % See also:
 % nb_data.ksdensity
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.numberOfDatasets > 1
         error([mfilename ':: This method does not handle a multi-paged nb_data object.'])

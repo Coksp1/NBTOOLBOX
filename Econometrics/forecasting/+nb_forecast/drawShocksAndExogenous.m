@@ -13,9 +13,9 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
 % loop this function. This give much more flexibility for the user on how
 % to produce the density forecast.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if iscell(vcv)
         vcv = vcv{1}; % For Markov switching and DSGE models we have assumed this to be the identity matrix!
@@ -94,8 +94,14 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
         X = restrictions.X(:,:,index)';
         X = X(:,:,ones(1,draws));
         if ~isempty(exoProj)
-            XAR = nb_forecast.estimateAndBootstrapX(options,restrictions,draws,restrictions.start,inputs); 
-            X   = [X;XAR];
+            XAR = nb_forecast.estimateAndBootstrapX(options,restrictions,draws,restrictions.start,inputs);
+            if ~isempty(XAR)
+                indExo  = restrictions.indExo(:,:,restrictions.index);
+                X       = [X(~indExo,:,:);XAR];
+                order   = [restrictions.exo(~indExo),restrictions.exo(indExo)];
+                [~,loc] = ismember(order,restrictions.exo);
+                X       = X(loc,:,:);
+            end
         end
         E = restrictions.E(:,:,index)';
         try

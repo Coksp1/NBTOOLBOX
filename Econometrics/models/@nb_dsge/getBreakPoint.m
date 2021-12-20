@@ -8,9 +8,9 @@ function [options,isBreakP,isTimeOfBreakP,states,filterType] = getBreakPoint(opt
 %
 % Get information on break points.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     parser         = options.parser;
     if isempty(options.prior)

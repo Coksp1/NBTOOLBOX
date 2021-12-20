@@ -23,7 +23,7 @@ function solver = test2(varargin)
 % See also:
 % nb_solve, nb_solve.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     solver = nb_solve(@(x)[x(1)^2-x(2);x(1)*x(2)],ones(2,1)*2,[],@(x)[2*x(1),-1;x(2),x(1)]);
     set(solver,varargin{:});

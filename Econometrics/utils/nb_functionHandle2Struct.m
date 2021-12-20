@@ -25,11 +25,17 @@ function s = nb_functionHandle2Struct(f)
 % See also:
 % nb_struct2functionHandle
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     s = functions(f);
     s = rmfield(s, setdiff(fieldnames(s),{'function','workspace'}));
-
+    if ~isfield(s,'workspace')
+        s.workspace = struct();
+    end
+    if ~strncmp(s.function,'@',1)
+        % If function handle is on the format @func, it skips the @
+        s.function = ['@',s.function];
+    end
 end

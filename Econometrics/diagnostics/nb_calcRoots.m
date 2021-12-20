@@ -22,9 +22,9 @@ function [realD,imagD,modulus] = nb_calcRoots(A)
 %
 % - modulus : The modulus of the roots.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [s,~,p] = size(A);
     eigVal  = nan(s,1,p);

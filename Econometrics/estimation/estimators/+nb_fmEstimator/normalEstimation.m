@@ -9,7 +9,7 @@ function [res,options] = normalEstimation(options,res)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Estimate the rest of the model conditional on the factors
     %----------------------------------------------------------

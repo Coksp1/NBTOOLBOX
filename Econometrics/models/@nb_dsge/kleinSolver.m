@@ -10,9 +10,9 @@ function [A,D,err] = kleinSolver(parser,FF,F0,FB,FU)
 % See also:
 % nb_solveLinearRationalExpModel
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the static variables
     isStatic  = parser.isStatic;

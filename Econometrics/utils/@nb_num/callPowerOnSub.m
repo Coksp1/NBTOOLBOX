@@ -6,7 +6,7 @@ function obj = callPowerOnSub(obj,another)
 % See also:
 % nb_term.power
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if nb_isScalarNumber(obj)
         obj = nb_num(obj);

@@ -202,9 +202,9 @@ classdef nb_data < nb_dataSource
 % See also: 
 % nb_cs, nb_ts, nb_graph_ts, nb_graph_cs, nb_graph_data
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
@@ -467,9 +467,9 @@ classdef nb_data < nb_dataSource
                                 case 1
                                     error([mfilename ':: Cannot take the ' func2str(func) ' over the '  int2str(dimension) ', when the demanded output is set to ''' outputType '''.'])
                                 case 2
-                                    obj = nb_data(values,obj.dataNames,obj.startObs,{func2str(func)});
+                                    obj = nb_data(values,obj.dataNames,obj.startObs,{func2str(func)},obj.sorted);
                                 case 3
-                                    obj = nb_data(values,func2str(func),obj.startObs,obj.variables);
+                                    obj = nb_data(values,func2str(func),obj.startObs,obj.variables,obj.sorted);
                             end
 
                         end
@@ -618,9 +618,9 @@ classdef nb_data < nb_dataSource
                             case 1
                                 error([mfilename ':: Cannot take the ' func2str(func) ' over the '  int2str(dimension) ', when the demanded output i set to ''' outputType '''.'])
                             case 2
-                                obj = nb_data(values,obj.dataNames,obj.startObs,{func2str(func)});
+                                obj = nb_data(values,obj.dataNames,obj.startObs,{func2str(func)},obj.sorted);
                             case 3
-                                obj = nb_data(values,func2str(func),obj.startObs,obj.variables);
+                                obj = nb_data(values,func2str(func),obj.startObs,obj.variables,obj.sorted);
                         end
                         
                     end
@@ -825,32 +825,12 @@ classdef nb_data < nb_dataSource
                 end
 
             elseif ischar(dataset)
-
-                locfold = nb_contains(dataset,'\');
-                if locfold
-                    num           = strfind(dataset,'\');
-                    FolderName    = dataset(1:num(end)-1);
-                    dataset       = dataset(num(end)+1:end);
-                    try
-                        OldFolderName = cd(FolderName);
-                    catch Err
-                        
-                        if strcmp(Err.identifier,'MATLAB:cd:NonExistentDirectory')
-                            error([mfilename ':: Can not locate the given path: ' FolderName dataset ...
-                                             ' (Be aware that you must provide the path name with two slashes(\\).)'])
-                        else
-                            rethrow(Err)
-                        end
-                            
-                    end
-                    
-                end
-
+                
                 % Decide which type of file we are trying to load
                 dotIndex = strfind(dataset,'.');
                 if ~isempty(dotIndex)
-                    type    = dataset(dotIndex(1) + 1:end);
-                    dataset = dataset(1:dotIndex(1)-1);
+                    type    = dataset(dotIndex(end) + 1:end);
+                    dataset = dataset(1:dotIndex(end)-1);
                 else
                     if exist([dataset '.xlsx'],'file') == 2
                         type = 'xlsx';
@@ -903,18 +883,8 @@ classdef nb_data < nb_dataSource
                         [data, variables, startObs, endObs] = nb_data.xls2Properties(dataset,sheet,sorted);
 
                     otherwise
-
-                        if locfold
-                            cd(OldFolderName)
-                        end
                         error(['Did not find; ' dataset ', ' dataset '.xlsx, ' dataset '.xls or ' dataset '.mat in the current folder.']);
-
                 end
-
-                if locfold
-                    cd(OldFolderName)
-                end
-
             else
                 error([mfilename ':: Dataset is not a string with name of mat file or xls file or a double matrix with data (variables must then be given).'])
             end

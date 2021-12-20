@@ -27,9 +27,9 @@ function draws = drawCandidatesLocal(fVal,cVal,x,nBees)
 % See also:
 % nb_beeSolver.initialize, nb_beeSolver.scout
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     N     = size(fVal,1);
     alpha = rand(N,N,nBees);

@@ -25,9 +25,9 @@ function value = nb_maxDeriv(expr1,expr2,deriv1,deriv2)
 % 
 % - value : Value of the derivative after the max function is applied.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     term       = expr1 - expr2;
     condition1 = term > eps;

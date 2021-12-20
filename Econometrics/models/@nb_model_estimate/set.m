@@ -42,9 +42,9 @@ function obj = set(obj,varargin)
 % See also:
 % nb_model_generic, nb_judgemental_forecast, nb_model_convert
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 1
         return
@@ -160,7 +160,7 @@ function obj = set(obj,varargin)
 
                     case 'frequency'
 
-                        if isa(obj(ii),'nb_mfvar')
+                        if isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn')
                             obj(ii) = setFrequency(obj(ii),inputValue);
                         elseif isa(obj(ii),'nb_midas')
                             if nb_isScalarInteger(inputValue)
@@ -259,7 +259,7 @@ function obj = set(obj,varargin)
 
                     case 'mapping'
 
-                        if ~isa(obj(ii),'nb_mfvar')
+                        if not(isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn'))
                             error([mfilename ':: Bad field name of the options property found; ' inputName])
                         end
                         obj(ii) = setMapping(obj(ii),inputValue);

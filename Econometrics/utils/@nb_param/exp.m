@@ -15,9 +15,9 @@ function obj = exp(obj)
 % 
 % - obj : An object of class nb_param.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     paramStr      = nb_mySD.addPar(obj.parameter,false);
     obj.parameter = ['exp' paramStr];

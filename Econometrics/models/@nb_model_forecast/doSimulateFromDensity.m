@@ -22,7 +22,7 @@ function obj = doSimulateFromDensity(obj,draws)
 %
 % Written by Per Bjarne Bye and Atle Loneland
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isscalar(obj)
         error('The input obj must be a scalar nb_model_forecast object.')

@@ -166,9 +166,9 @@ function output = mhSampler(objective,beta,sigma,varargin)
 % nb_mcmc.adaptiveRandomWalkUpdate, nb_mcmc.geweke, nb_mcmc.gelmanRubin,
 % nb_mcmc.nutSampler, nb_waitbar
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(objective,'function_handle')
         error([mfilename ':: The objective input must be a function_handle object.'])

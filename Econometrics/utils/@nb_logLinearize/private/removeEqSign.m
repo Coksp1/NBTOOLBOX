@@ -7,9 +7,9 @@ function obj = removeEqSign(obj)
 %
 % Remove equality sign and update the property eqSign.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     eqs            = obj.equations;
     eqs            = regexprep(eqs,'\s','');

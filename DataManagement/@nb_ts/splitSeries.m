@@ -32,9 +32,9 @@ function obj = splitSeries(obj,variable,date,postfix,overlapping)
 % See also:
 % nb_ts, nb_ts.splitSample
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         overlapping = true;

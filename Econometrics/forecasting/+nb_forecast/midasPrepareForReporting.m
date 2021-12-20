@@ -10,9 +10,9 @@ function optLow = midasPrepareForReporting(options)
 % See also:
 % nb_forecast.midasPointForecast, nb_forecast.midasDensityForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     optLow                 = options;
     optLow.data            = options.data(options.start_low:options.increment:options.end_low,:);

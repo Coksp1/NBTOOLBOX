@@ -8,9 +8,9 @@ function fcst = midas(model,options,results,startInd,endInd,nSteps,inputs)
 %
 % Produce forecast of MIDAS models.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     %--------------------------------------------------------------

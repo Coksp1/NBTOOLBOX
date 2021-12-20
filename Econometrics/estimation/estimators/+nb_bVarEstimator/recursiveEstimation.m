@@ -8,9 +8,9 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
 %
 % Estimate B-VAR model recursivly.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options = nb_defaultField(options,'parallel',false);
     options = nb_defaultField(options,'cores',[]);
@@ -101,11 +101,7 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         
         nLags = options.nLags;
         if mfvar
-            
-            if strcmpi(options.prior.type,'glpmf')
-                error([mfilename ':: The glpMF prior is not supported for the nb_mfvar class.'])
-            end
-                
+              
             % Add one extra state variable here, if only 'end' mapping
             % is used
             [H,freq,extra] = nb_mlEstimator.getMeasurmentEqMFVAR(options,1);

@@ -9,9 +9,9 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 %
 % Produce point forecast.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     inputs = nb_defaultField(inputs,'bounds',[]);
     if strcmpi(model.class,'nb_tvp')
@@ -40,7 +40,8 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 
         forecastOrKalman = false;
         if ~isempty(inputs.missing)
-            if strcmpi(options.missingMethod,'forecast') || strcmpi(options.missingMethod,'kalmanfilter')
+            if strcmpi(options.missingMethod,'forecast') || strcmpi(options.missingMethod,'kalmanfilter') ...
+                    || strcmpi(options.missingMethod,'kalman')
                 forecastOrKalman = true;
                 % For the missing method 'forcast' we need to update the
                 % nowcast given the full sample estimates (where the missing 
@@ -99,8 +100,14 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
             end
             X = restrictions.X(:,:,index)';
             if ~isempty(exoProj)
-                XAR = nb_forecast.estimateAndBootstrapX(options,restrictions,1,restrictions.start,inputs); 
-                X   = [X;XAR];
+                XAR = nb_forecast.estimateAndBootstrapX(options,restrictions,1,restrictions.start,inputs);
+                if ~isempty(XAR)
+                    indExo  = restrictions.indExo(:,:,restrictions.index);
+                    X       = [X(~indExo,:);XAR];
+                    order   = [restrictions.exo(~indExo),restrictions.exo(indExo)];
+                    [~,loc] = ismember(order,restrictions.exo);
+                    X       = X(loc,:);
+                end
             end
             E      = restrictions.E(:,:,index)';
             states = restrictions.states;
@@ -163,16 +170,16 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
                 Y = [yNow(:,1:end-1),Y];
             end
             
-            if strcmpi(model.class,'nb_fmdyn') || strcmpi(model.class,'nb_favar')  
+            if strcmpi(model.class,'nb_fmdyn') || strcmpi(model.class,'nb_favar') ...
+                || (any(strcmpi(model.class,{'nb_mfvar','nb_var'})) && strcmpi(options.estim_method,'tvpmfsv'))
                 if ~isempty(inputs.observables)% Factor model
-                    [dep,Y] = nb_forecast.doMeasurementEq(inputs,nSteps,model,Y,X,dep,iter);
+                    [dep,Y] = nb_forecast.doMeasurementEq(options,results,inputs,nSteps,model,Y,X,dep,iter);
                 end
+            end
+            if ~isempty(inputs.missing)
+                Y = Y(1:size(dep,2),:);
             else
-                if ~isempty(inputs.missing)
-                    Y = Y(1:size(dep,2),:);
-                else
-                    Y = Y(1:size(dep,2),2:end);
-                end
+                Y = Y(1:size(dep,2),2:end);
             end
             Y = permute(Y,[2,1]);
 
@@ -193,7 +200,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
         end
 
         % Special stuff for MF-VAR models
-        if strcmpi(model.class,'nb_mfvar')
+        if strcmpi(model.class,'nb_mfvar') && not(strcmpi(options.estim_method,'tvpmfsv'))
             [Y,dep] = nb_forecast.mapToObservablesMFVAR(Y,options,model,inputs,restrictions.start);
         end
         
@@ -221,7 +228,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
         if isempty(inputs.missing)
             if not(strcmpi(model.class,'nb_fmsa') || strcmpi(model.class,'nb_sa'))
                 if strcmpi(model.class,'nb_arima')
-                    dep = [dep,model.factors,model.res];
+                    dep = [dep,model.exo,model.factors,model.res];
                     Y   = [Y,permute(X,[2,1,3]),permute(Z,[2,1,3]),permute(E(:,1:nSteps,:),[2,1,3])];
                 elseif strcmpi(model.class,'nb_tvp')
                     dep = [dep,model.factors,model.res,model.parameters,model.paramRes];

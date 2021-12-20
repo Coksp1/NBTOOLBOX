@@ -21,9 +21,9 @@ function f = chis_pdf(x,m)
 % nb_distribution.chis_cdf, nb_distribution.chis_rand, 
 % nb_distribution.chis_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = nb_distribution.gamma_pdf(x,m*0.5,2);
      

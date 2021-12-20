@@ -19,9 +19,9 @@ function [X,nanInd] = fillInForMissing(X)
 %
 % - nanInd  : A T x N logical. true at the elements where data is missing.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [T,N]  = size(X);
     nanInd = false(T,N);
@@ -38,7 +38,10 @@ function [X,nanInd] = fillInForMissing(X)
         
         % Spline the missing observations in the middle of the same,
         % e.g. for low frequency variables
-        midSample     = firstRealObs:lastRealObs;
+        midSample = firstRealObs:lastRealObs;
+        if isempty(midSample)
+            error(['The observable number ' int2str(ii) ' contains only nan values.'])
+        end
         xi(midSample) = spline(find(~isNaN),xi(~isNaN),midSample');
         
         % Fill in for the leading and trailing nans  

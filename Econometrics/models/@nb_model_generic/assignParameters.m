@@ -45,9 +45,9 @@ function obj = assignParameters(obj,varargin)
 %         underlying model has been changed. See solve to get the solution
 %         of the model with the updated parameters.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@assignParameters,str2func(class(obj)),varargin{:});

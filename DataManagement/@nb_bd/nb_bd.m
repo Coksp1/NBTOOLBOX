@@ -162,7 +162,7 @@ classdef nb_bd < nb_dataSource
 % 
 % Written by Per Bjarne Bye  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
      properties (SetAccess=protected,Dependent=true)
         
@@ -821,30 +821,11 @@ classdef nb_bd < nb_dataSource
 
             elseif ischar(dataset)
 
-                locfold = nb_contains(dataset,'\');
-                if locfold
-                    num           = strfind(dataset,'\');
-                    FolderName    = dataset(1:num(end)-1);
-                    dataset       = dataset(num(end)+1:end);
-                    try
-                        OldFolderName = cd(FolderName);
-                    catch Err
-                        
-                        if strcmp(Err.identifier,'MATLAB:cd:NonExistentDirectory')
-                            error([mfilename ':: Can not locate the given path: ' FolderName '\' dataset])
-                        else
-                            rethrow(Err)
-                        end
-                            
-                    end
-                    
-                end
-
                 % Decide which type of file we are trying to load
                 dotIndex = strfind(dataset,'.');
                 if ~isempty(dotIndex)
-                    type    = dataset(dotIndex(1) + 1:end);
-                    dataset = dataset(1:dotIndex(1)-1);
+                    type    = dataset(dotIndex(end) + 1:end);
+                    dataset = dataset(1:dotIndex(end)-1);
                 else
                     if exist([dataset '.xlsx'],'file') == 2
                         type = 'xlsx';

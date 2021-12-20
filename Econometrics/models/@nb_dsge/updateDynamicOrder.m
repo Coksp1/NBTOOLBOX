@@ -12,9 +12,9 @@ function parser = updateDynamicOrder(parser)
 % See also:
 % nb_dsge.parse, nb_dsge.addEquation
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     endo                = parser.endogenous;
     purlyBackward       = endo(parser.isPurlyBackward);

@@ -34,9 +34,9 @@ function obj = or(obj1,obj2)
 % See also:
 % and, not
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check if we are going to loop the operator
     [looped,obj] = loopOperator(obj1,obj2,@or);

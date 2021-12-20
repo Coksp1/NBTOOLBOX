@@ -17,9 +17,9 @@ function obj = dealZeros(obj,nPar)
 % 
 % - obj  : A vector of nb_beeSolver objects.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [obj.tested] = deal(zeros(nPar,1));
     

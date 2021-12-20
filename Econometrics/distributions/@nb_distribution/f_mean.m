@@ -24,9 +24,9 @@ function x = f_mean(~,k)
 % nb_distribution.f_mode, nb_distribution.f_median, 
 % nb_distribution.f_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if k > 2
         x = k/(k-2);

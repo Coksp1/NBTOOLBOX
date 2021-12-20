@@ -6,9 +6,9 @@ function [yRest,XRest,restrict] = applyRestrictions(options,y,X)
 % See also:
 % nb_olsEstimator.estimate, nb_estimator.addRestrictions
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     allExo = options.exogenous;
     if options.time_trend

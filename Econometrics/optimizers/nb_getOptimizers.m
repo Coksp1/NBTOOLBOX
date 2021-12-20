@@ -24,9 +24,9 @@ function optimizers = nb_getOptimizers(type)
 % See also:
 % nb_getDefaultOptimset, nb_abc, nb_pso, fmincon, fminunc, fminsearch
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 1
         type = '';

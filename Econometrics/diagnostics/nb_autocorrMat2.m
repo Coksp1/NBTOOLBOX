@@ -31,9 +31,9 @@ function acf = nb_autocorrMat2(y,lags,demean,shrink)
 % See also:
 % nb_autocov, nb_autocorr, nb_autocovMat2, nb_covShrinkDiag
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         shrink = false;

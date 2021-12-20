@@ -21,9 +21,9 @@ function f = constant_cdf(x,m)
 % nb_distribution.constant_pdf, nb_distribution.constant_rand,
 % nb_distribution.constant_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f       = zeros(size(x));
     f(x>=m) = 1;

@@ -22,9 +22,9 @@ function [ind,loc] = ismember(obj,another)
 %             elements that are found in the another input. If not found
 %             0 is returned.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [ind,loc] = ismember(cellstr(obj),cellstr(another));
     

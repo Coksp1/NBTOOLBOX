@@ -24,9 +24,9 @@ function f = kernel_pdf(x,domain,density)
 % nb_distribution.kernel_cdf, nb_distribution.kernel_rand,
 % nb_distribution.kernel_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Then we linear interpolate the wanted point and the two closest point
     % in the domain

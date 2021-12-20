@@ -16,9 +16,9 @@ function obj = logLinearize(obj)
 % - obj : An object of class nb_logLinearize. See the property logLinEq
 %         for the log-linearized equations.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
            
     % Translate equations into function handle
     obj = eq2Func(obj);

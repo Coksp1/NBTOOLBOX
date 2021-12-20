@@ -7,9 +7,9 @@ function [num,data,data2] = test(data)
 %
 % Test function used in the nb_tsExamples.m script.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     num   = numel(data);
     data2 = data - 1;

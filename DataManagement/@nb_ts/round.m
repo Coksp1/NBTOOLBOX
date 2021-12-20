@@ -29,9 +29,9 @@ function obj = round(obj,value,startDate,endDate,variables,pages)
 % 
 % - obj       : A nb_ts object with the rounded numbers.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         pages = [];

@@ -11,7 +11,7 @@ function x = nb_betaLag(theta,K)
 % 
 % - theta : A 1 x Q x P double with the hyperparameters of the Beta lag
 %           polynominal. See page 5 of Ghysels et al. (2006). In equation
-%           (3) we have used K+1 instead of K.
+%           (3) we have used K+1 instead of K. Q must be equal to 2.
 % 
 % - K     : Number of lags of the polynominal.
 %
@@ -23,9 +23,9 @@ function x = nb_betaLag(theta,K)
 % See also:
 % nb_midasFunc
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     Q = size(theta,2);
     if Q ~= 2

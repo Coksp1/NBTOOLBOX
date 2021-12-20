@@ -27,9 +27,9 @@ function B = findAniticipatedMatrices(B1,nAntSteps,T1AT0iT1)
 %
 % - T1AT0iT1  : inv(Theta_lead*A + Theta_0)*Theta_lead
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
             
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nEndo,nExo] = size(B1);
     B            = nan(nEndo,nExo,nAntSteps);

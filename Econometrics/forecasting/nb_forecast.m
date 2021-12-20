@@ -131,9 +131,9 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
 % 
 % - forecast : A struct with the forecast output.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set some default values
     options = nb_defaultField(options,'real_time_estim',false);
@@ -638,11 +638,6 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
     if strcmpi(options(end).class,'nb_mfvar')
         indR = ismember(dep,model.endo);
         dep  = dep(~indR);
-    end
-    
-    % Append nowcast for the nb_fmdyn class
-    if strcmpi(model.class,'nb_fmdyn') && nowcast > 0
-        forecastData = nb_forecast.getFMDynNowcast(results,options,nowcast,startFcst,fcstVar,forecastData);
     end
     
     % Some properties may be to memory intensive, so we can save does to 

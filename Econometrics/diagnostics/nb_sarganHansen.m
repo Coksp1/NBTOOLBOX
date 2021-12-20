@@ -38,9 +38,9 @@ function [test,pval] = nb_sarganHansen(residual,x,inst,overident,constant,timeTr
 % - pval : P-value of the test statistic. The test statistic is distributed  
 %          as F(nzvar,nobs - nzvar - nxvar).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     n    = size(inst,1);
     nEq  = size(residual,2);

@@ -21,7 +21,7 @@ function obj = log2(obj)
 %
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj.data = log2(obj.data);
 

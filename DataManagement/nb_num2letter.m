@@ -29,9 +29,9 @@ function letter = nb_num2letter(num)
 % See also:
 % nb_num2letter
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~nb_isScalarInteger(num)
         error([mfilename ':: The num input must be a scalar integer'])

@@ -10,7 +10,7 @@ function [R,numOfAnt,AARestr] = buildShockRestrictions(AA,B,endoRestInd,numRestS
 % information. Used to identify the shocks/residual to match the
 % conditional information.
 %
-% See Kenneth Sæterhagen Paulsen (2010), "Conditional forecast in DSGE 
+% See Kenneth SÃ¦terhagen Paulsen (2010), "Conditional forecast in DSGE 
 % models - A conditional copula approach".
 %
 % Implements the steps in section 3 of setting up the matrix R.
@@ -27,11 +27,11 @@ function [R,numOfAnt,AARestr] = buildShockRestrictions(AA,B,endoRestInd,numRestS
 %
 % Outputs:
 %
-% - R  : See equation (20) on page 7 of Kenneth Sæterhagen Paulsen (2010).
+% - R  : See equation (20) on page 7 of Kenneth SÃ¦terhagen Paulsen (2010).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 8
         append = true;

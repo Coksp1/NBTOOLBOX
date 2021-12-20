@@ -25,7 +25,7 @@ function draws = constant_rand(nrow,ncol,m)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     draws = m(ones(nrow,ncol));
     

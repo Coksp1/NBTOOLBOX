@@ -39,9 +39,9 @@ function obj = update(obj,warningOff,inGUI)
 %             'Documentation\Examples\example_ts_quarterly']);
 % obj = obj.update
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         inGUI = 'off';
@@ -287,6 +287,18 @@ function [merged,index] = recursiveUpdate(cl,subLinks,index,warningOff,inGUI,loc
                 link                  = get(temp,'links');
                 link.subLinks.vintage = locVint;
                 temp                  = temp.setLinks(link);
+            end
+            
+        case 'smart'
+            
+            [temp,err] = nb_smart2TS(subLink.variables,subLink.vintage);
+            if ~isempty(err)
+                if strcmpi(warningOff,'on')
+                    func_handle = @warning;
+                else
+                    func_handle = @error;
+                end
+                func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. ' err])
             end
             
         case {'realdb','releasedb'}

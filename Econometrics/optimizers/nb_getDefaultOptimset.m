@@ -30,9 +30,9 @@ function opt = nb_getDefaultOptimset(opt,funcName)
 % See also:
 % optimset, nb_abc.optimset, nb_solve.optimset, nb_abcSolve.optimset
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ischar(opt)
         funcName = opt;

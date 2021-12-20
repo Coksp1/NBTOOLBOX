@@ -25,9 +25,9 @@ function  f = empirical_cdf(x,domain,CDF)
 % nb_distribution.empirical_pdf, nb_distribution.empirical_rand,
 % nb_distribution.empirical_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Then we linear interpolate the wanted point and the two closest point
     % in the domain

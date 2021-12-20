@@ -36,7 +36,7 @@ function obj = addVariable(obj,startDate,data,varname)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         error([mfilename ':: All inputs must be given to this function, i.e. addVariable(obj,startDateOfData,Data,Variable)'])

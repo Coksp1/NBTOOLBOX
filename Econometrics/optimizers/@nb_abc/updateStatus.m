@@ -7,9 +7,9 @@ function updateStatus(obj)
 %
 % Update the global min found until now.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [fMinBees,ind] = min([obj.bees.currentValue]);
     if fMinBees < obj.minFunctionValue

@@ -9,13 +9,13 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G] = getStateSpace(options,model)
 % Go from the state space representation in the model struct to the 
 % state space matrices needed by the nb_kalmansmoother_missing function.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Observation equation:
     % y(t) = d + H*x(t) + T*z(t) + R*v(t), v ~ N(0,R)
-    nObs             = length(options.dependent);
+    nObs             = length([options.dependent, options.block_exogenous]);
     d                = zeros(nObs,1);
     T                = zeros(nObs,length(model.exo));
     H                = zeros(nObs,length(model.endo));

@@ -14,9 +14,9 @@ classdef (Abstract) nb_calculate_only < nb_calculate_generic & nb_model_estimate
 % See also:
 % nb_calculate_generic
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
    
     properties
 

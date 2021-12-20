@@ -22,7 +22,7 @@ function solver = test(varargin)
 % See also:
 % nb_solve, nb_solve.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     solver = nb_solve(@(x)x^2,1,[],@(x)2*x);
     set(solver,varargin{:});

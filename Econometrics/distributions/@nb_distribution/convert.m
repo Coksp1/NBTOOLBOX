@@ -15,9 +15,9 @@ function obj = convert(obj)
 % 
 % - obj : A matrix of nb_distributions objects with type set to 'kernel'
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Convert each distribution
     [s1,s2] = size(obj);

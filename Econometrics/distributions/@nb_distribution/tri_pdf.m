@@ -25,9 +25,9 @@ function f = tri_pdf(x,m,k,d)
 % nb_distribution.tri_cdf, nb_distribution.tri_rand, 
 % nb_distribution.tri_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f       = x;
     f(x<d)  = 2.*(x(x<d) - m)./((k-m)*(d-m));

@@ -20,9 +20,9 @@ function [periods,dates,obj] = getRecursivePeriods(obj)
 %             options property is updated with the corrected 
 %             fields 'recursive_start_date'.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(obj.options.recursive_start_date)
         error([mfilename ':: The recursive_start_date options cannot be empty!'])

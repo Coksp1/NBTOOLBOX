@@ -27,9 +27,9 @@ function x = ast_median(a,b,c,d,e)
 % nb_distribution.ast_mode, nb_distribution.ast_mean, 
 % nb_distribution.ast_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = nb_distribution.ast_icdf(0.5,a,b,c,d,e);
 

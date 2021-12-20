@@ -34,7 +34,7 @@ function [ss,param] = rbc_steadystate(~,pp,obs)
 % See also:
 % nb_dsge.assignSteadyState, nb_model_generic.getParameters
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     param = struct();
     

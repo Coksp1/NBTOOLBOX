@@ -10,9 +10,9 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,n
 % model. Used by the Kalman filter iteration when dealing with missinge
 % observations or mixed frequency VARs.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     failed   = false;
     nStates  = size(H,2)/nDep;

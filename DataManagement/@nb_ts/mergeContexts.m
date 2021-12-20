@@ -30,9 +30,9 @@ function obj = mergeContexts(varargin)
 % 
 % - obj : The updated set of contexts stored in a nb_ts object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 1 
         obj = varargin{1};
@@ -55,9 +55,16 @@ function obj = mergeContexts(varargin)
     end
     
     % Convert vintages to double
+    tagLength    = cellfun(@(x)size(x.dataNames{1},2),varargin);
+    maxTagLength = max(tagLength);
+    for ii = 1:nargin
+        if tagLength(ii) ~= maxTagLength
+            varargin{ii}.dataNames = strcat(varargin{ii}.dataNames, repmat('0',[1,maxTagLength - tagLength(ii)]));
+        end
+    end
     contextsForEach = cell(1,nargin);
     for ii = 1:nargin
-        contextsForEach{ii} = convertContexts(varargin{ii}.dataNames,['object nr. ' int2str(ii)]);
+        contextsForEach{ii} = nb_convertContexts(varargin{ii}.dataNames,['object nr. ' int2str(ii) ' ']);
     end
     
     % Get first context date
@@ -68,7 +75,7 @@ function obj = mergeContexts(varargin)
     for ii = 1:nargin  
         if contextsForEach{ii}(1) > firstContext
             varargin{ii}        = constructQuasiRealTime(varargin{ii},contextsForEach{ii}(1),firstContext);
-            contextsForEach{ii} = convertContexts(varargin{ii}.dataNames,['object nr. ' int2str(ii)]); 
+            contextsForEach{ii} = nb_convertContexts(varargin{ii}.dataNames,['object nr. ' int2str(ii) ' ']); 
         end
     end
 
@@ -249,6 +256,9 @@ function obj = constructQuasiRealTime(obj,contextThis,firstContext)
     % Get new publication days
     newContexts = getNewContexts(obj,func,nNewContexts);
     newContexts = sort(vertcat(newContexts{:}));
+    if size(obj.dataNames{1},2) > 8
+        newContexts = strcat(newContexts,repmat('0',[1,size(obj.dataNames{1},2) - 8]));
+    end
     
     % Create the quasi-real-time series
     data     = obj.data(:,:,1:1);

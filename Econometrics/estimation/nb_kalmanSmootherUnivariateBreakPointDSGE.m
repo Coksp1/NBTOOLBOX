@@ -63,9 +63,9 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherUnivariateBreakPointDSGE(H,A,C,ss,~
 % nb_kalmanLikelihoodUnivariateBreakPointDSGE,  
 % nb_kalmanSmootherBreakPointDSGE, nb_setUpForDiffuseFilter
 %
-% Written by Kenneth Sæterhagen Paulsen.
+% Written by Kenneth SÃ¦terhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

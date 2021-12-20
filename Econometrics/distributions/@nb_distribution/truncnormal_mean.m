@@ -24,9 +24,9 @@ function x = truncnormal_mean(m,k,lb,ub)
 % See also:
 % nb_distribution.truncnormal_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     beta  = (ub - m)/k;
     alpha = (lb - m)/k;

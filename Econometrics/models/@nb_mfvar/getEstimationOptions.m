@@ -3,9 +3,9 @@ function outOpt = getEstimationOptions(obj)
 %
 % outOpt = getEstimationOptions(obj)
 %
-% Written by Kenneth Sæterhagen Paulsen       
+% Written by Kenneth SÃ¦terhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -24,7 +24,7 @@ function outOpt = getEstimationOptions(obj)
         estim_method = tempOpt.estim_method;
         switch lower(estim_method)
 
-            case {'bvar','ml'}
+            case {'bvar','ml','tvpmfsv'}
 
                 % Get estimation options
                 %-----------------------

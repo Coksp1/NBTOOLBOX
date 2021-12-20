@@ -19,9 +19,9 @@ function obj = doForecastPerc2Dist(obj)
 % See also:
 % nb_model_forecast.forecast, nb_model_forecast.forecastPerc2Dist
 %
-% Written by Per Bjarne Bye, Kenneth Sæterhagen Paulsen and Atle Loneland
+% Written by Per Bjarne Bye, Kenneth SÃ¦terhagen Paulsen and Atle Loneland
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~obj.isforecasted
        error([mfilename ':: Model must be forecasted before calculating distribution.']) 

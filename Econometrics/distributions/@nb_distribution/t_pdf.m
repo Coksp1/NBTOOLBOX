@@ -26,9 +26,9 @@ function f = t_pdf(x,m,a,b)
 % nb_distribution.t_cdf, nb_distribution.t_rand, 
 % nb_distribution.t_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         b = 1;

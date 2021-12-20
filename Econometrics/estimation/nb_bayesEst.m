@@ -84,7 +84,7 @@ function [exitflag,beta,fval,H] = nb_bayesEst(init,ub,lb,opt,optimizer,func,prio
 %
 % Written by Kenneth S. Paulsen
  
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get linear constraints
     [NONLCON,varargin]   = nb_parseOneOptional('NONLCON',[],varargin{:});

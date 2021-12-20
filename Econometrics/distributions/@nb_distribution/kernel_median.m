@@ -22,9 +22,9 @@ function x = kernel_median(domain,density)
 % nb_distribution.kernel_mode, nb_distribution.kernel_mean, 
 % nb_distribution.kernel_variance, nb_distribution.kernel_rand
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = nb_distribution.kernel_icdf(0.5,domain,density);
 

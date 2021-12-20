@@ -7,9 +7,9 @@ function irfData = irfPoint(solution,options,inputs,results)
 %
 % Produce point IRF.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isfield(results,'densities')
         dist = results.densities; % Used by PIT models
@@ -234,7 +234,7 @@ function irfData = irfPoint(solution,options,inputs,results)
     
     % Now we need to get the irf of the observables if we are dealing with
     % a factor model
-    if isfield(solution,'G')
+    if isfield(solution,'G') && ~strcmpi(solution.class,'nb_arima')
         
         [ind,indO] = ismember(solution.observables,vars);
         indO       = indO(ind);

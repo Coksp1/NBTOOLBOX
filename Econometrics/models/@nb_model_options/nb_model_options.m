@@ -6,9 +6,9 @@ classdef (Abstract) nb_model_options
 % See also:
 % nb_model_estimate, nb_modelData
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
 

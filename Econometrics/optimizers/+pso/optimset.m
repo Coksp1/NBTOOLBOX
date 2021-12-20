@@ -101,7 +101,7 @@ function options = optimset(varargin)
 
 % Copyright (c) 2009-2016, S. Samuel Chen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Default options
     options.CognitiveAttraction = 0.5 ;

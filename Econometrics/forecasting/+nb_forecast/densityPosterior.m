@@ -9,9 +9,9 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
 %
 % Produce density forecast using posterior draws.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if iscell(model.ss)

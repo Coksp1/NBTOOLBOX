@@ -22,9 +22,9 @@ function obj = wrapUpEstimation(obj,res,estOpt)
 % See also:
 % nb_model_estimate.estimate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     breakPoints = estOpt.parser.breakPoints;
     if ~nb_isempty(breakPoints)

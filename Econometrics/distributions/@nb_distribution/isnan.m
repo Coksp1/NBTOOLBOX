@@ -16,9 +16,9 @@ function ret = isnan(obj)
 % 
 % - ret : A N x M x P logical. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     names = reshape({obj.name},size(obj));
     ret   = cellfun(@(x)strcmpi(x,'constant(NaN)'),names);

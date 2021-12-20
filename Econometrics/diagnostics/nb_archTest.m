@@ -19,9 +19,9 @@ function [stat,pval] = nb_archTest(residual,lags)
 %
 % - pval     : The p-value.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     residual    = residual.^2;
     [stat,pval] = nb_autocorrTest(residual,lags);

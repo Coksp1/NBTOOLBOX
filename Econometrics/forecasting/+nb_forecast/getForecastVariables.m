@@ -7,9 +7,9 @@ function dep = getForecastVariables(options,model,inputs,type)
 %
 % Get forecast variables from model
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(strcmpi(model.class,{'nb_sa','nb_midas','nb_fmsa'}))
         dep = unique(regexprep(options(end).dependent,'_{0,1}lead[0-9]*$',''));

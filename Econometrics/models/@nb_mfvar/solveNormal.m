@@ -3,16 +3,13 @@ function tempSol = solveNormal(results,opt,ident)
 %
 % tempSol = nb_mfvar.solveNormal(results,opt,ident)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         ident = [];
     end
-
-    % Estimation results
-    beta = results.beta';
 
     % Provide solution
     dep  = opt.dependent;
@@ -31,34 +28,60 @@ function tempSol = solveNormal(results,opt,ident)
     nDep = length(dep);
     nExo = length(exo);
     
-    % Get measurment equation
-    H       = nb_mlEstimator.getMeasurmentEqMFVAR(opt);
-    H       = permute(H,[1,2,4,3]);
-    nStates = size(H,2)/nDep;
-    
-    % Get the equation y = A*y_1 + B*x + C*e
-    % for the dynamic system
-    %------------------------------------------
-    
-    % Seperate the coefficients of the 
-    % exogenous and the predetermined lags
-    predBeta = beta(:,nExo+1:end);
-    beta     = beta(:,1:nExo);
-    nLags    = size(predBeta,2)/length(dep);
-    nExtra   = nStates - nLags; 
-    
-    % The final solution
-    numRows   = (nStates - 1)*nDep;
-    tempSol   = struct();
-    predBeta  = [predBeta,zeros(nDep,nExtra*nDep)];
-    tempSol.A = [predBeta;eye(numRows),zeros(numRows,nDep)];
-    tempSol.B = [beta;zeros(numRows,length(exo))];
-    
-    if isfield(ident,'stabilityTest')
-        if ident.stabilityTest
-            [~,~,modulus] = nb_calcRoots(tempSol.A);
-            if any(modulus > 1)
-                error([mfilename ': The model is not stable. I.e. all the roots are not inside the unit circle.'])
+    if strcmpi(opt.estim_method,'tvpmfsv')
+        
+        tempSol.A = results.T;
+        nLags     = size(tempSol.A,2)/nDep;
+        nPeriods  = size(tempSol.A,3);
+        numRows   = (nLags - 1)*nDep;
+        tempSol.B = zeros(nDep*nLags,nExo,nPeriods);
+        tempSol.H = results.Z;
+        nStates   = size(tempSol.H,2)/nDep;
+        vcv       = results.Q;
+        
+        % Now we need to solve the observation eq part as well, I add the
+        % dependent variables to make it generic to favar models
+        tempSol.observables = dep;
+        tempSol.factors     = strcat('AUX_',dep);
+        tempSol.F           = results.C;
+        tempSol.G           = results.Z;
+        tempSol.S           = results.S; % To do re-standardization later, if empty no need
+        tempSol.R           = results.R; % Measurment error covariance matrix
+        
+        
+    else
+        % Get the equation y = A*y_1 + B*x + C*e
+        % for the dynamic system
+        %------------------------------------------
+
+        % Estimation results
+        beta = results.beta';
+        
+        % Get measurment equation
+        tempSol   = struct();
+        tempSol.H = nb_mlEstimator.getMeasurmentEqMFVAR(opt);
+        tempSol.H = permute(tempSol.H,[1,2,4,3]);
+        nStates   = size(tempSol.H,2)/nDep;
+        
+        % Seperate the coefficients of the 
+        % exogenous and the predetermined lags
+        predBeta = beta(:,nExo+1:end);
+        beta     = beta(:,1:nExo);
+        nLags    = size(predBeta,2)/length(dep);
+        nExtra   = nStates - nLags; 
+
+        % The final solution
+        numRows   = (nStates - 1)*nDep;
+        predBeta  = [predBeta,zeros(nDep,nExtra*nDep)];
+        tempSol.A = [predBeta;eye(numRows),zeros(numRows,nDep)];
+        tempSol.B = [beta;zeros(numRows,length(exo))];
+        vcv       = results.sigma;
+        if isfield(ident,'stabilityTest')
+            if ident.stabilityTest
+                [~,~,modulus] = nb_calcRoots(tempSol.A);
+                if any(modulus > 1)
+                    error([mfilename ': The model is not stable. I.e. all the roots are not inside the unit circle.'])
+                end
             end
         end
     end
@@ -68,7 +91,6 @@ function tempSol = solveNormal(results,opt,ident)
     counter = [];
     if nb_isempty(ident)
         tempSol.C = [eye(nDep);zeros(numRows,nDep)];
-        vcv       = results.sigma;
     else
         
         switch lower(ident.type)
@@ -80,7 +102,7 @@ function tempSol = solveNormal(results,opt,ident)
                 if any(ind == 0)
                     error([mfilename ':: Identification failed. The following variables are not part of the model; ' toString(order(ind==0))])
                 end
-                sigma     = results.sigma;
+                sigma     = vcv;
                 sigma     = sigma(ind,ind);
                 C         = chol(sigma,'lower');
                 [~,indI]  = ismember(dep,order);
@@ -88,7 +110,7 @@ function tempSol = solveNormal(results,opt,ident)
                 
             case 'combination'
                 
-                S                = nb_var.ABidentification(ident,tempSol.A,results.sigma,ident.maxDraws,ident.draws);
+                S                = nb_var.ABidentification(ident,tempSol.A,vcv,ident.maxDraws,ident.draws);
                 tempSol.C        = [S.W;zeros(numRows,nDep,1,ident.draws)];
                 shocks           = ident.shocks;
                 nShocks          = length(shocks);
@@ -99,12 +121,9 @@ function tempSol = solveNormal(results,opt,ident)
                  error([mfilename ':: Unsupported identification type ' ident.type])
         end
         
-        vcv = eye(size(results.sigma));
+        vcv = eye(size(vcv));
          
     end
-    
-    % Get measurment equation
-    tempSol.H = H;
     
     % Get the ordering
     auxDep                 = strcat('AUX_',dep);
@@ -118,7 +137,7 @@ function tempSol = solveNormal(results,opt,ident)
     if isfield(opt,'class')
         tempSol.class = opt.class;
     else
-        tempSol.class = 'nb_var';
+        tempSol.class = 'nb_mfvar';
     end
     tempSol.type = 'nb';
     

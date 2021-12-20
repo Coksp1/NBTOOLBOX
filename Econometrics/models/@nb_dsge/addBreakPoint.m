@@ -53,9 +53,9 @@ function obj = addBreakPoint(obj,parameters,values,date,varargin)
 % See also:
 % nb_dsge.parse, nb_dsge.set
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nb_isempty(obj.estOptions.parser)
         error([mfilename ':: This DSGE model is not formulated.'])

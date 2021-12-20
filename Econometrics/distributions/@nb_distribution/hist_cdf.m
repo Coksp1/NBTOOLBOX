@@ -21,9 +21,9 @@ function f = hist_cdf(x,a)
 % nb_distribution.hist_pdf, nb_distribution.hist_rand,
 % nb_distribution.hist_icdf, nb_mci
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     d        = x(2) - x(1);
     interval = x(1) + d/2:d:x(end);

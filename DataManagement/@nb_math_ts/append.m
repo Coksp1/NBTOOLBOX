@@ -29,9 +29,9 @@ function obj = append(obj,aObj,priority)
 % new1 = append(obj,aObj);
 % new2 = append(obj,aObj,'second');
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         priority = 'first';

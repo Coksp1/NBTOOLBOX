@@ -10,9 +10,9 @@ function obj = mtimes(obj1,obj2)
 % See also:
 % times
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = power(obj1,obj2);
     

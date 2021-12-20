@@ -3,9 +3,9 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
 %
 % [start,iter,ss] = nb_midasEstimator.checkDOFRecursive(options,numCoeff,T)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     startInd = options.start_low;
     if isempty(options.rollingWindow)

@@ -8,9 +8,9 @@ function [irfDataD,paused] = doParallel(method,model,options,results,inputs)
 %
 % Produce IRFs with error bands in parallel.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     numCores = [];
     if isfield(inputs,'cores')

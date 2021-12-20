@@ -7,9 +7,9 @@ function estimated = checkCalibration(options,parser)
 %
 % Check if all parameters has some values before we start the estimation.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(options.prior)
         estimated = {};

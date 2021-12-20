@@ -3,9 +3,9 @@ function [tempSol,opt] = solveNormal(results,opt)
 %
 % tempSol = nb_dsge.solveNormal(results,opt)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     opt = nb_defaultField(opt,'parser',[]);
     if ~nb_isempty(opt.parser) % Dealing with NB Toolbox (We may want to do this smarter in the future!!!)

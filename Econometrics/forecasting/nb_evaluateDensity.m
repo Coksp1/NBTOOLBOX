@@ -1,8 +1,8 @@
-function fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,forecastData)
+function fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,forecastData,dist)
 % Syntax:
 %
 % fcstEval = nb_evaluateDensityForecast(type,data,density,domain,...
-%                           meanForecastData,forecastData)
+%                           meanForecastData,forecastData,dist)
 %
 % Description:
 %
@@ -33,6 +33,10 @@ function fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,fo
 % - forecastData     : A double with size nobs x nvar x nsim with the 
 %                      density forecast.
 %
+% - dist             : A nHor x nVars x nPeriods nb_distribution object.
+%                      If this input is provided, these distributions will
+%                      be the basis for the calculated log scores.
+%
 % Output:
 %
 % - fcstEval : A Struct with the following properties:
@@ -48,12 +52,15 @@ function fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,fo
 %                           x nPoints. For each variable the points where 
 %                           the density is evaluated is stored. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
-    if nargin < 4
-        meanForecastData = [];
+    if nargin < 7
+        dist = [];
+        if nargin < 5
+            meanForecastData = [];
+        end
     end
     
     if isempty(type)
@@ -80,13 +87,28 @@ function fcstEval = nb_evaluateDensity(type,data,density,int,meanForecastData,fo
                 score   = data - meanForecastData;
             case 'logscore'
 
+                if ~isempty(dist)
+                    if strcmpi(dist(1,1).type,'normal')
+                        dist = []; % Use faster code instead in this case!
+                    end
+                end
+                if ~isempty(dist)
+                    nHor  = size(dist,1);
+                    nVars = size(dist,2);
+                    score = nan(nHor,nVars);
+                    for hh = 1:nHor
+                        for vv = 1:nVars
+                            score(hh,vv) = log(pdf(dist(hh,vv),data(hh,vv)));
+                        end
+                    end
+                else
                     % Evaluate forecast using a normal density 
                     % approximation and then evaluate the log score at the
                     % point of the true data
-                    meanF         = mean(forecastData,3);
                     stdF          = std(forecastData,1,3);   
-                    densityNormal = @(x) normpdf(x, meanF, stdF);
-                    score         = log(densityNormal(data));   
+                    densityNormal = @(x) normpdf(x, meanForecastData, stdF);
+                    score         = log(densityNormal(data));  
+                end
                     
             otherwise
                 error([mfilename ':: Unsupported forecast evaluation ' type{kk} '.'])

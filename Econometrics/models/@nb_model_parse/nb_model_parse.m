@@ -6,9 +6,9 @@ classdef (Abstract) nb_model_parse < nb_model_options
 % See also:
 % nb_dsge, nb_nonLinearEq
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
   
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent = true)
         
@@ -18,7 +18,7 @@ classdef (Abstract) nb_model_parse < nb_model_options
         % Caution: If you are dealing with an object of class nb_dsge,
         %          this property will be empty, if the DSGE model is
         %          parsed with RISE or Dynare.
-        parser           = struct();
+        parser;
         
     end
     

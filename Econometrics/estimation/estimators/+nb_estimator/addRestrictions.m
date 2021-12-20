@@ -6,9 +6,9 @@ function res = addRestrictions(options,res,restrict)
 % See also:
 % nb_olsEstimator.estimate, nb_estimator.applyRestrictions
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nExo                  = length(options.exogenous);
     nDep                  = length(options.dependent);

@@ -22,9 +22,9 @@ function x = uniform_mode(m,k)
 % nb_distribution.uniform_median, nb_distribution.uniform_mean, 
 % nb_distribution.uniform_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = 0.5*(m + k);
 

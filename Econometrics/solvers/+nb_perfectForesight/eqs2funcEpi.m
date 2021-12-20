@@ -8,9 +8,9 @@ function [eqs,funcs] = eqs2funcEpi(inputs,allEndo,epiVars,vars,varsExo,pars,eqs)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     all = [epiVars,vars,pars];
     if any(ismember({'vars','pars'},all))

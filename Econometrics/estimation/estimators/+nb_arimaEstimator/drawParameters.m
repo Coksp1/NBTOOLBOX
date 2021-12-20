@@ -10,9 +10,9 @@ function [betaDraws,sigmaDraws] = drawParameters(results,~,draws,iter)
 % calculated Hessian from ML estimation. Do not draw from the distribution
 % of the std of the residual.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         iter = 'end';

@@ -37,9 +37,9 @@ function [dist,path,pred] = nb_shortestpath(A,u,e)
 % See also:
 % gaimc.bfs, gaimc.dijkstra
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~issparse(A)
         A = sparse(A);

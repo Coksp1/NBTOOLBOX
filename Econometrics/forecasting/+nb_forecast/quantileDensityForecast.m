@@ -9,9 +9,9 @@ function YQ = quantileDensityForecast(y0,restrictions,model,options,results,nSte
 % Produce density forecast of a model that is etimated with quantile
 % regression. I.e. one "point" forecast given one quantile.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     q   = options(end).quantile;
     med = false;

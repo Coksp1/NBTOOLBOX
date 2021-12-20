@@ -7,9 +7,9 @@ function beta = expandZR(betaIn,indZR)
 %
 % Expand coefficient matrix given zero regressors.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     beta            = zeros(size(indZR,2),size(betaIn,2),size(betaIn,3));
     beta(indZR,:,:) = betaIn;

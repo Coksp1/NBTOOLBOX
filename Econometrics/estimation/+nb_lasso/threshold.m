@@ -10,9 +10,9 @@ function help = threshold()
 % See also:
 % nb_lasso.optimset
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     help = 'The threshold level for what being zero. Default is 1e-4.';
 

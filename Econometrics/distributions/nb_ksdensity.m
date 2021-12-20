@@ -44,9 +44,9 @@ function [f,x,u] = nb_ksdensity(yData,varargin)
 % See also:
 % ksdensity, Distribution.ksdensity, Distribution.ksdomain
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin > 1
         if isnumeric(varargin{1})

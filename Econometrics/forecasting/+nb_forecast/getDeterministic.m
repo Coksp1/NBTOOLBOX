@@ -7,9 +7,9 @@ function [X,exo] = getDeterministic(options,inputs,nSteps,exo,constant)
 %
 % Add deterministic exogenous vars to conditional information.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     X = nan(nSteps,0,inputs.nPeriods);
     if isfield(options,'constant') 

@@ -64,9 +64,9 @@ function lik = nb_kalmanlikelihood_missing(par,model,y,z,start,varargin)
 % See also:
 % nb_kalmanlikelihood, nb_kalmansmoother_missing
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(z)
         z = zeros(0,size(y,2));

@@ -20,9 +20,9 @@ function obj = setNewStartDate(obj,start)
 % See also:
 % nb_ts.lag, nb_ts.lead
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(start,'nb_date')
         start = nb_date.toDate(start,obj.startDate.frequency);

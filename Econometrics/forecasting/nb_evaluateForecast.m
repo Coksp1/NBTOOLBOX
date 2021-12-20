@@ -24,9 +24,9 @@ function score = nb_evaluateForecast(type,data,forecastData)
 % 
 % - score        : The evaluation score. As a nSteps x nvar double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Then evaluate the forecast
     switch lower(type)

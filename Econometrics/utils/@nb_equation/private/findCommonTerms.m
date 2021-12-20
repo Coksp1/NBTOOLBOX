@@ -25,9 +25,9 @@ function [common,base1,base2] = findCommonTerms(base1,base2,pow1,pow2)
 %
 % - base2  : A nb_equation object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get commond terms from base1
     commonTerms1 = getCommonTermsSub(base1,pow1);

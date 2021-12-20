@@ -32,7 +32,7 @@ function obj = addType(obj,type,addedData,vars)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         error([mfilename ':: All inputs must be given to this function, i.e. addType(obj,type,addedData,vars)'])

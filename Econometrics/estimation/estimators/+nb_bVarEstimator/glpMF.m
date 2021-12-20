@@ -86,7 +86,7 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
     
     if ~isempty(empirical)
         if empirical

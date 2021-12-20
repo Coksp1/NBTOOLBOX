@@ -21,9 +21,9 @@ function obj = normcdf(obj,m,k)
 % 
 % - obj : An object of class nb_eq2Latex.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         k = 1;

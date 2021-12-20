@@ -57,9 +57,9 @@ function [x,fval,exitflag] = nb_pso(fh,init,lb,ub,options,varargin)
 % See also:
 % pso.do, pso.optimset, fmincon, fminunc, fminsearch, bee_gate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(varargin)
         inputs  = varargin;

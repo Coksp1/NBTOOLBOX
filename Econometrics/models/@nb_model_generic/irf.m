@@ -312,9 +312,9 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 % See also:
 % nb_model_generic.parameterDraws, nb_irfEngine, nb_irfEngine.irfPoint
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj   = obj(:);
     names = getModelNames(obj);

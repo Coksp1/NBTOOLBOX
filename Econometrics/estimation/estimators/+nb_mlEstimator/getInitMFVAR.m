@@ -12,9 +12,9 @@ function [betaExo,betaDyn,sigmaPar] = getInitMFVAR(y,X,options,method,H)
 % See also:
 % nb_mlEstimator.mfvarEstimator
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nLags     = options.nLags;
     nExo      = size(X,2) + options.constant + options.time_trend;

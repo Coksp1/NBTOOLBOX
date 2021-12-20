@@ -25,9 +25,9 @@ function x = wald_icdf(p,m,k)
 % nb_distribution.wald_pdf, nb_distribution.wald_rand,
 % nb_distribution.wald_cdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

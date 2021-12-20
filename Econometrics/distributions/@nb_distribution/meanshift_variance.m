@@ -32,9 +32,9 @@ function x = meanshift_variance(dist,param,lb,ub,ms)
 % nb_distribution.meanshift_mode, nb_distribution.meanshift_median, 
 % nb_distribution.meanshift_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(lb) && isempty(ub)
         func  = str2func(['nb_distribution.' dist '_variance']);

@@ -26,9 +26,9 @@ function obj = hdi(obj,limits)
 %         the pages lb2_* and ub2_* represents the second area of the 
 %         given limit.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.numberOfDatasets < length(limits)
         error([mfilename ':: The number of datasets (pages) of the object must be at least greater than the number of calculated percentiles!'])

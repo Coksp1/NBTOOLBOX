@@ -21,9 +21,9 @@ function x = finvgamma_variance(m,k)
 % nb_distribution.finvgamma_mode, nb_distribution.finvgamma_median, 
 % nb_distribution.finvgamma_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if m > 2
         x = k^2/((m-1)^2*(m-2));

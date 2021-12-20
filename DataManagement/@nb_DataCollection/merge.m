@@ -28,7 +28,7 @@ function obj = merge(obj,aObj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(obj,'nb_DataCollection') && isa(aObj,'nb_DataCollection') 
         error([mfilename ':: Not possible to merge an object of class ' class(obj) ' with an object of class ' class(aObj) '.'])

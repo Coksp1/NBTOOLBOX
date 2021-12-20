@@ -66,9 +66,9 @@ function [nlags,y,X] = nb_lagLengthSelection(constant,time_trend,maxLagLength,cr
 % - X            : Selected regressors. (Without constant and 
 %                  time-trend). Shrinked to the new sample.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 9
         startInd = [];

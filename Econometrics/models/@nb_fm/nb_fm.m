@@ -25,9 +25,9 @@ classdef nb_fm < nb_model_generic & nb_factor_model_generic
 % See also:
 % nb_model_generic, nb_model_estimate.set
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods
         

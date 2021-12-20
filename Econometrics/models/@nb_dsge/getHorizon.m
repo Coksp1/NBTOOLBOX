@@ -7,9 +7,9 @@ function [horizon,err] = getHorizon(shockProperties,numAntSteps,solution)
 %
 % Get the horizon of anticipation for each shock.
 % 
-% Wriiten by Kenneth Sæterhagen Paulsen
+% Wriiten by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the horizon of each shock
     err        = '';

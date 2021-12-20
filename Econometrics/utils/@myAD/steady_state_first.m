@@ -8,9 +8,9 @@ function x = steady_state_first(x)
 % Derivative of the steady_state_first operator. Used by nb_DSGE. Will 
 % return a double.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = x.values;
     

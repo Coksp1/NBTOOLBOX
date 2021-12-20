@@ -41,9 +41,9 @@ classdef nb_solve < nb_settable & nb_getable
 % See also: 
 % fsolve, nb_solve.call
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     properties
         
@@ -166,7 +166,7 @@ classdef nb_solve < nb_settable & nb_getable
         % > 'broyden'     : Uses the Broyden method. Where the derivative 
         %   is numerically updated at each iteration. Default method.
         % > 'sane'        : Uses the La Cruz and Raydan (2003) method.
-        % > 'dfsane'      : Uses the  La Cruz, Mart´?nez, and Raydan
+        % > 'dfsane'      : Uses the  La Cruz, MartÂ´?nez, and Raydan
         %   (2006) method. Which is a derivativ free version of 'sane'.
         method
         

@@ -12,9 +12,9 @@ function sigma_sq = minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mix
 % See also:
 % nb_bVarEstimator.minnesotaMF, nb_bVarEstimator.glpMF
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nLags = nLagsAR;
     if ~isempty(freq) % MF-VAR

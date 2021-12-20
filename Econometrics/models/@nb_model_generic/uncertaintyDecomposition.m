@@ -88,9 +88,9 @@ function [data,plotter] = uncertaintyDecomposition(obj,varargin)
 % - plotter : A nb_graph_ts object which the method graph can be used to 
 %             produce graphs.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: This method only supports scalar nb_model_generic objects as input.'])

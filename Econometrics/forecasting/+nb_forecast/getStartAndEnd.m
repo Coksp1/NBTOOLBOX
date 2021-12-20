@@ -5,7 +5,7 @@ function [start,finish,start_est,startFcst] = getStartAndEnd(inputs,model,option
 %                                       inputs,model,options,start,finish)
 %
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     start_est = options(end).estim_start_ind;
     if isempty(start)

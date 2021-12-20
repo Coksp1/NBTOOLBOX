@@ -71,9 +71,9 @@ function [obj,loss,osr_coeff,std_osr_coeff] = optimalSimpleRules(obj,simpleRules
 % See also:
 % nb_dsge, nb_dsge.parse, nb_dsge.setLossFunction, 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles a scalar nb_dsge object.'])

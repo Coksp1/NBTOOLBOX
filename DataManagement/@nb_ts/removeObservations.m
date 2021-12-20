@@ -31,9 +31,9 @@ function obj = removeObservations(obj,numPer,vars)
 % obj = removeObservations(obj,1)
 % obj = removeObservations(obj,1,{'Var1','Var2'})
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         vars = {};

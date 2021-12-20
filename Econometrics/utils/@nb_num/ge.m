@@ -17,7 +17,7 @@ function test = ge(obj,another)
 %
 % - test    : true or false.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if nb_isScalarNumber(obj)
         test = obj > another.value;

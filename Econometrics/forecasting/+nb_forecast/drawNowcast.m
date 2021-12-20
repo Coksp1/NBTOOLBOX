@@ -7,9 +7,9 @@ function y0 = drawNowcast(y0,options,results,model,inputs,iter)
 %
 % Produce density nowcast.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch lower(options.missingMethod)        
         case 'forecast'
@@ -19,11 +19,7 @@ function y0 = drawNowcast(y0,options,results,model,inputs,iter)
         case 'copula'
             y0 = copulaMethod(y0,options,results,model,inputs,iter);
         case 'kalman'
-            if strcmpi(options.class,'nb_var')
-                y0 = forecastMethod(y0,options,model,inputs,iter);
-            else
-                y0 = kalmanMethod(y0,options,results,model,inputs,iter);
-            end
+            y0 = kalmanMethod(y0,options,results,model,inputs,iter);
         case 'kalmanfilter'
             y0 = kalmanFilterMethod(y0,options,results,model,inputs,iter);
     end
@@ -138,91 +134,25 @@ end
 
 %==========================================================================
 function y0 = kalmanMethod(y0,options,results,model,inputs,iter)
-% The estimator uses a Kalman filter approach, but that is not suited to
-% draw from the distribution of the missing observation given a parameter
-% draw. So here we implement a conditional forecast routine to be able to
-% do that. This approach is along the same line as forecastMethod.
+% Only handle point forecast case.
 
-    error([mfilename ':: Not yet finished!'])
-
-    regimeDraws = inputs.regimeDraws;
-    if ~iscell(model.A)
-        regimeDraws = 1;
-    end
-
-    % Which observations are missing
-    missing     = options.missingData;
-    allMissing  = all(missing,2);
-    anyMissing  = any(missing,2);
-    lastMissing = find(~allMissing & anyMissing,1,'last');
-    if isempty(lastMissing)
-        % No missing observation to produce nowcast on
-        return
-    end
-    missing = options.missingData(lastMissing,:);
-    allVars = options.missingVariables;
-    mInd    = any(missing,1);
-    
-    % Find conditional information
-    condDBVars  = allVars(~mInd);  
-    missingVars = allVars(mInd);
-    nSteps      = size(missing,1);
-    
-    % Conditional information and historical observations
-    mSteps   = nSteps + options.nLags;
-    [~,locC] = ismember(condDBVars,options.dataVariables);
-    condDB   = options.data(lastMissing-nSteps+1:lastMissing,locC);
-    condDB   = condDB'; 
-    condDB   = condDB(:);
-    [~,locH] = ismember(allVars,options.dataVariables);
-    histDB   = options.data(lastMissing-mSteps:lastMissing-1,locH);
-    histDB   = histDB';
-    histDB   = histDB(:);
-    condDB   = [condDB;histDB];
-    fullVars = [allVars,nb_cellstrlag(allVars,options.nLags + 1,'varFast')];
-    
-    % Build covariance matrix between the forecasted, conditional and
-    % historical variables
-    [A,B,C,vcv,~] = nb_forecast.getModelMatrices(model,iter);
-    if isfield(model,'Q')
-        [A,B,C,vcv] = ms.integrateOverRegime(model.Q,A,B,C,vcv);
-    end
-    [~,c] = nb_calculateMoments(A,B,C,vcv,0,0,options.nLags+1,'covariance');
-    nDep  = length(allVars);
-    c     = c(1:nDep,1:nDep,:);
-    R     = nb_constructStackedCorrelationMatrix(c);
-    
-    % Index of the conditional information
-    [~,locM]   = ismember(missingVars,fullVars);
-    indC       = true(size(R,1),1);
-    indC(locM) = false;
-    
-    % Now we need to partition the correlation matrix
-    R11 = R(~indC,~indC);
-    R12 = R(~indC,indC);
-    R21 = R(indC,~indC);
-    R22 = R(indC,indC);
-    
-    % Adjust mean given conditional information
-    muCond = R12/R22*condDB; 
-    
-    indM = ismember(model.endo,missingVars);
     if inputs.draws == 1
-        y0(indM,1,:) = muCond;
+        
+        % Add more missing periods
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
+        nSteps = nb_forecast.checkForMissing(options,inputs,dep);
+        if nSteps == 0
+            return
+        end
+        [~,locV] = ismember(model.endo,results.smoothed.variables.variables);
+        T        = options.recursive_estim_start_ind - options.estim_start_ind + iter;
+        y0       = results.smoothed.variables.data(T-nSteps+1:T,locV,iter)';
+
     else
-        
-        % Adjust correlation matrix
-        RCond  = R11 - (R12/R22)*R21;
-
-        % Draw nowcast
-        y0Missing = nb_mvnrand(inputs.draws*regimeDraws,1,muCond',RCond);
-        y0Missing = permute(y0Missing,[2,3,1]);
-        y0Missing = y0Missing(:,end,:);
-
-        % Assign output
-        y0           = y0(:,:,ones(1,inputs.draws));
-        y0(indM,1,:) = y0Missing;
-        
+        error([mfilename ':: Cannot handle draw from the distribution from the smoothed variables yet!'])
     end
     
 end

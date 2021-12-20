@@ -7,9 +7,9 @@ function [endo,exo] = getVariables(options)
 %
 % Get the variables of the model.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     endo = options.dependent;
     if isfield(options,'block_exogenous')

@@ -7,9 +7,9 @@ function [Y,dep] = getEvaluatedVariables(Y,dep,model,inputs)
 %
 % Get evaluated variables and forecast.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Keep only the varOfInterest if it is given
     if ~isempty(inputs.varOfInterest)

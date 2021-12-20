@@ -21,9 +21,9 @@ function obj = removeObservations(obj,numPer)
 %
 % - obj    : A nb_modelData object
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(obj.dataOrig)
         error([mfilename ':: The data of the model is empty, so cannot remove any observations.']) 

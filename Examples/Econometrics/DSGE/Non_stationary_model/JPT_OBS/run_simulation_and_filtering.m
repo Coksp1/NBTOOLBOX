@@ -20,7 +20,7 @@ modelNS  = solveBalancedGrowthPath(modelNS);
 
 modelNS = stationarize(modelNS);
 
-%% Solve steady-state numerically
+%% Solve steady state numerically
 
 ssInit = struct(...
     'GAMMA_W_NW',0,...

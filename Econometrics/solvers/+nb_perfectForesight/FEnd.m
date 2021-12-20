@@ -7,7 +7,7 @@ function Y = FEnd(GEnd,vars,parVal,exoVal,endVal,varsSS)
 %
 % Part of the perfect forseight solver package nb_perfectForesight.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     Y = GEnd(vars,parVal,exoVal,endVal,varsSS);
     

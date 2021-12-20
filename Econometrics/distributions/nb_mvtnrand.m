@@ -50,7 +50,7 @@ function U = nb_mvtnrand(M,P,mu,sigma,l,u,tol)
 % See also:
 % nb_chol, nb_mvnrand
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
 % Copyright (c) 2016, Zdravko I. Botev
 % Copyright (c) 2016, Zdravko Botev
@@ -79,7 +79,7 @@ function U = nb_mvtnrand(M,P,mu,sigma,l,u,tol)
 % OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 7  
         tol = [];

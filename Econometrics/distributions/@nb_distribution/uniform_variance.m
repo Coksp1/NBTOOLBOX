@@ -21,9 +21,9 @@ function x = uniform_variance(m,k)
 % nb_distribution.uniform_mode, nb_distribution.uniform_median, 
 % nb_distribution.uniform_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = (k-m)^2/12;
 

@@ -15,9 +15,9 @@ function parameters = defaultParameters(type)
 % 
 % - parameters : A cell with the default parameters.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch type  
         
@@ -69,6 +69,9 @@ function parameters = defaultParameters(type)
             
         case 'skewedt'
             parameters = {0,1.291,0,2.5}; % Same as 't'
+            
+        case 'skt'
+            parameters = {0,1,0,inf}; % Same as 'normal'
             
         case 't'
             parameters = {5};

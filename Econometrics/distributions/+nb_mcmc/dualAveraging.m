@@ -66,7 +66,7 @@ function [theta, epsilonbar, epsilon_seq, epsilonbar_seq, logp, grad] = dualAver
 % nb_mcmc.NUTS, nb_mcmc.leapFrog, nb_mcmc.nutSampler
 %
 % Written by Matthew D. Hoffman
-% Edited by Kenneth Sæterhagen Paulsen
+% Edited by Kenneth SÃ¦terhagen Paulsen
 % - Added the waitbar option. 
 % - Change the interpretation of the n_updates input.
 % - Removed some of the optional inputs.
@@ -75,7 +75,7 @@ function [theta, epsilonbar, epsilon_seq, epsilonbar_seq, logp, grad] = dualAver
 
 % Copyright (c) 2011, Matthew D. Hoffman
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Default argment values.
     if nargin < 6

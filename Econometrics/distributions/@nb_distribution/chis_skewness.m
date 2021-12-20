@@ -19,9 +19,9 @@ function x = chis_skewness(m)
 % nb_distribution.chis_median, nb_distribution.chis_mean, 
 % nb_distribution.chis_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = sqrt(8/m);
 

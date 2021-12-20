@@ -16,9 +16,9 @@ function c = toString(obj)
 % - c   : If obj is scalar the output will be a one line char, 
 %         otherwise it will be a cellstr with same size as obj.  
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isscalar(obj)
         switch obj.operator

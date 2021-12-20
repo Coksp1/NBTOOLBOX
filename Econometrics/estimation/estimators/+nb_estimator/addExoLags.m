@@ -3,9 +3,9 @@ function [options,maxLags] = addExoLags(options,field)
 %
 % [options,maxLags] = nb_estimator.addExoLags(options,field)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options.exogenousOrig = options.exogenous;
     lagOption             = options.(field);

@@ -48,9 +48,9 @@ function varargout = callfun(obj,varargin)
 % See also:
 % nb_dataSource.getClassOfData
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % When the object is updateable, we need to tell it to return
     % a spesific element of the given update, i.e. this is done

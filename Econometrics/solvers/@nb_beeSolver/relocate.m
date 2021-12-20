@@ -25,9 +25,9 @@ function obj = relocate(obj,lowerBound,upperBound,cutLimit,local,F,...
 % See also:
 % nb_abcSolve.doSolving
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [employed,onlookers,scouts] = separate(obj,cutLimit,tolerance,newtonStop);
     

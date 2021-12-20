@@ -54,9 +54,9 @@ function [JPB,plotter] = jointPredictionBands(obj,varargin)
 % - plotter : A nb_graph_ts object. Use the graphSubPlots method
 %             to produce the graphs.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     default = {'perc',           [0.3,0.5,0.7,0.9],  {@isnumeric,'&&',@(x)not(isempty(x))};...
                'vars',           {},                 {@iscellstr,'||',@isempty};...

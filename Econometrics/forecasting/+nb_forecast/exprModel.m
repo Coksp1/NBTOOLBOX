@@ -9,9 +9,9 @@ function fcst = exprModel(model,options,results,startInd,endInd,nSteps,inputs)
 % Produce forecast of a model using expressions, see the nb_exprModel 
 % class.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     %--------------------------------------------------------------
@@ -43,12 +43,19 @@ function fcst = produceFcst(model,options,results,start,finish,nSteps,inputs)
     
     % Check conditional data
     if ~isempty(inputs.condDB)
-        test = ismember(inputs.condDBVars,options.dependentOrig);
-        if any(test)
-            error([mfilename ':: Cannot conditional on dependent variables if ',...
-                   'the model is of class nb_exprModel. You try to condition on ',...
-                   toString(inputs.condDBVars(test))])
-        end
+%         test = ismember(inputs.condDBVars,options.dependentOrig);
+%         if any(test)
+%             if inputs.condDBStart == 0
+%                 tested = inputs.condDB(2:end,test);
+%             else
+%                 tested = inputs.condDB(:,test);
+%             end
+%             if any(~isnan(tested))
+%                 error([mfilename ':: Cannot conditional on dependent variables if ',...
+%                        'the model is of class nb_exprModel. You try to condition on ',...
+%                        toString(inputs.condDBVars(test))])
+%             end
+%         end
         if ~isempty(inputs.fcstEval) 
             error([mfilename ':: Cannot use conditional information when doing ',...
                    'out-of-sample or in-sample recursive forecast with a model of ',...

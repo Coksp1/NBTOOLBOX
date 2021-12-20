@@ -8,9 +8,9 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
 %
 % Prepare the conditional information for forecasting routines
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     restrictions = struct();
     if inputs.condDBStart == 0
@@ -19,6 +19,8 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
             restrictions.initDBVars = {};
             extra                   = 0;
         else
+            % Store conditional information on initial values. See
+            % nb_forecast.setInitialValues2CondDB
             restrictions.initDB     = condDB(1,:);
             restrictions.initDBVars = condDBVars;
             condDB                  = condDB(2:end,:);
@@ -115,7 +117,6 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     
     % Get model properties
     endo = model.endo;
-    exo  = model.exo;
     res  = model.res;
     nRes = length(res);
     
@@ -129,7 +130,7 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
             constant = []; % Not used in this case
         end
     end
-    [X,exo] = nb_forecast.getDeterministic(options,inputs,nSteps,exo,constant);
+    [X,exoWithoutDet] = nb_forecast.getDeterministic(options,inputs,nSteps,model.exo,constant);
     if condDistribution
         if isfield(inputs,'initPeriods')
             initPeriods = inputs.initPeriods;
@@ -174,7 +175,7 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     restrictions.condEndo = endoCondVars;
     
     % Get exo restrictions (besides constant, time-trend and seasonals
-    restrictions.exo = exo;
+    restrictions.exo = model.exo;
     if ~isempty(exoProj)
         if any(strcmpi(model.class,{'nb_sa','nb_fmsa'}))
             error([mfilename ':: The ''exoProj'' input is not supported for nb_sa or nb_fmsa models.'])
@@ -182,7 +183,7 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     end
     
     if any(strcmpi(model.class,{'nb_sa','nb_fmsa'}))
-        [~,indX] = ismember(exo,options(end).dataVariables);
+        [~,indX] = ismember(exoWithoutDet,options(end).dataVariables);
         Xexo     = options(end).data(:,indX);
         if isempty(inputs.startInd)
             if inputs.nPeriods == 1
@@ -205,22 +206,35 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
         Xexo           = Xexo(ones(1,nSteps),:,:);
         restrictions.X = [X,Xexo];
     else
-        if ~isempty(exo)
+        if ~isempty(exoWithoutDet)
             if strcmpi(model.class,'nb_fm')
                 exoData = getFactorsAndExogenous(model,inputs,condDB,condDBVars);
+                if isempty(exoDataFact)
+                    exoData = nan(nSteps,size(exoWithoutDet,2),inputs.nPeriods);
+                end
             elseif strcmpi(model.class,'nb_ecm')
-                exoData = getDiffAndLevel(exo,options,inputs,condDB,condDBVars);
+                [exoDataFound,exoFound] = getDiffAndLevel(exoWithoutDet,options,inputs,condDB,condDBVars);
+                exoData                 = nan(nSteps,size(exoWithoutDet,2),inputs.nPeriods);
+                if ~isempty(exoFound)
+                    test = ismember(exoWithoutDet,exoFound);
+                    if not(all(test)) && isempty(exoProj)
+                        error([mfilename ':: All exogenous variables must be condition on. The following exogenous '...
+                                         'variables has missing data; ' nb_cellstr2String(exoWithoutDet(~test),', ',' and ')])
+                    end
+                    [ind,loc]             = ismember(exoFound,exoWithoutDet);
+                    exoData(:,loc(ind),:) = exoDataFound(:,ind,:);
+                end
             else
-                ind           = ismember(condDBVars,exo);
+                exoData       = nan(nSteps,size(exoWithoutDet,2),inputs.nPeriods);
+                ind           = ismember(condDBVars,exoWithoutDet);
                 exoCondVars   = condDBVars(ind);
-                [ind,reorder] = ismember(exo,exoCondVars);
+                [ind,reorder] = ismember(exoWithoutDet,exoCondVars);
                 if not(all(ind)) && isempty(exoProj)
                     error([mfilename ':: All exogenous variables must be condition on. The following exogenous '...
-                                     'variables has missing data; ' nb_cellstr2String(exo(~ind),', ',' and ')])
+                                     'variables has missing data; ' nb_cellstr2String(exoWithoutDet(~ind),', ',' and ')])
                 end
-                [~,exo_d_id] = ismember(exoCondVars,condDBVars);
-                exoData      = condDB(:,exo_d_id,:); % Pages represent mean
-                exoData      = exoData(:,reorder(ind),:);
+                [~,exo_d_id]              = ismember(exoCondVars,condDBVars);
+                exoData(:,reorder(ind),:) = condDB(:,exo_d_id,:); % Pages represent mean
             end
             if softConditioning
                 restrictions.X = [X(:,:,ones(1,nPages)),exoData];
@@ -252,6 +266,7 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
         [Z,exoObs] = nb_forecast.getDeterministic(options,inputs,nSteps,exoObs);
         if ~isempty(exoObs)
             
+            exoData       = nan(nSteps,size(exoObs,2),size(condDB,3));
             ind           = ismember(condDBVars,exoObs);
             exoCondVars   = condDBVars(ind);
             [ind,reorder] = ismember(exoObs,exoCondVars);
@@ -259,9 +274,8 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
                 error([mfilename ':: All exogenous variables must be condition on. The following exogenous '...
                                  'variables has missing data; ' nb_cellstr2String(exoObs(~ind),', ',' and ')])
             end
-            [~,exo_d_id] = ismember(exoCondVars,condDBVars);
-            exoData      = condDB(:,exo_d_id,:); % Pages represent mean
-            exoData      = exoData(:,reorder(ind),:);
+            [~,exo_d_id]              = ismember(exoCondVars,condDBVars);
+            exoData(:,reorder(ind),:) = condDB(:,exo_d_id,:); % Pages represent mean
             if softConditioning
                 restrictions.Z = [Z(:,:,ones(1,nPages)),exoData];
             else
@@ -276,7 +290,7 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
         end
         restrictions.exoObs = model.factors;
         if isempty(model.exo)
-            restrictions.X = zeros(size(Z,1),0,inputs.nPeriods);
+            restrictions.X = zeros(nSteps,0,inputs.nPeriods);
         end
         
     end
@@ -395,10 +409,9 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     
     % Which variables should be projected with exoProj method?
     if ~isempty(exoProj)
-        det                 = nb_forecast.getDeterministicVariables(restrictions.exo);
-        restrictions.indExo = ~ismember(lower(restrictions.exo),lower([condDBVars, det]));
+        restrictions.indExo = any(isnan(restrictions.X),1);
         if isfield(restrictions,'exoObs')
-            restrictions.indExoObs = ~ismember(lower(restrictions.exoObs),lower([condDBVars, det]));
+            restrictions.indExoObs = any(isnan(restrictions.Z),1);
         end
     end
     
@@ -415,11 +428,11 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
         dep      = [options.dependent, options.block_exogenous];
         [~,indY] = ismember(dep,options.dataVariables);
         myHist   = options.data(options.estim_start_ind:options.estim_end_ind,indY);
-        exo      = options.exogenous;
+        exoWithoutDet      = options.exogenous;
         pred     = nb_cellstrlag(dep,options.nLags + 1,'varFast');
-        ind      = ~ismember(exo,pred);
-        exo      = exo(ind); % Remove lagged dependent from rhs variables in estimation
-        [~,indX] = ismember(exo, options.dataVariables);
+        ind      = ~ismember(exoWithoutDet,pred);
+        exoWithoutDet      = exoWithoutDet(ind); % Remove lagged dependent from rhs variables in estimation
+        [~,indX] = ismember(exoWithoutDet, options.dataVariables);
         mxHist   = options.data(options.estim_start_ind:options.estim_end_ind,indX);
         if options.time_trend
             mxHist = [transpose(1:size(mxHist,1)),mxHist];
@@ -465,14 +478,20 @@ function exoData = getFactorsAndExogenous(model,inputs,condDB,condDBVars)
 end
 
 %==========================================================================
-function exoData = getDiffAndLevel(exo,opt,inputs,condDB,condDBVars)
+function [exoData,exoNames] = getDiffAndLevel(exo,opt,inputs,condDB,condDBVars)
 
     [s1,~,s3] = size(condDB);
+    exoNames  = {};
    
     indL            = ismember(exo,strcat(opt.endogenous,'_lag1'));
     exoL            = strrep(exo(indL),'_lag1','');
-    indD            = ismember(exo,opt.rhs) & ~indL;
+    indD            = ~cellfun(@isempty,regexp(exo,'^diff_'));
     exoD            = exo(indD);
+    exoDB           = regexprep(exoD,'_lag[0-9]+$','');
+    exoDB           = regexprep(exoDB,'^diff_','');
+    keep            = ismember(exoDB,exoL);
+    exoD            = exoD(keep);
+    exoDB           = exoDB(keep);
     [indLM,reorder] = ismember(exoL,condDBVars); 
     if all(indLM)
         
@@ -490,8 +509,7 @@ function exoData = getDiffAndLevel(exo,opt,inputs,condDB,condDBVars)
         else
             start = inputs.startInd+1:inputs.endInd;
         end
-        exoDB = regexprep(exoD,'_lag[0-9]+$','');
-        exoDB = regexprep(exoDB,'^diff_','');
+        
         for ee = 1:nExoD
             for ii = 1:length(start)
                 nLag = regexp(exoD{ee},'_lag[0-9]+$','match');
@@ -643,17 +661,17 @@ function exoData = getDiffAndLevel(exo,opt,inputs,condDB,condDBVars)
     end
         
     % Reorder the data
-    allExo = [opt.exogenous,opt.rhs];
-    ind    = ismember(exo,allExo);
-    if any(~ind)
-        % Correct for diff of endogenous is forced into the solution
-        exoDataT         = exoData;
-        exoData          = zeros(s1,length(exo),s3);
-        [t,indR]         = ismember(exo,exoNames);
-        exoDataT         = exoDataT(:,indR(t),:);
-        exoData(:,ind,:) = exoDataT;
-    else
-        [~,indR] = ismember(exo,exoNames);
-        exoData  = exoData(:,indR,:);
-    end
+%     allExo = [opt.exogenous,opt.rhs];
+%     ind    = ismember(exo,allExo);
+%     if any(~ind)
+%         % Correct for diff of endogenous is forced into the solution
+%         exoDataT         = exoData;
+%         exoData          = zeros(s1,length(exo),s3);
+%         [t,indR]         = ismember(exo,exoNames);
+%         exoDataT         = exoDataT(:,indR(t),:);
+%         exoData(:,ind,:) = exoDataT;
+%     else
+%         [~,indR] = ismember(exo,exoNames);
+%         exoData  = exoData(:,indR,:);
+%     end
 end

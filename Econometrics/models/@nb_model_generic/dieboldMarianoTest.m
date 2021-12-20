@@ -68,9 +68,9 @@ function [test,pval,res] = dieboldMarianoTest(obj1,obj2,varargin)
 % See also:
 % nb_model_generic.uncondForecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Parse inputs
     if numel(obj1) > 1

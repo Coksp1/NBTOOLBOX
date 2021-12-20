@@ -24,9 +24,9 @@ function f = kernel_cdf(x,domain,density)
 % nb_distribution.kernel_pdf, nb_distribution.kernel_rand,
 % nb_distribution.kernel_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     binsL = domain(2) - domain(1);
     CDF   = cumsum(density*binsL); 

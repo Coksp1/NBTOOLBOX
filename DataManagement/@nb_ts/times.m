@@ -32,7 +32,7 @@ function obj = times(obj,DB)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(DB,'nb_cs')
         obj = timesCS(obj,DB);

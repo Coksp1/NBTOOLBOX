@@ -8,9 +8,9 @@ function [nowcast,missing] = checkForMissing(options,inputs,dep)
 % Check for missing data at the end of sample. Only handle one missing
 % observation at the end here!
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nowcast = 0;
     missing = [];

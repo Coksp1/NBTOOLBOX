@@ -23,9 +23,9 @@ function f = uniform_cdf(x,m,k)
 % nb_distribution.uniform_pdf, nb_distribution.uniform_rand,
 % nb_distribution.uniform_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x(x>k) = k; 
     x(x<m) = m;

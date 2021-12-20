@@ -7,9 +7,9 @@ function options = addLags(options)
 %
 % Add lags to right hand side of estimation equation.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fixed        = options.modelSelectionFixed;
     [testX,indX] = ismember(options.exogenous,options.dataVariables);

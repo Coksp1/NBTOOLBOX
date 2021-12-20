@@ -7,9 +7,9 @@ function obj = doLogLinearization(obj)
 %
 % Summarize log linearization.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nEqs         = length(obj.equations);
     obj.logLinEq = cell(nEqs,1);

@@ -12,9 +12,9 @@ function [eqs,test,leadCLag,endoS] = getLeadLagCore(parser,eqs,endo,exo)
 % See also:
 % nb_dsge.getLeadLag, nb_dsge.getLeadLagObsModel
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     endoS   = flip(sort(endo),2);
     numEndo = length(endo);

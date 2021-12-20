@@ -19,9 +19,9 @@ function residual = getPredicted(obj)
 % - residual : Either a nb_ts or a nb_cs object with predicted variable(s) 
 %              stored.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This function is only supported for a single nb_model_recursive_detrending as input'])

@@ -42,7 +42,7 @@ function calc = calculate(obj,varargin)
 % See also:
 % nb_calculate_generic.getCalculated
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     [obj,valid] = estimate(obj,varargin{:});
     nObj        = length(obj);

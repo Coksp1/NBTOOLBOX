@@ -20,9 +20,9 @@ function [params,values,stdvalues] = getBreakPointParameters(parser,init)
 %
 % - values : A nParam x 1 double with the values of the parameters.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nBreaks     = parser.nBreaks;
     breakPoints = parser.breakPoints;

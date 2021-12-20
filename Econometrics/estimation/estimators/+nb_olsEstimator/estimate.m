@@ -22,9 +22,9 @@ function [results,options] = estimate(options)
 % See also:
 % nb_olsEstimator.print, nb_olsEstimator.help, nb_olsEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 

@@ -21,9 +21,9 @@ function res = print(results,options,precision)
 % 
 % - results : A char with the estimation results.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -93,7 +93,7 @@ function res = resursivePrint(results,options,precision)
     dates   = start:finish;
     dates   = dates(options.recursive_estim_start_ind_low - (options.start_low_in_low - 1):end)';
     numObs  = size(beta,3);
-    dep     = options.dependent;
+    dep     = nb_cellstrlead(options.dependent,options.nStep);
     numDep  = length(dep);
     for ii = 1:numDep
         
@@ -163,7 +163,7 @@ function res = normalPrint(results,options,precision)
     [exo,numExo] = nb_midasEstimator.getCoeff(options);
 
     % Fill table
-    firstRow             = options.dependent;
+    firstRow             = nb_cellstrlead(options.dependent,options.nStep);
     table{1,1}           = 'Variable';
     table(1,2:end)       = firstRow;
     table(2:4:end,1)     = exo;

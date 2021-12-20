@@ -26,9 +26,9 @@ function [A,B,BE,err] = backwardSolver(model,solution,options,expandedOnly)
 % - BE       : Shock impact matrix as a nEndo x nExo x nHor, when solved
 %              with anticipated shocks, otherwise [].
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     err = ''; 
     ind = solution.jacobianType;

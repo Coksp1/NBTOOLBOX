@@ -13,9 +13,9 @@ function assignParameters(obj,param)
 %
 % - param : The parameters to assign the object, as 1 x nParam double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    if numel(obj) > 1
        error([mfilename ':: This method only support scalar nb_distribution object.'])

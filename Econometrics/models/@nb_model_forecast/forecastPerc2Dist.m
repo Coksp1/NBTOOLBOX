@@ -21,10 +21,10 @@ function forecastOutput = forecastPerc2Dist(forecastOutput)
 % See also:
 % nb_model_forecast.forecast
 %
-% Written by Per Bjarne Bye, Kenneth Sæterhagen Paulsen and Atle
+% Written by Per Bjarne Bye, Kenneth SÃ¦terhagen Paulsen and Atle
 % Loneland
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     perc    = forecastOutput.perc;
     data    = forecastOutput.data; % nHor x nVars x nPerc + 1 x nRec

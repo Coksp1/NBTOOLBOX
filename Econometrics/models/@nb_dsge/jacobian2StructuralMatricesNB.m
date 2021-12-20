@@ -34,9 +34,9 @@ function [Alead,A0,Alag,B] = jacobian2StructuralMatricesNB(jacobian,parser)
 % - B     : The structural matrix of the exogenous 
 %           variables in period t.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     leadCurrentLag = parser.leadCurrentLag;
     nForward       = sum(leadCurrentLag(:,1));

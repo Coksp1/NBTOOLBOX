@@ -1,9 +1,9 @@
-function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar)
+function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar,algo)
 % Syntax:
 %
 % beta = nb_qreg(y,x)
 % [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = ...
-%       nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar)
+%       nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar,algo)
 %
 % Description:
 %
@@ -89,20 +89,23 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,cons
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
-    if nargin < 9
-        waitbar = false;
-        if nargin < 8
-            restr = [];
-            if nargin < 7
-                draws = 1000;
-                if nargin < 6
-                    method = 'sparsity';
-                    if nargin < 5
-                        timeTrend = 0;
-                        if nargin < 4
-                            constant = 0;
+    if nargin < 10
+        algo = 'qreg';
+        if nargin < 9
+            waitbar = false;
+            if nargin < 8
+                restr = [];
+                if nargin < 7
+                    draws = 1000;
+                    if nargin < 6
+                        method = 'sparsity';
+                        if nargin < 5
+                            timeTrend = 0;
+                            if nargin < 4
+                                constant = 0;
+                            end
                         end
                     end
                 end
@@ -151,7 +154,20 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,cons
     % Estimate the model by linear programming methods
     numQ = length(q);
     if isempty(restr)
-        beta = qReg(y,x,T,E,N,q,numQ);
+        if strcmpi(algo,'QRboot')
+            if constant        
+                xt = x(:,2:end);
+            else
+                xt = x;
+            end
+            beta = nan(N,E,numQ);
+            for ii = 1:E
+                Res          = QRboot(xt, y(:,ii), 1, 0, q, 0, 0);
+                beta(:,ii,:) = permute(Res.BQ,[1,3,2]);
+            end
+        else
+            beta = qReg(y,x,T,E,N,q,numQ);
+        end
     else
         beta = qRegRestr(y,x,T,E,N,q,numQ,restr);
     end

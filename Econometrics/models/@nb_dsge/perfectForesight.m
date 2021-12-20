@@ -134,9 +134,9 @@ function [sim,plotter,distr] = perfectForesight(obj,varargin)
 % See also:
 % nb_model_generic.irf, nb_dsge.getEndVal, nb_dsge.checkSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     distr = [];
     if numel(obj) > 1

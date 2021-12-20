@@ -22,9 +22,9 @@ function x = beta_variance(m,k)
 % nb_distribution.beta_mode, nb_distribution.beta_median, 
 % nb_distribution.beta_mean
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = m*k/((m + k)^2*(m + k + 1));
 

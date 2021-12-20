@@ -48,9 +48,9 @@ function [beta,sigma,yD] = nb_drawFromPosterior(posterior,draws,waitbar)
 % See also:
 % nb_bVarEstimator
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         waitbar = true;

@@ -21,9 +21,9 @@ function [endInd,startInd,varargout] = nb_checkSample(varargin)
 % - varargout : Same as varargin, but may have been shortened due to
 %               trailing and leading nan values
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     X     = [varargin{:}];
     isNaN = any(~isfinite(X),2);

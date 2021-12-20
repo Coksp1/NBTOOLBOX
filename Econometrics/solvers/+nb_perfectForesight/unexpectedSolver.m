@@ -15,9 +15,9 @@ function Y = unexpectedSolver(obj,funcs,inputs,Y,funcHandle)
 % - funcHandle : Either @nb_perfectForesight.normalIteration or 
 %                @nb_perfectForesight.blockIteration
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nSilent = ~obj.options.silent;
     nEndo   = obj.dependent.number;

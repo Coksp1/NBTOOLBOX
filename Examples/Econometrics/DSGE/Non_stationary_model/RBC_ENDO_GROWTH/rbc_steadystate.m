@@ -30,7 +30,7 @@ function [ss,param] = rbc_steadystate(~,pp)
 % See also:
 % nb_dsge.assignSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % Solve steady-state (This is the only part that needs to be changed)
     ss.dA       = 1.03;

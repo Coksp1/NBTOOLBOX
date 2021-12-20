@@ -30,9 +30,9 @@ function histData = getHistory(obj,vars,date,notSmoothed,type)
 % 
 % - histData : A nb_ts object with the historical data.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         type = 'smoothed';
@@ -57,14 +57,7 @@ function histData = getHistory(obj,vars,date,notSmoothed,type)
         estOpt    = obj.estOptions(end);
         histData1 = getFiltered(obj,type,false,false,'reporting','stored');
         indRemove = ismember(obj.options.data.variables,histData1.variables);
-        if isa(obj,'nb_fmdyn')
-            % Here the missing observations are filled out!
-            strFunc = ['nb_' obj.options.estim_method 'Estimator.getObservables'];
-            func    = str2func(strFunc);
-            data    = func(obj.results,obj.estOptions);  
-        else
-            data = deleteVariables(obj.options.data,obj.options.data.variables(indRemove));
-        end
+        data      = deleteVariables(obj.options.data,obj.options.data.variables(indRemove));
         histData1 = merge(histData1,data);
         if isnumeric(date)
             histData1 = histData1.window('','','',date);

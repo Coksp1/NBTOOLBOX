@@ -14,9 +14,9 @@ function methods = getMethods()
 % See also:
 % nb_solve.call, nb_solve.optimset
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods = {'newton','steffensen','steffensen2','broyden','sane','dfsane','ypl'};
 

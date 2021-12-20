@@ -134,9 +134,9 @@ function sim = extendedPath(obj,nSteps,varargin)
 % See also:
 % nb_model_generic.perfectForesight, nb_dsge.simulate
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles a scalar nb_dsge object.'])

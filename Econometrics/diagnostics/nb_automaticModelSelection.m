@@ -54,9 +54,9 @@ function results = nb_automaticModelSelection(y,X,varargin)
 % - results     : A struct with the model selection results
 %
 % Original code by Junior Maih (autmatic_model_selection method of the
-% ts class of the RISE toolbox.). Modified by Kenneth Sæterhagen Paulsen
+% ts class of the RISE toolbox.). Modified by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Parse optional inputs
     %--------------------------------------------------------------

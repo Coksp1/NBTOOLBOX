@@ -23,9 +23,9 @@ classdef nb_logger < handle
 % 
 %   - logger : A nb_logger object.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen 
 
     properties (Constant)
         ALL     = 0;
@@ -61,7 +61,7 @@ classdef nb_logger < handle
         %
         % Get logger folder.
         % 
-        % Written by Kenneth Sæterhagen Paulsen    
+        % Written by Kenneth SÃ¦terhagen Paulsen    
             folder = getenv('LOGGERFOLDER');  
         end
         
@@ -74,7 +74,7 @@ classdef nb_logger < handle
         %
         % Open logger file.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
 
             if nargin < 2
                 obj = [];
@@ -96,11 +96,16 @@ classdef nb_logger < handle
                     if isempty(folderName)
                         folderName = nb_userpath('gui');
                     end
+                    folderName = [folderName, filesep(), 'errors'];
                 end
                 inputs.closeFile = true;
-                fileNameToWrite  = [folderName, filesep(), 'errorReport_' getenv('username'),'_', nb_clock('vintage'), '.txt'];
+                fileNameToWrite  = [folderName, filesep() , 'errorReport_' getenv('username'),'_', nb_clock('vintage'), '.txt'];
                 if ~exist(folderName,'dir')
-                    mkdir(folderName);
+                    try
+                        mkdir(folderName);
+                    catch Err
+                       nb_error(['Could not create logger file; ' folderName '. '], Err); 
+                    end
                 end
                 inputs.fileToWrite = fopen(fileNameToWrite,'a');
                 if inputs.fileToWrite == -1
@@ -122,7 +127,7 @@ classdef nb_logger < handle
         %
         % Close logger file.
         % 
-        % Written by Kenneth Sæterhagen Paulsen  
+        % Written by Kenneth SÃ¦terhagen Paulsen  
             
             if inputs.write && inputs.closeFile
                 fclose(inputs.fileToWrite);
@@ -138,9 +143,9 @@ classdef nb_logger < handle
         %
         % Write logger file.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen    
             
             level = getenv('LOGGERLEVEL');
             if isempty(level)
@@ -199,7 +204,7 @@ classdef nb_logger < handle
         %
         % Write logger file.
         % 
-        % Written by Kenneth Sæterhagen Paulsen 
+        % Written by Kenneth SÃ¦terhagen Paulsen 
         
             fileNameToWrite = ['errorReport', type, '_' getenv('username'),'_', nb_clock('vintage')];
             w               = nb_funcToWrite(fileNameToWrite,'gui');
@@ -215,7 +220,7 @@ classdef nb_logger < handle
         %
         % Write logger file.
         % 
-        % Written by Kenneth Sæterhagen Paulsen  
+        % Written by Kenneth SÃ¦terhagen Paulsen  
             
             level = getenv('LOGGERLEVEL');
             if messageLevel <= level

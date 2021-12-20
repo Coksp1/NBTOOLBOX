@@ -20,9 +20,9 @@ function [beta,sigma] = minnesotaMCI(draws,y,X,initBeta,initSigma,a_prior,V_prio
 % 
 % See nb_bVarEstimator.minnesota
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [numCoeff,nEq] = size(initBeta);
     N              = size(a_prior,1);

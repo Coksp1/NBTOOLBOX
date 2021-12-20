@@ -27,9 +27,9 @@ function obj = parse(filename,varargin)
 % See also:
 % nb_dsge.solve, nb_dsge.help
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind = cellfun(@(x)isa(x,'nb_dsge'),varargin);
     if any(ind) % Used by reparse!

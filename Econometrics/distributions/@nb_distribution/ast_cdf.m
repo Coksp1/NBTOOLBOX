@@ -29,9 +29,9 @@ function f = ast_cdf(x,a,b,c,d,e)
 % nb_distribution.ast_pdf, nb_distribution.ast_rand,
 % nb_distribution.ast_icdf, nb_mci
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     y = (x - a)./b; % Standardize
     f = centered_cdf(y,c,d,e);

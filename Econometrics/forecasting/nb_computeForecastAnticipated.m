@@ -33,9 +33,9 @@ function Y = nb_computeForecastAnticipated(A,B,C,Y,X,E)
 % - Y    : The forecast of the endogenous variables as a nendo x nSteps
 %          double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     numAntPer = size(C,3);
     nSteps    = size(Y,2) - 1;

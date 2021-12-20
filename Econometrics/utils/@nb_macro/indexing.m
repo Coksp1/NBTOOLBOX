@@ -25,9 +25,9 @@ function obj = indexing(obj,index)
 % m = nb_macro('I2',{'A','B','C','D'});
 % m = indexing(m,1:3)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isscalar(index) && iscellstr(obj.value)
         obj.value = obj.value{index};

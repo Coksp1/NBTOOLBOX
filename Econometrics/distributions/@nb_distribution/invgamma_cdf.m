@@ -23,9 +23,9 @@ function f = invgamma_cdf(x,m,k)
 % nb_distribution.invgamma_pdf, nb_distribution.invgamma_rand,
 % nb_distribution.invgamma_icdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     xx        = x;
     xx(xx<=0) = 0.01;

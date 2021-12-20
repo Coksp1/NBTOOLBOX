@@ -11,9 +11,9 @@ function [Alead,A0,Alag,B] = simulateStructuralMatricesStatic(parser,options,sol
 % See also:
 % nb_dsge.simulateStructuralMatrices
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Draw parameters
     draws    = options.uncertain_draws;

@@ -16,9 +16,9 @@ function ret = handleMissing(obj) %#ok<INUSD>
 % - ret : true or false. true if the estimation settings is so that the
 %         model handle missing data.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ret = false;
 

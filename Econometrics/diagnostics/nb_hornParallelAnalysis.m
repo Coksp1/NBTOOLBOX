@@ -35,7 +35,7 @@ function [sMEV,ciEV,cumE,resL2,nBasis] = nb_hornParallelAnalysis(data,K)
 % Written by Lanya T. Cai on June 22 2016. 
 % Contact lanyavikins[at]gmail.com if there's any question.
 %
-% Edited by Kenneth Sæterhagen Paulsen
+% Edited by Kenneth SÃ¦terhagen Paulsen
 % - Corrected documentation to fit NB toolbox
 
 % Copyright (c) 2016, Lanya Tianhao Cai
@@ -64,7 +64,7 @@ function [sMEV,ciEV,cumE,resL2,nBasis] = nb_hornParallelAnalysis(data,K)
 % OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dataSize  = size(data);
     nEntry    = dataSize(1);

@@ -39,9 +39,9 @@ function [obj,funEvals] = initialize(obj,objective,lowerBound,upperBound,objecti
 %
 % - funEvals : Number of function evaluations during initialization.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     funEvals   = 0;
     nBees      = size(obj,1);

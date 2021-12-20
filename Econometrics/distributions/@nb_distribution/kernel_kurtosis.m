@@ -26,9 +26,9 @@ function x = kernel_kurtosis(domain,density)
 % nb_distribution.normal_median, nb_distribution.normal_mean, 
 % nb_distribution.normal_variance, nb_distribution.kernel_rand
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     seed          = 2.0719e+05;

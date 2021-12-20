@@ -37,7 +37,7 @@ function obj = merge(obj,DB)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(obj,'nb_cs') || ~isa(DB,'nb_cs')
         error([mfilename ':: The two merged objects must both be of class nb_cs.'])

@@ -15,9 +15,9 @@ function start = getEstimationStartDate(obj)
 % 
 % - start : An object of class nb_date.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: Only scalar nb_model_generic objects are supported.'])

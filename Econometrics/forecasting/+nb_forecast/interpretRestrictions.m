@@ -12,9 +12,9 @@ function [bounds,indY] = interpretRestrictions(bounds,endo,shocks)
 % nb_forecast.setUpForBoundedForecast,
 % nb_forecast.boundedConditionalProjectionEngine
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fields = fieldnames(bounds);
     indY   = zeros(1,length(fields));

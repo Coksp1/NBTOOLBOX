@@ -23,9 +23,9 @@ function obj = forecast(obj,nSteps,varargin)
 %
 % - obj    : A vector of nb_model_convert objects. 
 %  
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: It is not possible to forecast an nb_model_convert object yet. See update instead.'])
     

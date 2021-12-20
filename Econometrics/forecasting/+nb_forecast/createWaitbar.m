@@ -4,7 +4,7 @@ function [h,iter,closeWaitbar] = createWaitbar(inputs,start,finish)
 % [h,iter,closeWaitbar] = nb_forecast.createWaitbar(inputs,start,finish)
 %
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     iter         = finish - start + 1;
     closeWaitbar = true;

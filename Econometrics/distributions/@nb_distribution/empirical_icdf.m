@@ -24,9 +24,9 @@ function x = empirical_icdf(p,domain,CDF)
 % nb_distribution.empirical_pdf, nb_distribution.empirical_rand,
 % nb_distribution.empirical_cdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

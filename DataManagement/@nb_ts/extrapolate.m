@@ -90,7 +90,7 @@ function obj = extrapolate(obj,variables,toDate,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.numberOfDatasets > 1
         error([mfilename ':: The obj input can only have one page.'])

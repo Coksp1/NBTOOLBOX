@@ -11,9 +11,9 @@ function [hyperParam,nCoeff,init,lb,ub] = getInitAndHyperParam(options)
 % See also:
 % nb_bVarEstimator.doEmpiricalBayesian, nb_bVarEstimator.print
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch lower(options.prior.type)
         case {'glp','glpmf'} 

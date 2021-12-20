@@ -10,9 +10,9 @@ classdef nb_varOrPar < matlab.mixin.Heterogeneous
 % See also:
 % nb_mySD, nb_param
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     
 end

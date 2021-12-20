@@ -24,9 +24,9 @@ function string = toMFile(obj,filename,varName)
 % - string   : A cellstr with the .m code to generate the current
 %              object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         varName = '';

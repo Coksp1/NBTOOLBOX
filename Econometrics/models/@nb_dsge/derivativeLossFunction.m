@@ -10,9 +10,9 @@ function solution = derivativeLossFunction(parser,solution,paramV)
 % See also:
 % nb_dsge.derivative, nb_dsge.derivativeNB, nb_dsge.calculateLoss
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     lossVars       = parser.lossVariables;
     nLossVars      = length(lossVars);

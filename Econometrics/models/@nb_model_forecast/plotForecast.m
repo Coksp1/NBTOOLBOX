@@ -53,9 +53,9 @@ function [plotter,plotFunction2Use] = plotForecast(obj,type,startDate,increment,
 % See also:
 % nb_model_generic.uncondForecast, nb_model_generic.forecast
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4 
         increment = 1;
@@ -389,12 +389,16 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
         cont = ~all(ismember(allVars,histData.variables));                
         ii   = ii + 1;
     end
-    histData = window(histData,'',startDateObj-1);
-
+   
     % Create data with fcst and merge with history
-    dNames         = getModelNames(obj);
-    data           = nb_ts(meanData,'mean',startDateObj-maxNow,allVars);
-    data           = append(data,histData); % Observations in data overwrites those of histData
+    dNames = getModelNames(obj);
+    data   = nb_ts(meanData,'mean',startDateObj-maxNow,allVars);
+    if isempty(histData)
+        warning([mfilename ':: Could not load historical data.'])
+    else
+        histData = window(histData,'',startDateObj-1);
+        data      = append(data,histData); % Observations in data overwrites those of histData
+    end
     data.dataNames = dNames;
 
     % Create graph object

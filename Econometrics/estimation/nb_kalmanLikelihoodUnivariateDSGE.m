@@ -69,7 +69,7 @@ function lik = nb_kalmanLikelihoodUnivariateDSGE(par,model,y,varargin)
 % nb_kalmanLikelihoodDSGE, nb_kalmanSmootherUnivariateDSGE,
 % nb_setUpForDiffuseFilter, nb_kalmanLikelihoodDiffuseDSGE
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)

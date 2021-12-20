@@ -31,9 +31,9 @@ function obj = setRisePosteriorSettings(obj,varargin)
 % 
 % obj : The object itself with the options reset.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method can only be called on a 1x1 nb_dsge object.'])

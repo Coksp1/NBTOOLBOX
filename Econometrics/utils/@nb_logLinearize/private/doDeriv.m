@@ -7,9 +7,9 @@ function obj = doDeriv(obj)
 %
 % Calculates symbolic first order derivatives.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create the variables with lead and lag
     vars = [strcat(obj.variables,'_lag'),obj.variables,strcat(obj.variables,'_lead')];

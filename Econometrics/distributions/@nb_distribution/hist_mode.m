@@ -19,9 +19,9 @@ function x = hist_mode(a)
 % nb_distribution.hist_median, nb_distribution.hist_mean, 
 % nb_distribution.hist_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = nb_mode(a,1);
 

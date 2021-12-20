@@ -30,7 +30,7 @@ function obj = mstd(obj,backward,forward)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     d = obj.data;
     n = nan(size(d));

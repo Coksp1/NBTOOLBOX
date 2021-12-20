@@ -72,9 +72,9 @@ function decomp = nb_shockDecomp(model,options,results,startInd,endInd,inputs)
 % See also:
 % nb_model_generic.shock_decomposition
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         inputs = struct('replic',[],'method','','perc',[]);            

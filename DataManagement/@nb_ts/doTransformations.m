@@ -60,9 +60,9 @@ function [obj,shift,plotter]= doTransformations(obj,expressions,fcstHorizon,vara
 % See also:
 % nb_ts.createVariable, nb_ts.createShift
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         fcstHorizon = 0;

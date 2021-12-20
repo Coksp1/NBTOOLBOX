@@ -37,9 +37,9 @@ function actual = getActual(options,solution,vars,startFcst,nSteps,inputs,nowcas
 %            each recursive forecast if nSteps is given, otherwise a nobs
 %            x nVars double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 7
         nowcast = 0;

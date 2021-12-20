@@ -7,9 +7,9 @@ function [Y,X] = map2Density(dist,Y,X,nDep)
 %
 % Map normalized data to estimated distribution.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Transform the dependent variables of the model
     distY = dist(1,1:nDep);

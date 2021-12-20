@@ -22,7 +22,7 @@ function boxQTest = nb_boxPierceQTest(residual,nlag)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Initilizing
     nobs = size(residual,1);

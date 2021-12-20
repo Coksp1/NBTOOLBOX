@@ -27,9 +27,9 @@ function x = ast_mean(a,b,c,d,e)
 % nb_distribution.ast_mode, nb_distribution.ast_median, 
 % nb_distribution.ast_variance
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     x = centered_mean(c,d,e);
     x = x.*b + a;

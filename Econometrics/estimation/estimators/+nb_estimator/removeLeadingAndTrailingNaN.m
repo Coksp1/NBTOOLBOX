@@ -9,7 +9,7 @@ function [X,keep] = removeLeadingAndTrailingNaN(X)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Remove all rows with all nan values.
     isNaN  = isnan(X);

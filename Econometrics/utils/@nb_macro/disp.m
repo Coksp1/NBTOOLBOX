@@ -11,9 +11,9 @@ function disp(obj)
 % 
 % - obj : A nb_macro object of any size.
 % 
-% Written by Kenneth Sæterhagen Paulsen  
+% Written by Kenneth SÃ¦terhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     disp(nb_createLinkToClass(obj,'nb_macro'));
     disp(' ')

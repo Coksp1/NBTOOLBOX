@@ -11,9 +11,9 @@ function obj = createEqFunction(obj,eqId)
 % See also:
 % nb_dsge.blockDecompose, nb_dsge.addEquation, nb_dsge.solveSteadyState
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         eqId = 'equationsParsed';

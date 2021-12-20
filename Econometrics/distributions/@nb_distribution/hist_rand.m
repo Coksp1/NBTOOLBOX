@@ -24,7 +24,7 @@ function draws = hist_rand(nrow,ncol,a) %#ok<STOUT,INUSD>
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: Cannot simulate data when type ''hist''.'])
     

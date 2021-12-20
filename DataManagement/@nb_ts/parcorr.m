@@ -91,9 +91,9 @@ function [obj,lBound,uBound] = parcorr(obj,numLags,errorBound,alpha,varargin)
 % See also:
 % nb_ts, nb_data, corr, nb_parcorr
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         alpha = 0.05;

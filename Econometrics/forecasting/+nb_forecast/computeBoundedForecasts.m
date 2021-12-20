@@ -8,9 +8,9 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
 %
 % Compute bounded forecast using expected shocks.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     h = inputs.waitbar;
     if isempty(h)

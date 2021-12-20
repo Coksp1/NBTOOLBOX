@@ -37,14 +37,25 @@ function [index,calendar] = selectCalendar(obj,modelGroup,start,finish,doRecursi
 % See also:
 % nb_model_group_vintages.constructWeights
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         fromResults = false;
         if nargin < 5
             doRecursive = true;
+        end
+    end
+    
+    % Convert context dates to daily frequency
+    if isscalar(modelGroup) && isa(modelGroup,'nb_model_group_vintages') && doRecursive
+        for ii = 1:length(modelGroup.models)
+            modelGroup.models(ii) = convertContexts2Daily(modelGroup.models(ii),false);
+        end
+    else
+        for ii = 1:length(modelGroup)
+            modelGroup(ii) = convertContexts2Daily(modelGroup(ii),fromResults);
         end
     end
 

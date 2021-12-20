@@ -143,9 +143,9 @@ function [results,models] = nb_jcoint(y,varargin)
 % See also:
 % nb_cointTest
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     opt = parseInput(varargin{:});
     

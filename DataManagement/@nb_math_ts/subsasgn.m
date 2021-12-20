@@ -35,7 +35,7 @@ function varargout = subsasgn(obj,s,b)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch s(1).type
 

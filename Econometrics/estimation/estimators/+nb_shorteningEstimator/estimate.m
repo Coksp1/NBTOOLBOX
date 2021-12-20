@@ -23,9 +23,9 @@ function [results,options] = estimate(options)
 % nb_shorteningEstimator.print, nb_shorteningEstimator.help, 
 % nb_shorteningEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tStart = tic;
 
@@ -52,8 +52,6 @@ function [results,options] = estimate(options)
     
     % Shorten sample
     [options,Z] = nb_estimator.testSample(options,Z);
-    
-    % Get seasonally adjusted series by x12-census
     [results,options] = nb_shorteningEstimator.doShortening(options,Z);
 
     % Assign generic results

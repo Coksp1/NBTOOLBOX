@@ -16,9 +16,9 @@ function c = nb_cov2corr(c)
 % 
 % - c  : Correlation matrix.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nLags = size(c,3);
     stds  = sqrt(diag(c(:,:,1)));

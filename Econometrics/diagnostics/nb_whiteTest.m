@@ -20,9 +20,9 @@ function [test,prob] = nb_whiteTest(residual,X)
 %
 % - fProb : P-value of test
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [T,nxvar] = size(X);
     

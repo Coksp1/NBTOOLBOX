@@ -13,9 +13,9 @@ function [A,B,C,ss,p,err] = updateSolution(options,results,xu,p,tt)
 % nb_kalmanSmootherDiffuseStochasticTrendDSGE,
 % nb_kalmanLikelihoodDiffuseStochasticTrendDSGE
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     results.beta       = p;
     [A,B,C,~,ss,p,err] = nb_dsge.solveOneIteration(options,results,xu);
