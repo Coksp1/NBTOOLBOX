@@ -7,9 +7,9 @@ function deleteRow(gui,~,~)
 %
 % Part of DAG. Delete row from table.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the rows to delete
     gui.index = gui.selectedCells;

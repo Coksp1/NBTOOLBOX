@@ -9,7 +9,7 @@ function list = funclist(type)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 if strcmpi(type,'nb_ts')
     list = {'abs';

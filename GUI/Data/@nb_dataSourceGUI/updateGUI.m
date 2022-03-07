@@ -9,9 +9,9 @@ function updateGUI(gui)
 % 
 % Update GUI.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(gui.data,'nb_modelDataSource')
         set(gui.sourceSelect, 'String', {'SMART'});

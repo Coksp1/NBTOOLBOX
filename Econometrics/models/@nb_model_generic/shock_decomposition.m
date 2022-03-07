@@ -28,6 +28,14 @@ function [decomp,decompBand,plotter] = shock_decomposition(obj,varargin)
 %                 a shock name or a cellstr array with the 
 %                 shock names. E.g 'E_X_NW' or {'E_X_NW','E_Y_NW'}.
 %
+%                 Caution: Two special identifiers can be used; 
+%                          'Initial Conditions' and 'Steady-state'. The 
+%                          first represent the impact of all shocks that  
+%                          hit the system before the decomposition/
+%                          estimation started. The second summarizes the 
+%                          impact of steady-state changes on the system, 
+%                          i.e. the impact of  break points.
+%                          
 %                 If empty no packing will be done.
 % 
 % - 'variables' : The variables to decompose. Default is the 

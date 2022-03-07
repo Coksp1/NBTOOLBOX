@@ -18,7 +18,7 @@ function bool = nb_isLogical(x)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     try % If we encounter an error, its definitely not logical..!
         bool = true;

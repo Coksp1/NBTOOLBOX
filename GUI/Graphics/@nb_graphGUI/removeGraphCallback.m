@@ -7,9 +7,9 @@ function removeGraphCallback(gui,~,~)
 %
 % Part of DAG. 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nb_confirmWindow('Are you sure you want to remove the second graph?',...
         @no,@(h,e)yes(h,e,gui),[gui.parent.guiName ': Remove second graph'])

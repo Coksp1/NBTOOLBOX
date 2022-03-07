@@ -28,9 +28,9 @@ function obj = convert(obj,frequency,first) %#ok
 % obj = nb_week(1,2012);
 % obj = obj.convert(1);
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         first = 1; %#ok

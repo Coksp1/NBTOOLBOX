@@ -13,7 +13,7 @@ function set(obj, varargin)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if size(varargin, 1) && iscell(varargin{1})
         varargin = varargin{1};

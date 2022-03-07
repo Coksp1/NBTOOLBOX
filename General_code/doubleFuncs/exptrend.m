@@ -29,9 +29,9 @@ function trend = exptrend(series,weight,numInitialisationAvg)
 % hpfilter
 %
 % Written by Christie Smith
-% Edited by Kenneth Sæterhagen Paulsen 
+% Edited by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         numInitialisationAvg = 20;

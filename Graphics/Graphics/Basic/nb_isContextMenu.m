@@ -15,9 +15,9 @@ function ret = nb_isContextMenu(value)
 % 
 % - ret   : True if value is a handle to a figure.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ret = false;
     if isa(value,'matlab.ui.container.ContextMenu')

@@ -15,9 +15,9 @@ function cs = nb_uncollapsStruct(s)
 % 
 % - cs : A 1 x N or N x 1 struct.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isscalar(s)
         error([mfilename ':: The input s must be a scalar struct'])

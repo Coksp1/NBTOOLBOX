@@ -7,7 +7,7 @@ function addGraphCallback(gui,~,~,type)
 %
 % Part of DAG. 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if strcmpi(type,'data')
         loader = nb_loadDataGUI(gui.parent);
@@ -38,12 +38,35 @@ function createNewGraph(hObject,~,gui)
         end
     end
     
+    if ~isa(graphObject, class(gui.plotterAdv.plotter))
+        
+        switch class(graphObject)
+            case 'nb_graph_ts'
+                graph2 = 'time-series';
+            case 'nb_graph_data'
+                graph2 = 'dimension-less';
+            case 'nb_graph_cs'
+                graph2 = 'cross-sectional';
+        end
+        switch class(gui.plotterAdv.plotter)
+            case 'nb_graph_ts'
+                graph1 = 'time-series';
+            case 'nb_graph_data'
+                graph1 = 'dimension-less';
+            case 'nb_graph_cs'
+                graph1 = 'cross-sectional';
+        end
+        
+        nb_errorWindow(['It is not possible to combine graphs with ' graph1 ' and ' graph2 ' data in graph panel'])
+        return
+    end
+    
     % Adjust positions
-    gui.plotterAdv.plotter.position = getTemplateProperty(gui.plotterAdv.plotter,...
-        '','position1');
+    template                        = gui.parent.settings.graphSettings.(gui.plotterAdv.plotter.currentTemplate);
+    gui.plotterAdv.plotter.position = template.position1;
+    graphObject.position            = template.position2;
 
     % Add extra plotter object to advanced graph
-    graphObject.position = getTemplateProperty(gui.plotterAdv.plotter,'','position2');
     addGraph(gui.plotterAdv,graphObject);
 
     % Assign same figureHandle

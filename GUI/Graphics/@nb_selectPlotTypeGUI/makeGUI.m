@@ -7,11 +7,11 @@ function makeGUI(gui)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     plotterT = gui.plotter;
     parent   = gui.plotter.parent;
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check if we are dealing with Dates vs Dates Plot
     include  = true;      

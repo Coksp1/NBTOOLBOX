@@ -7,9 +7,9 @@ function nb_closeWaitbar5()
 %
 % Close wait bar produced by a nb_waibar5 class.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fig = findobj('type','figure','tag','nb_waitbar5');
     gui = get(fig,'userData');

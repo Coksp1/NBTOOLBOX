@@ -25,9 +25,9 @@ function str = nb_cellstr2String(c,sep,sepLast)
 % 
 % Gives str = 'dfdfddf, dfdffdf, dfdfdf'
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         sep = ',';

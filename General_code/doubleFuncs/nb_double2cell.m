@@ -18,9 +18,9 @@ function c = nb_double2cell(d,precision)
 % 
 % - c         : A cell matrix
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     c = cell(size(d));
     for ii = 1:size(d,2)    

@@ -7,9 +7,9 @@ function editableCallback(gui,~,~)
 %
 % Part of DAG. Called when the user choose to make the table editable.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     editMenu = findobj(gui.viewMenu,'Label','Editable');
     if gui.editMode == 0

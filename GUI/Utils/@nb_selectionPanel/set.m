@@ -21,9 +21,9 @@ function set(obj,varargin)
 %
 % - obj      : A nb_selectionPanel object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     for ii = 1:2:size(varargin,2)
         

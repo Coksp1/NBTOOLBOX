@@ -7,9 +7,9 @@ function updateEditMode(gui,hObject,~)
 %
 % Part of DAG. Update edit mode of table.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the selected editable mode (old)
     editable = get(hObject,'checked');

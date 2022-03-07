@@ -26,6 +26,9 @@ function [h,note,isWaitbar] = openWaitbar(waitbar,iter)
             h         = [];
             isWaitbar = false;
         end
+    elseif isempty(waitbar)
+        h         = [];
+        isWaitbar = false;
     else
         error([mfilename ':: Wrong input given to the waitbar option.']) 
     end

@@ -22,9 +22,9 @@ function [variable,err] = nb_loadFromUserpath(filename)
 % See also:
 % nb_save2Userpath
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     err        = '';
     variable   = [];

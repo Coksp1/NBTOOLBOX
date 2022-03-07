@@ -10,9 +10,9 @@ function obj = assignTemplate(obj,template)
 % See also:
 % nb_graph_package.writeSeparateExtended, nb_graph_package.writePDFExtended
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = copy(obj); % We copy the object to prevent these settings to be permanent!
     for ii = 1:length(obj.graphs)

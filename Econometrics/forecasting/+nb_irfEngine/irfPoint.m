@@ -71,7 +71,38 @@ function irfData = irfPoint(solution,options,inputs,results)
     else
         X = zeros(size(B,2),periods);
     end
-    if strcmpi(inputs.type,'girf') && iscell(A) && ~isempty(Qfunc) % GIRF with Markov switching model
+    if strcmpi(solution.class,'nb_sa') || strcmpi(solution.class,'nb_fmsa')
+        
+        dep  = unique(regexprep(options(end).dependent,'_{0,1}lead[0-9]*$',''));
+        nDep = length(dep);
+    
+        % In this case we do an impulse to the exogenous variables instead
+        % of the residuals
+        Y = zeros(nDep,periods + 1,nShocks);
+        for jj = 1:nShocks
+
+            indS       = strcmpi(shocks{jj},solution.exo);
+            XT         = X;
+            XT(indS,1) = sign(jj); % One standard deviation  
+            if any(indS)
+                Yt    = B*XT(:,1);
+                leads = size(Yt,1)/nDep;
+                Yt    = reshape(Yt,[leads,nDep]);
+                if strcmpi(solution.class,'nb_sa')
+                    Yt = permute(Yt,[2,1]);
+                end
+                if periods < leads
+                    Yt = Yt(:,1:periods);
+                end
+                Y(:,2:leads+1,jj) = Yt;
+                
+            else % This model does not have this shock
+                Y(:,:,jj) = nan(nDep,periods + 1,1);
+            end
+
+        end
+               
+    elseif strcmpi(inputs.type,'girf') && iscell(A) && ~isempty(Qfunc) % GIRF with Markov switching model
         
         ss   = solution.ss;
         Y    = zeros(nEndo,periods + 1,nShocks,inputs.draws);
@@ -265,10 +296,8 @@ function irfData = irfPoint(solution,options,inputs,results)
         dep = [options.dependent,dep(1:nObs)];
     elseif isfield(solution,'ss')  
         if ~iscell(solution.ss)
-            if ismember(solution.type,{'rise','nb'})
-                if inputs.addSS
-                    Y = bsxfun(@plus,Y,solution.ss);
-                end
+            if inputs.addSS
+                Y = bsxfun(@plus,Y,solution.ss);
             end
         end
         ss = solution.ss;

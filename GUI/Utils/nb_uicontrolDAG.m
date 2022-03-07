@@ -13,7 +13,7 @@ function h = nb_uicontrolDAG(gui,varargin)
 % 
 % Written by Per Bjarne Bye
       
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(gui) && gui.mVersion < 9.5
         % Remove tooltip

@@ -280,7 +280,7 @@ function [noMissing,nSteps,allVars,missing,missingT,lastMout] = getMissing(optio
                 end
                 lastM = lastMissing(ii);
             end
-            lastMissing = lastMissing(ii:end);
+            lastMissing = lastMissing(ii+1:end);
         end
     end
     missing  = missing(lastMissing,:);

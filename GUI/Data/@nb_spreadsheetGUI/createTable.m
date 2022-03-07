@@ -7,9 +7,9 @@ function createTable(gui)
 %
 % Part of DAG. Create the table
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the column width
     switch lower(gui.tableType)

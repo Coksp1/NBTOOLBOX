@@ -33,9 +33,9 @@ function [uih,uiht] = nb_gridcontainer(obj,varargin)
 % - uiht : A uicontrol object or empty. If the 'title' input is used 
 %          the output is uicontrol object, otherwise it is empty.
 %
-% Written by Kenneth Sæterhagen Paulsen        
+% Written by Kenneth SÃ¦terhagen Paulsen        
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     opt            = varargin;
     indS           = cellfun(@isstruct,opt);

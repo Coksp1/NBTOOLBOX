@@ -10,9 +10,9 @@ function transposeCallback(gui,~,~)
 % Function called when transpose button is pressed. Transposes imported 
 % data.
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Transpose data
     gui.dataC = gui.dataC';

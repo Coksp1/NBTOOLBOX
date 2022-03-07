@@ -21,9 +21,9 @@ function nl = nb_newLine(num)
 % See also:
 % newline
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nl = char(10); %#ok<CHARTEN>    
     if nargin > 0

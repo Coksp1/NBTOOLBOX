@@ -9,7 +9,7 @@ function makeGUI(gui)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     % Create the main window
     f = nb_guiFigure(gui.parent,gui.name,[50  40  80   30],'normal','on');

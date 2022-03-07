@@ -26,7 +26,7 @@ function meanVector = nb_meanHist(var,periods)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     isNaN      = isnan(var);
     meanVector = repmat(mean(var(~isNaN)),periods,1);

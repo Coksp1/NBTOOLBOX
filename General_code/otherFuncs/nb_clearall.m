@@ -7,9 +7,9 @@ function nb_clearall()
 %
 % Clear all variables, close all figures and clear command window.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     close all
     evalin('base','clear all');

@@ -7,9 +7,9 @@ function setImportedObject(gui,exLocVars)
 %
 % Part of DAG. Assign object the concatenated local variables
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj = gui.object;
     if isa(obj,'nb_graph_obj')

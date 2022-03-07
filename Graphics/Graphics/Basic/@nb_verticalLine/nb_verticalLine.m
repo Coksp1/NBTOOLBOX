@@ -49,9 +49,9 @@ classdef nb_verticalLine < nb_plotHandle
 % See also:
 % nb_line, line
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     
     %======================================================================

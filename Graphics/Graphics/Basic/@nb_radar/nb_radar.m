@@ -45,9 +45,9 @@ classdef nb_radar < nb_plotHandle & nb_notifiesMouseOverObject
 %     radar = nb_radar([1,2; 2,4; 3,5; 2,1; 3,4; 2,5],...
 %                   'numberOfIsoLines',10);
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

@@ -9,9 +9,9 @@ function nb_confirmWindow3(message,callbackfunc1,callbackfunc2,callbackfunc3,...
 %
 % A window for printing confimation messages, with 3 options.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
     % Create the window

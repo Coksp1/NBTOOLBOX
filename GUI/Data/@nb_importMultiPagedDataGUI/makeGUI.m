@@ -11,9 +11,9 @@ function makeGUI(gui)
 % directly or customize. Creates an import window for excel sheets,  
 % with seperate panels for advanced and simple imports. 
 % 
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create Window
     %--------------------------------------------------------------

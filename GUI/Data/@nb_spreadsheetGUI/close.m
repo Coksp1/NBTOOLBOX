@@ -8,9 +8,9 @@ function close(~,hObject,~)
 % Part of DAG. Close request callback called when user try to close 
 % spreadsheet window
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     delete(hObject);
 

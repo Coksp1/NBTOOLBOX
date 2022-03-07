@@ -23,9 +23,9 @@ classdef nb_pleaseWait < handle
 % See also: 
 % nb_waitbar, nb_waitbar5
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess=protected)
         
@@ -84,7 +84,7 @@ classdef nb_pleaseWait < handle
         % 
         % - obj : An object of class nb_pleaseWait.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
             delete(obj);
         end
         
@@ -101,7 +101,7 @@ classdef nb_pleaseWait < handle
         % 
         % - obj : An object of class nb_pleaseWait.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
             stop(obj.timerHandle);
             delete(obj.figureHandle);
         end

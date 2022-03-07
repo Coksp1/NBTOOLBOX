@@ -29,9 +29,9 @@ function set(obj,varargin)
 % obj = obj.set('position',[0.1 0.1 0.8 0.8],'xLim',[0,1],...
 %               'yLim',[0.1]);
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) > 1
         obj = obj(:);

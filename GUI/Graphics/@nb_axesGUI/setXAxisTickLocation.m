@@ -7,9 +7,9 @@ function setXAxisTickLocation(gui,hObject,event)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the value selected
     index   = get(hObject,'value');

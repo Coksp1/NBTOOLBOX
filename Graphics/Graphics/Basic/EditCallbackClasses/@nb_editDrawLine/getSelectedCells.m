@@ -1,7 +1,7 @@
 function getSelectedCells(gui,~,event)
 % Get selected cells
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     sel               = event.Indices;
     row               = [min(sel(:,1)),max(sel(:,1))];

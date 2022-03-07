@@ -10,9 +10,9 @@ function [numStr,counter] = nb_getFigureNumbering(graphObj,numberObj,counter)
 % Caution : numberObj is a nb_numbering object handle, and therefore need 
 %           not be returned!
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(graphObj.chapter)
         old               = numberObj.chapter;

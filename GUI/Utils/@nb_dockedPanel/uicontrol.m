@@ -36,9 +36,9 @@ function uih = uicontrol(obj,varargin)
 % uicontrol(h,'style','listbox',...
 %             'title','Test');
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj.numberOfChildren = obj.numberOfChildren + 1;
     obj.docked           = [obj.docked,false];

@@ -1,7 +1,7 @@
 function [indC,locC] = getContextIndex(forecastContexts,contexts)
 % Syntax:
 %
-% [index,isMatch] = nb_calendar.getContextIndex(forecastContexts,calendar)
+% [indC,locC] = nb_calendar.getContextIndex(forecastContexts,calendar)
 %
 % Description:
 %
@@ -34,6 +34,22 @@ function [indC,locC] = getContextIndex(forecastContexts,contexts)
         locC = true(1,0);
         return
     end
+    
+    % Make robust to different frequencies on context dates
+    forecastContextsStr1 = num2str(forecastContexts(1));
+    contextsStr1         = num2str(contexts(1));
+    diffLength           = size(forecastContextsStr1,2) - size(contextsStr1,2);
+    if diffLength > 0
+        contextsStr = num2str(contexts);
+        contextsStr = strcat(contextsStr,repmat('0',[1,diffLength]));
+        contexts    = str2num(contextsStr); %#ok<ST2NM>
+    elseif diffLength < 0
+        forecastContextsStr = num2str(forecastContexts);
+        forecastContextsStr = strcat(forecastContextsStr,repmat('0',[1,-diffLength]));
+        forecastContexts    = str2num(forecastContextsStr); %#ok<ST2NM>
+    end
+        
+    % Return matching indexes
     indC = nan(1,size(contexts,1));
     for ii = 1:size(contexts,1)
         ind   = forecastContexts <= contexts(ii);

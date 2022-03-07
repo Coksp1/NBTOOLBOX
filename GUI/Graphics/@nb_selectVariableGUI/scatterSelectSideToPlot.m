@@ -7,9 +7,9 @@ function scatterSelectSideToPlot(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     gui.scatterSide = nb_getUIControlValue(gui.popupmenu2);
     plotter         = gui.plotter;

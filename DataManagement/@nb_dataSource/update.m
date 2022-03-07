@@ -9,7 +9,8 @@ function obj = update(obj,warningOff,inGUI)
 %
 % Caution : It is only possible to update an nb_dataSource object 
 %           which has updateable links to a FAME database or a full
-%           directory (path) to an excel spreadsheet or .mat file.
+%           directory (path) to an excel spreadsheet or .mat file or 
+%           the SMART database.
 %
 % Caution : If you want to create a link to a specific worksheet
 %           of a excel file you must provide the extension!
@@ -291,7 +292,15 @@ function [merged,index] = recursiveUpdate(cl,subLinks,index,warningOff,inGUI,loc
             
         case 'smart'
             
-            [temp,err] = nb_smart2TS(subLink.variables,subLink.vintage);
+            if ~exist('nb_startSMART','file')
+                error([mfilename ':: You need to have access to SMART to update ',...
+                    'the dataset.'])
+            end
+
+            variables = subLinks.variables;
+            vintages  = subLinks.vintage;
+            
+            [temp,err] = nb_smart2TS(variables,vintages);
             if ~isempty(err)
                 if strcmpi(warningOff,'on')
                     func_handle = @warning;
@@ -521,7 +530,7 @@ function [temp,index] = doOperations(temp,operations,cl,subLinks,index,warningOf
         methodCall = operations{dd};
         if strcmpi(methodCall{1},'merge') || strcmpi(methodCall{1},'mergeappend') 
             
-            % We are now at a point of mergeing sublinks
+            % We are now at a point of merging sublinks
             [tempR,index] = recursiveUpdate(cl,subLinks,index + 1,warningOff,inGUI,locVars,sorted);
             
             % Now we merge the updated link from source jj - 1 and jj

@@ -52,11 +52,11 @@ function [yData,outData,outp,err,mdl] = x12(data,startdate,dummy,options)
 % - mdl       : A struct with ARIMA model estimates.
 %
 % Written by Jaromir Benes
-% Modified by Kenneth Sæterhagen Paulsen
+% Modified by Kenneth SÃ¦terhagen Paulsen
 
 % Copyright (C) 2007-2017 IRIS Solutions Team. All rights reserved.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ind = find(strcmpi(options.mode,{'mult','add','pseudoadd','logadd','auto'}),1);
     if isempty(ind)

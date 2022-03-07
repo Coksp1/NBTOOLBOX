@@ -26,7 +26,7 @@ function graph(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %--------------------------------------------------------------
     % If the 'graphObjects' property is empty there is nothing to 

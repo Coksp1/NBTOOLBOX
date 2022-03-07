@@ -16,9 +16,9 @@ classdef nb_importDataGUI < nb_heavyJobInterface
 %   - gui    : The handle to the GUI object. As a nb_importDataGUI 
 %              object.
 % 
-% Written by Kenneth Sæterhagen Paulsen/Eyo Herstad
+% Written by Kenneth SÃ¦terhagen Paulsen/Eyo Herstad
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

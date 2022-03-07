@@ -16,9 +16,9 @@ classdef (Abstract) nb_graph < nb_graph_obj
 % See also:
 % nb_graph_ts, nb_graph_cs, nb_graph_data
 %
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

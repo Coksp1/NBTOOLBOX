@@ -7,9 +7,9 @@ function popupCallback(gui,~,~)
 %
 % Part of DAG. Function called when the popupmenu changes.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     index  = get(gui.methodBox,'value');
     string = get(gui.methodBox,'string');

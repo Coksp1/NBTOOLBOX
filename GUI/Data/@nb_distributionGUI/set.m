@@ -7,9 +7,9 @@ function set(gui, varargin)
 %
 % Part of DAG.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     for j = 1:2:size(varargin, 2)
 

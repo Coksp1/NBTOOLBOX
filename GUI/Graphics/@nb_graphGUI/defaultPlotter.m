@@ -7,9 +7,9 @@ function graphObject = defaultPlotter(gui,graphObject,type,template)
 %
 % Part of DAG. Add default graph settings for an initialized graph object
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         template = gui.template;

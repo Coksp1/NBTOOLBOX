@@ -46,9 +46,9 @@ classdef nb_gradedFanChart < nb_plotHandle
 %     obj = nb_gradedFanChart([1,2],rand(2,100),'propertyName',...
 %                        propertyValue,...)    
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class

@@ -54,6 +54,12 @@ function Excel = nb_xlswrite(filename,c,sheet,del,Excel)
     
     % Check filename input
     [found,filename,ext] = nb_validpath(filename,'write');
+    if ~found
+        folder = fileparts(filename);
+        if ~exist(folder,'dir')
+            mkdir(folder);
+        end
+    end
     
     % Check data
     if ~iscell(c)

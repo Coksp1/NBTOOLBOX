@@ -21,11 +21,11 @@ function xout = nb_rlag(xin,t,len)
 % 
 % Examples:
 %
-% xout = nb_rlag([1,2,1,2],4,12)
+% xout = nb_rlag([1;2;1;2],4,12)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,s2,s3] = size(xin);
     xout      = zeros(len,s2,s3);

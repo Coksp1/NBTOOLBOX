@@ -9,9 +9,9 @@ function selectBoxCallback(gui,~,~)
 % 
 % Updates the table when the selected sheet changes.
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the selected sheet values
     index         = get(gui.initSheetSelectBox,'value');

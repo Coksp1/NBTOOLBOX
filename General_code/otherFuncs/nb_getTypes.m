@@ -37,9 +37,9 @@ function [out,type] = nb_getTypes(out,variables,data,macro,nInp)
 % See also:
 % nb_shuntingYardAlgorithm, nb_getTypesC, nb_evalExpression
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         macro = false;

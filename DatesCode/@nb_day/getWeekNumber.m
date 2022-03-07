@@ -20,9 +20,9 @@ function [weekNum,weekDay,yearN] = getWeekNumber(obj)
 %
 % - yearN   : The year of the day, as a double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen         
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen         
 
     weekDay               = rem(6 + [obj.dayNr],7);
     weekDay(weekDay == 0) = 7;

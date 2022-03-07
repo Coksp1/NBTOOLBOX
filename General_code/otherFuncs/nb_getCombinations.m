@@ -34,9 +34,9 @@ function varargout = nb_getCombinations(nMin,nMax,varargin)
 % [s,vars,lags] = nb_getCombinations(1,3,{'Var1','Var2','Var3','Var4'},1:10);
 % [s,vars,lags] = nb_getCombinations(1,3,{'Var1','Var2','Var3'},{1,2,3});
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get all possible combinations of variables
     vec  = varargin{1};

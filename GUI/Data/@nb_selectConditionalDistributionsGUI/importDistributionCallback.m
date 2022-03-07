@@ -7,9 +7,9 @@ function importDistributionCallback(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the file name
     [filename,pathname] = uigetfile({'*.mat','MAT (*.mat)'},'',nb_getLastFolder(gui));

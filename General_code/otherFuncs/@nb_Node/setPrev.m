@@ -25,7 +25,7 @@ function obj = setPrev(obj,prevObj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obj.prev = prevObj;
 

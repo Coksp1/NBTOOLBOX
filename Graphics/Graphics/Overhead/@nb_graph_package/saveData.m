@@ -58,7 +58,7 @@ function saveData(obj,saveName,language,firstPageName,firstPageName2,roundoff,ex
 % 
 % Written by Per Bjarne Bye and Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 % Some useful Excel functions:
 % White  : 16777215

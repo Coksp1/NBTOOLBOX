@@ -24,9 +24,9 @@ function uih = uipanel(obj,varargin)
 % 
 % The wanted uipanel added to one of the panels. 
 %
-% Written by Kenneth Sæterhagen Paulsen        
+% Written by Kenneth SÃ¦terhagen Paulsen        
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     opt          = varargin;
     indS         = cellfun(@isstruct,opt);

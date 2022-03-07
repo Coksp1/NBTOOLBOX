@@ -29,9 +29,9 @@ classdef nb_table < nb_plotHandle & matlab.mixin.Copyable
 %     t = nb_table(data);
 %     t.BackgroundColor(1, :) = {'blue'};
 %     
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Access = public, Hidden = true)
         % Internal table cell representation. Struct array

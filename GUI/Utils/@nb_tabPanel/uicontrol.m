@@ -32,9 +32,9 @@ function uih = uicontrol(obj,varargin)
 % 
 % - uih     : A uicontrol object.
 %
-% Written by Kenneth Sæterhagen Paulsen        
+% Written by Kenneth SÃ¦terhagen Paulsen        
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [ind,optStruct,opt] = interpretInputs(obj,varargin);
     uih                 = uicontrol(obj.tabPanels(ind),optStruct{:},opt{:});

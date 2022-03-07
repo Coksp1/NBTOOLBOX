@@ -19,9 +19,9 @@ function obj = initialize(freq,dim1,dim2)
 % 
 % obj : A vector of nb_date objects.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch freq
         case 1

@@ -7,7 +7,7 @@ function s = charSlide(obj)
 %
 % Get the slide number represented by the nb_numbering object as a
 % string on the format: 'Slide 1.1' or 'Slide 1.1a' in english and
-% 'Lysbilde 1.1' or 'Lysbilde 1.1a' på norsk.
+% 'Lysbilde 1.1' or 'Lysbilde 1.1a' pÃ¥ norsk.
 %
 % Input:
 %
@@ -16,16 +16,16 @@ function s = charSlide(obj)
 % Output:
 %
 % - s   : A string on the format 'Slide 1.1' or 'Slide 1.1a' in 
-%         english and 'Lysbilde 1.1' or 'Lysbilde 1.1a' på norsk. 
+%         english and 'Lysbilde 1.1' or 'Lysbilde 1.1a' pÃ¥ norsk. 
 %
 % Examples:
 %
 % See also:
 % char
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if obj.bigLetter
         numb = char(64 + obj.number);

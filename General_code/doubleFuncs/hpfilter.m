@@ -24,9 +24,9 @@ function y = hpfilter(x,lamb)
 % 
 % y = hpfilter(x,400);
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check for nan
     [r,c,p] = size(x);
@@ -35,7 +35,7 @@ function y = hpfilter(x,lamb)
         y = x;
         for cc = 1:c
             for pp = 1:p
-                good          = ~isnan(x(:,cc,pp));
+                good          = isfinite(x(:,cc,pp));
                 y(good,cc,pp) = hpfilter(x(good,cc,pp),lamb);
             end
         end

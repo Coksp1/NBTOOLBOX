@@ -21,9 +21,9 @@ function lineWidth = nb_scaleLineWidth(obj,lineWidth)
 % See also:
 % nb_axes.scaleLineWidth
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isprop(obj,'returnNonScaled')
         if obj.returnNonScaled

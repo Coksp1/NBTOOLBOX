@@ -9,7 +9,7 @@ function help = helpOn(func)
 % 
 % Written by Andreas Haga Raavand  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 switch lower(func)
     case '+'

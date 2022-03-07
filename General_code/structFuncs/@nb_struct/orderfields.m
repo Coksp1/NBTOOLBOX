@@ -20,9 +20,9 @@ function varargout = orderfields(obj,varargin)
 %   Just that the struct is switched to a nb_struct. Remember that
 %   nb_struct object is of a handle class.
 %
-% Written by Kenneth Sæterhagen Paulsen   
+% Written by Kenneth SÃ¦terhagen Paulsen   
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [obj.s,varargout{2}] = orderfields(obj.s,varargin{:}); 
     varargout{1}         = obj;

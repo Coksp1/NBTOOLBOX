@@ -20,9 +20,9 @@ function plotter = nb_combineGraphStructDensityGraphs(varargin)
 % - plotter  : An object you can use the graphInfoStruct method or the
 %              nb_graphInfoStructGUI class on.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 4
         error([mfilename ':: You need at least two inputs to this function.'])

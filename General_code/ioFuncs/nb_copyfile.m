@@ -24,7 +24,7 @@ function nb_copyfile(from,to,format)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
     if nargin < 3
@@ -113,6 +113,9 @@ function nb_copyfile(from,to,format)
             newFile = fopen([newFileName newExt],'w+');    
         catch Err
 
+            if ~isempty(newPath)
+                cd(parent);
+            end
             if ~isempty(oldFile)
                 fclose(oldFile);
                 fclose('all');

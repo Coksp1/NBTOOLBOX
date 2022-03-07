@@ -25,9 +25,9 @@ function [newValue,message,obj] = nb_interpretDateObsTypeInputDataGUI(DB,string)
 % - obj      : The nb_date representation of the input string. Only when
 %              DB is of class nb_ts, otherwise the same as newValue.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     message  = '';
     obj      = [];

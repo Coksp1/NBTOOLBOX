@@ -15,9 +15,9 @@ classdef nb_figureNameGUI < handle
 % 
 %   - gui    : The handle to the object.
 %
-% Written by Kenneth Sæterhagen Paulsen   
+% Written by Kenneth SÃ¦terhagen Paulsen   
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Access = protected)
         

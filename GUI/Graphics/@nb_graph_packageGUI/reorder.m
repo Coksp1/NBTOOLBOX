@@ -7,9 +7,9 @@ function reorder(gui,~,~)
 %
 % Part of DAG. Open up a new window to reorder the graphs
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     reorderGUI = nb_reorderPackageGUI(gui.parent,gui.package);
     addlistener(reorderGUI,'packageChanged',@gui.packageChangedCallback);

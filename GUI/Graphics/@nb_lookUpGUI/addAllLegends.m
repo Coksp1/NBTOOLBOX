@@ -8,9 +8,9 @@ function addAllLegends(gui,~,~)
 % Part of DAG. Add all (remaining) legends to the lookupmatrix (i.e. 
 % the table)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     legendTexts = gui.plotter.legendText(2:2:end);
     legendTexts = setdiff(legendTexts, {''});

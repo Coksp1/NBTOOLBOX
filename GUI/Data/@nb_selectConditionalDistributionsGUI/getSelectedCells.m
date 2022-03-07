@@ -7,9 +7,9 @@ function getSelectedCells(gui,~,event)
 %
 % Part of DAG. Get selected cells.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % First column: selected date indexes
     % Second column: selected variables indexes

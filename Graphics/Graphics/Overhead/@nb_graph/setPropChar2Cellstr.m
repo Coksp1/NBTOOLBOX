@@ -31,7 +31,7 @@ function setPropChar2Cellstr(obj,propertyName,propertyValue)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if iscell(propertyValue)
         obj.(propertyName) = propertyValue;

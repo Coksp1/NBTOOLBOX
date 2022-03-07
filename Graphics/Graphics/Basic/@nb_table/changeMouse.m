@@ -2,7 +2,7 @@ function pointer = changeMouse(obj)
 % When the mouse moves on the figure this method will
 % be called by the nb_figure parent.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [rowDivider, columnDivider] = obj.getHoveredDividers();
 

@@ -27,7 +27,7 @@ function obj = nb_scrollbox(varargin)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create a MATLAB uicontrol object
     obj = uicontrol(...

@@ -41,7 +41,7 @@ function out = nb_stateDates(startYear,endYear,d,freq,laglead)
 %
 % Written by Tobias Ingebrigtsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         laglead = 10;
@@ -52,7 +52,7 @@ function out = nb_stateDates(startYear,endYear,d,freq,laglead)
         startYear = startYear.toString;
     elseif isa(startYear,'nb_year')
         startYear = startYear.toString;
-    else
+    elseif ~nb_isOneLineChar(startYear)
         error([mfilename ':: Wrong input format. The start date'...
               ' must be either a nb_date object or a string. '])
           
@@ -62,7 +62,7 @@ function out = nb_stateDates(startYear,endYear,d,freq,laglead)
         endYear = endYear.toString;
     elseif isa(endYear,'nb_year')
         endYear = endYear.toString;
-    else
+    elseif ~nb_isOneLineChar(endYear)
         error([mfilename ':: Wrong input format. The end date'...
               ' must be either a nb_date object or a string. '])
           
@@ -81,11 +81,11 @@ function out = nb_stateDates(startYear,endYear,d,freq,laglead)
         easterDates(ii) = nb_day(easterD{ii}); 
         
     end
-    easter1   = easterDates - 3;   % Skjærtorsdag
+    easter1   = easterDates - 3;   % SkjÃ¦rtorsdag
     easter2   = easterDates - 2;   % Langfredag
-    easter3   = easterDates + 1;   % Andre påskedag
+    easter3   = easterDates + 1;   % Andre pÃ¥skedag
     kristiHim = easterDates + 39;  % Kristi Himmelfartsdag
-    pinse1    = easterDates + 50;  % Første pinsedag
+    pinse1    = easterDates + 50;  % FÃ¸rste pinsedag
     pinse2    = pinse1 + 1;        % Andre pinsedag
     holidays  = [kristiHim, pinse1, pinse2, easter1, easter2, easter3];
     dDates(1,length(dates)) = nb_day();

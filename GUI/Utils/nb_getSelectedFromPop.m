@@ -19,9 +19,9 @@ function [out,ind] = nb_getSelectedFromPop(handle,type)
 % 
 % - ind    : The index of the selected string.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         type = '';

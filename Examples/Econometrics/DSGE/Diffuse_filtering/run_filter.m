@@ -68,3 +68,9 @@ plotData = addPages(sim,filt);
 plotter  = nb_graph_ts(plotData);
 plotter.set('legends',{'Simulated','Estimated'});
 nb_graphSubPlotGUI(plotter);
+
+%% Shock decomposition
+
+[~,~,plotter] = shock_decomposition(model,'type','updated');
+nb_graphPagesGUI(plotter);
+

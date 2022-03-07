@@ -28,9 +28,9 @@ function [index,centered] = nb_histcounts(x,interval,centered)
 % ind1 = nb_histcounts(obj.data,0.1:0.1:1)
 % ind2 = nb_histcounts(obj.data,0.1:0.1:1,0.05:0.1:1)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         centered = [];

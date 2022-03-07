@@ -12,9 +12,9 @@ function nb_makeFigureIdle(hObject,~)
 % - hObject : A GUI object with the property figureHandle, which  
 %             must be a MATLAB figure handle.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     figureHandle = hObject.figureHandle;
     

@@ -65,7 +65,7 @@ end
 %==========================================================================
 function interpretSpecial(obj,x,y,special,~)
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if strcmpi(special,'escape')      
         obj.finishEditing(y, x);

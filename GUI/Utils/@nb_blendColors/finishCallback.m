@@ -7,9 +7,9 @@ function finishCallback(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the blending options
     alpha1 = nb_getUIControlValue(gui.components.alpha1,'numeric');

@@ -9,7 +9,7 @@ function makeGUI(gui)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the handle to the main program
     mainGUI = gui.parent;

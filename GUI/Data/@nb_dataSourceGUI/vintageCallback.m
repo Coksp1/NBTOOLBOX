@@ -9,9 +9,9 @@ function vintageCallback(gui,~,~)
 % 
 % Edit vintage tag of (FAME) source.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = get(gui.fameVintage,'string');
     local  = nb_contains(string,'%#');

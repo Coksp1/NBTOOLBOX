@@ -7,9 +7,9 @@ function xAxisPanel(gui)
 %
 % Part of DAG. Creates the panel with the x-axis properties.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get graph object 
     plotter = gui.plotter;
@@ -26,7 +26,7 @@ function xAxisPanel(gui)
     %--------------------------------------------------------------
     cl = class(plotter);
     switch cl
-        case 'nb_graph_ts'
+        case {'nb_graph_ts','nb_graph_bd'}
             
             if strcmpi(plotter.plotType,'scatter')
                 type = 2;
@@ -645,7 +645,7 @@ function xAxisPanel(gui)
 
         % X-Axis Tick Frequency
         %--------------------------------------------------------------     
-        if type == 1
+        if type == 1 && isprop(plotter,'xTickFrequency')
 
 
             kk = kk - 1;
@@ -681,7 +681,7 @@ function xAxisPanel(gui)
 
         % X-Axis Tick Start Date/obs
         %--------------------------------------------------------------
-        if type == 1 || type == 4 % not scatter plot and not nb_graph_cs and the variablesToPlotX property of nb_graph_data is not used
+        if (type == 1 || type == 4) && isprop(plotter,'xTickStart') % not scatter plot and not nb_graph_cs and the variablesToPlotX property of nb_graph_data is not used
 
             kk = kk - 1;
             uicontrol(...

@@ -21,9 +21,9 @@ function obj = nb_rmfield(obj,field)
 % See also:
 % nb_struct.rmfield
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fieldN = fieldnames(obj.s);
     if ischar(field)

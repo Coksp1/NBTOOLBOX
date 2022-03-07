@@ -17,9 +17,9 @@ function [obj,ind] = sort(obj)
 %
 % - ind : The index of the sorting.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if numel(obj) ~= length(obj)
         error([mfilename ':: The obj input must be a vector.'])

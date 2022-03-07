@@ -31,19 +31,17 @@ function obj = cutAtDates(obj,endDates)
                'columns. Has ' int2str(siz(2))])
     end
     
-    storeUpdatable = obj.updateable;
-    obj.updateable = false;
-    
+    data = obj.data;
     for pp = 1:obj.numberOfDatasets
         for ii = 1:obj.numberOfVariables
             if endDates(pp,ii) < obj.endDate
-                obj = setToNaN(obj,endDates(pp,ii) + 1,obj.endDate,obj.variables(ii),pp);
+                tt                 = (endDates(pp,ii) - obj.startDate) + 1;
+                data(tt:end,ii,pp) = nan;
             end
         end
     end
-    
-    obj.updateable = storeUpdatable;
-    
+    obj.data = data;
+
     if obj.isUpdateable()
         
         % Add operation to the link property, so when the object 

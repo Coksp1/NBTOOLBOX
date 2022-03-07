@@ -8,9 +8,9 @@ function somethingToSync(gui)
 % Part of DAG. Check if the object need to be synced, and if so create a 
 % dialog window to select which version to keep. (Existing or loaded)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(gui.object,'nb_graph_package')
         object = gui.object.graphs{1};

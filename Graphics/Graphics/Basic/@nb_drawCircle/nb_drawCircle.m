@@ -25,9 +25,9 @@ classdef nb_drawCircle < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
 % See also:
 % nb_annotation, handle, nb_graph_ts, nb_graph_cs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -360,17 +360,23 @@ classdef nb_drawCircle < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
             end
             
             % Map from radious and diagonal to circle coordinates
-            y0    = mean(yy);
-            x0    = mean(xx);
-            a     = diff(xx)/2;
-            b     = rr;
-            theta = 0:0.01:2*pi;
-            r     = a*b./sqrt((b*cos(theta)).^2 + (a*sin(theta)).^2);
-            x     = r.*cos(theta);
-            y     = r.*sin(theta);
-            y     = y*diff(obj.yData)/diff(obj.xData) ;%+ xdiff(obj.xData)/diff(obj.yData)*
-            y     = y + y0;
-            x     = x + x0;
+            angle  = atand(diff(yy)/diff(xx));
+            y0     = mean(yy);
+            x0     = mean(xx);
+            a      = diff(xx)/2;
+            b      = rr;
+            theta  = 0:0.01:2*pi;
+            r      = a*b./sqrt((b*cos(theta)).^2 + (a*sin(theta)).^2);
+            x      = r.*cos(theta);
+            y      = r.*sin(theta);
+            rotate = [ cosd(angle), -sind(angle);...
+                       sind(angle), cosd(angle)];
+            xy     = [x; y]';
+            xy     = xy * rotate;
+            x      = xy(:, 1)';
+            y      = xy(:, 2)';
+            y      = y + y0; 
+            x      = x + x0;
             
         end
         
@@ -436,17 +442,23 @@ classdef nb_drawCircle < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
             end
             
             % Map from radious and diagonal to circle coordinates
-            y0    = mean(yy);
-            x0    = mean(xx);
-            a     = diff(xx)/2;
-            b     = rr;
-            theta = 0:0.01:2*pi;
-            r     = a*b./sqrt((b*cos(theta)).^2 + (a*sin(theta)).^2);
-            x     = r.*cos(theta);
-            y     = r.*sin(theta);
-            y     = y*diff(obj.yData)/diff(obj.xData);
-            y     = y + y0; 
-            x     = x + x0;
+            angle  = atand(diff(yy)/diff(xx));
+            y0     = mean(yy);
+            x0     = mean(xx);
+            a      = diff(xx)/2;
+            b      = rr;
+            theta  = 0:0.01:2*pi;
+            r      = a*b./sqrt((b*cos(theta)).^2 + (a*sin(theta)).^2);
+            x      = r.*cos(theta);
+            y      = r.*sin(theta);
+            rotate = [ cosd(angle), sind(angle);...
+                      -sind(angle), cosd(angle)];
+            xy     = [x; y]';
+            xy     = xy * rotate;
+            x      = xy(:, 1)';
+            y      = xy(:, 2)';
+            y      = y + y0; 
+            x      = x + x0;
             
         end
         

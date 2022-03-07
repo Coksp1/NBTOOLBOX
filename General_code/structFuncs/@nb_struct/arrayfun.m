@@ -7,9 +7,9 @@ function obj = arrayfun(obj,varargin) %#ok
 %
 % This method is not supported by this class.
 % 
-% Written by Kenneth Sæterhagen Paulsen  
+% Written by Kenneth SÃ¦terhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: Unsupported method for class nb_struct.'])
 

@@ -7,9 +7,9 @@ function add2Colors(gui,color)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Assign it to the default colors
     ret = ismember(color,gui.colors,'rows');

@@ -9,9 +9,9 @@ function dumpGraphs(gui)
 % the main program using the identifiers of the graph objects as save
 % names
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     pack        = gui.package.graphs;
     identifiers = gui.package.identifiers;
@@ -25,7 +25,7 @@ function dumpGraphs(gui)
             appGraphs.(saveName) = tPlotter;
         catch %#ok<CTCH>
             nb_errorWindow(['Could not dump the graph ' identifiers{hh} ', because of invalid savename! '...
-                            'It includes invalid characters (#¤ etc), starts with a number or has spaces.'])
+                            'It includes invalid characters (#Â¤ etc), starts with a number or has spaces.'])
             return 
         end
         

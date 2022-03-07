@@ -1,7 +1,7 @@
 classdef nb_exprModel < nb_model_generic
 % Description:
 %
-% A class for estimation a model where each variable is allow to be
+% A class for estimation a model where each variable is allowed to be
 % an expression of different variables, e.g.
 %
 % diff(y(t)) = beta(1)*diff(x(t)) + beta(2)*(log(y(t-1)) - log(x(t-1)))

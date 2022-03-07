@@ -24,9 +24,9 @@ function ret = isDate(input,freq,locVar)
 % - ret   : Either true or false. true if input is a date string or nb_date
 %           object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         locVar = [];

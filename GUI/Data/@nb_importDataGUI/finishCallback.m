@@ -11,9 +11,9 @@ function finishCallback(gui,~,~)
 % window. Checks user selection and transforms the data into a nb_data, 
 % nb_ts or nb_cs object with links to the origional excel sheet. 
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the data 
     %----------------------------------------------------------------------

@@ -19,9 +19,9 @@ function outString = nb_localVariables(localVariables,inString)
 % 
 % - outString      : A char or a cellstr. (Will match the input)
 %
-% Written by Kenneth Sæterhagen Paulsen and Henrik Halvorsen Hortemo
+% Written by Kenneth SÃ¦terhagen Paulsen and Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(inString) || ~isstruct(localVariables)
         outString = inString;

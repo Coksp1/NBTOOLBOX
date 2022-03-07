@@ -7,9 +7,9 @@ function addRow(gui,~,~)
 %
 % Part of DAG. Add row to table.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     current = get(gui.table,'data');
     nCol    = size(current,2);

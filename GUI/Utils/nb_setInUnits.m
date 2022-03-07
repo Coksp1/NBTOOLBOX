@@ -3,9 +3,9 @@ function nb_setInUnits(object, property, value, units)
 %
 % nb_setInUnits(object, property, value, units)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     originalUnits = get(object, 'Units');
     set(object, 'Units', units);

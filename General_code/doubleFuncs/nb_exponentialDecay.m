@@ -17,9 +17,9 @@ function out = nb_exponentialDecay(in,lambda)
 % 
 % - out    : A nobs x nvar double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~nb_isScalarNumber(lambda)
         error([mfilename ':: The lambda input must be a scalar double.'])

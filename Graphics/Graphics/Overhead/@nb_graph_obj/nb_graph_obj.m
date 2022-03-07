@@ -20,9 +20,9 @@ classdef (Abstract) nb_graph_obj  < matlab.mixin.Copyable
 % See also:
 % nb_graph, nb_table_data
 %
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods (Static=true,Hidden=true)
         

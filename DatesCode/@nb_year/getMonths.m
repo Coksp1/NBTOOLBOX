@@ -22,7 +22,7 @@ function months = getMonths(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     months = cell(1,12); 
     for ii = 1:12

@@ -7,9 +7,9 @@ function rename(gui,hObject,~)
 %
 % Part of DAG.
 % 
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Close parent (I.e. the GUI)
     close(get(hObject,'parent'));

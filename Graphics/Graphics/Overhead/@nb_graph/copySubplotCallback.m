@@ -2,7 +2,7 @@ function copySubplotCallback(obj,hObject,~)
 % Copy a subplot to a object that can call the graph method to replicate
 % the original subplot in a normal graph
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotter = copy(obj);
     if strcmpi(obj.graphMethod,'graphSubPlots')

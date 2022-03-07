@@ -7,9 +7,9 @@ function displayCallback(gui,~,~)
 %
 % Part of DAG. Display loaded distribution in nb_distributionGUI.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nb_distributionGUI([],gui.loaded,'editable',false);
 

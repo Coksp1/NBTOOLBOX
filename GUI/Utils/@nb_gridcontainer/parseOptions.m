@@ -10,7 +10,7 @@ function options = parseOptions(varargin)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     options = nb_parseOptions(varargin{:});
     

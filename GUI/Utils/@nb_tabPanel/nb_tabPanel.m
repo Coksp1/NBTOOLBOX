@@ -29,9 +29,9 @@ classdef nb_tabPanel < nb_settable
 % See also:
 % uipanel, nb_paddingPosition
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Dependent=true)
         

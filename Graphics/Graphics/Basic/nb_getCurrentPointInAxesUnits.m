@@ -23,9 +23,9 @@ function [cPoint,cAxPoint] = nb_getCurrentPointInAxesUnits(fig,ax)
 % - cAxPoint : Current point of the mouse in the axes units of an 
 %              nb_axes object. (in normalized units).
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(fig,'nb_figure')
         hObject = fig.figureHandle;

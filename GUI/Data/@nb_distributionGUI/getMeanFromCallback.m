@@ -7,9 +7,9 @@ function getMeanFromCallback(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     dists = {gui.distribution.name};
     dists = [dists(1:gui.currentDistributionIndex-1),dists(gui.currentDistributionIndex+1:end)];

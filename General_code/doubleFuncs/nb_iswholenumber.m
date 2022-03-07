@@ -19,7 +19,7 @@ function ret = nb_iswholenumber(X)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isnumeric(X)
         ret = false(size(X));

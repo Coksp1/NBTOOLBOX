@@ -7,9 +7,9 @@ function addKeys(gui, newKeys)
 %
 % Part of DAG. Add given keys to the lookupmatrix (i.e. the table)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
    
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Do not add keys that are already in table
     newKeys = setdiff(newKeys, gui.keys);

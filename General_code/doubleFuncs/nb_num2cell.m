@@ -15,9 +15,9 @@ function c = nb_num2cell(d)
 % 
 % - c : A N x 1 cell array, each element stores a 1 x Q x M double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     c = cell(size(d,1),1);
     for ii = 1:size(d,1)

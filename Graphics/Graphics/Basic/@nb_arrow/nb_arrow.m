@@ -27,9 +27,9 @@ classdef nb_arrow < nb_annotation & nb_movableAnnotation & nb_lineAnnotation
 % See also:
 % nb_annotation, handle, nb_graph_ts, nb_graph_cs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class 

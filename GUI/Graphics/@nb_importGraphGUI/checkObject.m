@@ -9,9 +9,9 @@ function plotter = checkObject(plotter,panel)
 % object is on a given format. We check that the loaded object 
 % fit these requirements.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         panel = false;

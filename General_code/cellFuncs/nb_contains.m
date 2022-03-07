@@ -23,9 +23,9 @@ function ind = nb_contains(s,pattern,varargin)
 % - ind     : A M x N logical if input is cellstr, otherwise M x 1. true 
 %             if pattern found, otherwise false. 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~nb_isOneLineChar(pattern)
         error([mfilename ':: pattern must be a one line char.'])

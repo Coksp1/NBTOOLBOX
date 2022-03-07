@@ -18,9 +18,9 @@ function t = struct2table(obj,varargin)
 % 
 % - Same output(s) as the struct2table function of a normal MATLAB struct.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     t = struct2table(obj.s,varargin{:}); 
 

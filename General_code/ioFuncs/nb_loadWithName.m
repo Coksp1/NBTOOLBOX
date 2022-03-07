@@ -23,9 +23,9 @@ function nb_loadWithName(fileName,givenName,workSpace)
 % 
 % - A MATLAB variable stored in the base workspace with the wanted name.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         workSpace = 'base';

@@ -30,7 +30,7 @@ function out = nb_joinPath(p,f,e)
 %
 % See also:
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(p)
         if ~strcmpi(p(end),'\')

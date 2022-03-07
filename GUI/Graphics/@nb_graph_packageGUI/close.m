@@ -7,9 +7,9 @@ function close(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if gui.changed
         nb_confirmWindow('Do you want to save changes?',{@notSaveCurrent,gui},{@saveCurrent,gui},[gui.parent.guiName ': Save Package'])

@@ -19,7 +19,7 @@ function ret = nb_islineStyle(in,allowCell)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     if nargin == 1
         allowCell = 0;

@@ -18,9 +18,9 @@ function [endc,value] = locateColor(gui)
 %
 % - value : Index of the color of the variable in endc.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotterT = gui.plotter;
     parent   = plotterT.parent;

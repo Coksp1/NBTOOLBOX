@@ -20,9 +20,9 @@ function [dayNum,dayName] = weekday(obj,language)
 %
 % - dayName  : As a string. (A cellstr if numel(obj) > 1)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         language = 'english';
@@ -78,9 +78,9 @@ function dayName = getWeekDayAsStringNor(dayNum)
         case 6
             dayName = 'Fredag';
         case 7
-            dayName = 'Lørdag';
+            dayName = 'LÃ¸rdag';
         otherwise
-            dayName = 'Søndag';
+            dayName = 'SÃ¸ndag';
     end
     
 end

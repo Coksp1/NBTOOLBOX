@@ -23,9 +23,9 @@ function index = nb_breakTextAfterEdit(textObj,fitTo,index)
 %             breakpoint is before the current position in a line. I.e.
 %             the current point must then be switched to the next line
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = get(textObj,'string');
     if ~iscell(string)

@@ -31,7 +31,7 @@ function setPropDefaultFans(obj,propertyName,propertyValue)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     oldValue           = obj.(propertyName);
     obj.(propertyName) = propertyValue;

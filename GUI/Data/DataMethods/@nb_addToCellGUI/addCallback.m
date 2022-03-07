@@ -8,9 +8,9 @@ function addCallback(gui,hObject,~)
 % Part of DAG. The function called when the OK button is pushed in the GUI
 % window.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the added string
     location = nb_getUIControlValue(gui.location,'numeric');

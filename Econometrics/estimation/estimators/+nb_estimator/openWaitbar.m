@@ -19,7 +19,7 @@ function [h,doDelete] = openWaitbar(options,iter,recursive)
         
         h = options.waitbarHandle;
         if ~ischar(h) % May be set to 'none'
-            if iter ~= 1 && recursive
+            if ~isempty(iter) && iter ~= 1 && recursive
                 h.maxIterations3 = iter;
                 h.text3          = 'Starting...'; 
             end
@@ -33,7 +33,7 @@ function [h,doDelete] = openWaitbar(options,iter,recursive)
         doDelete = true;
         if recursive
             
-            if iter == 1
+            if ~isempty(iter) && iter == 1
                 visible = 'off'; % Don't display waitbar if only one iteration!
             else
                 visible = 'on'; 

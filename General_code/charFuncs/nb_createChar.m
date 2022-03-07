@@ -17,9 +17,9 @@ function out = nb_createChar(r,c)
 % 
 % - out : A r x c char array.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     out = ' ';
     out = out(ones(r,1),ones(1,c));

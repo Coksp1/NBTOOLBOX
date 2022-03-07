@@ -29,9 +29,9 @@ function [f,defaultBackground] = nb_guiFigure(mainGUI,name,positions,windowStyle
 % - defaultBackground : A 1x3 with the background color used for the
 %                       created window.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 6
         callback = '';

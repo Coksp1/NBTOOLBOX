@@ -20,9 +20,9 @@ function obj = nb_defaultField(obj,field,default)
 % 
 % - obj     : An object of class nb_struct.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isfield(obj.s,field)
         obj.s.(field) = default;

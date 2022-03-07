@@ -23,7 +23,7 @@ function propertyValue = get(obj,propertyName)
 % 
 % Written by Kenneth S. Paulsen      
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~ischar(propertyName)
         error([mfilename ':: The propertyName must be a string.'])

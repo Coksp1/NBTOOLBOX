@@ -17,9 +17,9 @@ function set(obj,varargin)
 % - varargin : Input name, input value pairs. See the uipanel class
 %              for supported properties.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     props = properties(obj);
     ind   = true(size(varargin));

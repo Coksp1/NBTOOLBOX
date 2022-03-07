@@ -13,9 +13,9 @@ function editUnfreezeCellCallback(gui,hObject,event)
 % - hObject : A uitable handle
 % - event   : A cell edit event 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the cell that where edited
     r = event.Indices(1);

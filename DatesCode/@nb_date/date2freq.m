@@ -63,7 +63,7 @@ function [startDate,frequency,type] = date2freq(dates,xls)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         xls = 'notxls';
@@ -186,6 +186,12 @@ function [startDate,frequency,type] = date2freq(dates,xls)
                                 exp = regexp(strtrim(dates{1}),'[0-9]{1,4}[Y][0-9]{1,2}','match');
                                 if ~isempty(exp)
                                     frequency = 1;
+                                else
+                                    % Test if the date is on the 'yyyy-mm-dd' format 
+                                    exp = regexp(strtrim(dates{1}),'[0-9]{1,4}-[0-9]{2,2}-[0-9]{2,2}','match');
+                                    if ~isempty(exp)
+                                        frequency = 365;
+                                    end  
                                 end
                             end
                         end

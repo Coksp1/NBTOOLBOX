@@ -11,7 +11,7 @@ function makeGUI(gui)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     f    = nb_guiFigure(gui.parent,gui.name,[40   15  186.4   43],'normal','on');
     gui.figureHandle = f;

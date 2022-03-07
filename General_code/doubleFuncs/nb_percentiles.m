@@ -23,9 +23,9 @@ function p = nb_percentiles(d,perc,dim)
 % 
 % - p    : A double with the percentiles.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~all(nb_iswholenumber(perc))
         error([mfilename ':: The perc input must be a vector of integers.'])

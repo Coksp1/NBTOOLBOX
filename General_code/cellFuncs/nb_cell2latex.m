@@ -116,9 +116,9 @@ function code = nb_cell2latex(c,varargin)
 % 
 % - code : A char with the code.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Parse the optional input
     %--------------------------------------------------------------

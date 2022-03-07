@@ -8,9 +8,9 @@ function updateGraph(gui,~,~)
 % Part of DAG. Update the graph object. E.g. because of updated local 
 % variables
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     graph(gui.plotter);
     gui.changed = 1;

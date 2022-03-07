@@ -21,9 +21,9 @@ function ret = nb_sizeEqual(input,shouldBeSize)
 %                  shouldBeSize does not match the output from size(input)
 %                  ret is returned as false.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     isSize = size(input);
     if size(isSize,2) ~= size(shouldBeSize,2)

@@ -8,9 +8,9 @@ function addAllVariables(gui,~,~)
 % Part of DAG. Add all (remaining) variables to the lookupmatrix (i.e. 
 % the table)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
  
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     allVariables = gui.plotter.getPlottedVariables(true);
     gui.addKeys(allVariables);

@@ -24,7 +24,7 @@ function z = nb_trimr(x,n1,n2)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     n = size(x,1);
     if (n1 + n2) >= n

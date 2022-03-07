@@ -7,9 +7,9 @@ function momentsCallback(gui,~,~)
 %
 % Part of DAG. Calculate covarince matrix used by the copula.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the endogenous variables to condition on
     endo     = gui.model.solution.endo;

@@ -24,7 +24,7 @@ function obj = remove(obj,id)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~ischar(id)
         error([mfilename ':: The id input must be a char (string).'])

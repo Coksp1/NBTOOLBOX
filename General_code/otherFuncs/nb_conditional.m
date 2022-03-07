@@ -7,9 +7,9 @@ function value = nb_conditional(condition, trueValue, falseValue)
 %
 % If condition is true return trueValue, or else return falseValue.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isscalar(condition)
         if condition

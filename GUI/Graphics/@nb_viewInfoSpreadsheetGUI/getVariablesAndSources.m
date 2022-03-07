@@ -13,7 +13,7 @@ function list = getVariablesAndSources(plotter)
 % 
 % Written by Per Bjarne Bye 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     vars         = plotter.DB.variables;
     varCell      = cell(length(vars),2);

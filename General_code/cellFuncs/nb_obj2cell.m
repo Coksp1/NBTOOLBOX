@@ -15,9 +15,9 @@ function cout = nb_obj2cell(obj)
 % 
 % - c   : A cell of size M x N x P
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [s1,s2,s3] = size(obj);
     cout       = cell(s1,s2,s3);

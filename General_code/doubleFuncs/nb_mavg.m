@@ -1,7 +1,7 @@
-function xout = nb_mavg(xin,backward,forward)
+function xout = nb_mavg(xin,backward,forward,flag)
 % Syntax:
 % 
-% xout = nb_mavg(xin,backward,forward)
+% xout = nb_mavg(xin,backward,forward,flag)
 % 
 % Description:
 % 
@@ -23,8 +23,12 @@ function xout = nb_mavg(xin,backward,forward)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
+    if nargin < 4
+        flag = false;
+    end
+    
     [s1,s2,s3] = size(xin);
 
     xfor       = nan(s1,s2,s3,forward);
@@ -49,4 +53,9 @@ function xout = nb_mavg(xin,backward,forward)
     
     xout = (nansum(xback,4) + xin + nansum(xfor,4))./(sum(xback_nzero,4) + sum(xfor_nzero,4) + 1); 
 
+    if flag
+        xout(1:backward,:,:)        = nan;
+        xout(end-forward+1:end,:,:) = nan;
+    end
+    
 end

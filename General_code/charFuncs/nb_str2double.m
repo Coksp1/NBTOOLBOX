@@ -25,9 +25,9 @@ function num = nb_str2double(string)
 % See also:
 % str2double
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     indC  = strfind(string,':');
     indBO = strfind(string,'[');

@@ -1,7 +1,7 @@
-function [xf,xs,us,vs,xu] = nb_kalmansmoother_missing(model,y,z,varargin)
+function [xf,xs,us,vs,xu,uu] = nb_kalmansmoother_missing(model,y,z,varargin)
 % Syntax:
 %
-% [xf,xs,us,vs,xu] = nb_kalmansmoother_missing(par,model,y,z,varargin)
+% [xf,xs,us,vs,xu,uu] = nb_kalmansmoother_missing(par,model,y,z,varargin)
 %
 % Description:
 %
@@ -71,6 +71,8 @@ function [xf,xs,us,vs,xu] = nb_kalmansmoother_missing(model,y,z,varargin)
 % - vs : The smoothed estimates of the v in the equation above. (v t|T)
 %
 % - xu : The updated estimates of the x in the equation above. (x t|t)
+%
+% - uu : The updated estimates of the u in the equation above. (u t|t)
 %
 % See also:
 % nb_kalmansmoother, nb_kalmanlikelihood_missing
@@ -191,7 +193,13 @@ function [xf,xs,us,vs,xu] = nb_kalmansmoother_missing(model,y,z,varargin)
             r(:,t) = r(:,t) + HT(:,mt,t)*(invF{t}*vf(mt,t) - AK{t}'*r(:,t+1)); 
         end
         xs(:,t) = xf(:,t) + P(:,:,t)*r(:,t);
-        us(:,t) = QBt*r(:,t);
+        %us(:,t) = QBt*r(:,t);
+    end
+    
+    % Get the smoothed shocks
+    us(:,1) = B\(xs(:,1) - G*z(:,tt));
+    for t = 2:n
+        us(:,t) = B\(xs(:,t) - A*xs(:,t-1) - G*z(:,tt));
     end
     
     % Report the estimates
@@ -206,6 +214,18 @@ function [xf,xs,us,vs,xu] = nb_kalmansmoother_missing(model,y,z,varargin)
     xs    = xs';
     us    = us';
     xf    = xf(:,2:end)';
-    xu    = xu';
+    
+    if nargout > 4
+        
+        % Get the updated shocks
+        uu      = zeros(size(us,2),n);
+        uu(:,1) = B\(xu(:,1) - G*z(:,tt));
+        for t = 2:n
+            uu(:,t) = B\(xu(:,t) - A*xu(:,t-1) - G*z(:,tt));
+        end
+        uu = uu';
+        
+    end
+    xu = xu';
 
 end

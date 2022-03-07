@@ -15,9 +15,9 @@ function portraitPDF(filename,append)
 % - append   : A string with the name of the pdf file to append to. Assumed
 %              to be located in the same folder as filename!
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [p,n,e] = fileparts(filename);
     if ~isempty(e)

@@ -7,9 +7,9 @@ function makeGUI(gui)
 %
 % Part of DAG. Make dialog box for selction of datasets to append.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(gui.parent,'nb_GUI')
         error('The parent must be a nb_GUI window');

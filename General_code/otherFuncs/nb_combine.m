@@ -25,9 +25,9 @@ function vc = nb_combine(v,n,n2)
 % 
 % - vc : A n!/k!(n-k)! x n matrix, or see input n2.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isrow(v)
        error([mfilename ':: The v input must be vector.']);

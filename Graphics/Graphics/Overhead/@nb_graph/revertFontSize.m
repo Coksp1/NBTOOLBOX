@@ -7,9 +7,9 @@ function revertFontSize(obj,oldFontSizes)
 %
 % Inverse of the adjustFontSize method
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen 
 
     obj.axesFontSize   = oldFontSizes(1);
     obj.titleFontSize  = oldFontSizes(2);

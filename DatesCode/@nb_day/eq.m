@@ -23,7 +23,7 @@ function ret = eq(obj,aObj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         ret = eq([obj.dayNr],[aObj.dayNr]);

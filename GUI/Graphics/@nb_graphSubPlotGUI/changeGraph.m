@@ -8,9 +8,9 @@ function changeGraph(gui,hObject,~)
 % Part of DAG. Change the plotted figure by changing the variablesToPlot
 % property
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     num     = gui.subPlotSize(1)*gui.subPlotSize(2);
     figNum  = get(hObject,'userdata');

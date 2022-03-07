@@ -15,9 +15,9 @@ function s = struct(obj)
 % 
 % - s   : A struct
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     s = struct('cells',                 obj.cells,...
                'BorderColor',           obj.BorderColor,...

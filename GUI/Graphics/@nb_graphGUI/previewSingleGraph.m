@@ -9,7 +9,7 @@ function previewSingleGraph(gui,~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isa(gui.plotterAdv,'nb_graph_adv')
         nb_infoWindow('Only advanced graphs can be previewed.')

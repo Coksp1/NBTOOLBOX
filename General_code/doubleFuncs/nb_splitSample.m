@@ -22,9 +22,9 @@ function splitted = nb_splitSample(data,nSteps)
 %
 % splitted = nb_splitSample(rand(20,2),4)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [nObs,nVar] = size(data);
     data        = [data;nan(nSteps,nVar)];

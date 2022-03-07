@@ -7,9 +7,9 @@ function selectFrequency(gui,hObject,~)
 %
 % Part of DAG. Update the options given the choosen frequency
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get selected frequency
     string = get(hObject,'string');

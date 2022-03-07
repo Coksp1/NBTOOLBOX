@@ -7,9 +7,9 @@ function lastFolder = nb_getLastFolder(gui)
 %
 % Get last openned folder in DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     parent = nb_getParentRecursively(gui);
     if parent == gui

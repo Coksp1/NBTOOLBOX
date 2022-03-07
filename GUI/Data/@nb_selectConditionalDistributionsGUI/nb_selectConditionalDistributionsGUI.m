@@ -26,9 +26,9 @@ classdef nb_selectConditionalDistributionsGUI < handle & nb_historyGUI
 %   obj = nb_selectConditionalDistributionsGUI({'2010', '2011'}, ...
 %                                              {'Var1', 'Var2'});
 %
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

@@ -37,6 +37,17 @@ function dist = qestimation(type,quantiles,values,varargin)
 % - 'optimset'  : A struct. See optimset function. If not given the default
 %                 settings are used.
 %
+% - 'init'      : Initial values for the parameters. Depends on the type
+%                 input: 
+%                 > 'skt'     : 1 x 4 double. See help on 4 last inpust to 
+%                               nb_distribution.skt_icdf
+%                 > 'ast'     : 1 x 5 double. See help on 5 last inpust to 
+%                               nb_distribution.ast_icdf
+%                 > otherwise : 1 x 2 double. See help on 2 last inpust to 
+%                               nb_distribution.XXX_icdf, where XX needs
+%                               to be substituted by type (name of 
+%                               distribution).
+%
 % Output:
 % 
 % - dist      : The found distribution as an nb_distribution object.
@@ -53,7 +64,8 @@ function dist = qestimation(type,quantiles,values,varargin)
 % Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     default = {'optimizer', 'fmincon', @nb_isOneLineChar;...
-               'optimset',  [],        @isstruct};
+               'optimset',  [],        @isstruct;...
+               'init',      [],        @isnumeric};
     [inputs,message] = nb_parseInputs(mfilename,default,varargin{:});
     if ~isempty(message)
         error(message)
@@ -92,62 +104,58 @@ function dist = qestimation(type,quantiles,values,varargin)
     end
         
     if strcmpi(type,'ast')
-        param    = [0,1,0,1000,1000];
-        lb       = [-inf,0,0,0,0];
-        ub       = [inf,inf,1,inf,inf];
+        if isempty(inputs.init)
+            param = [0,1,0,1000,1000];
+        else
+            param = inputs.init;
+            if ~nb_sizeEqual(param,[1,5])
+                error('If the ''init'' input is provided it must have size 1x5');
+            end
+        end
+        lb = [-inf,0,0,0,0];
+        ub = [inf,inf,1,inf,inf];
     elseif strcmpi(type,'skt')
         
-        % Get intial value of location
-        indMedian = quantiles == 0.5;
-        if any(indMedian)
-            location = values(indMedian);
+        if isempty(inputs.init)
+        
+            % Get intial value of location
+            indMedian = quantiles == 0.5;
+            if any(indMedian)
+                location = values(indMedian);
+            else
+                location = mean(values);
+            end
+
+            % Get intial value of scale
+            [~,ind25] = min(abs(quantiles - 0.25));
+            [~,ind75] = min(abs(quantiles - 0.75));
+            scale     = (values(ind75) - values(ind25))/(norminv(0.75) - norminv(0.25));
+            shape     = 0;
+        
+            % Collect
+            param = [location,scale,shape,10];
         else
-            location = mean(values);
+            param = inputs.init;
+            if ~nb_sizeEqual(param,[1,4])
+                error('If the ''init'' input is provided it must have size 1x4');
+            end
         end
-        
-        % Get intial value of scale
-        [~,ind25] = min(abs(quantiles - 0.25));
-        [~,ind75] = min(abs(quantiles - 0.75));
-        scale     = (values(ind75) - values(ind25))/(norminv(0.75) - norminv(0.25));
-        shape     = 0;
-        
-        % Collect
-        param      = [location,scale,shape,10];
-        lb         = [-inf,0,-inf,0];
-        ub         = [inf,inf,inf,inf];
-        
-%         param = [location,scale,shape];
-%         lb    = [-inf,0,-inf];
-%         ub    = [inf,inf,inf];
-%         
-%         ssqMin = inf;
-        
-%         func   = str2func(['nb_distribution.' type '_cdf']);
-%         for df = 1:30
-%             [parThis, ssq] = lsqnonlin(@(x) quantiles' - func(values', x(1), x(2), x(3), df), param, lb, ub, opt);
-%             if ssq < ssqMin
-%                x   = parThis; 
-%                dof = df;
-%             end
-%         end
-        
-%         func   = str2func(['nb_distribution.' type '_icdf']);
-%         for df = 1:30
-%             [parThis, ssq] = lsqnonlin(@(x) values' - func(quantiles', x(1), x(2), x(3), df), param, lb, ub, opt);
-%             if ssq < ssqMin
-%                x   = parThis; 
-%                dof = df;
-%             end
-%         end
-%         dist = nb_distribution('type',type,'parameters',{x(1),x(2),x(3),dof});
-%         return
-        
+        lb = [-inf,0,-inf,0];
+        ub = [inf,inf,inf,inf];
+         
     else
-        param    = [2,2];
+        if isempty(inputs.init)
+            param = [2,2];
+        else
+            param = inputs.init;
+            if ~nb_sizeEqual(param,[1,2])
+                error('If the ''init'' input is provided it must have size 1x2');
+            end
+        end
         try
-            func(param(1),param(2),2);
-        catch %#ok<CTCH>
-            error([mfilename ':: The selected distribution ' type ' is not valid for this algorithm.'])
+            func(0.5,param(1),param(2));
+        catch err
+            nb_error(['The selected distribution ' type ' is not valid for this algorithm.'],err)
         end
         
         if strcmpi(type,'normal')
@@ -217,7 +225,6 @@ end
 function f = finder2(x,func,q,v)
 
     try
-        n  = size(v,1);
         if size(x,2) == 2
             f =  v' - func(q', x(1), x(2)); 
         elseif size(x,2) == 4
@@ -226,7 +233,7 @@ function f = finder2(x,func,q,v)
             f =  v' - func(q', x(1), x(2), x(3), x(4), x(5));
         end
     catch
-        f = 1e3;
+        f = 1e3*ones(1,length(x));
     end
     
 end

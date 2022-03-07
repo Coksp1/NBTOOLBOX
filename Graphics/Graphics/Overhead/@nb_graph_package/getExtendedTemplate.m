@@ -10,9 +10,9 @@ function template = getExtendedTemplate()
 % See also:
 % nb_graph_package.writeSeparateExtended, nb_graph_package.writePDFExtended
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     normalizeFactor = 0.002911226571376;
     template        = struct(...

@@ -18,9 +18,9 @@ function varargout = nb_ismemberi(varargin)
 % See also:
 % ismember
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     for ii = 1:length(varargin)
         if iscellstr(varargin{ii}) || ischar(varargin{ii})

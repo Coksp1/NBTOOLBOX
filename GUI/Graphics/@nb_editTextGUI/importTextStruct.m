@@ -9,7 +9,7 @@ function out = importTextStruct(gui)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     % Opening a "blank" GUI
     if nargin < 1

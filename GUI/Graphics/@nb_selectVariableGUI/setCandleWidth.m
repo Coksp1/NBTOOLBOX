@@ -7,9 +7,9 @@ function setCandleWidth(gui,hObject,~)
 %
 % Part of DAG. Change the candle width callback
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = get(hObject,'string');
     num    = str2double(string);

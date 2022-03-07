@@ -27,7 +27,7 @@ function x1 = adjustForMissing(obj,x0)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     obs     = obj.xDates;
     date    = x0 + obj.startGraph - 1;

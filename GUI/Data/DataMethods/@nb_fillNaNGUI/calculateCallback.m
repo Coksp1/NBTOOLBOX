@@ -7,9 +7,9 @@ function calculateCallback(gui,hObject,~)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if get(gui.components.radio1,'value')
         date = nb_getUIControlValue(gui.components.edit1,'numeric');

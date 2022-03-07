@@ -21,9 +21,9 @@ function nb_setDefinedColorAnnotation(~,~,gui,varargin)
 %               defined color. Can be given more handles as 
 %               seperate inputs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         defaultColors = gui.defaultColors;

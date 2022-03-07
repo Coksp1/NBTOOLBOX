@@ -8,9 +8,9 @@ function pasteModeAdjustedCallback(gui,~,~)
 % Part of DAG. Paste locally copied object to selection and 
 % adjusting the mode.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     sel = gui.selectedCells;
     if isempty(sel)

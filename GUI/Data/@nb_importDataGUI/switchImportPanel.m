@@ -10,9 +10,9 @@ function switchImportPanel(gui,~,~)
 % Changes between panels in the import window. Switches between the 
 % initial and the advanced panel.
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isequal(gui.currentPanel,gui.initSelectPanel)
         set(gui.currentPanel,'Visible','off');

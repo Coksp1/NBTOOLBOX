@@ -25,9 +25,9 @@ classdef (Abstract) nb_lineAnnotation < handle
 % nb_curlyBrace, nb_drawLine, nb_drawPatch, nb_regressLine,
 % nb_textArrow, nb_textBox, nb_arrow
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %==============================================================
     % Properties of the class 

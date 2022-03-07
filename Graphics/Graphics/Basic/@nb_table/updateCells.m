@@ -2,7 +2,7 @@ function updateCells(obj, newSize)
 % Update struct array width default table cells if expanded, or deleted if
 % truncated. Will also update the RowSizes and ColumnSizes properties
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     oldSize = obj.size;
     diffSize = newSize - oldSize;

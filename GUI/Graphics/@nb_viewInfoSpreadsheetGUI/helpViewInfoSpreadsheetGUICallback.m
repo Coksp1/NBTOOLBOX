@@ -11,7 +11,7 @@ function helpViewInfoSpreadsheetGUICallback(~,~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     arrow  = char(hex2dec('2192'));
     triang = char(hex2dec('25B8'));

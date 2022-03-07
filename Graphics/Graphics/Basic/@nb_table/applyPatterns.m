@@ -2,7 +2,7 @@ function cells = applyPatterns(obj, cells)
 % Create cells struct out of template specification
     patterns = obj.stylingPatterns;
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     for i = 1:length(patterns)
         pattern = patterns(i).pattern;

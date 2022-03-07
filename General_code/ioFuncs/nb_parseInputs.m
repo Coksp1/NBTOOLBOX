@@ -36,9 +36,9 @@ function [inputs,message,index] = nb_parseInputs(mfile,default,varargin)
 %              A logical vector with size size(default,1), where the
 %              matching element in default is true if set.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Expand varargin if given as struct
     if length(varargin) == 1

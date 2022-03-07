@@ -21,7 +21,7 @@ function string = toString(obj) %#ok
 %
 % Written by Kenneth S. Paulsen
             
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = 'empty date object';
 

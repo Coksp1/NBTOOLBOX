@@ -3,7 +3,7 @@ function update(obj, yRange, xRange)
     % Avoid recursive calls to obj.update()
     %obj.updateOnChange = false;
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3 || isempty(xRange)
         xRange = 1:obj.size(2);

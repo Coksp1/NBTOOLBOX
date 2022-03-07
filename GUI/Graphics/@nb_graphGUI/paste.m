@@ -10,9 +10,9 @@ function paste(gui,~,~,type)
 % ('local'). The objects which could be pasted are nb_ts, nb_cs, 
 % nb_graph_ts, nb_graph_cs and nb_graph_adv objects.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch lower(type)
         

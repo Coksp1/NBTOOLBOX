@@ -33,9 +33,9 @@ classdef nb_graph_package < matlab.mixin.Copyable
 % See also:
 % nb_graph_adv, nb_graph_ts, nb_graph_cs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class

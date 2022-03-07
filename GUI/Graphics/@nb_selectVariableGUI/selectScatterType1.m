@@ -7,9 +7,9 @@ function selectScatterType1(gui,hObject,~)
 %
 % Part of DAG. Callback when scatter variable 1 is changed
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get selected variable
     string   = get(hObject,'string');

@@ -34,7 +34,7 @@ function obj = add(obj,aObj,id)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 1
         id = int2str(size(obj.ids,2));

@@ -40,9 +40,9 @@ function returned = nb_sameDateFormat(date1,date2)
 %
 % nb_date.date2freq
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [~,frequency1] = nb_date.date2freq(date1);
     [~,frequency2] = nb_date.date2freq(date2);

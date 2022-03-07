@@ -8,7 +8,7 @@ classdef nb_curlyBrace < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
 % A class for adding a curly brace to the plot.
 %
 % The code for plotting the curly brace is gotten from the drawbrace
-% functionn made by Pål Næverlid Sævik.
+% functionn made by PÃ¥l NÃ¦verlid SÃ¦vik.
 %
 % Constructor:
 %     
@@ -28,9 +28,9 @@ classdef nb_curlyBrace < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
 % See also:
 % nb_annotation, nb_graph_ts, nb_graph_cs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class 

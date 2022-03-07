@@ -58,9 +58,9 @@ function plotter = nb_plots(structure,varargin)
 %  
 % nb_plots(structure,'saveName','test','pdfBook',1);
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [translate,varargin]       = nb_parseOneOptional('translate',{},varargin{:});
     [parent,varargin]          = nb_parseOneOptional('parent',[],varargin{:});

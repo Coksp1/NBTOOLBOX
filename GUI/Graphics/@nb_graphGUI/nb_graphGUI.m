@@ -8,9 +8,9 @@ classdef nb_graphGUI < handle
 %
 %   Not possible to construct an nb_graphGUI object.
 % 
-% Written by Kenneth Sæterhagen Paulsen   
+% Written by Kenneth SÃ¦terhagen Paulsen   
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

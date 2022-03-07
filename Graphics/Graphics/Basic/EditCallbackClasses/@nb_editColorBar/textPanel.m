@@ -1,7 +1,7 @@
 function textPanel(gui)
 % Creates a panel for editing general legend properties  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get graph object 
     colorBar = gui.parent;

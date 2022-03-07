@@ -7,9 +7,9 @@ function changeType(gui,hObject,~)
 %
 % Part of DAG. Change the type of observation removal to use
 % 
-% Written by Kenneth Sæterhagen Paulsen      
+% Written by Kenneth SÃ¦terhagen Paulsen      
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = gui.types;
     index  = get(hObject,'value');

@@ -11,9 +11,9 @@ function saveCallback(gui,hObject)
 %
 % - hObject : nb_syncLocalVariablesGUI or []
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(hObject)
         % Get nb_ts,nb_cs or nb_data object from the 

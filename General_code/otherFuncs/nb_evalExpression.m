@@ -29,9 +29,9 @@ function [out,str] = nb_evalExpression(out,type,nInp)
 % See also:
 % nb_shuntingYardAlgorithm, nb_getTypes, nb_getTypesC
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if length(out) == 1
         out = out{1}; % Final output
@@ -114,9 +114,13 @@ function [out,str] = nb_evalExpression(out,type,nInp)
             report = Err.getReport();
             ind1   = strfind(report,'Error in');
             ind2   = strfind(report,'nb_evalExpression');
-            ind3   = find(ind1 < ind2(1),1,'last');
-            report = report(1:ind1(ind3)-1);
-            str    = ['The inputs to the function ' string ' is not correct. MATLAB error:: ' nb_newLine(1), report];
+            if isempty(ind2)
+                str    = ['Error for the function ' string '. MATLAB error:: ', Err.message];
+            else
+                ind3   = find(ind1 < ind2(1),1,'last');
+                report = report(1:ind1(ind3)-1);
+                str    = ['The inputs to the function ' string ' is not correct. MATLAB error:: ' nb_newLine(1), report];
+            end
             return
         end
         

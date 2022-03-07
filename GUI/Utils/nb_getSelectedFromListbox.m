@@ -15,9 +15,9 @@ function out = nb_getSelectedFromListbox(handle)
 %
 % - out    : The selected string.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string = get(handle,'string');
     ind    = get(handle,'value');

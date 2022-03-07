@@ -37,9 +37,9 @@ classdef nb_image < nb_plotHandle
 %     nb_image(rand(5,5));
 %     obj = nb_image(rand(5,5,3)*255);
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class

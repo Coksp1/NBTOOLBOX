@@ -23,9 +23,9 @@ function str = nb_checkForErrors(expression,macro)
 % See also:
 % nb_shuntingYardAlgorithm
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         macro = false;
@@ -38,15 +38,15 @@ function str = nb_checkForErrors(expression,macro)
 
     % Check for unsupported chars
     if macro
-        ind = regexp(expression,'[§£¤$%?`\´¨;]','once');
+        ind = regexp(expression,'[Â§Â£Â¤$%?`\Â´Â¨;]','once');
     else
-        ind = regexp(expression,'[§#£¤$%?`\´¨;{}\[\]]','once');
+        ind = regexp(expression,'[Â§#Â£Â¤$%?`\Â´Â¨;{}\[\]]','once');
     end
     if ~isempty(ind)
         if macro
-            str = 'The following characters is not supported; § £ ¤ $ %% & ? ` \\ ´ ¨ ;';
+            str = 'The following characters is not supported; Â§ Â£ Â¤ $ %% & ? ` \\ Â´ Â¨ ;';
         else
-            str = 'The following characters is not supported; ! § # £ ¤ $ %% { [ ] } ? ` \\ ´ ¨ ;';
+            str = 'The following characters is not supported; ! Â§ # Â£ Â¤ $ %% { [ ] } ? ` \\ Â´ Â¨ ;';
         end
         return
     end

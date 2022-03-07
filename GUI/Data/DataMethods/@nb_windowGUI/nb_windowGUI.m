@@ -21,9 +21,9 @@ classdef nb_windowGUI < nb_methodGUI
 %   
 %   - gui    : The handle of the gui object, as a nb_windowGUI object.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties(Access=protected,Hidden=true)
         

@@ -203,7 +203,7 @@ function [c,sheets,Excel] = readXLSX(filename,sheet,range,transpose,mode,returnS
     
     % Close the Excel file and application if not Excel is returned
     if ~returnExcel && quitExcel
-        Workbook.Close(false);
+        %Workbook.Close(false);
         Quit(Excel);
         Excel = [];
     end

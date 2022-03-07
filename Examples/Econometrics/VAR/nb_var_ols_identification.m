@@ -55,11 +55,13 @@ residual = getIdentifiedResidual(modelS)
 
 % Point
 [irfsPoint,~,plotter] = irf(modelS);
+plotter.set('pdfBook',true,'saveName','filename');
 nb_graphInfoStructGUI(plotter)
 
 % With error bands
 rng(1); % Set seed
 [~,irfsBands,plotter] = irf(modelS,'perc',0.68,'replic',500);
+plotter.set('pdfBook',true,'saveName','filename');
 nb_graphInfoStructGUI(plotter)
 
 % Return all simulations

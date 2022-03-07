@@ -16,9 +16,9 @@ classdef (Abstract) nb_movableAnnotation < handle
 % See also:
 % nb_arrow, nb_textArrow, nb_curlyBrace, nb_legend
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (Access=protected,Hidden=true)
         

@@ -30,9 +30,9 @@ classdef nb_selectionPanel < handle
 % 
 %   - gui     : The handle to the object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    properties (SetAccess=protected)
        
@@ -107,7 +107,9 @@ classdef nb_selectionPanel < handle
            
            % Assign parent
            obj.parent = parent;
-           if nb_isFigure(obj.parent)
+           if isempty(obj.parent)
+               error('parent cannot be empty.')
+           elseif nb_isFigure(obj.parent)
                backgroundColor = get(obj.parent,'color');
            else
                backgroundColor = get(obj.parent,'backgroundColor');

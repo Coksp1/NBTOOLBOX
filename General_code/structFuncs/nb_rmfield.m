@@ -21,9 +21,9 @@ function t = nb_rmfield(s,field)
 % See also:
 % rmfield
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     fieldN = fieldnames(s);
     if ischar(field)

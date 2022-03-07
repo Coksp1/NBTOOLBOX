@@ -7,9 +7,9 @@ function newTemplateCallback(gui,~,~)
 %
 % Add new template.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     graphSettings = fieldnames(gui.parent.settings.graphSettings);
     templates     = fieldnames(gui.plotter(1).template);

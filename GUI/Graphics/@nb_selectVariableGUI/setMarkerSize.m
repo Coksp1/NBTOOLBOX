@@ -7,9 +7,9 @@ function setMarkerSize(gui,hObject,~)
 %
 % Part of DAG. Called when marker size is changed by the user
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get selected marker size
     markerS = get(hObject,'string');

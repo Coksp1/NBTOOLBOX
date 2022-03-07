@@ -11,9 +11,9 @@ function updateGUI(gui) %#ok<INUSD>
 % different if the data of the spreadsheet is of class nb_ts,  
 % nb_cs, nb_data or nb_cell.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 
 

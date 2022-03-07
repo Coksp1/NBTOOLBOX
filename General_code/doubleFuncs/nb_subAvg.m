@@ -27,7 +27,7 @@ function xout = nb_subAvg(xin,k)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [r,s,p] = size(xin);
     xout    = zeros(r,s,p);

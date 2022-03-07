@@ -7,9 +7,9 @@ function makeGraphCallback(gui,~,~)
 %
 % Part of DAG. Check input and create output as graphs in a new window.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get inputs
     nLags       = str2double(get(gui.nLagsBox,'string'));

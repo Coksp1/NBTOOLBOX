@@ -31,9 +31,9 @@ function [out,type] = nb_getTypesC(out,variables,data)
 % See also:
 % nb_shuntingYardAlgorithm, nb_getTypes, nb_evalExpression
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Replace math operators with matching function 
     mOper = {'./','/','.*','*','.^','^','-','+'};

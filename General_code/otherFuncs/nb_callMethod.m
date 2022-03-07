@@ -23,9 +23,9 @@ function result = nb_callMethod(obj,meth,classConst,varargin)
 % 
 % - result : A N x M object of class cl.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     siz = size(obj);
     obj = obj(:);
@@ -34,6 +34,16 @@ function result = nb_callMethod(obj,meth,classConst,varargin)
         for ii = 1:prod(siz)
             result{ii} = meth(obj(ii),varargin{:});
         end
+    elseif strcmpi(classConst,'double')
+        result = nan(prod(siz),1);
+        for ii = 1:prod(siz)
+            result(ii) = meth(obj(ii),varargin{:});
+        end   
+    elseif strcmpi(classConst,'logical')
+        result = false(prod(siz),1);
+        for ii = 1:prod(siz)
+            result(ii) = meth(obj(ii),varargin{:});
+        end     
     else
         result(prod(siz),1) = classConst();
         for ii = 1:prod(siz)

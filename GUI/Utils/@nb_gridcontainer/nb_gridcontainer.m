@@ -27,7 +27,7 @@ classdef nb_gridcontainer < handle
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties (SetAccess = protected)
         % [numOfRows, numOfColumns]
@@ -235,6 +235,13 @@ classdef nb_gridcontainer < handle
                 props.position       = obj.getPositionOfChild(numOfVisibleChildren);
             else
                 props.visible = 'off';
+            end
+            if isfield(props,'uicontextmenu')
+                fig     = nb_getParentRecursively(obj.panel);
+                figMenu = get(props.uicontextmenu,'parent');
+                if fig ~= figMenu
+                    set(props.uicontextmenu,'parent',fig);
+                end
             end
             
             propsArray  = nb_struct2cellarray(props);

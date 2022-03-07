@@ -33,7 +33,7 @@ function propertyValue = get(obj,propertyName)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try  
         propertyValue = get@nb_table_data_source(obj,propertyName);

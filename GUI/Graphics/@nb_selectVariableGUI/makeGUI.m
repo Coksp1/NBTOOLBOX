@@ -10,9 +10,9 @@ function makeGUI(gui)
 % Creates the menu for changing a variable's properties.
 % When graph is open: Properties > Select Variable.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotter = gui.plotter;
     parent  = gui.plotter.parent;

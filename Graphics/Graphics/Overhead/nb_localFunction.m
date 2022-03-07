@@ -19,9 +19,9 @@ function outString = nb_localFunction(obj,inString)
 % 
 % - outString : A char or a cellstr. (Will match the input)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(inString)
         outString = inString;

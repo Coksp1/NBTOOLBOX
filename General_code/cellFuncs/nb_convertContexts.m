@@ -1,4 +1,4 @@
-function contexts = nb_convertContexts(contexts)
+function contexts = nb_convertContexts(contexts,extraInMessage)
 % Syntax:
 %
 % contexts = nb_convertContexts(contexts)
@@ -17,21 +17,21 @@ function contexts = nb_convertContexts(contexts)
 % 
 % - contexts : A N x 1 double vector.
 %
-% Examples:
-%
-% See also:
-%
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
+
+    if nargin < 2
+        extraInMessage = '';
+    end
 
     contexts = char(contexts(:));
-    if size(contexts,2) ~= 8
-        error([mfilename ':: All elements of the input must have the format ''yyyymmdd''.'])
+    if ~any(size(contexts,2) == [8,12,14])
+        error([mfilename ':: All elements of the input ' extraInMessage 'must have the format ''yyyymmdd'' or ''yyyymmddhhnnss''.'])
     end
     contexts = str2num(contexts); %#ok<ST2NM>
     if isempty(contexts)
-        error([mfilename ':: All elements of the input must have the format ''yyyymmdd''.'])
+        error([mfilename ':: All elements of the input ' extraInMessage 'must have the format ''yyyymmdd'' or ''yyyymmddhhnnss''.'])
     end
     
 end

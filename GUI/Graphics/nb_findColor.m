@@ -21,9 +21,9 @@ function loc = nb_findColor(color,colors)
 % 
 % - loc    : The location of color in colors. 0 is returned if not found.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ischar(color)
         loc = find(strcmpi(color,colors),1);

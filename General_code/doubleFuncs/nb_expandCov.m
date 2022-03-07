@@ -3,9 +3,9 @@ function C = nb_expandCov(par,n)
 %
 % C = nb_expandCov(par,n)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     C  = zeros(n,n);
     kk = 1;

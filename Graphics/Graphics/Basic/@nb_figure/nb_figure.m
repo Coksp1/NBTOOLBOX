@@ -48,9 +48,9 @@ classdef nb_figure < handle
 % See also:  
 % figure      
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties(SetAccess=protected)
            
@@ -225,9 +225,9 @@ classdef nb_figure < handle
         %
         % Get inner extent of all children in a nb_figure object.
         % 
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen    
             
             if nargin < 2
                 units = get(obj.figureHandle,'units');

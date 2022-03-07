@@ -7,7 +7,7 @@ function changeMenu(gui,value)
 %
 % Part of DAG. 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % Delete old menu
     delete(findobj(gui.graphMenu,'Label','Notes'));

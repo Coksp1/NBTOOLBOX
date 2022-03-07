@@ -24,9 +24,9 @@ classdef (Abstract) nb_annotation < matlab.mixin.Copyable
 % nb_barAnnotation, nb_arrow, nb_textarrow, nb_textBox, nb_drawLine, 
 % nb_drawPatch, nb_legend, nb_regressLine, nb_curlyBrace, nb_plotLabels
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %==============================================================
     % Properties of the class 

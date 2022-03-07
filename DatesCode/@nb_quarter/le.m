@@ -25,7 +25,7 @@ function ret = le(obj,aObj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         ret = [obj.quarterNr] <= [aObj.quarterNr];

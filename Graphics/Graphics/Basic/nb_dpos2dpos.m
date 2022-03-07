@@ -23,9 +23,9 @@ function x = nb_dpos2dpos(x,oldPos,newPos,oldScale,newScale)
 % 
 % - x 
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 5
         newScale = 'normal';

@@ -17,9 +17,9 @@ function link = nb_createLinkToClassProperty(className,propertyName)
 % 
 % - link         : A one line char.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     link = ['<a href="matlab: help ' className '.' propertyName '">' propertyName '</a>'];
 

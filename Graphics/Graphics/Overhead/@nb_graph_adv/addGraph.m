@@ -13,9 +13,9 @@ function addGraph(obj,another)
 % 
 % - another : A nb_graph object.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if size(obj.plotter,2) > 1
         error([mfilename,':: Cannot add more than one extra graph to the nb_graph_adv class.'])

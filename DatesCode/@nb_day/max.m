@@ -27,9 +27,9 @@ function d = max(obj,aObj)
 %
 % - ind  : The index of the last date.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 1
         [~,ind] = max([obj.dayNr]);

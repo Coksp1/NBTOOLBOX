@@ -18,9 +18,9 @@ function c = nb_addFields(obj,fields)
 % 
 % - Same output(s) as the nb_addFields function of a normal MATLAB struct.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     c = nb_addFields(obj.s,fields); 
 

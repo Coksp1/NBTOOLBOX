@@ -1,7 +1,7 @@
 function alignGUI(obj,~,~,type)
 % Show align window
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the handle to the main program
     mainGUI = obj.gui;

@@ -28,9 +28,9 @@ classdef nb_drawPatch < nb_annotation & nb_movableAnnotation & nb_lineAnnotation
 % See also:
 % nb_annotation, handle, nb_graph_ts, nb_graph_cs
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -42,7 +42,7 @@ classdef nb_drawPatch < nb_annotation & nb_movableAnnotation & nb_lineAnnotation
         % outside the axes rectangle.
         clipping     = 'off'; 
         
-        % one- or two-element vector [x,y]. Default is [1,1]
+        % one- or two-element vector [x,y]. Default is [0,0]
         %
         % Amount of horizontal and vertical curvature. Specifies 
         % the curvature of the rectangle sides, which enables the 

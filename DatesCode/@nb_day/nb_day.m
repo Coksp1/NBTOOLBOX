@@ -43,9 +43,9 @@ classdef nb_day < nb_date
 % See also: 
 % nb_date, nb_year, nb_semiAnnual, nb_quarter, nb_month
 % 
-% Written by Kenneth Sæterhagen Paulsen  
+% Written by Kenneth SÃ¦terhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         
@@ -175,7 +175,24 @@ classdef nb_day < nb_date
 
                             else
 
-                                error([mfilename ':: Unsupported date format; ' day '. Must either be ''yyyyMm(m)Dd(d)'', ''ddmonyyyy'', ''yyyymmdd'' or ''dd.mm.yyyy''.'])
+                                exp = regexp(strtrim(day),'[0-9]{1,4}-[0-9]{2,2}-[0-9]{2,2}','match');
+                                if ~isempty(exp)
+
+                                    obj.day           = str2double(day(9:10));
+                                    yearObj           = nb_year(str2double(day(1:4)));
+                                    obj.year          = yearObj.year;
+                                    obj.leapYear      = yearObj.leapYear;
+                                    obj.month         = str2double(day(6:7));
+                                    obj.quarter       = findQuarter(obj);
+                                    numberOfLeapYears = nb_day.getNumberOfLeapYears(yearObj); 
+                                    obj.dayNr         = obj.getNumberOfDaysUntilNowInYear() + 365*yearObj.yearNr + numberOfLeapYears;
+
+                                else
+
+                                    error([mfilename ':: Unsupported date format; ' day '. Must either be ''yyyyMm(m)Dd(d)'', ''ddmonyyyy'',',...
+                                        ' ''yyyy-mm-dd'', ''yyyymmdd'' or ''dd.mm.yyyy''.'])
+
+                                end
 
                             end
 
@@ -210,35 +227,40 @@ classdef nb_day < nb_date
                 error([mfilename ':: The year has not more than 12 months'])
             end
             
+            if ischar(day)
+                extra = day;
+            else
+                extra = '';
+            end
             switch obj.month
                 
                 case {1,3,5,7,8,10,12}
                     
                     if obj.day > 31
-                        error([mfilename ':: The month you have given has only 31 days.'])
+                        error([mfilename ':: The month you have given has only 31 days. ' extra])
                     end
                     
                 case 2
                     
                     if obj.leapYear
                         if obj.day > 29
-                            error([mfilename ':: The month you have given has only 29 days.'])
+                            error([mfilename ':: The month you have given has only 29 days. ' extra])
                         end
                     else
                         if obj.day > 28
-                            error([mfilename ':: The month you have given has only 28 days.'])
+                            error([mfilename ':: The month you have given has only 28 days. ' extra])
                         end
                     end
                     
                 case {4,6,9,11}
                     
                     if obj.day > 30
-                        error([mfilename ':: The month you have given has only 30 days.'])
+                        error([mfilename ':: The month you have given has only 30 days. ' extra])
                     end
                     
                 otherwise
                     
-                    error([mfilename ':: A year consist of only 12 month, doesn''t it?'])
+                    error([mfilename ':: A year consist of only 12 month, doesn''t it? ' extra])
                     
             end
                 

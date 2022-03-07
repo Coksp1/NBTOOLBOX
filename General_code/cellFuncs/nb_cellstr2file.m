@@ -20,9 +20,9 @@ function nb_cellstr2file(string,filename,breakLine)
 % - breakLine : true || false. Add '\r\n' at the end of each line or not.
 %               Default is true.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 3
         breakLine = true;

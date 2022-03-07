@@ -423,6 +423,8 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
         varargout = graphCorrelation(varargin)
         varargout = initialize(varargin)
         varargout = plotMCF(varargin)
+        varargout = plotMCFDistTest(varargin)
+        varargout = plotMCFValues(varargin)
         
     end
     

@@ -1,7 +1,8 @@
-function plotter = plotMCF(param,names,lowerBound,upperBound,method)
+function plotter = plotMCF(paramD,params,lowerBound,upperBound,method)
 % Syntax:
 %
-% plotter = plotMCF(param,names,method)
+% plotter = nb_model_generic.plotMCF(paramD,params,lowerBound,...
+%               upperBound,method)
 %
 % Description:
 %
@@ -9,11 +10,11 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
 % 
 % Input:
 % 
-% - param      : A draws x N double with the parameter draws. E.g. use
+% - paramD     : A draws x N double with the parameter draws. E.g. use
 %                paramD(success,:) from the output of the 
 %                monteCarloFiltering method. N is the number of parameters.
 % 
-% - names      : A 1 x N cellstr with the names of the parameters.
+% - params     : A 1 x N cellstr with the names of the parameters.
 %
 % - lowerBound : A 1 x N double with the lower bound on the parameters of
 %                interest.
@@ -29,10 +30,10 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
 %
 % Output:
 % 
-% - plotter : > 'biplot'   : A nb_graph_cs object. Use the graph method
+% - plotter : > 'allInOne' : A nb_graph_cs object. Use the graph method
 %                            or the nb_graphPagesGUI class to produce the
 %                            graphs.
-%             > 'allInOne' : A vector of nb_graph_data objects with size
+%             > 'biplot'   : A vector of nb_graph_data objects with size
 %                            equal to the number of pairwise combination of
 %                            the parameters that can be made. Use the 
 %                            graph method or the nb_graphMultiGUI class to 
@@ -45,7 +46,7 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
 
 % Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
-    if nargin < 3
+    if nargin < 5
         method = '';
     end
     if isempty(method)
@@ -56,26 +57,26 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
         end
     end
 
-    if ~iscellstr(names)
+    if ~iscellstr(params)
         error([mfilename ':: The names input must be a cellstr.'])
     end
     
-    names = names(:)';
-    if size(names,2) ~= size(param,2)
-        error([mfilename ':: The names input must match the number of columns of the param input (' int2str(size(param,2)) ')'])
+    params = params(:)';
+    if size(params,2) ~= size(paramD,2)
+        error([mfilename ':: The names input must match the number of columns of the param input (' int2str(size(paramD,2)) ')'])
     end
     
     if strcmpi(method,'allInOne')
         
         % Scale 
-        for ii = 1:size(param,2)
-            param(:,ii) = (param(:,ii) - lowerBound(ii))/(upperBound(ii) - lowerBound(ii));
+        for ii = 1:size(paramD,2)
+            paramD(:,ii) = (paramD(:,ii) - lowerBound(ii))/(upperBound(ii) - lowerBound(ii));
         end
         
         % Make graph object
-        draws          = size(param,1);
+        draws          = size(paramD,1);
         drawNames      = nb_appendIndexes('Draw',1:draws);
-        data           = nb_cs(param','',names,drawNames);
+        data           = nb_cs(paramD','',params,drawNames);
         plotter        = nb_graph_cs(data);
         lineS          = cell(1,draws*2);
         lineS(1:2:end) = drawNames;
@@ -87,8 +88,8 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
     elseif strcmpi(method,'biplot')
 
         % Get combination indexes
-        draws     = size(param,1);
-        numParam  = length(names);
+        draws     = size(paramD,1);
+        numParam  = length(params);
         if numParam == 1
             error([mfilename ':: The biplot method is not supported when dealing with only one parameter!'])
         elseif numParam == 2
@@ -107,10 +108,10 @@ function plotter = plotMCF(param,names,lowerBound,upperBound,method)
         num            = size(cn,1);
         plotter(1,num) = nb_graph_data();
         for ii = 1:num
-            data        = nb_data(param(:,cn(ii,:)),'',1,names(cn(ii,:)));
+            data        = nb_data(paramD(:,cn(ii,:)),'',1,params(cn(ii,:)));
             plotter(ii) = nb_graph_data(data);
-            set(plotter(ii),'scatterObs',{'scatterGroup1',{1,draws}},'scatterVariables',names(cn(ii,:)),'noLegend',1,...
-                            'xLabel',names{cn(ii,1)},'yLabel',names{cn(ii,2)},'plotType','scatter',...
+            set(plotter(ii),'scatterObs',{'scatterGroup1',{1,draws}},'scatterVariables',params(cn(ii,:)),'noLegend',1,...
+                            'xLabel',params{cn(ii,1)},'yLabel',params{cn(ii,2)},'plotType','scatter',...
                             'xLim',[lowerBound(cn(ii,1)),upperBound(cn(ii,1))],'yLim',[lowerBound(cn(ii,2)),upperBound(cn(ii,2))],...
                             'markerSize',2);
         end

@@ -11,47 +11,51 @@ function t = nb_clock(format)
 %
 % - format : A string with the format:
 %
-%            > 'vintagelong'  : 'yyyymmddhhmmss'
-%            > 'vintage'      : 'yyyymmddhhmm'
-%            > 'vintageshort' : 'yyyymmdd'
-%            > 'gui'          : 'Date: dd/mm/yyyy Time: hh:mm'
+%            > 'vintagemilliseconds' : 'yyyymmddhhnnssqqq'
+%            > 'vintagelong'         : 'yyyymmddhhnnss'
+%            > 'vintage'             : 'yyyymmddhhnn'
+%            > 'vintageshort'        : 'yyyymmdd'
+%            > 'gui'                 : 'Date: dd/mm/yyyy Time: hh:nn'
 %
 % Output:
 % 
 % t : A string.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 1
         format = 'vintage';
     end
 
-    c  = clock;
-    y  = sprintf('%.0f',c(1));
-    m  = sprintf('%.0f',c(2)+100);
-    d  = sprintf('%.0f',c(3)+100);
-    h  = sprintf('%.0f',c(4)+100);
-    mi = sprintf('%.0f',c(5)+100);
     switch lower(format)
         
         case 'vintagelong'
             
-            sec = sprintf('%.0f',c(6)+100);
-            t   = [y m(2:3) d(2:3) h(2:3) mi(2:3) sec(2:3)];
+            t = datestr(now,'yyyymmddHHMMSS');
         
         case 'vintage'
     
-            t  = [y m(2:3) d(2:3) h(2:3) mi(2:3)];
+            t = datestr(now,'yyyymmddHHMM');
+            
+        case 'vintagemilliseconds'
+            
+            t = datestr(now,'yyyymmddHHMMSSFFF');
             
         case 'vintageshort'
     
-            t  = [y m(2:3) d(2:3)];    
+            t = datestr(now,'yyyymmdd');    
             
         case 'gui'
             
-            t  = ['Date: ' d(2:3) '/' m(2:3) '/' y '  Time: ' h(2:3) ':' mi(2:3)];
+            c = clock;
+            y = sprintf('%.0f',c(1));
+            m = sprintf('%.0f',c(2)+100);
+            d = sprintf('%.0f',c(3)+100);
+            h = sprintf('%.0f',c(4)+100);
+            n = sprintf('%.0f',c(5)+100);
+            t = ['Date: ' d(2:3) '/' m(2:3) '/' y '  Time: ' h(2:3) ':' n(2:3)];
             
         otherwise
             

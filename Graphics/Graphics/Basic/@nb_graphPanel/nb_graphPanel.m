@@ -41,9 +41,9 @@ classdef nb_graphPanel < nb_figure
 % See also:  
 % nb_figure, nb_axes      
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

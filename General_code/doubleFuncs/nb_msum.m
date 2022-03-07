@@ -23,7 +23,7 @@ function xout = nb_msum(xin,backward,forward)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [s1,s2,s3] = size(xin);
 

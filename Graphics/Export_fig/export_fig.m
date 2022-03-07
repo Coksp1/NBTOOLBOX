@@ -174,7 +174,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
 %
 %   See also PRINT, SAVEAS, ScreenCapture (on the Matlab File Exchange)
 %
-% Edited by Kenneth S�terhagen Paulsen
+% Edited by Kenneth Sæterhagen Paulsen
 % - Added the '-noFlip' option.
 
 % Copyright (C) Oliver Woodford 2008-2014, Yair Altman 2015-
@@ -242,7 +242,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
 % 11/09/15: Fixed issue #103: magnification must never become negative; also fixed reported error msg in parsing input params
 % 26/09/15: Alert if trying to export transparent patches/areas to non-PNG outputs (issue #108)
 % 04/10/15: Do not suggest workarounds for certain errors that have already been handled previously
-% 01/11/15: Fixed issue #112: use same renderer in print2eps as export_fig (thanks to Jesús Pestana Puerta)
+% 01/11/15: Fixed issue #112: use same renderer in print2eps as export_fig (thanks to JesÃºs Pestana Puerta)
 % 10/11/15: Custom GS installation webpage for MacOS. Thanks to Andy Hueni via FEX
 % 19/11/15: Fixed clipboard export in R2015b (thanks to Dan K via FEX)
 % 21/02/16: Added -c option for indicating specific crop amounts (idea by Cedric Noordam on FEX)
@@ -271,7 +271,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
 % 23/09/18: Fixed issue #243: only set non-bold font (workaround for issue #69) in R2015b or earlier; warn if changing font
 % 23/09/18: Workaround for issue #241: don't use -r864 in EPS/PDF outputs when -native is requested (solves black lines problem)
 
-% Copyright (c) 2021, Kenneth S�terhagen Paulsen
+% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     if nargout
         [imageData, alpha] = deal([]);
@@ -380,7 +380,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
     try
         if ~using_hg2(fig)
             annotationHandles = findall(fig,'Type','hggroup','-and','-property','Units','-and','-not','Units','norm');
-            try  % suggested by Jesús Pestana Puerta (jespestana) 30/9/2015
+            try  % suggested by JesÃºs Pestana Puerta (jespestana) 30/9/2015
                 originalUnits = get(annotationHandles,'Units');
                 set(annotationHandles,'Units','norm');
             catch

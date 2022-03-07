@@ -8,9 +8,9 @@ function merge(gui,~,~)
 % Part of DAG. Makes it possible to merge the existing dataset with  
 % another dataset stored in the main program
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     mergegui = nb_mergeDataGUI(gui.parent,gui.data,[],gui.dataName,'');
     addlistener(mergegui,'methodFinished',@gui.updateDataCallback);

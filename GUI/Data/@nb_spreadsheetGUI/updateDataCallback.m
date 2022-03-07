@@ -14,9 +14,9 @@ function updateDataCallback(gui,hObject,~)
 %
 % - hObject : A nb_methodGUI object or a nb_mergeDataGUI.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the updated data and assign it to the spreadsheet 
     % (Calling the set.data method which will update the 

@@ -23,7 +23,7 @@ function nb_helpWindow(message)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     if ~(mod(length(message),2)==0)
         error([mfilename, ':: Help message must be an even numbered cell.'])

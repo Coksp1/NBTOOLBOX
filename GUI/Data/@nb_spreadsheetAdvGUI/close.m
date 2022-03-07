@@ -8,16 +8,16 @@ function close(gui,~,~)
 % Part of DAG. Close request callback called when user try to close 
 % spreadsheet window
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
-    if gui.changed && ~gui.openElsewhere 
+    if gui.changed && ~gui.openElsewhere
         if isa(gui.parent,'nb_GUI')
             nb_confirmWindow('Do you want to save the changes?',{@notSaveCurrent,gui},{@saveCurrent,gui.parent,gui},[gui.parent.guiName ': Save dataset'])  
         else
             delete(gui.figureHandle)
-        end
+        end 
     elseif gui.changed && gui.openElsewhere
         nb_confirmWindow('Do you want to save the changes to the graph?',{@notSaveCurrent,gui},{@saveCurrentToGraph,gui},[gui.parent.guiName ': Save changes to graph'])    
     else

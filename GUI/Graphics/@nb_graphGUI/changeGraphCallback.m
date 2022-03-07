@@ -7,7 +7,7 @@ function changeGraphCallback(gui,~,~)
 %
 % Part of DAG. 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
     % Set up button group panel
     fig = nb_guiFigure([],'Change graph to edit',[40   15  40   10],'modal'); 

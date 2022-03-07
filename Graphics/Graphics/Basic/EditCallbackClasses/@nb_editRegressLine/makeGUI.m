@@ -1,7 +1,7 @@
 function makeGUI(gui)
 % Create the main window  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create the main window
     %------------------------------------------------------

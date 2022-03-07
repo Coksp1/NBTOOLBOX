@@ -1,7 +1,7 @@
-function xoutnan = nb_nanmavg(xin,backward,forward)
+function xoutnan = nb_nanmavg(xin,backward,forward,flag)
 % Syntax:
 % 
-% xoutnan = nb_nanmavg(xin,backward,forward)
+% xoutnan = nb_nanmavg(xin,backward,forward,flag)
 % 
 % Description:
 % 
@@ -23,7 +23,11 @@ function xoutnan = nb_nanmavg(xin,backward,forward)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
+
+    if nargin < 4
+        flag = false;
+    end
 
     xoutnan   = nan(size(xin));
     isNaN     = isnan(xin);
@@ -34,7 +38,7 @@ function xoutnan = nb_nanmavg(xin,backward,forward)
             finish = find(~isNaN(:,ii,jj),1,'last');
             xinvar = xin(start:finish,ii,jj);
             if ~isempty(xinvar)    
-                xoutnan(start:finish,ii,jj) = nb_mavg(xinvar,backward,forward);    
+                xoutnan(start:finish,ii,jj) = nb_mavg(xinvar,backward,forward,flag);    
             end
         end
     end

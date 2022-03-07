@@ -85,7 +85,7 @@ function print2eps(name, fig, export_options, varargin)
 % 07/07/15: Fixed issue #83: use numeric handles in HG1
 % 22/07/15: Fixed issue #91 (thanks to Carlos Moffat)
 % 28/09/15: Fixed issue #108 (thanks to JacobD10)
-% 01/11/15: Fixed issue #112: optional renderer for bounding-box computation (thanks to Jesús Pestana Puerta)
+% 01/11/15: Fixed issue #112: optional renderer for bounding-box computation (thanks to JesÃºs Pestana Puerta)
 % 21/02/16: Enabled specifying non-automated crop amounts
 % 22/02/16: Better support + backward compatibility for transparency (issue #108)
 % 10/06/16: Fixed issue #159: text handles get cleared by Matlab in the print() command
@@ -502,7 +502,7 @@ function print2eps(name, fig, export_options, varargin)
         %    bb with respect to the PageBoundingBox
         [A, bcol]         = print2array(fig, 1, renderer);
         
-        % Edited by Kenneth Sæterhagen Paulsen, oct 2019
+        % Edited by Kenneth SÃ¦terhagen Paulsen, oct 2019
         %------------------------------------------------------------------
         if nb_iswholenumber(crop_amounts)
             [~, ~, ~, bb_rel] = crop_borders(A, bcol, bb_padding, crop_amounts);
@@ -543,7 +543,7 @@ function print2eps(name, fig, export_options, varargin)
     fstrm = regexprep(fstrm, '\n([-\d.]+ [-\d.]+) ([-\d.]+ [-\d.]+) ([-\d.]+ [-\d.]+) 3 MP\nPP\n\3 \1 \2 3 MP\nPP\n','\n$1 $2 $3 0 0 4 MP\nPP\n');
     fstrm = regexprep(fstrm, '\n([-\d.]+ [-\d.]+) ([-\d.]+ [-\d.]+) ([-\d.]+ [-\d.]+) 3 MP\nPP\n\3 \2 \1 3 MP\nPP\n','\n$1 $2 $3 0 0 4 MP\nPP\n');
 
-    % Edited by Kenneth Sæterhagen Paulsen, dec 2019
+    % Edited by Kenneth SÃ¦terhagen Paulsen, dec 2019
     %----------------------------------------------------------------------
     fstrm = correctDash(fstrm);
     %----------------------------------------------------------------------
@@ -555,7 +555,7 @@ end
 function fstrm = correctDash(fstrm)
 % In NB toolbox we may have substituted in -- for endash and _- for emdash,
 % as this will trigger printing of text as graphics instead of text in the
-% eps file. Written by Kenneth Sæterhagen Paulsen  
+% eps file. Written by Kenneth SÃ¦terhagen Paulsen  
     fstrm = strrep(fstrm,'--','\226');
     fstrm = strrep(fstrm,'_-','\227');    
 end

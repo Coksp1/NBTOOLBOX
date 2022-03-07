@@ -9,7 +9,7 @@ function interpolateCallback(gui,hObject,~)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the new start date
     string = get(gui.popup,'string');

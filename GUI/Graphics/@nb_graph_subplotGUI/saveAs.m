@@ -7,9 +7,9 @@ function saveAs(gui,~,~)
 %
 % Part of DAG. Save as 
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(gui.plotter.graphObjects)
         nb_errorWindow('The graph panel is empty and cannot be saved.')

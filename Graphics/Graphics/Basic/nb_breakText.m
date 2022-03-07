@@ -15,9 +15,9 @@ function nb_breakText(textObj, fitTo)
 %
 % - fitTo   : A 1x4 double with position to fit the text to.
 % 
-% Written by Kenneth Sæterhagen Paulsen and Henrik Halvorsen Hortemo
+% Written by Kenneth SÃ¦terhagen Paulsen and Henrik Halvorsen Hortemo
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string  = get(textObj,'string');
     convert = false;

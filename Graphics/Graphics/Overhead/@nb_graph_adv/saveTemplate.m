@@ -7,9 +7,9 @@ function saveTemplate(obj)
 %
 % Save the current template
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     cTemplate = obj.plotter(1).currentTemplate;
     template  = getCurrentTemplate(obj.plotter(1));

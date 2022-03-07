@@ -10,9 +10,9 @@ function setFontSize(obj,oldFontSize,normalizeFactor)
 % This method is called each time the fontUnits property is 
 % set
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen 
 
     if nargin < 3
         normalizeFactor = 0.001787310098302;

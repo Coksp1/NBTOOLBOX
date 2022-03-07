@@ -7,9 +7,9 @@ function [endc,value] = nb_addColor(gui,parent,endc,colorTemp)
 %
 % Add color to default colors.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     endc  = [endc;{colorTemp}];
     value = size(endc,1);

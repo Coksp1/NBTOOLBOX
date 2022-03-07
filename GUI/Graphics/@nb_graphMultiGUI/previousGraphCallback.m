@@ -7,9 +7,9 @@ function previousGraphCallback(gui,~,~)
 %
 % Part of DAG. Display previous graph callback
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the current struct name
     displayedGraphMenu = findobj(gui.graphMenu,'checked','on');

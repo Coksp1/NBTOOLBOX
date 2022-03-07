@@ -27,7 +27,11 @@ function tseries_DB = toTseries(obj)
 % Copyright (c) 2021, Kenneth Sæterhagen Paulsen
 
     tData = obj.data;
-    Dates = dates(obj);
+    dats  = dates(obj);
+    if isempty(dats)
+        tseries_DB = tseries;
+        return 
+    end
 
     try
 
@@ -35,14 +39,14 @@ function tseries_DB = toTseries(obj)
 
             case {2,4,12}
 
-                for ii=1:length(Dates)
-                    Dates{ii} = str2dat(Dates{ii},'dateformat','YYYYFP','freq',obj.frequency);
+                for ii=1:length(dats)
+                    dats{ii} = str2dat(dats{ii},'dateformat','YYYYFP','freq',obj.frequency);
                 end
 
             case {1}
 
-                for ii=1:length(Dates)
-                    Dates{ii} = str2dat(Dates{ii},'dateformat','YYYY','freq',1);
+                for ii=1:length(dats)
+                    dats{ii} = str2dat(dats{ii},'dateformat','YYYY','freq',1);
                 end
 
             otherwise
@@ -51,10 +55,14 @@ function tseries_DB = toTseries(obj)
 
         end
 
-        Dates      = cell2mat(Dates);
-        tseries_DB = tseries(Dates,tData);
+        if isa(dats{1},'DateWrapper')
+            dats = [dats{:}];
+        else
+            dats = cell2mat(dats);
+        end
+        tseries_DB = tseries(dats,tData);
 
-    catch %#ok
+    catch
         error([mfilename ':: Could not transform to an tseries object. Have you added the IRIS package?'])
     end
 end

@@ -24,9 +24,9 @@ classdef (Abstract) nb_textAnnotation < nb_annotation
 % nb_strategyInterval, nb_barAnnotation, nb_textarrow,
 % nb_textBox
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %==============================================================
     % Properties of the class 

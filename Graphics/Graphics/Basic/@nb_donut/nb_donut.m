@@ -39,9 +39,9 @@ classdef nb_donut < nb_plotHandle & nb_notifiesMouseOverObject
 %     nb_donut(yData,'propertyName',propertyValue,...)
 %     handle = nb_donut(yData,'propertyName',propertyValue,...)  
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties(SetAccess = protected)
     

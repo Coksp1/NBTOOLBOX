@@ -381,17 +381,23 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
     end
     
     if isempty(inputs.shocks)
-        inputs.shocks = obj(1).solution.res;
-        if isNB(obj(1)) || isRise(obj(1))
-            if iscell(obj(1).solution.C)
-                sig = sum(obj(1).solution.C{1}(:,:,end),1) == 0;
-            else
-                sig = sum(obj(1).solution.C(:,:,end),1) == 0;
-            end
+        if isa(obj(1),'nb_sa') ||  isa(obj(1),'nb_fmsa')
+            % For steap-ahead models we are interested in shocking the
+            % exogenous variables.
+            inputs.shocks = obj(1).solution.exo;
         else
-            sig = diag(obj(1).solution.vcv(:,:,end)) == 0;
+            inputs.shocks = obj(1).solution.res;
+            if isNB(obj(1)) || isRise(obj(1))
+                if iscell(obj(1).solution.C)
+                    sig = sum(obj(1).solution.C{1}(:,:,end),1) == 0;
+                else
+                    sig = sum(obj(1).solution.C(:,:,end),1) == 0;
+                end
+            else
+                sig = diag(obj(1).solution.vcv(:,:,end)) == 0;
+            end
+            inputs.shocks = inputs.shocks(~sig);
         end
-        inputs.shocks = inputs.shocks(~sig);
     end
     
     if isempty(inputs.variables)

@@ -21,9 +21,9 @@ classdef nb_permuteGUI < nb_methodGUI
 % 
 %   - gui        : An object of class nb_permuteGUI.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     methods
         

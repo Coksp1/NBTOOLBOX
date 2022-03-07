@@ -7,9 +7,9 @@ function expandPeriodsCallback(gui, ~, ~, window)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the number of periods to expand by
     numOfPeriods = get(gui.numOfPeriodsBox,'string');

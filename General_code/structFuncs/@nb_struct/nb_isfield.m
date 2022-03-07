@@ -26,7 +26,7 @@ function TF = nb_isfield(obj, varargin)
 %
 % Written by Henrik Hortemo Halvorsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     TF    = false;
     index = 1;

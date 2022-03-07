@@ -18,9 +18,9 @@ function nb_editNotes(obj)
 %   updated or the userData property of the data property of the
 %   nb_spreadsheetGUI updated.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the notes from the underlying object storing them
     if isa(obj,'nb_graph_obj') || isa(obj,'nb_graph_adv')

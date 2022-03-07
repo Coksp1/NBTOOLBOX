@@ -1,7 +1,7 @@
 function editFontSize(gui,hObject,~)
 % Set font size option of the legend callback
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
 %     if strcmpi(gui.plotter.graphStyle,'mpr_white')
 %         nb_errorWindow('It is not allowed to set the legend font size property of an advanced graph.')

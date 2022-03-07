@@ -11,13 +11,13 @@ function makeGUI(gui)
 %
 % Written by Eyo I. Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(gui.data,'nb_modelDataSource')
         enable = 'off';
     else 
         if ~gui.data.isUpdateable
-            nb_errorWindow('The dataset is not updateable, so no method list to display')
+            nb_errorWindow('The dataset is not updateable, so no sources to display')
             delete(gui)
             return
         end

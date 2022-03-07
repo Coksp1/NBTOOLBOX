@@ -7,9 +7,9 @@ function deleteRow(gui,~,~)
 %
 % Part of DAG. Delete row of the lookupmatrix (i.e. the table)
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the rows to delete
     row = gui.selectedCells;

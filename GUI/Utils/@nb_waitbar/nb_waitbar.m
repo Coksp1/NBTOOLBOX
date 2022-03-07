@@ -22,9 +22,9 @@ classdef nb_waitbar < handle
 %
 %   - includeTimeEst : Include time estimate button.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         
@@ -100,6 +100,7 @@ classdef nb_waitbar < handle
             gui.maxIterations = maxIter;
             gui.includeTimer  = includeTimer;
             makeGUI(gui,includeCancel);
+            drawnow;
             
         end
         

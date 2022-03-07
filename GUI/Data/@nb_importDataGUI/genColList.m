@@ -9,9 +9,9 @@ function colList = genColList(num)
 % 
 % Creates a list of alphabetical column names similar to excels format
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     colList = nb_xlsNum2Column(num);
     

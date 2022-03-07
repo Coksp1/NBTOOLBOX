@@ -15,9 +15,9 @@ function y = nb_linearFilter1s(x)
 % 
 % - y : The cyclical component of the x-series
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [r,c,p] = size(x);
     y       = nan(r,c,p);

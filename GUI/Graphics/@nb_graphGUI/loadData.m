@@ -7,9 +7,9 @@ function loadData(gui,~,~)
 %
 % Part of DAG. Load data to graph object.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     loader = nb_loadDataGUI(gui.parent);
     addlistener(loader,'sendLoadedData',@gui.mergeOrReset);

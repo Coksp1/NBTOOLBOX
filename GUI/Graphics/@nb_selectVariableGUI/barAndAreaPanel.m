@@ -8,9 +8,9 @@ function barAndAreaPanel(gui)
 % Part of DAG. Panel shown when the plot types 'grouped', 'area', 'dec'
 % and 'stacked' are choosen
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(gui.uip)
 

@@ -11,9 +11,9 @@ function loadOptionsWhenExist(gui)
 % objects parent we ask the user if it will try to merge, 
 % overwrite or exit without saving the loaded data.
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create the window
     f = nb_guiFigure(gui.parent,'Import Option',[50 40 100 20],'modal','off');                   

@@ -9,9 +9,9 @@ function importRadioCallback(gui,~,~)
 % 
 % Callback for radiobuttons in advanced panel
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isequal(get(gui.customSpec,'value'),0)
         set(gui.dateSelectBox,'enable','off');

@@ -7,9 +7,9 @@ function copyLimitsCallback(gui,~,~)
 %
 % Part of DAG. Copy limits from selected content of table.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     sel = gui.selectedCells;
     if isempty(sel)

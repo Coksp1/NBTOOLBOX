@@ -22,7 +22,7 @@ function days = getDays(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch obj.month
         case {1,3,5,7,8,10,12}

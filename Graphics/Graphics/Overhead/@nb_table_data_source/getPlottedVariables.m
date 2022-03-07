@@ -17,7 +17,7 @@ function vars = getPlottedVariables(obj,forLegend) %#ok<INUSD>
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         vars = obj.variablesOfTable;

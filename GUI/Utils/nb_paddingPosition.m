@@ -5,7 +5,7 @@ function position = nb_paddingPosition(parent, points)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     padding  = points * nb_unitsRatio('Points', 'Normalized', parent);
     position = [padding(1), padding(2), 1 - 2*padding(1), 1 - 2*padding(2)];

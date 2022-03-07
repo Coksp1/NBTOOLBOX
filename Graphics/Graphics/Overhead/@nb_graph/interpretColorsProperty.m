@@ -3,9 +3,9 @@ function tempColors = interpretColorsProperty(obj,cols,vars)
 %
 % tempColors = interpretColorsProperty(obj,cols,vars)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen 
 
     numVar = size(vars,2);
     if isa(obj.parent,'nb_GUI')

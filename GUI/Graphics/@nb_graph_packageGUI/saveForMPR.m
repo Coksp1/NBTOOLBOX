@@ -34,7 +34,7 @@ function saveForMPR(gui,~,~)
 % 
 % Written by Per Bjarne Bye
     
-% Copyright (c) 2021, Kenneth SÊterhagen Paulsen
+% Copyright (c) 2021, Kenneth S√¶terhagen Paulsen
 
     if isempty(gui.package.graphs)
         nb_errorWindow('The graph package is empty and cannot be saved.')
@@ -70,7 +70,7 @@ function yes(h,~,gui,pathname)
     % Delete confirmation window
     delete(get(h,'parent'));
 
-    % §§§§§§§§§§§§ Make folders §§§§§§§§§§§§   
+    % „ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ Make folders „ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ   
     
     chapter = gui.packageName;  
     
@@ -146,7 +146,7 @@ function yes(h,~,gui,pathname)
         end
     end
     
-    % §§§§§§§§§§§§ Save files §§§§§§§§§§§§   
+    % „ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ Save files „ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ„ÅÑ   
 
     %%% Write PDF files
     gui.package.writeSeparate(pdffolderNor,'norsk','pdf',[],0,gui.template,true,true,true);

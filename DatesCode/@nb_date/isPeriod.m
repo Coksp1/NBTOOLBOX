@@ -25,9 +25,9 @@ function ret = isPeriod(obj,period)
 % q   = nb_quarter(1,2000)
 % ret = isPeriod(q,1)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch obj.frequency
         case 1

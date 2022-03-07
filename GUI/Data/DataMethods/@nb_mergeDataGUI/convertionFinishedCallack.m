@@ -12,9 +12,9 @@ function convertionFinishedCallack(gui,hObject,~)
 %
 % - hObject : An object of class nb_convertDataGUI
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if gui.objectSelectedForConverting == 1
         gui.data1 = hObject.data;

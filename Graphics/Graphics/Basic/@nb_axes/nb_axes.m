@@ -123,9 +123,9 @@ classdef nb_axes < handle
 % See also: 
 % axes      
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %======================================================================
     % The properties of the class
@@ -3345,7 +3345,7 @@ classdef nb_axes < handle
                     
                     switch obj.shading
 
-                        case {'grey','grå','gr'}
+                        case {'grey','grÃ¥','gr'}
 
                             % Define grey shading
                             grad = zeros(256,1,3);

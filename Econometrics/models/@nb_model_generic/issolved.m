@@ -24,8 +24,18 @@ function ret = issolved(obj)
     for ii = 1:s1
         for jj = 1:s2
             for kk = 1:s3
-                if isa(obj(ii,jj,kk),'nb_dsge')
-                    ret(ii,jj,kk) = ~obj(ii,jj,kk).needToBeSolved;
+                if isa(obj(ii,jj,kk),'nb_dsge') 
+                    if ~isfield(obj(ii,jj,kk).solution,'type')
+                        ret(ii,jj,kk) = false;
+                    else
+                        if strcmpi(obj(ii,jj,kk).solution.type,'nb')
+                            ret(ii,jj,kk) = ~obj(ii,jj,kk).needToBeSolved;
+                        else
+                            ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'A');
+                        end
+                    end 
+                elseif isa(obj(ii,jj,kk),'nb_exprModel')
+                    ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'fcstHandle');
                 else
                     ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'A');
                 end

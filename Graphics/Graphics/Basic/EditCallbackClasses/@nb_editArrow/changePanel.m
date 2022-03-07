@@ -1,7 +1,7 @@
 function changePanel(gui,hObject,event)
 % Callback when changing the panel
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     old  = event.OldValue;
     type = get(old,'string');

@@ -53,9 +53,9 @@ classdef nb_legend < nb_annotation & nb_movableAnnotation
 % See also:
 % legend
 %     
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         
@@ -660,7 +660,8 @@ classdef nb_legend < nb_annotation & nb_movableAnnotation
             % If we are dealing with the 'below' or 'middle' 
             % location we will have a horizontally oriented legend
             %------------------------------------------------------
-            if strcmpi(obj.location,'below') || strcmpi(obj.location,'middle')                  
+            if isempty(obj.position) && (strcmpi(obj.location,'below') || ...
+                    strcmpi(obj.location,'middle'))                 
                 obj.columns = totSize;
             end
                   

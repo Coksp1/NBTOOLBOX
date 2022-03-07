@@ -10,9 +10,9 @@ function makeGUI(gui)
 % Creates the menu for exporting graph groups.
 % With the main window of DAG open: Graphics > Export graph group
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % List of graphs
     %--------------------------------------------------------------

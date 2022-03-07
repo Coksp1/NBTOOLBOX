@@ -13,9 +13,9 @@ function nb_printResults(res,name)
 %
 % - name : Name of figure window.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Print the results in a new window for the user
     f = nb_guiFigure([],name,[50 40 120 30],'normal','on');

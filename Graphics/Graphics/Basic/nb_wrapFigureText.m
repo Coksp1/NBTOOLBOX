@@ -18,9 +18,9 @@ function nb_wrapFigureText(obj,t,place)
 % See also:
 % nb_footer, nb_figureTitle
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch obj.placement
         

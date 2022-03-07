@@ -7,9 +7,9 @@ function updateTable(gui)
 %
 % Part of DAG. Update the table
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Default setting
     rows = 50;

@@ -34,9 +34,9 @@ function out = merge(obj,varargin)
 % 
 % - out      : An object of class nb_graph.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     [isGraph,varargin] = nb_parseOneOptionalSingle('graph',false,true,varargin{:});
     if isGraph

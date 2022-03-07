@@ -7,9 +7,9 @@ function add(gui,~,~)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
      
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Panel with graph selection list
     f   = nb_guiFigure(gui.parent,'Select Advanced Graph',[65   15  70   30],'modal','off');

@@ -12,9 +12,9 @@ function defaultColors = nb_defaultColors(number,isNB)
 % 
 % defaultColors : A n x 3 double with the RGB colors.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         isNB = false;

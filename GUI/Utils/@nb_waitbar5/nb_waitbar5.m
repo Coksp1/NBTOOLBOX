@@ -21,9 +21,9 @@ classdef nb_waitbar5 < handle
 % 
 %   - gui           : A nb_waitbar5 object
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties(SetAccess=protected)
          
@@ -456,9 +456,9 @@ classdef nb_waitbar5 < handle
         % - value : An integer between 0-5. If 0 it means that non of the
         %           five wait bars are available.
         %
-        % Written by Kenneth Sæterhagen Paulsen
+        % Written by Kenneth SÃ¦terhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen    
             
             if isempty(obj.maxIterations1)
                 value = 1;

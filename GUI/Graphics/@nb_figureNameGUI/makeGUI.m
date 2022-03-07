@@ -11,9 +11,9 @@ function makeGUI(gui)
 % for graphs of type Advanced Table or Advanced Graph.
 % With an advanced graph open: Advanced > Figure Name.
 % 
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     plotterAdv = gui.plotter;
     parent     = plotterAdv.plotter.parent;

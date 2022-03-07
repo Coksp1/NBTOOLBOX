@@ -9,7 +9,7 @@ function exit(gui,~,~)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     close(gui.egTestWindow);
 

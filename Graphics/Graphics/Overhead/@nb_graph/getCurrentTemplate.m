@@ -7,9 +7,9 @@ function template = getCurrentTemplate(obj)
 % 
 % Get template from current object.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     props    = nb_graph.getTemplateProps();
     template = struct();

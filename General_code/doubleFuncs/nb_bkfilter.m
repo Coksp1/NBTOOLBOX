@@ -21,9 +21,9 @@ function x = nb_bkfilter(y,low,high)
 %
 % - x    : double (nobs x 1 x npage) containing filtered data. 
 %   
-% Written by Kenneth Sæterhagen Paulsen 
+% Written by Kenneth SÃ¦terhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if high <= low
         error([mfilename ':: the lowest frequency cannot be be higher than the highest frequency.'])
@@ -39,7 +39,7 @@ function x = nb_bkfilter(y,low,high)
         x = y;
         for cc = 1:nvars
             for pp = 1:npage
-                good          = ~isnan(y(:,cc,pp));
+                good          = isfinite(y(:,cc,pp));
                 x(good,cc,pp) = nb_bkfilter(y(good,cc,pp),low,high);
             end
         end

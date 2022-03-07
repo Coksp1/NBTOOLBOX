@@ -46,7 +46,7 @@ function obj = cell2Date(cellstr,freq)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch freq
         case 1
@@ -68,7 +68,7 @@ function obj = cell2Date(cellstr,freq)
 
     date(size(cellstr,1),size(cellstr,2)) = func();
     for ii = 1:length(cellstr)
-        date(ii) = cellstr{ii};
+        date(ii) = func(cellstr{ii});
     end
     obj = date;
         

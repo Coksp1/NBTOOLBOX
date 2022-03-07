@@ -7,9 +7,9 @@ function updateGUI(gui,~,~)
 %
 % Part of DAG. Update the GUI given changes.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     value     = get(gui.list,'value');
     tableData = gui.tableData(:,:,value);

@@ -10,7 +10,7 @@ function value = nb_conditionalStatement(condition, trueFunc, falseFunc)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if condition
         value = trueFunc();

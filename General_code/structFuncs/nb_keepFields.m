@@ -19,7 +19,7 @@ function s = nb_keepFields(s, fields)
 %
 % Written by Henrik Hortemo Halvorsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     s = rmfield(s, setdiff(fieldnames(s), fields));
     

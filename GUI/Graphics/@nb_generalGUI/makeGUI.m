@@ -10,9 +10,9 @@ function makeGUI(gui)
 % Creates the menu for General Properties.
 % With a graph open: Properties > General.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
         
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Create the main window
     %------------------------------------------------------

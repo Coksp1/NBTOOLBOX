@@ -15,9 +15,9 @@ function ret = nb_isOneLineChar(in)
 % 
 % - ret : true if in is a one line char, otherwise false.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     ret = false;
     if ischar(in)

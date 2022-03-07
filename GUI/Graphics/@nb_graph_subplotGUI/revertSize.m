@@ -8,9 +8,9 @@ function revertSize(gui,~,~)
 % Part of DAG. Revert the graph window to its default size. I.e. how the
 % figure is printed.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     matFig  = gui.figureHandle.figureHandle;
     posF    = get(matFig,'position');

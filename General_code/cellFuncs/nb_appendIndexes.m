@@ -17,9 +17,9 @@ function c = nb_appendIndexes(str,indexes)
 % 
 % - c       : A cellstr.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if ~isempty(str)
         if ~nb_isOneLineChar(str)

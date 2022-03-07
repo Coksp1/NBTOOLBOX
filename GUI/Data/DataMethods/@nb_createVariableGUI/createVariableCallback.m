@@ -8,9 +8,9 @@ function createVariableCallback(gui,~,~)
 % Part of DAG. The function called when the create button is pushed in the
 % variable manager window.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the expression to evaluate and the the variable name
     expression = get(gui.editbox1,'string');

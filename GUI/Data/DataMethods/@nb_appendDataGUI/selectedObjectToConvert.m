@@ -7,9 +7,9 @@ function selectedObjectToConvert(gui,hObject,~)
 %
 % Part of DAG. Get the selected object to convert
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     string  = get(gui.convertListBox,'string');
     index   = get(gui.convertListBox,'value');

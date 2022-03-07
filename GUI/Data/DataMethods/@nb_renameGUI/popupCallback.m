@@ -8,9 +8,9 @@ function popupCallback(gui,~,~)
 % Part of DAG. Function called when the popupmenu is changed. Switches 
 % between the identifier box and the variable select box.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get value of renamepopup
     list     = get(gui.renamepopup,'string');

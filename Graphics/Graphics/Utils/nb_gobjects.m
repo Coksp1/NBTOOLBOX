@@ -18,9 +18,9 @@ function array = nb_gobjects(varargin)
 %           See gobjects or nan. If nb_oldGraphVersion returns true
 %           then doubles are returned.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     try
         array = gobjects(varargin{:});

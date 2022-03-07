@@ -22,7 +22,7 @@ function quarters = getQuarters(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     quarters = cell(1,2); 
     for ii = 1:2

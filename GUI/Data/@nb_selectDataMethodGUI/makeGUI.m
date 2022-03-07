@@ -7,9 +7,9 @@ function makeGUI(gui)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     f = nb_guiFigure(gui.parent.parent,'Method Selection',[65   15  70   30],'modal','off');
     gui.figureHandle = f;

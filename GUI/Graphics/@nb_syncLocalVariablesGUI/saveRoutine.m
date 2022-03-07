@@ -8,9 +8,9 @@ function saveRoutine(gui,~,~)
 % Part of DAG. Resolve local variables which are conflicting and save 
 % to main program
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tableData = get(gui.table,'data');
     logi      = cell2mat(tableData(:,end));

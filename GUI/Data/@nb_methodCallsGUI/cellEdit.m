@@ -7,7 +7,7 @@ function cellEdit(gui,~,event)
 %
 % Part of DAG. Edit table callback.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isempty(event.Error)
 

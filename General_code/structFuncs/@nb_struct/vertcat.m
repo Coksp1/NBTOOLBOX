@@ -22,9 +22,9 @@ function obj = vertcat(obj,varargin)
 % See also:
 % nb_struct.horzcat
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     test = cellfun(@(x)isa(x,'nb_struct'),varargin);
     if any(~test)

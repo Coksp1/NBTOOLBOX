@@ -19,9 +19,9 @@ function [out,IA,IC] = unique(in)
 %
 % - IC  : A = C(IC)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     nr        = getNr(in);
     [~,IA,IC] = unique(nr);

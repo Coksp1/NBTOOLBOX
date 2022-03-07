@@ -26,9 +26,9 @@ function ret = isFirstPeriod(obj,freq)
 % m   = nb_month(10,2000)
 % ret = isFirstPeriod(m,4)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if freq >= obj.frequency
         error([mfilename ':: The freq input must give a lower frequency than that of the object of class ' class(obj) '.'])

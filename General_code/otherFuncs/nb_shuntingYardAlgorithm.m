@@ -35,9 +35,9 @@ function [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expressi
 % See also:
 % nb_eval, nb_checkForErrors
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin == 3
         stack      = {};
@@ -364,6 +364,7 @@ function [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expressi
         last = false;
         out  = [out,'true'];
         nInp = [nInp,0];
+        indE = 4;
         [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expression(indE+1:end),variables,macro,out,stack,prec,nInp,nInpStack,last);
         return
     end
@@ -374,6 +375,7 @@ function [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expressi
         last = false;
         out  = [out,'false'];
         nInp = [nInp,0];
+        indE = 5;
         [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expression(indE+1:end),variables,macro,out,stack,prec,nInp,nInpStack,last);
         return
     end

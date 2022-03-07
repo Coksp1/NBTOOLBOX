@@ -15,9 +15,9 @@ function tableAsChar = cell2charTable(table)
 % 
 % - tableAsChar : A char vector.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     body_format = '';
     dim         = nan(size(table,2) - 1,1);

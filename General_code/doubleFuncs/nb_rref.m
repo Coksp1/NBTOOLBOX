@@ -15,9 +15,9 @@ function A = nb_rref(A)
 % 
 % - A : A NxM double matrix.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     rows  = size(A,1);
     cols  = size(A,2);

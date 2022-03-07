@@ -1,7 +1,7 @@
 function addRow(gui,~,~)
 % Add row to the lookupmatrix (i.e. the table)
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     data = get(gui.table,'data');
     data = [data;1,1];

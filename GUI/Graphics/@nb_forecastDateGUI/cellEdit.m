@@ -7,9 +7,9 @@ function cellEdit(gui,hObject,event)
 %
 % Part of DAG.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotterA = gui.plotter;
     if isempty(event.Error)
@@ -31,7 +31,7 @@ function cellEdit(gui,hObject,event)
 
                 dateT = nb_localVariables(plotterA.localVariables,date);
                 try
-                    nb_date.date2freq(date);
+                    nb_date.date2freq(dateT);
                 catch %#ok<CTCH>
                     if strcmpi(dateT,date)
                         nb_errorWindow(['Undefined local variable ' date '.']);

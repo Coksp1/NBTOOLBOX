@@ -7,9 +7,9 @@ function assignCallback(gui,~,~)
 %
 % Part of DAG. Assign imported distribution to the selected distributions.
 % 
-% Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
+% Written by Henrik Halvorsen Hortemo and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     vars     = nb_getSelectedFromListbox(gui.variablesListBox);
     [~,indV] = ismember(vars,gui.variables);

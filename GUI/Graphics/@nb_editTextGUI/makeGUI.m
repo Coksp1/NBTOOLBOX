@@ -16,7 +16,7 @@ function makeGUI(gui)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     % Coming from another session and importing a new one
     if ~isempty(gui.figureHandle)

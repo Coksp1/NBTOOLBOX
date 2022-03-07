@@ -10,9 +10,9 @@ function makeGUI(gui)
 % Creates the menu for dates vs. dates plot.
 % With a graph open: Properties > Special > Dates vs Dates.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotterT = gui.plotter;
     parent   = plotterT.parent;

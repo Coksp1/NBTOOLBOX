@@ -30,9 +30,9 @@ function tau = nb_hpfilter(y,alpha)
 % See also:
 % hpfilter
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Check for nan
     [n,c,p] = size(y);

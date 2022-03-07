@@ -20,9 +20,9 @@ function cData = nb_getFanColors(cData,percentiles)
 % 
 % - cData       : A numberOfPercentiles x 3 double.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if nargin < 2
         percentiles = [.3,.5,.7,.9];

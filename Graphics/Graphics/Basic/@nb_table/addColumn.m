@@ -2,7 +2,7 @@ function addColumn(obj, x)
 % Adds column at position x,
 % copying formatting from the preceding column
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     oldSize = obj.size;
 

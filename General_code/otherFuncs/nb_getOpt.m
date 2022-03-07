@@ -7,9 +7,9 @@ function opt = nb_getOpt()
 %
 % Get default options given to fminsearch used by the NBTOOLBOX
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     tol = eps;
     opt = optimset('Display','off','MaxFunEvals',10000,...

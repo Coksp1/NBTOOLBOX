@@ -13,9 +13,9 @@ function setPlotTypeWhenDatesToPlot(gui,hObject,~)
 % Only supported plot types is; stacked, grouped and line (also 
 % splitted)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotter = gui.plotter;
     

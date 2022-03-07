@@ -47,7 +47,7 @@ function frequency = getFrequencyAsInteger(frequency)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     switch lower(frequency)
         case {'yearly','annual'}

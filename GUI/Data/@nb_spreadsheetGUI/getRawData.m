@@ -8,9 +8,9 @@ function getRawData(gui,~,~)
 % Part of DAG. Set the tranData object empty, so the data property 
 % (with the raw data) is displayed in the table
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     gui.transData = [];
     updateTable(gui);

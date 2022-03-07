@@ -16,9 +16,9 @@ function list = nb_getDatesAndLocals(object)
 % 
 % - list    : A list of dates and local variables that represent dates
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get all the dates of the data of the graph object
     if isa(object,'nb_graph_ts')

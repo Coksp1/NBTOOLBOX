@@ -87,11 +87,6 @@ function [irfDataD,paused] = irfBootstrap(model,options,results,inputs)
     func     = str2func([model.class, '.solveNormal']);
     paused   = false;
     res      = results;
-    if isfield(results,'densities')
-        dens = results.densities;
-    else
-        dens = [];
-    end
     
     note = nb_when2Notify(replic);
     while kk < replic

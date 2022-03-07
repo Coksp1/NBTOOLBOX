@@ -21,9 +21,9 @@ function obj = freqPlus(obj,~,~)
 % 
 % - ob      : An object of class nb_date.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error([mfilename ':: This method is not implemented for the class ' class(obj)]);
 

@@ -8,9 +8,9 @@ function selectMethod(gui,~,~)
 % Part of DAG. Give the user the possibility to select a method from a 
 % list.
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
      if isempty(gui.data)
         nb_errorWindow('No data loaded.')

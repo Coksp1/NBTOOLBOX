@@ -21,9 +21,9 @@ function nb_any2File(filename,input,nestedLevel,numPrecision)
 % 
 % - code : A cellstr with the code.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     error('Not yet finished!')
 

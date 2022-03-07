@@ -21,7 +21,7 @@ classdef (ConstructOnLoad) nb_eventData < event.EventData
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
    properties
       Data

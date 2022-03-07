@@ -8,9 +8,9 @@ function originalTSMerge(gui)
 % Part of DAG. Open up dialog box for merging two nb_ts objects with 
 % same frequency
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     %Check for conflicting variables
     var1  = gui.data1.variables;

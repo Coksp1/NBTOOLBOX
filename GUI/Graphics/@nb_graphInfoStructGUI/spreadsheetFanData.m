@@ -7,9 +7,9 @@ function spreadsheetFanData(gui,~,~)
 %
 % Part of DAG. Create simple spreadsheet of fan chart data behind figure  
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     % Get the data of the curent displayed graph
     %--------------------------------------------------------------

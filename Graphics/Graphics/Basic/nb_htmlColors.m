@@ -15,9 +15,9 @@ function colors = nb_htmlColors(endc)
 % 
 % - colors : A cell array with size n.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     colors = cell(size(endc,1),1);
     for a = 1:size(endc,1)

@@ -10,9 +10,9 @@ function sourceCallback(gui,~,~)
 % Callback for the source listbox. Checks the sourcetype of the selection 
 % and updates the data/panel accordingly.
 %
-% Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
+% Written by Eyo I. Herstad and Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if isa(gui.data,'nb_modelDataSource')
         

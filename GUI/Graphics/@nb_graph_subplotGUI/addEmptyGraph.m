@@ -8,9 +8,9 @@ function addEmptyGraph(gui,~,~)
 % Part of DAG. Add a graph to the panel if it is not already filled to 
 % the limit
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     plotterT       = gui.plotter;
     numberOfFitted = plotterT.subPlotSize(1)*plotterT.subPlotSize(2); 

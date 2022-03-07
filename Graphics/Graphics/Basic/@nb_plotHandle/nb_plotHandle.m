@@ -34,9 +34,9 @@ classdef (Abstract) nb_plotHandle < handle
 % nb_line, nb_patch, nb_pie, nb_plot, nb_plotComb, nb_radar, 
 % nb_scatter, nb_verticalLine, nb_hbar, nb_candle
 %
-% Written by Kenneth Sæterhagen Paulsen     
+% Written by Kenneth SÃ¦terhagen Paulsen     
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     properties
         

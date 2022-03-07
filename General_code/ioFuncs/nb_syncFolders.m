@@ -18,9 +18,9 @@ function deleted = nb_syncFolders(folder1,folder2)
 %
 % - deleted : A cellstr with the deleted files and folders
 % 
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
 
     if exist(folder1,'file') == 2
         error([mfilename ':: The folder1 does not exist; ' folder1])

@@ -11,7 +11,7 @@ function exportInfoSpreadsheet2Excel(gui,~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2021, Kenneth SÃ¦terhagen Paulsen
     
     [filename, pathname] = uiputfile({  '*.xlsx',             'Excel (*.xlsx)';...
                                         '*.xls',              'Excel (*.xls)'},...
