@@ -24,9 +24,14 @@ function message = nb_interpretExitFlag(e,type,extra,homotopyErr)
 % - homotopyErr : If nb_homotopy is used you can provide the err output
 %                 of that function as this input.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Output:
+%
+% - message     : If asked for the error message is returned instead of
+%                 thrown.
+%
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 4
         homotopyErr = [];
@@ -222,7 +227,12 @@ function message = nb_interpretExitFlag(e,type,extra,homotopyErr)
     end
     
     if nargout < 1  
-        error(message)
+        messageState = getenv('optimizerMessageState');
+        if strcmpi(messageState,'true')
+            warning('nb_interpretExitFlag:warning',message)
+        else
+            error(message)
+        end
     end
     
 end

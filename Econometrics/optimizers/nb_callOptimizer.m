@@ -65,9 +65,9 @@ function [estPar,fval,Hessian,err] = nb_callOptimizer(optimizer,fh,init,lb,ub,op
 % See also:
 % nb_abc, nb_fmin, nb_pso, fmincon, fminunc, fminsearch, bee_gate  
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     % Parse constraint options
     [Aeq,varargin]     = nb_parseOneOptional('Aeq',[],varargin{:});
@@ -103,7 +103,12 @@ function [estPar,fval,Hessian,err] = nb_callOptimizer(optimizer,fh,init,lb,ub,op
             Hessian = [];
             return
         else
-            error([mfilename ':: ' message])
+            messageState = getenv('optimizerMessageState');
+            if strcmpi(messageState,'true')
+                warning('nb_interpretExitFlag:warning',[mfilename ':: ' message])
+            else
+                error([mfilename ':: ' message])
+            end
         end
     end
 
