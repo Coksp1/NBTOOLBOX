@@ -21,9 +21,9 @@ function obj = normcdf(obj,m,k)
 % 
 % - obj : An object of class nb_stTerm or nb_stParam.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 3
         k = 1;
@@ -50,13 +50,13 @@ function obj = normcdf(obj,m,k)
     
     objStr = nb_mySD.addPar(obj.string,false);
     objStr = objStr(1:end-1);
-    str    = strcat('logncdf', objStr ,',', mStr, ',', kStr, ')');
+    str    = strcat('normcdf', objStr ,',', mStr, ',', kStr, ')');
     if isa(obj,'nb_stParam')
-        obj.value  = logncdf(obj.value,mValue,kValue);
+        obj.value  = normcdf(obj.value,mValue,kValue);
         obj.string = str;
     else
         if isTrending(obj)
-            obj.error = [mfilename ':: It is not possible to take logncdf on a trending ',...
+            obj.error = [mfilename ':: It is not possible to take normcdf on a trending ',...
                                    'variable/term; ', obj.string];
             return   
         end

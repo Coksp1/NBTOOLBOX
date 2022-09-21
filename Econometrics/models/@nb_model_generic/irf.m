@@ -156,10 +156,16 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 %                      when calculating the irfs. Default is true.
 %
 % - 'perc'           : Error band percentiles. As a 1 x numErrorBand 
-%                      double. E.g. [0.3,0.5,0.7,0.9]. If empty (default) 
-%                      all the simulation will be returned. (The graph 
-%                      will give percentiles specified by the 'fanPerc' 
-%                      input (0.68).)
+%                      double. The input must be given as the coverage, and
+%                      not the percentiles itself. E.g. [0.3,0.5,0.7,0.9]. 
+%                      0.3 means to return the two percentiles 35 and 65, 
+%                      which will cover 30% of the distribution around the 
+%                      median. So [0.3,0.5,0.7,0.9] will get the 
+%                      percentiles [5,15,25,35,65,75,85,95], i.e. this 
+%                      will restrict the percentiles to be symmetric. If 
+%                      empty (default) all the simulation will be returned. 
+%                      (The graph will give percentiles specified by the 
+%                      'fanPerc' input (0.68).)
 %
 % - 'periods'        : Number of periods of the impulse responses.
 % 
@@ -312,9 +318,9 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 % See also:
 % nb_model_generic.parameterDraws, nb_irfEngine, nb_irfEngine.irfPoint
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     obj   = obj(:);
     names = getModelNames(obj);
@@ -610,9 +616,9 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
     end
     if hasBeenPaused
         irfData          = cleanIrfData(inputsW,irfData);
-        [irfs,irfsBands] = mergeOutput(irfData,inputs.shocks,allVars,inputs.perc,inputs.factor);
+        [irfs,irfsBands] = mergeOutput(irfData,inputs.shocks,allVars,inputs.perc,inputs.factor,names);
     else
-        [irfs,irfsBands] = mergeOutput(irfData,inputs.shocks,allVars,inputs.perc,inputs.factor);
+        [irfs,irfsBands] = mergeOutput(irfData,inputs.shocks,allVars,inputs.perc,inputs.factor,names);
     end
     
     % Merge with IRFs to compare to
@@ -896,7 +902,7 @@ function PAI0 = getStartingProb(obj,inputs,simObj,girf)
 end
 
 %==========================================================================
-function [irfs,irfsBands] = mergeOutput(irfsC,shocks,vars,perc,factor)
+function [irfs,irfsBands] = mergeOutput(irfsC,shocks,vars,perc,factor,names)
 % Merge output and reorder things
 
     % Get the actual lower and upper percentiles
@@ -928,12 +934,7 @@ function [irfs,irfsBands] = mergeOutput(irfsC,shocks,vars,perc,factor)
         irfDataTemp       = permute(irfData(:,:,ii,end,:),[1,2,5,4,3]);
         factorValueShock  = permute(factorValue(:,:,ii,:),[1,2,4,3]);
         irfDataTemp       = irfDataTemp.*factorValueShock;
-        if nPerc > 0
-            name = 'Median';
-        else
-            name = 'Point';
-        end
-        irfs.(shocks{ii}) = nb_ts(irfDataTemp,name,'0',vars);
+        irfs.(shocks{ii}) = nb_ts(irfDataTemp,names,'0',vars);
         
     end
     
@@ -1208,6 +1209,22 @@ function [irfs,allNames,inputs] = getSteadyStateFromModels(irfs,obj,names,inputs
     markers(2:2:end) = {'*'};
     
     % Assign to the graph settings
-    inputs.settings = [inputs.settings,{'lineStyles',lineStyles,'markers',markers,'markerSize',1}];%'colors',colors,
+    ind = strcmpi(inputs.settings,'lineStyles');
+    if any(ind)
+        loc                    = find(ind);
+        inputs.settings{loc+1} = [inputs.settings{loc+1},lineStyles];
+    else
+        inputs.settings = [inputs.settings,{'lineStyles',lineStyles}];
+    end
+    ind = strcmpi(inputs.settings,'markers');
+    if any(ind)
+        loc                    = find(ind);
+        inputs.settings{loc+1} = [inputs.settings{loc+1},markers];
+    else
+        inputs.settings = [inputs.settings,{'markers',markers}];
+    end
+    if ~any(strcmpi(inputs.settings,'markerSize'))
+        inputs.settings = [inputs.settings,{'markerSize',1}];
+    end
     
 end

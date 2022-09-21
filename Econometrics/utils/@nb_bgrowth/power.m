@@ -15,9 +15,9 @@ function obj = power(obj,another)
 % 
 % - obj     : An object of class nb_bgrowth.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     type = loopObjects(obj,another);
     if type > 0
@@ -25,29 +25,49 @@ function obj = power(obj,another)
         return
     end
     
-    if isa(another,'nb_bgrowth') && ~another.constant
-        error([mfilename ':: Cannot raise a nb_bgrowth object with another nb_bgrowth object that is not stationary.'])
-    end
-    [objStr,anotherStr,objConst] = getAsString(obj,another,mfilename);
+    [objStr,anotherStr,objConst,anotherConst] = getAsString(obj,another,mfilename);
      
     if objConst
 
-        if isempty(regexp(anotherStr,'[\+\-\*\^\/]','once'))
-            if isempty(regexp(objStr,'[\+\-\*\^\/]','once'))   
-                obj.equation = [objStr,'^',anotherStr];
+        if anotherConst
+        
+            if isempty(regexp(anotherStr,'[\+\-\*\^\/]','once'))
+                if isempty(regexp(objStr,'[\+\-\*\^\/]','once'))   
+                    obj.equation = [objStr,'^',anotherStr];
+                else
+                    obj.equation = ['(',objStr ')^',anotherStr,];
+                end
             else
-                obj.equation = ['(',objStr ')^',anotherStr,];
+                if isempty(regexp(objStr,'[\+\-\*\^\/]','once'))   
+                    obj.equation = [objStr,'^(',anotherStr,')'];
+                else
+                    obj.equation = ['(',objStr,')^(',anotherStr,')'];
+                end
             end
+            
         else
-            if isempty(regexp(objStr,'[\+\-\*\^\/]','once'))   
-                obj.equation = [objStr,'^(',anotherStr,')'];
-            else
-                obj.equation = ['(',objStr,')^(',anotherStr,')'];
+            
+            if another.final
+                obj = another;
+                return
             end
+            
+            [anotherStr,anotherSum] = splitSum(another,anotherStr);
+            if ~strcmpi(anotherStr,'0')
+                another.equation = [anotherStr '-0']; % The growth rate must be equal to 0!
+                if ~isempty(anotherSum)
+                    another = [anotherSum;another];
+                end 
+            end
+            obj = another;
         end
 
     else
 
+        if isa(another,'nb_bgrowth') && ~another.constant
+            error([mfilename ':: Cannot raise a nb_bgrowth object with another nb_bgrowth object that is not stationary.'])
+        end
+        
         if obj.final
             return
         end

@@ -24,11 +24,11 @@ function obj = logncdf(obj,m,k)
 % - obj : An object of class nb_stTerm or nb_stParam.
 %
 % See also:
-% nb_stTerm, nb_stParam, nb_st.logncpdf
+% nb_stTerm, nb_stParam, nb_st.lognpdf
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin < 3
         k = 1;

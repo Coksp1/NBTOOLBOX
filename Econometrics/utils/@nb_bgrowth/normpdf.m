@@ -11,13 +11,19 @@ function obj = normpdf(obj)
 % 
 % - obj : An object of class nb_bgrowth.
 % 
+% - m   : The mean of the distribution. Either as a scalar double, a 
+%         one line char representing a number or a nb_bgrowth object.
+%
+% - k   : The std of the distribution. Either as a scalar double, a one 
+%         line char representing a number or a nb_bgrowth object.
+%
 % Output:
 % 
 % - obj : An object of class nb_bgrowth.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if numel(obj) > 1
         obj  = obj(:);
@@ -30,23 +36,40 @@ function obj = normpdf(obj)
         return
     end
 
-    if obj.final
-        return
-    end
-
     [objStr,objSum] = splitSum(obj,obj.equation);
     if obj.constant
            
-        if strcmp(objStr(1),'(') && strcmp(objStr(end),')')
-            obj.equation = ['normpdf' objStr ];
+        if nargin < 3
+            kStr = '1';
         else
-            obj.equation = ['normpdf(' objStr ')'];
+            [kStr,kConst] = nb_bgrowth.getOneAsString(k,mfilename);
+            if ~kConst
+                error([mfilename ':: The k input to the ' mfilename ' method is not stationary.'])
+            end
+        end
+        if nargin < 2
+            mStr = '1';
+        else
+            [mStr,mConst] = nb_bgrowth.getOneAsString(m,mfilename);
+            if ~mConst
+                error([mfilename ':: The m input to the ' mfilename ' method is not stationary.'])
+            end
+        end
+        
+        if strcmp(objStr(1),'(') && strcmp(objStr(end),')')
+            obj.equation = ['normpdf' objStr(1:end-1) ',' mStr ',' kStr ')'];
+        else
+            obj.equation = ['normpdf(' objStr ',' mStr ',' kStr ')'];
         end
         if ~isempty(objSum)
             obj = [objSum;obj];
         end
         
     else
+        
+        if obj.final
+            return
+        end
         
         obj.equation = [objStr '-0']; % The growth rate must be equal to 0!
         if ~isempty(objSum)

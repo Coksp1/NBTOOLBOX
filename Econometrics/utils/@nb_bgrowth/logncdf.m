@@ -1,21 +1,23 @@
-function obj = normcdf(obj)
+function obj = logncdf(obj,m,k)
 % Syntax:
 %
-% obj = normcdf(obj)
+% obj = logncdf(obj,m,k)
 %
 % Description:
 %
-% CDF of the normal distribution.
+% CDF of the log normal distribution.
 % 
 % Input:
 % 
 % - obj : An object of class nb_bgrowth.
 % 
-% - m   : The mean of the distribution. Either as a scalar double, a 
-%         one line char representing a number or a nb_bgrowth object.
+% - m   : The mean of the associated normal distribution. Either as a 
+%         scalar double, a one line char representing a number or a 
+%         nb_bgrowth object.
 %
-% - k   : The std of the distribution. Either as a scalar double, a one 
-%         line char representing a number or a nb_bgrowth object.
+% - k   : The std of the associated normal distribution. Either as a 
+%         scalar double, a one line char representing a number or a 
+%         nb_bgrowth object.
 %
 % Output:
 % 
@@ -30,7 +32,7 @@ function obj = normcdf(obj)
         nobj = size(obj,1);
         out  = cell(nobj,1);
         for ii = 1:nobj
-            out{ii} = normcdf(obj(ii));
+            out{ii} = logncdf(obj(ii));
         end
         obj = vertcat(out{ii});
         return
@@ -57,9 +59,9 @@ function obj = normcdf(obj)
         end
         
         if strcmp(objStr(1),'(') && strcmp(objStr(end),')')
-            obj.equation = ['normcdf' objStr(1:end-1) ',' mStr ',' kStr ')'];
+            obj.equation = ['logncdf' objStr(1:end-1) ',' mStr ',' kStr ')'];
         else
-            obj.equation = ['normcdf(' objStr ',' mStr ',' kStr ')'];
+            obj.equation = ['logncdf(' objStr ',' mStr ',' kStr ')'];
         end
         if ~isempty(objSum)
             obj = [objSum;obj];

@@ -25,9 +25,9 @@ classdef nb_bgrowth
 % See also:
 % nb_st
 %
-% Written by Kenneth Sæterhagen Paulsen    
+% Written by Kenneth S�terhagen Paulsen    
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     
     properties (SetAccess=protected)
@@ -134,7 +134,8 @@ classdef nb_bgrowth
                 anotherConst = another.constant;
 
             else
-                error([mfilename ':: Unsupported method ' method ' for inputs of ' class(obj) ' and ' class(another) ' (May also be unssuported dimension of inputs, e.g. matrices etc).'])
+                error([mfilename ':: Unsupported method ' method ' for inputs of ' class(obj) ,...
+                    ' and ' class(another) ' (May also be unsupported dimension of inputs, e.g. matrices etc).'])
             end
             
         end
@@ -281,6 +282,29 @@ classdef nb_bgrowth
     
     methods (Static=true)
        
+        function [objStr,objConst] = getOneAsString(obj,method)
+            
+            if isa(obj,'nb_bgrowth')
+        
+                objStr   = obj.equation;
+                objConst = obj.constant;
+
+            elseif (nb_isScalarNumber(obj) || nb_isOneLineChar(obj))
+
+                if ischar(obj)
+                    objStr = obj;
+                else
+                    objStr = nb_num2str(obj,another.precision);
+                end
+                objConst = true;
+
+            else
+                error([mfilename ':: Unsupported method ' method ' for inputs of ' class(obj) ,...
+                    ' (May also be unsupported dimension of inputs, e.g. matrices etc).'])
+            end
+            
+        end
+        
         function str = toRegExp(str)
             
             str = regexprep(str,'^\d\.\*','');

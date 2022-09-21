@@ -1,11 +1,11 @@
-function obj = normcdf(obj)
+function obj = norminv(obj)
 % Syntax:
 %
-% obj = normcdf(obj)
+% obj = norminv(obj)
 %
 % Description:
 %
-% CDF of the normal distribution.
+% Inverse normal cdf.
 % 
 % Input:
 % 
@@ -30,7 +30,7 @@ function obj = normcdf(obj)
         nobj = size(obj,1);
         out  = cell(nobj,1);
         for ii = 1:nobj
-            out{ii} = normcdf(obj(ii));
+            out{ii} = norminv(obj(ii));
         end
         obj = vertcat(out{ii});
         return
@@ -57,9 +57,9 @@ function obj = normcdf(obj)
         end
         
         if strcmp(objStr(1),'(') && strcmp(objStr(end),')')
-            obj.equation = ['normcdf' objStr(1:end-1) ',' mStr ',' kStr ')'];
+            obj.equation = ['norminv' objStr(1:end-1) ',' mStr ',' kStr ')'];
         else
-            obj.equation = ['normcdf(' objStr ',' mStr ',' kStr ')'];
+            obj.equation = ['norminv(' objStr ',' mStr ',' kStr ')'];
         end
         if ~isempty(objSum)
             obj = [objSum;obj];

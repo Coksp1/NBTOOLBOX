@@ -1,30 +1,25 @@
-function obj = lognpdf(obj,m,k)
+function obj = norminv(obj,m,k)
 % Syntax:
 %
-% obj = lognpdf(obj,m,k)
+% obj = norminv(obj,m,k)
 %
 % Description:
 %
-% Log normal pdf.
+% Inverse normal cdf.
 % 
 % Input:
 % 
 % - obj : An object of class nb_st.
 %
-% - m   : A parameter such that the mean of the lognormal is
-%         exp((m+k^2)/2). Either as a scalar double or a nb_stParam 
-%         object.
+% - m   : The mean of the distribution. Either as a scalar double 
+%         or a nb_stParam object.
 %
-% - k   : A parameter such that the mean of the lognormal is k 
-%         exp((m+k^2)/2). Either as a scalar double or a nb_stParam 
-%         object.
+% - k   : The std of the distribution. Either as a scalar double or a 
+%         nb_stParam object.
 %
 % Output:
 % 
 % - obj : An object of class nb_stTerm or nb_stParam.
-%
-% See also:
-% nb_stTerm, nb_stParam, nb_st.logncdf
 %
 % Written by Kenneth Sæterhagen Paulsen
 
@@ -55,13 +50,13 @@ function obj = lognpdf(obj,m,k)
     
     objStr = nb_mySD.addPar(obj.string,false);
     objStr = objStr(1:end-1);
-    str    = strcat('lognpdf', objStr ,',', mStr, ',', kStr, ')');
+    str    = strcat('norminv', objStr ,',', mStr, ',', kStr, ')');
     if isa(obj,'nb_stParam')
-        obj.value  = lognpdf(obj.value,mValue,kValue);
+        obj.value  = logncdf(obj.value,mValue,kValue);
         obj.string = str;
     else
         if isTrending(obj)
-            obj.error = [mfilename ':: It is not possible to take lognpdf on a trending ',...
+            obj.error = [mfilename ':: It is not possible to take logncdf on a trending ',...
                                    'variable/term; ', obj.string];
             return   
         end
@@ -69,4 +64,3 @@ function obj = lognpdf(obj,m,k)
     end
     
 end
-
