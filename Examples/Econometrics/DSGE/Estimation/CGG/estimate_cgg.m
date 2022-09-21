@@ -36,8 +36,8 @@ m     = set(m,'data',data);
 
 % Priors
 priors           = struct();
-priors.gamma_pie = {1.2, 1.2,0.2,'normal'};
-priors.gamma_i   = {0.6, 0.5,0.2,'beta'};
+priors.gamma_pie = {1.2, 1.2,0.2,'normal',0.5};
+priors.gamma_i   = {0.6, 0.5,0.2,'beta',0.1,0.9};
 priors.gamma_y   = {0.338,0.4,1,'normal'};
 priors.std_eps   = {0.01,0.01,1,'invgamma'};
 m                = set(m,'prior',priors);
@@ -59,6 +59,11 @@ me.print
 
 % Solve the estimated version (This is not done in the estimate method!!)
 mes = solve(me);
+
+%% Write latex table with estimation results
+
+getEstimationTable(me,'preamble',true,'filename','print','writePDF',true,...
+    'lookUp','lookUpNames')
 
 %% Curvature
 
