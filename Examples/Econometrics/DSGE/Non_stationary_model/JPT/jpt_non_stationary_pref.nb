@@ -75,7 +75,7 @@ Z_RN3M_NW % Monetary policy shock process
 Z_U_NW % Consumption preference shock process
 
 exogenous
-E_DXT_NW  % Preference innovation
+E_DPSIT_NW  % Preference innovation
 E_DZT_NW % Permanent labor-augmenting technology innovation
 E_I_NW % Marginal efficiency of investment innovation
 E_L_NW % Temporary labor augmenting technology innovation
@@ -92,9 +92,9 @@ BETA_NW % Discount factor
 BL_NW % Habit in hours worked
 DELTA_NW % Depreciation rate
 DPQ_P_NW_SS % Steady-state inflation
-DXT_NW_SS % Steady-state growth rate in preference
+DPSIT_NW_SS % Steady-state growth rate in preference
 DZT_NW_SS % Steady-state growth rate in labor-augmenting technology
-LAMBDA_DXT_NW % Shock persistent parameter for the preference shock
+LAMBDA_DPSIT_NW % Shock persistent parameter for the preference shock
 LAMBDA_DZT_NW % Shock persistent parameter for the labor-augmenting technology shock
 LAMBDA_I_NW % Shock persistent parameter for the marginal efficiency of investment shock
 LAMBDA_L_NW % Shock persistent parameter for the temporary labor augmenting technology shock
@@ -119,7 +119,7 @@ Z_I_NW_SS % Marginal efficiency of investment shock in steady-state
 Z_L_NW_SS % Temporary labor augmenting technology shock in steady-state
 Z_RN3M_NW_SS % Monetary policy shock in steady-state
 Z_U_NW_SS % Consumption preference shock in steady-state
-std_E_DXT_NW % Standard deviation of the innovation to the Z_DXT_NW shock process
+std_E_DPSIT_NW % Standard deviation of the innovation to the Z_DPSIT_NW shock process
 std_E_DZT_NW % Standard deviation of the innovation to the Z_DZT_NW shock process
 std_E_I_NW % Standard deviation of the innovation to the Z_I_NW shock process
 std_E_L_NW % Standard deviation of the innovation to the Z_L_NW shock process
@@ -131,7 +131,7 @@ std_E_U_NW % Standard deviation of the innovation to the Z_U_NW shock process
 
 unitrootvars
 Z
-X
+PSI
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -208,7 +208,7 @@ S_PRIME2_NW = -PHI_I1_NW*(I_NW/I_NW(-1) - bgp(I_NW))*(I_NW/I_NW(-1))^2;
 
 % Derivative of the utility function of households wrt consumption 
 % (UPRIME_NW)
-UPRIME_NW   = X*Z_U_NW*((C_NW - C_NW(-1)*BC_NW)/(1 - BC_NW/bgp(C_NW)))^(-1) ;
+UPRIME_NW   = PSI*Z_U_NW*((C_NW - C_NW(-1)*BC_NW)/(1 - BC_NW/bgp(C_NW)))^(-1) ;
 
 % Derivative of the utility function of households wrt labor (VPRIME_NW)
 VPRIME_NW   = ((L_NW - BL_NW*L_NW(-1))/(1-BL_NW))^ZETA_NW ;
@@ -343,7 +343,7 @@ log(Z_RN3M_NW)     = (1-LAMBDA_RN3M_NW)*log(Z_RN3M_NW_SS) + LAMBDA_RN3M_NW*log(Z
 
 % Unit root processes
 Z/Z(-1) = DZT_NW_SS^(1-LAMBDA_DZT_NW)*(Z(-1)/Z(-2))^LAMBDA_DZT_NW*exp(std_E_DZT_NW*E_DZT_NW);
-X/X(-1) = DXT_NW_SS^(1-LAMBDA_DXT_NW)*(X(-1)/X(-2))^LAMBDA_DXT_NW*exp(std_E_DXT_NW*E_DXT_NW);
+PSI/PSI(-1) = DPSIT_NW_SS^(1-LAMBDA_DPSIT_NW)*(PSI(-1)/PSI(-2))^LAMBDA_DPSIT_NW*exp(std_E_DPSIT_NW*E_DPSIT_NW);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Observables
