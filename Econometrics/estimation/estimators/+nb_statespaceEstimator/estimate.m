@@ -24,9 +24,9 @@ function [results,options] = estimate(options)
 % nb_statespaceEstimator.print, nb_statespaceEstimator.help, 
 % nb_statespaceEstimator.template
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     tStart = tic;
 
@@ -72,12 +72,18 @@ function [results,options] = estimate(options)
         % Get standard deviation of estimated parameters
         omega     = Hessian\eye(size(Hessian,1));
         stdEstPar = sqrt(diag(omega));
-        if any(~isreal(stdEstPar))
+        if any(~isreal(stdEstPar)) 
             if options.covrepair
+                warning('estimation:invertingHessianFailed',[mfilename ':: ',...
+                    'Standard error of paramters are not real, inverting ',...
+                    'Hessian failed. You have set covrepair to true, so ',...
+                    'we try to find the closest semi-definite matrix.'])
                 omega     = nb_covrepair(omega,false);
                 stdEstPar = sqrt(diag(omega));
             else
-                warning([mfilename ':: Standard error of paramters are not real, something went wrong...'])
+                warning('estimation:invertingHessianFailed',[mfilename ':: ',...
+                    'Standard error of paramters are not real, inverting ',...
+                    'Hessian failed...'])
             end
         end
         
@@ -130,6 +136,10 @@ function [results,options] = estimate(options)
             else
                 res.logLikelihood = res.logPosterior - logPrior - logSystemPrior;
             end
+            numEst              = length(estPar);
+            sf                  = -sum(log10(diag(omega)));
+            logDetOmega         = -numEst*log(sf) + log(det(sf*omega));
+            res.laplaceApproxML = .5*numEst*log(2*pi) + .5*logDetOmega + res.logPosterior;
         else
             res.fval = fval;
         end

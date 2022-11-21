@@ -21,9 +21,9 @@ function res = print(results,options,precision)
 % 
 % - results : A char with the estimation results.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c)  2019, Norges Bank
 
     if nargin<3
         precision = '';
@@ -141,6 +141,12 @@ function res = normalPrint(results,options,precision)
         fvalTable          = cell(2,4);
         fvalTable(:,1)     = {'';'Objective value'}; 
         fvalTable(2:end,2) = nb_double2cell(results.fval,precision);
+    end
+    if isfield(results,'laplaceApproxML')
+        fvalTableML      = cell(1,size(fvalTable,2));
+        fvalTableML{1,1} = 'Log-ML (laplace approx)';
+        fvalTableML(1,2) = nb_double2cell(results.laplaceApproxML,precision);
+        fvalTable        = [fvalTable;fvalTableML];
     end
     table = [table;fvalTable];
     
