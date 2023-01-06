@@ -14,7 +14,7 @@ function nb_makeFigureAlive(hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Stored by nb_makeFigureIdle
     idleControls = getappdata(hObject.figureHandle, 'idleControls');

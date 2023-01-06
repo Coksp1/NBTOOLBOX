@@ -9,7 +9,7 @@ function ratio = nb_unitsRatio(from, to, parent)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     positionInToUnits = nb_conditional(...
         strcmpi(to, 'normalized'), ...

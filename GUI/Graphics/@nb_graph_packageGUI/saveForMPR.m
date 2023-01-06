@@ -34,7 +34,7 @@ function saveForMPR(gui,~,~)
 % 
 % Written by Per Bjarne Bye
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.package.graphs)
         nb_errorWindow('The graph package is empty and cannot be saved.')

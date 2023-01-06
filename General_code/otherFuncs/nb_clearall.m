@@ -1,7 +1,8 @@
-function nb_clearall()
+function nb_clearall(closeFig)
 % Syntax:
 %
 % nb_clearall()
+% nb_clearall(false)
 %
 % Description:
 %
@@ -9,9 +10,15 @@ function nb_clearall()
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    close all
+    if nargin < 1
+        closeFig = true;
+    end
+
+    if closeFig
+        close all
+    end
     evalin('base','clear all');
     evalin('base','clear classes');
     evalin('base','clear all');

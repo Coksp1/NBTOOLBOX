@@ -11,7 +11,7 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if iscell(model.ss)
@@ -47,6 +47,12 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
     else
         func = str2func([model.class, '.solveNormal']);
     end
+    if isfield(model,'identification')
+        identified = true;
+    else
+        identified = false;
+    end
+    missingVar = nb_forecast.isMissingVar(options);
 
     nVars = size(y0,1);
     if parameterDraws == 1 % Only residual uncertainty
@@ -55,28 +61,37 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             % No identification even for VARs when not conditional 
             % forecast!
             if ~strcmpi(restrictions.class,'nb_dsge')
-                model = func(results,options); 
+                model = func(results,options);
             end
-                
         end 
         
         % Calculate density forecast
-        [A,B,C,vcv,Qfunc] = nb_forecast.getModelMatrices(model,iter);
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
+        if restrictions.type ~= 3 || ~restrictions.softConditioning 
+            if identified
+                % But we need to rescale the residual standard 
+                % deviation to N(0,1) as this is assumed for a 
+                % identified model!
+                QS            = transpose(chol(modelIter.vcv));
+                modelIter.C   = modelIter.C*QS;
+                modelIter.vcv = eye(size(QS,1));
+            end
+        end
 
         % Make draws from the distributions of the exogenous and the shocks
         if regimeDraws == 1
-            [E,X,states,solution] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,solution,inputs,options);
+            [E,X,states,solution] = nb_forecast.drawShocksAndExogenous(y0,modelIter,ss,nSteps,draws,restrictions,solution,inputs,options);
         else
-            [E,X,states,solution] = nb_forecast.drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,solution,inputs,options);
+            [E,X,states,solution] = nb_forecast.drawRegimes(y0,modelIter,ss,nSteps,draws,restrictions,solution,inputs,options);
         end
         
-        if iscell(C)
-            Ct = C{1};
+        if iscell(modelIter.C)
+            sizeC3 = size(modelIter.C{1},3);
         else
-            Ct = C;
+            sizeC3 = size(modelIter.C,3);
         end
-        if size(Ct,3) > 1
-           E = [E,zeros(size(E,1),size(Ct,3)-1,size(E,3))]; 
+        if sizeC3 > 1
+           E = [E,zeros(size(E,1),sizeC3-1,size(E,3))]; 
         end
         
         % Check if bounded forecast are going to be made
@@ -92,7 +107,41 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
         if isempty(inputs.missing)
             Y0 = y0(:,:,ones(1,regimeDraws*draws));
         else
-            Y0 = nb_forecast.drawNowcast(y0,options,results,model,inputs,iter);
+            if missingVar
+                nowcast = 0;
+                if ~isempty(inputs.missing)
+                    nowcast = max(sum(inputs.missing,1));    
+                end
+                if nowcast == 0
+                    Y0 = y0(:,:,ones(1,regimeDraws*draws));
+                else
+                    if strcmpi(inputs.method,'asymptotic')
+                        yD = results.smoothed.variables.data(:,1:nVars,iter);
+                        T  = find(~isnan(yD(:,1)),1,'last');
+                        yD = yD(T-nowcast+1:T,:);
+                        pD = results.pD(:,:,:,iter);
+                        Y0 = nb_forecast.drawNowcastFromKalmanFilter(yD',pD,regimeDraws*draws);
+                    else
+                        if ~isfield(options,'pathToSave')
+                            error([mfilename ':: No estimation is done, so can''t draw from the posterior.'])
+                        end
+                        try
+                            coeffDraws = nb_loadDraws(options.pathToSave);
+                        catch Err
+                            nb_error('It seems to me that the estimation results has been saved in a folder you no longer have access to.',Err)
+                        end
+                        if ~options.real_time_estim
+                            coeffDraws = coeffDraws(iter);
+                        end
+                        pD = mean(coeffDraws.pD,4);
+                        yD = mean(coeffDraws.yD(end-nowcast+1:end,1:nVars,:),3);
+                        Y0 = nb_forecast.drawNowcastFromKalmanFilter(yD',pD,regimeDraws*draws);
+                    end
+                end
+            else
+                Y0 = nb_forecast.drawNowcast(y0,options,results,model,inputs,iter); 
+            end
+            Ynow = Y0;     
         end
         
         % Make draws number of simulations of the residual and forecast
@@ -104,7 +153,9 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             PAI = nan(0,nSteps + 1,draws);
         end
         for jj = 1:draws*regimeDraws
-            [Y(:,:,jj),states(:,:,jj),PAI(:,:,jj),E(:,:,jj)] = nb_forecast.condShockForecastEngine(Y0(:,end,jj),A,B,C,ss,Qfunc,X(:,:,jj),E(:,:,jj),states(:,:,jj),restrictions,nSteps,inp);
+            [Y(:,:,jj),states(:,:,jj),PAI(:,:,jj),E(:,:,jj)] = nb_forecast.condShockForecastEngine(...
+                Y0(:,end,jj),modelIter.A,modelIter.B,modelIter.C,ss,modelIter.Qfunc,...
+                X(:,:,jj),E(:,:,jj),states(:,:,jj),restrictions,nSteps,inp);
         end
         
         % Append contribution of exogenous variables when dealing with
@@ -112,7 +163,7 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
         if strcmpi(model.class,'nb_arima')
             [Y(1,2:end,:),Z] = nb_forecast.addZContribution(Y(1,2:end,:),model,options,restrictions,inputs,draws,iter);
         end
-        
+
         if ~isempty(inp)
             deleteThird(inp.waitbar);
         end
@@ -165,12 +216,10 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
         end 
         
         % Get the posterior draws
-        mfvar = false;
         if strcmpi(inputs.method,'asymptotic')
             drawFunc = str2func([options.estimator '.drawParameters']);
-            if strcmpi(options.class,'nb_mfvar')
-                [betaD,sigmaD,yD] = drawFunc(results,options,parameterDraws,iter);
-                mfvar = true;
+            if missingVar
+                [betaD,sigmaD,yD,pD] = drawFunc(results,options,parameterDraws,iter);
             else
                 [betaD,sigmaD] = drawFunc(results,options,parameterDraws,iter);
             end
@@ -187,14 +236,12 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             if ~options.real_time_estim
                 coeffDraws = coeffDraws(iter);
             end
-            if strcmpi(options.class,'nb_mfvar')
-                mfvar = true;
-            end
-            [extra,betaD,sigmaD,yD] = nb_forecast.drawMoreFromPosterior(inputs,coeffDraws);
+            [extra,betaD,sigmaD,yD,pD] = nb_forecast.drawMoreFromPosterior(inputs,coeffDraws);
         end
         
         % If we are dealing with missing observation we need to draw
         % nowcast as well (only for some missing methods at this point)
+        nowcast = 0;
         if ~isempty(inputs.missing)
             forecastOrKalman = false;
             if any(strcmpi(options.missingMethod,{'forecast','kalman'}))
@@ -202,6 +249,8 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             else
                 Y0All = nb_forecast.drawNowcast(y0,options,results,model,inputs,iter);  
             end
+            nowcast = max(sum(inputs.missing,1));
+            Ynow    = nan(nVars,nowcast,regimeDraws*parameterDraws*draws);     
         end
         
         % Start looping over parameter draws
@@ -224,13 +273,13 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             catch %#ok<CTCH>
                 % Out of posterior draws, so we need more!
                 if strcmpi(inputs.method,'asymptotic')
-                    if mfvar
-                        [betaD,sigmaD,yD] = drawFunc(results,options,round(parameterDraws*inputs.newDraws),iter);
+                    if missingVar
+                        [betaD,sigmaD,yD,pD] = drawFunc(results,options,round(parameterDraws*inputs.newDraws),iter);
                     else
                         [betaD,sigmaD] = drawFunc(results,options,round(parameterDraws*inputs.newDraws),iter);
                     end
                 else
-                    [betaD,sigmaD,yD] = nb_drawFromPosterior(coeffDraws,round(parameterDraws*inputs.newDraws),h);
+                    [betaD,sigmaD,yD,pD] = nb_drawFromPosterior(coeffDraws,round(parameterDraws*inputs.newDraws),h);
                 end
                 ii = 1;
             end
@@ -242,7 +291,7 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             % Solve the model given the posterior draw
             if restrictions.type == 3 || restrictions.softConditioning
                 try
-                    if isfield(model,'identification')
+                    if identified
                         modelDraw = func(res,options,model.identification);
                     else
                         modelDraw = func(res,options);
@@ -253,7 +302,15 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             else
                 % No identification even for VARs when not conditional 
                 % forecast!
-                modelDraw = func(res,options); % No identification even for VARs! 
+                modelDraw = func(res,options);
+                if identified
+                    % But we need to rescale the residual standard 
+                    % deviation to N(0,1) as this is assumed for a 
+                    % identified model!
+                    QS            = transpose(chol(modelDraw.vcv));
+                    modelDraw.C   = modelDraw.C*QS;
+                    modelDraw.vcv = eye(size(QS,1));
+                end
             end
 
             if inputs.stabilityTest
@@ -267,30 +324,28 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             end 
             
             % Calculate density forecast
-            [A,B,C,vcv,Qfunc] = nb_forecast.getModelMatrices(modelDraw,'end');
+            modelDraw = nb_forecast.getModelMatrices(modelDraw,'end',false,options,nSteps);
 
             % Make draws from the distributions of the exogenous and the shocks
             kk  = kk + 1;
             mm  = regimeDraws*draws*(kk-1);
             ind = 1+mm:regimeDraws*draws+mm;
             if regimeDraws == 1
-                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,struct(),inputs,options);
+                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,modelDraw,ss,nSteps,draws,restrictions,struct(),inputs,options);
             else
-                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,struct(),inputs,options);
+                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawRegimes(y0,modelDraw,ss,nSteps,draws,restrictions,struct(),inputs,options);
             end
             
             % If we are dealing with missing observation we need to draw
             % nowcast as well (some method are not related to the parameter
             % draw of the given model an is already produced)
             if isempty(inputs.missing)
-                if mfvar
-                    % Get from posterior
-                    y0 = yD(end,:,ii)';
-                end
                 Y0 = y0(:,:,ones(1,regimeDraws*draws));
             else
                 % Nowcasts
-                if forecastOrKalman
+                if missingVar
+                    Y0 = nb_forecast.drawNowcastFromKalmanFilter(yD(end-nowcast+1:end,1:nVars,ii)',pD(:,:,:,ii),regimeDraws*draws);  
+                elseif forecastOrKalman
                     Y0 = nb_forecast.drawNowcast(y0,options,res,modelDraw,inputs,1);
                 else
                     Y0 = Y0All(:,:,ind);
@@ -301,7 +356,9 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             % conditional on those residuals
             hh = 1;
             for qq = ind
-                [Y(:,:,qq),states(:,:,qq),PAI(:,:,qq)] = nb_forecast.condShockForecastEngine(Y0(:,:,hh),A,B,C,ss,Qfunc,X(:,:,qq),E(:,:,qq),states(:,:,qq),restrictions.PAI0,nSteps,inp);
+                [Y(:,:,qq),states(:,:,qq),PAI(:,:,qq)] = nb_forecast.condShockForecastEngine(...
+                    Y0(:,end,hh),modelDraw.A,modelDraw.B,modelDraw.C,ss,modelDraw.Qfunc,...
+                    X(:,:,qq),E(:,:,qq),states(:,:,qq),restrictions.PAI0,nSteps,inp);
                 hh = hh + 1;
             end
             
@@ -309,6 +366,21 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             % ARIMA models
             if strcmpi(model.class,'nb_arima')
                 [Y(1,2:end,ind),Z(:,:,ind)] = nb_forecast.addZContribution(Y(1,2:end,ind),modelDraw,options,restrictions,inputs,draws,1);
+            end
+            
+            % Store nowcast
+            if nowcast > 0
+                if missingVar
+                    if strcmpi(inputs.method,'asymptotic')
+                        Ynow(:,:,ind) = repmat(yD(end-nowcast+1:end,1:nVars,ii)',[1,1,draws]);
+                    else
+                        Ynow(:,:,ind) = Y0;
+                    end
+                elseif forecastOrKalman
+                    Ynow(:,:,ind) = Y0;
+                else
+                    Ynow(:,:,ind) = Y0All(:,:,ind);
+                end    
             end
             
             % Report current status in the waitbar's message field
@@ -332,6 +404,11 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             deleteSecond(h);
         end
         
+    end
+    
+    if ~isempty(inputs.missing)
+        % First period of the nowcast is already in Y!
+        Y = [Ynow(:,1:end-1,:),Y];
     end
     
     if strcmpi(model.class,'nb_dsge')

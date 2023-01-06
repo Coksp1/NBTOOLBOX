@@ -28,7 +28,7 @@ function [stat,pval] = nb_breuschPaganTest(residual,X)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [T,nxvar] = size(X);
     N         = size(residual,2);

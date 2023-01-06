@@ -9,7 +9,7 @@ function setAxesFontSize(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 %     if strcmpi(gui.plotter.graphStyle,'mpr_white')
 %         nb_errorWindow('It is not allowed to set the axes font size property of an advanced graph.')

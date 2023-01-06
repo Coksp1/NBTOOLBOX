@@ -46,7 +46,7 @@ function fval = systemPriorObjective(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Calculate minus the log likelihood
     if estStruct.filterType == 1
@@ -73,8 +73,9 @@ function fval = systemPriorObjective(par,estStruct)
         if ~isempty(estStruct.options.systemPrior)
             % estStruct.options.systemPrior is a function_handle that
             % returns the log of the system prior
-            sol  = rmfield(sol,'options'); % Remove the confusion that may occure as options may stores ss and states as well!
-            fval = (fval + estStruct.options.systemPrior(estStruct.options.parser,sol));
+            sol     = rmfield(sol,'options'); % Remove the confusion that may occure as options may stores ss and states as well!
+            sol.vcv = eye(size(sol.C,2)); % Needed for system priors on IRFs
+            fval    = (fval + estStruct.options.systemPrior(estStruct.options.parser,sol));
         end
         
     end

@@ -31,7 +31,7 @@ function [f,defaultBackground] = nb_guiFigure(mainGUI,name,positions,windowStyle
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         callback = '';

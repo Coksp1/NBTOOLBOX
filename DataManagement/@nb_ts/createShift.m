@@ -221,7 +221,7 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         output = 'normal';
@@ -342,7 +342,7 @@ function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSte
     end
     
     
-    if size(expression,2) > 1
+    if length(expression) > 1
         
         FGTS = false;
         ind  = 1;

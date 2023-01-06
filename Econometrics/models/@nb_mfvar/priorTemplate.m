@@ -204,7 +204,7 @@ function prior = priorTemplate(type,num)
 %           
 %            > 'V0VarScale'      : Scale factor on the mean of the  
 %                                  prior on the initial value of the 
-%                                  measurment equation covariance matrix.  
+%                                  measurement equation covariance matrix.  
 %                                  Default is 0.1. Dogmatic prior set to 
 %                                  V0VarScale*I. !!Remove!!
 %
@@ -260,6 +260,30 @@ function prior = priorTemplate(type,num)
 %                                  value of 1 implies constant parameters. 
 %                                  Default is 0.9.
 %
+%            > 'l_1_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_1m and l_1q are time-varying/endogenous
+%                                 0: l_1m and l_1q are constant/static 
+%                                 Default is 0. Do not adjust!                                
+%
+%            > 'l_2 endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_2 is time-varying/endogenous
+%                                 0: l_2 is constant/static 
+%                                 Default is 0.
+%
+%            > 'l_3_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_3 is time-varying/endogenous
+%                                 0: l_3 is constant/static 
+%                                 Default is 0. Do not adjust!
+%
+%            > 'l_4_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_4 is time-varying/endogenous
+%                                 0: l_4 is constant/static 
+%                                 Default is 0.
+%
 % - num  : Number of prior templates to make.
 %
 % Output:
@@ -271,7 +295,7 @@ function prior = priorTemplate(type,num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -336,10 +360,10 @@ function prior = priorTemplate(type,num)
             
         case 'kkse'
             
-            % TODO: update here to default correctly!
             prior.f0VarScale      = 10;
             prior.lambda0VarScale = 1;
             prior.V0VarScale      = 0.1;
+            prior.R_scale         = 10;
             prior.Q0VarScale      = 0.1;
             prior.gamma           = 0.1;
             prior.method          = 'tvpmfsv';
@@ -347,7 +371,11 @@ function prior = priorTemplate(type,num)
             prior.l_1q            = 1;
             prior.l_2             = 0.9;
             prior.l_3             = 1;
-            prior.l_4             = 0.9;        
+            prior.l_4             = 0.9; 
+            prior.l_1_endo_update = 0;
+            prior.l_2_endo_update = 0;
+            prior.l_3_endo_update = 0;
+            prior.l_4_endo_update = 0;
 
         otherwise
             error([mfilename ':: Unsupported prior type ' type])

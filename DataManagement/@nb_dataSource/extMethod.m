@@ -59,7 +59,7 @@ function obj = extMethod(obj,method,variables,postfix,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~ischar(postfix) 
         error([mfilename ':: The postfix input must be a string'])

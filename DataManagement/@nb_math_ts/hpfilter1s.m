@@ -1,11 +1,12 @@
-function obj = hpfilter1s(obj,lambda)
+function obj = hpfilter1s(obj,lambda,perc,fcstLen)
 % Syntax:
 %
 % obj = hpfilter1s(obj,lambda)
+% obj = hpfilter1s(obj,lambda,perc,fcstLen)
 %
 % Description:
 %
-% Do one-sided hp-filtering of all the dataseries of the nb_ts 
+% Do one-sided hp-filtering of all the dataseries of the nb_math_ts 
 % object. (Returns the gap). Will strip nan values when calculating 
 % the filter. 
 % 
@@ -15,6 +16,11 @@ function obj = hpfilter1s(obj,lambda)
 % 
 % - lambda  : The lambda of the hp-filter 
 % 
+% - perc    : Set to true to calculate the gap as (gap/trend)*100.
+%
+% - fcstLen : The forecast length. Extrapolates the original series
+%             using the average of the last 4 periods. Default is 0.
+%
 % Output:
 % 
 % - obj     : An nb_math_ts object with the hp-filtered timeseries.
@@ -26,34 +32,15 @@ function obj = hpfilter1s(obj,lambda)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    for ii = 1:obj.dim2
-
-        % Find first finite observation 
-        isFinite = isfinite(obj.data(:,ii,:));
-        isFinite = any(isFinite,3);
-        first    = find(isFinite,1);
-       
-        % Need at least 5 observation 
-        last = first + 4;
-
-        % Do the one sided filter
-        filter = nan(obj.dim1,1,obj.dim3);
-        while last <= obj.dim1
-
-            tempData          = obj.data(first:last,ii,:);
-            isNaN             = any(isnan(tempData),3);
-            tempData          = tempData(~isNaN,1,:);
-            tempFilter        = hpfilter(tempData,lambda);
-            filter(last,ii,:) = tempFilter(end);
-
-            last = last + 1;
-
+    if nargin < 4
+        fcstLen = 0;
+        if nargin < 3
+            perc = false;
         end
-
-        obj.data(:,ii,:) = filter;
-
     end
+
+    obj.data = hpfilter1s(obj.data,lambda,perc,fcstLen);
 
 end

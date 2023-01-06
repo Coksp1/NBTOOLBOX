@@ -13,7 +13,7 @@ function obj = checkObsModelEqs(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     numEndo = size(obj.parser.all_endogenous,2);
     if isfield(obj.parser,'obs_equationsParsed')

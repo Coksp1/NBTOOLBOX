@@ -12,7 +12,7 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(model,options,results,me
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         iter = 'end';
@@ -36,7 +36,7 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(model,options,results,me
     tempOpt.modelSelection  = '';
     tempOpt.recursive_estim = 0;
     tempOpt.estim_start_ind = startEst;
-    tempOpt.doTest          = 0;
+    tempOpt.doTests         = 0;
     
     % Do the bootstrapping
     %----------------------

@@ -12,7 +12,7 @@ function YDRAW = nb_makeArtificial(model,options,results,method,replic,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     replic = ceil(replic);
     if isempty(method)

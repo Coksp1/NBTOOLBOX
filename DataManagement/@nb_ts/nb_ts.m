@@ -46,7 +46,9 @@ classdef nb_ts < nb_dataSource
 %         
 %       - FAME    : A string with the FAME path for where the FAME 
 %                   database you want read is. Must include the
-%                   extension .db
+%                   extension .db. Not supported by public version.
+%
+%       - SMART   : Give 'smart'.  Not supported by public version.
 %         
 %        You can also give a cell array consisting of one or a 
 %        combination of the data types mentioned above. Each cell  
@@ -92,8 +94,11 @@ classdef nb_ts < nb_dataSource
 %       - struct  : This input has nothing to say. The dataset 
 %                   names will be given by the fieldnames.
 %         
-%       - FAME    : A string with the wanted dataset name. Default 
+%       - FAME    : A string with the vintage date to fetch. Default 
 %                   is the FAME path name.
+%
+%       - SMART   : A string with the context date to fetch. Default 
+%                   is to fetch last context.
 %
 %       - A cell array of the listed types above:
 %
@@ -159,7 +164,7 @@ classdef nb_ts < nb_dataSource
 %
 %   Output:
 % 
-%   - obj            : An object of class nb_ts
+%   - obj : An object of class nb_ts
 %
 %   Examples:
 % 
@@ -313,36 +318,19 @@ classdef nb_ts < nb_dataSource
 %      obj = nb_ts(double1,{'name1','name2',...},'1994Q1',...
 %                  {'Var1','Var2',...})
 %         
-%   - FAME :
-%         
-%      obj = nb_ts(famePath,'','1994Q1',{'Var1','Var2',...})
-%         
-%         
-%      If you want to load a specific vintage from a FAME database 
-%      you can write somthing like:
-%         
-%      obj = nb_ts(famePath,'201112010800','1994Q1',...
-%                   {'Var1','Var2',...})
-%         
-%      If you want to name the fetched data something, that is also
-%      possible as long as it is not a number:
-%         
-%      obj = nb_ts(famePath,'histdata','1994Q1',...
-%                   {'Var1','Var2',...})
-% 
 % See also: 
 % nb_date, nb_year, nb_semiAnnual, nb_quarter, nb_month, nb_day,
-% nb_math_ts, nb_cs, nb_graph_ts, nb_graph_cs, nb_fetchFromFame
+% nb_math_ts, nb_cs, nb_graph_ts
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
         % Number of observation of the data stored in the object. As a 
         % double.
-        numberOfObservations    = 0;    
+        numberOfObservations;    
         
     end
 
@@ -444,13 +432,15 @@ classdef nb_ts < nb_dataSource
                     obj = addDatasets(obj,datasets,{},startDate,variables);
                     
                 elseif isa(datasets,'DataPackage.TS')
-                    
-                    obj          = nb_ts(datasets.getData(),cell(datasets.getDataNames())',char(datasets.getStartDateAsString()),cell(datasets.getVariables())',sorted);
-                    obj.userData = datasets.getUserData();
-                    if isa(obj.userData,'DatesPackage.Date')
-                        obj.userData = nb_javaDate2Date(obj.userData);
+                    try
+                        obj = nb_javaTS2nb_ts(datasets,sorted);
+                    catch Err
+                        if ~exist('nb_javaTS2nb_ts','file')
+                            error('You need to have access to SMART.')
+                        else
+                            rethrow(Err)
+                        end
                     end
-                    
                 else
                     try
                         obj = addDatasets(obj,datasets,NameOfDatasets,startDate,variables);
@@ -901,7 +891,29 @@ classdef nb_ts < nb_dataSource
             elseif ischar(dataset)
 
                 if nb_contains(dataset,'.db')
-                    [data, variables, startDate, endDate, frequency] = nb_ts.fame2Properties(strrep(dataset,'.db',''), var, startDate, vintage, sorted);
+                    try
+                        [data, variables, startDate, endDate, frequency] = ...
+                            nb_fame2Properties(strrep(dataset,'.db',''), var, ...
+                            startDate, vintage, sorted);
+                    catch Err
+                        if ~exist('nb_fame2Properties','file')
+                            error('You need to have access to FAME functionalities to fetch data from FAME.')
+                        else
+                            rethrow(Err)
+                        end
+                    end
+                    return
+                elseif strcmpi(dataset,'smart')
+                    try
+                        [data, variables, startDate, endDate, frequency] = ...
+                            nb_smart2Properties(var, startDate, vintage, sorted);
+                    catch Err
+                        if ~exist('nb_smart2Properties','file')
+                            error('You need to have access to SMART functionalities to fetch data from SMART.')
+                        else
+                            rethrow(Err)
+                        end
+                    end
                     return
                 end
                 
@@ -1127,75 +1139,6 @@ classdef nb_ts < nb_dataSource
                 error([mfilename ':: Dataset is not a dyn_ts object, a string with name of mat file or xls file or a double matrix with data (variables must then be given).'])
             end
 
-        end
-        
-        function [data, variables, startDate, endDate, frequency] = fame2Properties(dataset, var, startDate, vintage, sorted)
-        % Syntax:
-        %
-        % [data, variables, startDate, endDate, frequency] = ...
-        %   nb_ts.fame2Properties(dataset, var, startDate, vintage)
-        %
-        % Description:
-        %
-        % A static method of the nb_ts class
-        %
-        % Load properties from a FAME database
-        % 
-        % Written by Kenneth S. Paulsen
-
-            if isa(startDate,'nb_date')
-                startDate = startDate.toString('fame');
-            end
-                                    
-            % Check for short database name
-            if ~nb_contains(dataset,'\')
-                
-                % Get the shortcuts defined
-                shortcuts = nb_fameShortcuts();
-                 
-                % Tries to match the given database name with the
-                % short-cuts given above
-                ind = strcmpi([dataset '.db'],shortcuts(:,1));
-                if ~isempty(find(ind,1))
-                    dataset = shortcuts{ind,2};
-                else  
-                    if exist([dataset '.db'],'file') ~= 2
-                        error([mfilename ':: Can not locate the given path: ' dataset '.db'])
-                    end
-                end
-                
-            else
-                if exist([dataset '.db'],'file') ~= 2
-                    error([mfilename ':: Can not locate the given path: ' dataset '.db'])
-                end
-            end
-            
-            try
-            
-                % Fetch the data from FAME
-                if isempty(vintage) || isnan(str2double(vintage))
-                    [data, dates, variablesTemp] = nb_matlabfame.fetchRegulards(dataset, var, startDate, '');
-                else
-                    [~, data, dates, variablesTemp] = nb_matlabfame.fetch(dataset, var, startDate, '',vintage);
-                end
-                
-            catch Err
-                rethrow(Err);
-            end
-
-            % Get the start and end dates
-            [startDate, frequency] = nb_date.date2freq(dates,'xls');
-            endDate                = startDate + (size(data,1) - 1); 
-
-            % Sort the variables if wanted and check for duplicates
-            variables = sort(variablesTemp);
-            ind       = nb_ts.locateVariables(variables,variablesTemp);  
-            if sorted
-                data = data(:,ind,:); 
-            else
-                variables = variablesTemp;
-            end
-            
         end
         
         function [data, variables, startDate, endDate, frequency, userData,localVariables] = structure2Properties(structure,startDate,sorted)
@@ -1514,6 +1457,7 @@ classdef nb_ts < nb_dataSource
             
         end
         
+        varargout = findIndexesOfDates(varargin)
         varargout = getDiff(varargin)
         varargout = locateVariables(varargin)
         varargout = removeDuplicates(varargin)

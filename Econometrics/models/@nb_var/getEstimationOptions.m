@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -24,7 +24,7 @@ function outOpt = getEstimationOptions(obj)
         estim_method = tempOpt.estim_method;
         switch lower(estim_method)
 
-            case {'ols','bvar','ml','tvpmfsv'}
+            case {'ols','bvar','ml','tvpmfsv','ridge','lasso'}
 
                 % Get estimation options
                 %-----------------------
@@ -86,6 +86,13 @@ function outOpt = getEstimationOptions(obj)
                 tempOpt.dataVariables  = dataObj.variables;
                 tempOpt.estim_types    = {};
                 tempOpt                = rmfield(tempOpt,{'estim_end_date','estim_start_date','recursive_estim_start_date'});
+                
+                if any(strcmpi(estim_method,{'ml'}))
+                    if ~nb_isempty(tempOpt.measurementEqRestriction)
+                        error(['The ''measurementEqRestriction'' option is not ',...
+                               'supported when ''estim_method'' is set to ''' estim_method '''.'])
+                    end
+                end
                 
             otherwise
 

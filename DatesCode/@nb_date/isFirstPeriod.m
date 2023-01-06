@@ -28,7 +28,7 @@ function ret = isFirstPeriod(obj,freq)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if freq >= obj.frequency
         error([mfilename ':: The freq input must give a lower frequency than that of the object of class ' class(obj) '.'])

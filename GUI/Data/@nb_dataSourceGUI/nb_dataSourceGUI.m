@@ -22,7 +22,7 @@ classdef nb_dataSourceGUI < handle
 % 
 % Written by Eyo I. Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -105,6 +105,7 @@ classdef nb_dataSourceGUI < handle
         % the callback
         smartVar        = [];
         smartVint       = [];
+        smartFreq       = [];
         
         % Handles to the panels
         famePanel       = [];

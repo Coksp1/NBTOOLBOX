@@ -27,7 +27,7 @@ function [indC,locC] = getContextIndex(forecastContexts,contexts)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(contexts)
         indC = [];
@@ -41,7 +41,13 @@ function [indC,locC] = getContextIndex(forecastContexts,contexts)
     diffLength           = size(forecastContextsStr1,2) - size(contextsStr1,2);
     if diffLength > 0
         contextsStr = num2str(contexts);
-        contextsStr = strcat(contextsStr,repmat('0',[1,diffLength]));
+        if diffLength == 6
+            contextsStr = strcat(contextsStr,'235959');
+        elseif diffLength == 4
+            contextsStr = strcat(contextsStr,'2359');
+        else
+           error(['The date format ' contextsStr1 ' is not supported']) 
+        end
         contexts    = str2num(contextsStr); %#ok<ST2NM>
     elseif diffLength < 0
         forecastContextsStr = num2str(forecastContexts);

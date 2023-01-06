@@ -141,7 +141,7 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         sq = 0;

@@ -43,7 +43,7 @@ function [A,B,C,CE,ss,err] = addObsModelSolver(A,C,CE,parser,solution,options,ex
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     err  = ''; 
     if ~expandedOnly

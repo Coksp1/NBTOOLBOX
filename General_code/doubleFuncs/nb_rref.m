@@ -17,7 +17,7 @@ function A = nb_rref(A)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     rows  = size(A,1);
     cols  = size(A,2);

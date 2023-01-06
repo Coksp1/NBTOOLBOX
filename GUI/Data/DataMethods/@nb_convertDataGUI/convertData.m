@@ -9,7 +9,7 @@ function convertData(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get selected frequency
     string = get(gui.list1,'string');

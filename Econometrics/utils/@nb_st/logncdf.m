@@ -26,9 +26,9 @@ function obj = logncdf(obj,m,k)
 % See also:
 % nb_stTerm, nb_stParam, nb_st.lognpdf
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         k = 1;

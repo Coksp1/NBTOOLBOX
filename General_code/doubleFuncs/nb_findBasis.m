@@ -20,7 +20,7 @@ function [i,B] = nb_findBasis(A)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if size(A,1) < size(A,2)
         error([mfilename ':: The matrix A must have more rows than columns.'])

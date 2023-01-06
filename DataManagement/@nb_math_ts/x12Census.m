@@ -59,7 +59,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
 %                 multivariate nb_ts object) used in X12-ARIMA 
 %                 regression; the dummy variables can also include  
 %                 values for forecasts and backcasts if you request 
-%                 them. Either an nb_ts object or empty.
+%                 them. Either an nb_math_ts object or empty.
 %
 % - 'dummyType' : Type of dummy. Either 'ao' | {'holiday'} | 'td'
 % 
@@ -135,7 +135,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if obj.dim3 > 1
         error([mfilename ':: This method does not support multi-paged nb_math_ts objects.'])
@@ -150,8 +150,9 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
     data    = double(obj);
     dummy   = double(options.dummy);
     if ~isempty(dummy)
-        if size(data,2) == size(dummy,2)
-            error([mfilename ':: The nb_ts object given to the ''dummy'' input must has as many variables as the first input.'])
+        if size(data,1) ~= size(dummy,1)
+            error(['The nb_math_ts object given to the ''dummy'' input must ',...
+                   'has as many observations as the first input.'])
         end
     end
     if options.log
@@ -176,7 +177,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
     %--------------------------------------------------------------
     [data,outData,outputfile,errorfile,model] = nb_x12.x12(data,startDate,dummy,options);
 
-    % Transform back to nb_ts object
+    % Transform back to nb_math_ts object
     %--------------------------------------------------------------
     if options.log
         outData = exp(outData);
@@ -267,10 +268,10 @@ function options = parseOptions(options,varargin)
                 
             case 'dummy'
                 
-                if isa(propertyValue,'nb_ts')
+                if isa(propertyValue,'nb_math_ts') || isempty(propertyValue)
                     options.dummy = propertyValue;
                 else
-                    error([mfilename ':: The input ''' propertyName ''' must be an nb_ts object.'])
+                    error([mfilename ':: The input ''' propertyName ''' must be an nb_math_ts object.'])
                 end
                 
             case 'dummytype'

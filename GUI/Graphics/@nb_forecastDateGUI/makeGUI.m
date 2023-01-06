@@ -9,7 +9,7 @@ function makeGUI(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     plotterAdv = gui.plotter;
     if isa(plotterAdv.plotter(1).parent,'nb_GUI')

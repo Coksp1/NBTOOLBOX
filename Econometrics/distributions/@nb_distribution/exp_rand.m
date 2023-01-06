@@ -28,7 +28,7 @@ function draws = exp_rand(nrow,ncol,m)
 %
 % Modified by Kenneth S. Paulsen
       
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     p     = rand(nrow,ncol);
     draws = -(1/m).*log(p./m);

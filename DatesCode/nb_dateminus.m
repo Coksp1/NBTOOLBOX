@@ -42,7 +42,7 @@ function diff = nb_dateminus(date1,date2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     date1 = nb_date.date2freq(date1);
     date2 = nb_date.date2freq(date2);

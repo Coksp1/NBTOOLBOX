@@ -12,22 +12,13 @@ function [results,options] = normalEstimation(options,y,X,nExo)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
-
-    % Waitbar
-    waitbar = false;
-    if options.waitbar && options.draws > 1 && strcmpi(options.algorithm,'beta')
-        h       = nb_estimator.openWaitbar(options,[],false);
-        waitbar = ~isempty(h);
-    else
-        h = false;
-    end  
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check the degrees of freedom
     if strcmpi(options.algorithm,'unrestricted')
         numCoeff = size(X,2) + options.constant + options.AR;
     elseif strcmpi(options.algorithm,'beta')
-        numCoeff = nExo*3 + size(X,2) + options.constant + options.AR;
+        numCoeff = nExo + 1 + options.constant + options.AR;
     elseif strcmpi(options.algorithm,'mean')
         numCoeff = nExo + options.constant + options.AR;
     else
@@ -40,15 +31,9 @@ function [results,options] = normalEstimation(options,y,X,nExo)
     %--------------------------------------------------
     [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = ...
         nb_midasFunc(y,X,options.constant,options.AR,options.algorithm,options.nStep,...
-              options.stdType,nExo,'opt',options.optimset,'optimizer',options.optimizer,...
-              'covrepair',options.covrepair,'waitbar',h,'draws',options.draws,...
+              options.stdType,nExo,options.nLags+1,'draws',options.draws,...
               'polyLags',options.polyLags);
-
-    % Delete the waitbar
-    if waitbar 
-        nb_estimator.closeWaitbar(h);
-    end                                                      
-                                                          
+                                                                                                         
     % Get estimation results
     %--------------------------------------------------
     y                  = nb_mlead(y,options.nStep);
@@ -61,7 +46,7 @@ function [results,options] = normalEstimation(options,y,X,nExo)
     results.residual   = residual;
     results.sigma      = sigma;
     results.sigmaD     = sigmaD;
-    results.predicted  = y(1+options.AR:end-1,:) - residual;
+    results.predicted  = y(1:end-1,:) - residual;
 
     % Get estimation dates of low frequency
     results.recursive_estim_start_ind_low = [];
@@ -87,7 +72,7 @@ function [results,options] = normalEstimation(options,y,X,nExo)
         SOSR          = rSq;
         for ii = 1:numEq
             residualT            = residual(1:end-ii+1,ii);
-            [rSq(ii),adjRSq(ii)] = nb_rSquared(y(1+options.AR:end-ii,ii),residualT,numCoeff);
+            [rSq(ii),adjRSq(ii)] = nb_rSquared(y(1:end-ii,ii),residualT,numCoeff);
             logLikelihood(ii)    = nb_olsLikelihood(residualT);
             dwtest(ii)           = nb_durbinWatson(residualT);
             [SER(ii),SOSR(ii)]   = nb_SERegression(residualT,numCoeff);

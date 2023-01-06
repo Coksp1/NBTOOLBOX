@@ -14,7 +14,7 @@ function eqs = removeEquality(eqs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     eqs      = regexprep(eqs,'\s','');
     ind      = strfind(eqs,'<=');

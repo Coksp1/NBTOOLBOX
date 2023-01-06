@@ -1,7 +1,8 @@
 function str = nb_cellstr2String(c,sep,sepLast)
 % Syntax:
 %
-% str = nb_cellstr2String(c,sep)
+% str = nb_cellstr2String(c)
+% str = nb_cellstr2String(c,sep,sepLast)
 %
 % Description:
 %
@@ -10,10 +11,12 @@ function str = nb_cellstr2String(c,sep,sepLast)
 % 
 % Input:
 % 
-% - c   : A cellstr.
+% - c       : A cellstr.
 %
-% - sep : A string.
+% - sep     : A string. Default is ','
 % 
+% - sepLast : A string. Default is ','
+%
 % Output:
 % 
 % - str : A string.
@@ -27,10 +30,13 @@ function str = nb_cellstr2String(c,sep,sepLast)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 2
-        sep = ',';
+    if nargin < 3
+        sepLast = ',';
+        if nargin < 2
+            sep = ',';
+        end
     end
 
     if isempty(c)

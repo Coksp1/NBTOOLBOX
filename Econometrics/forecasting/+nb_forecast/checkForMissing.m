@@ -10,14 +10,20 @@ function [nowcast,missing] = checkForMissing(options,inputs,dep)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nowcast = 0;
     missing = [];
     if ~isfield(options,'missingData')
         
         if strcmpi(options.class,'nb_fmdyn')
-            dep = dep(options.nFactors+1:end);
+            factorsRemoved = false;
+            if size(dep,2) > size(options.observables,2)
+                dep            = dep(options.nFactors+1:end);
+                factorsRemoved = true;
+            end
+        elseif strcmpi(options.class,'nb_mfvar')
+            dep = regexprep(dep,'^AUX_','');
         end
         [ind,indV] = ismember(dep,options.dataVariables);
         if any(~ind)
@@ -34,7 +40,9 @@ function [nowcast,missing] = checkForMissing(options,inputs,dep)
         nowcast = options.estim_end_ind - last;
         
         if strcmpi(options.class,'nb_fmdyn')
-            missing = [false(nowcast,options.nFactors), missing];
+            if factorsRemoved
+                missing = [false(nowcast,options.nFactors), missing];
+            end
         end
         
     else

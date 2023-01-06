@@ -25,7 +25,7 @@ function p = nb_percentiles(d,perc,dim)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~all(nb_iswholenumber(perc))
         error([mfilename ':: The perc input must be a vector of integers.'])

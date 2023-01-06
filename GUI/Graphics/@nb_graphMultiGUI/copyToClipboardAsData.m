@@ -9,7 +9,7 @@ function copyToClipboardAsData(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     data = getData(gui.plotter(gui.page));
     data = asCell(data);

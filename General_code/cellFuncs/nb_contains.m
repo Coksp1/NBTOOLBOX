@@ -25,7 +25,7 @@ function ind = nb_contains(s,pattern,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~nb_isOneLineChar(pattern)
         error([mfilename ':: pattern must be a one line char.'])

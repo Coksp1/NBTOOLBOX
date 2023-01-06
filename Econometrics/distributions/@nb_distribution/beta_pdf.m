@@ -26,7 +26,7 @@ function f = beta_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f      = (x.^(m-1)).*((1-x).^(k-1));
     div    = beta(m,k);

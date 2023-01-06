@@ -31,7 +31,7 @@ function prior = priorTemplate(type,num)
 %           
 %            > 'V0VarScale'      : Scale factor on the mean of the  
 %                                  prior on the initial value of the 
-%                                  measurment equation covariance matrix.  
+%                                  measurement equation covariance matrix.  
 %                                  Default is 0.1. Dogmatic prior set to 
 %                                  V0VarScale*I.
 %
@@ -49,7 +49,8 @@ function prior = priorTemplate(type,num)
 %                                  x option.nLags*option.nFactors. Default 
 %                                  value is 0.1.
 %
-%            > 'l_1m'            : Decay factor for the measurement error
+%           > 'l_1m'             : Starting value of:
+%                                  Decay factor for the measurement error
 %                                  variance of the monthly variables. A
 %                                  smaller value puts smaller weight on
 %                                  past observations and thus allows for
@@ -57,7 +58,8 @@ function prior = priorTemplate(type,num)
 %                                  implies constant parameters. Default
 %                                  is 0.9.
 %
-%            > 'l_1q'           :  Decay factor for the measurement error
+%            > 'l_1q'           :  Starting value of:
+%                                  Decay factor for the measurement error
 %                                  variance of the quarterly variables. A
 %                                  smaller value puts smaller weight on
 %                                  past observations and thus allows for
@@ -65,27 +67,54 @@ function prior = priorTemplate(type,num)
 %                                  implies constant parameters. Default
 %                                  is 0.9.
 %
-%            > 'l_2'              : Decay factor for the factor error
+%            > 'l_2'              : Starting value of:
+%                                  Decay factor for the factor error
 %                                  variance. A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters. 
 %                                  Default is 0.9.
 %
-%            > 'l_3'              : Decay factor for the loadings' error
+%            > 'l_3'              : Starting value of:
+%                                  Decay factor for the loadings' error
 %                                  variance. A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters.
 %                                  Default is 0.9.
 %
-%            > 'l_4'              : Decay factor for the factor VAR
+%            > 'l_4'              : Starting value of:
+%                                  Decay factor for the factor VAR
 %                                  parameters' error variance.
 %                                  A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters. 
 %                                  Default is 0.9.
+%
+%            > 'l_1_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_1m and l_1q are time-varying/endogenous
+%                                 0: l_1m and l_1q are constant/static 
+%                                 Default is 0.
+%                                
+%            > 'l_2 endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_2 is time-varying/endogenous
+%                                 0: l_2 is constant/static 
+%                                 Default is 0.
+%
+%            > 'l_3_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_3 is time-varying/endogenous
+%                                 0: l_3 is constant/static
+%                                 Default is 0.
+%
+%            > 'l_4_endo_update': Controls the endogenous forgetting
+%                                 factors
+%                                 1: l_4 is time-varying/endogenous
+%                                 0: l_4 is constant/static 
+%                                 Default is 0.
 %
 % - num  : Number of prior templates to make.
 %
@@ -98,7 +127,7 @@ function prior = priorTemplate(type,num)
 %
 % Written by Kenneth Sæterhagen Paulsen and Maximilian Schröder
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -124,11 +153,15 @@ function prior = priorTemplate(type,num)
             prior.Q0VarScale     = 0.1;
             prior.gamma          = 0.1;
             prior.method         = 'tvpmfsv';
-            prior.l_1m           = 0.9;
-            prior.l_1q           = 0.9;
-            prior.l_2            = 0.9;
-            prior.l_3            = 0.9;
-            prior.l_4            = 0.9;
+            prior.l_1m            = 0.9;
+            prior.l_1q            = 0.9;
+            prior.l_2             = 0.9;
+            prior.l_3             = 0.9;
+            prior.l_4             = 0.9;
+            prior.l_1_endo_update = 0;
+            prior.l_2_endo_update = 0;
+            prior.l_3_endo_update = 0;
+            prior.l_4_endo_update = 0;
             
         otherwise
 

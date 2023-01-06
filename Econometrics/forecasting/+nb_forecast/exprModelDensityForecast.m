@@ -12,7 +12,7 @@ function [fData,evalFcst] = exprModelDensityForecast(Z,restrictions,model,option
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;

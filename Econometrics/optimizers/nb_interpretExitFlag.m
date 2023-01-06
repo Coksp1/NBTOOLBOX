@@ -29,9 +29,9 @@ function message = nb_interpretExitFlag(e,type,extra,homotopyErr)
 % - message     : If asked for the error message is returned instead of
 %                 thrown.
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         homotopyErr = [];

@@ -36,7 +36,7 @@ function obj = parse(expr,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     if ~iscellstr(expr) %#ok<ISCLSTR>
         error([mfilename ':: The expr input must be a cellstr.'])

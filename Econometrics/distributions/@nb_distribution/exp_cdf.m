@@ -24,7 +24,7 @@ function f = exp_cdf(x,m)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f      = 1 - exp(-m*x);
     f(x<0) = zeros;

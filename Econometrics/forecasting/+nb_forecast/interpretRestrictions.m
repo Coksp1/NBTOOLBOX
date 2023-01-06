@@ -14,7 +14,7 @@ function [bounds,indY] = interpretRestrictions(bounds,endo,shocks)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fields = fieldnames(bounds);
     indY   = zeros(1,length(fields));

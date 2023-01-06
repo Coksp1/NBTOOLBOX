@@ -1,28 +1,27 @@
-function obj =   atan(obj)
+function obj = atan(obj)
 % Syntax:
 %
-% obj = tan(obj)
+% obj = atan(obj)
 %
 % Description:
 %
-% Take the tangent of the data stored in the nb_cs object
+% Inverse tangent, expressed in radians.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data hass been 
-%                   transformed.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = tan(obj);
+% obj = atan(obj);
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = atan(obj.data);
 end

@@ -22,7 +22,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -35,6 +35,7 @@ function options = template(num)
     options.nFactors         = [];
     options.nFactorsMax      = [];
     options.observables      = {};
+    options.renameVariables  = {};
     options.unbalanced       = false;
 
 end

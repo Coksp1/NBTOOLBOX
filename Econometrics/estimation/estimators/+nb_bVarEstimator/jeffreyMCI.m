@@ -23,7 +23,7 @@ function [beta,sigma] = jeffreyMCI(draws,X,T,numCoeff,nEq,initSigma,SSE,a_ols,re
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     sigmaD  = initSigma;
     nUnrest = size(a_ols,1);

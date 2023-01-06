@@ -12,7 +12,7 @@ function res = doTest(res,options,residual)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     T                 = size(residual,1);
     numCoeff          = length(options.parameters);

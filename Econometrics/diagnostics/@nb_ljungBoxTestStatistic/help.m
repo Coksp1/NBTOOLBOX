@@ -20,7 +20,7 @@ function help = help(~,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Genereate help for the different options
     help = 'No options';

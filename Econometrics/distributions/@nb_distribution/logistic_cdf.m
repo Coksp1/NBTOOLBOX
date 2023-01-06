@@ -25,7 +25,7 @@ function f = logistic_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f = 1 + exp(-(x - m)./k);
     f = 1./f;

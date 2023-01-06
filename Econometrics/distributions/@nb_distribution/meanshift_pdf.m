@@ -32,7 +32,7 @@ function f = meanshift_pdf(x,dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Do the mean shift
     x = x - ms;

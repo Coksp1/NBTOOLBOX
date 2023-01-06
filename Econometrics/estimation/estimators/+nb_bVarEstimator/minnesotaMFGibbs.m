@@ -1,9 +1,10 @@
-function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,initSigma,a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar,maxTries)
+function [beta,sigma,yDraws,PDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,...
+    initSigma,a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar,maxTries,dummyPriorOptions)
 % Syntax:
 %
-% [beta,sigma,yDraws] = nb_bVarEstimator.minnesotaMFGibbs(draws,y,x,H,...
-%             R_prior,initBeta,initSigma,a_prior,V_prior,S_prior,v_post,...
-%             restrictions,burn,thin,waitbar,maxTries)
+% [beta,sigma,yDraws,PDraws] = nb_bVarEstimator.minnesotaMFGibbs(draws,...
+%       y,x,H,R_prior,initBeta,initSigma,a_prior,V_prior,S_prior,v_post,...
+%       restrictions,burn,thin,waitbar,maxTries,dummyPriorOptions)
 %
 % Description:
 %
@@ -22,7 +23,7 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Waitbar
     [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(waitbar,burn + draws);
@@ -38,7 +39,6 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         alphaD     = initBeta(:);
         restricted = false;
     end
-    alphaB    = alphaD; % Backup of intial values
     nExo      = size(x,2);
     nLags     = (numCoeff - nExo)/nEq;
     numRows   = (nLags - 1)*nEq;
@@ -50,18 +50,40 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
     Isigma    = eye(nEq);
     sigma_inv = Isigma/initSigma;
     sigmaD    = initSigma;
-    yDraws    = nan(size(y,1),nStates,draws);
+    yDraws    = nan(size(y,1) - nLags,nStates,draws);
     yT        = y';
     XT        = x';
     Ie        = eye(size(S_prior,1));
     I         = eye(numRows);
     Z         = zeros(numRows,nEq);
+    
+    % Do we handle a model in levels?
+    if ~isempty(dummyPriorOptions)
+        nonStationary = dummyPriorOptions.prior.nonStationary;
+    else
+        nonStationary = false;
+    end
+    nowcast = T - find(~any(isnan(yT),1),1,'last');
+    PDraws  = nan(nEq,nEq,nowcast,draws);
+    
     for ii = 1:burn
     
         % Posterior y | alpha, SIGMA^(-1)
-        [~,ys] = nb_kalmansmoother_missing(@nb_bVarEstimator.getStateSpace,yT,XT,alphaD,sigmaD,nEq,nLags,nExo,restrictions,H,R_prior);
-        XS     = [x,ys(:,nEq+1:nEq*(nLags+1))]; % Exogenous and lags
-        ys     = ys(:,1:nEq);
+        [~,ys] = nb_kalmansmoother_missing(@nb_bVarEstimator.getStateSpace,yT,XT,alphaD,sigmaD,nEq,nLags,nExo,restrictions,H,R_prior,yT);
+        
+        % Add dummy priors
+        if ~isempty(dummyPriorOptions)
+            % Here we remove the contant term as it is treated in a 
+            % special way in the dummy priors!
+            ysFull  = ys(:,1:nEq);
+            XSFull  = [x(:,dummyPriorOptions.constant+1:end),ys(:,nEq+1:nEq*(nLags+1))];
+            XS      = XSFull(nLags+1:end,:); 
+            ys      = ys(nLags+1:end,1:nEq);
+            [ys,XS] = nb_bVarEstimator.applyDummyPrior(dummyPriorOptions,ys,XS,ysFull,XSFull);
+        else
+            XS = [x(nLags+1:end,:),ys(nLags+1:end,nEq+1:nEq*(nLags+1))]; % Exogenous and lags
+            ys = ys(nLags+1:end,1:nEq);
+        end
         
         % Expand regressors and remove the variables restricted to be zero
         X = kron(Isigma,XS);
@@ -71,8 +93,9 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         
         % Posterior of alpha | y, SIGMA^(-1)
         vec_y = ys(:);
+        TS    = size(ys,1);
         if restricted
-            VARIANCE = kron(sigma_inv,eye(T));
+            VARIANCE = kron(sigma_inv,eye(TS));
             SXT      = X'*VARIANCE;
             SXTX     = SXT*X;
             SXTy     = SXT*vec_y;
@@ -90,6 +113,9 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         tries       = 0;
         while unstable
             alphaD  = a_post + chol_V_post*randn(N,1);
+            if nonStationary
+                break
+            end
             if restricted
                 alphaR(restr) = alphaD;
             else
@@ -111,7 +137,7 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         
         % Posterior of SIGMA|alpha,Data ~ iW(S_post,v_post)
         res         = vec_y - X*alphaD;
-        res         = reshape(res,T,nEq);
+        res         = reshape(res,TS,nEq);
         S_post      = S_prior + res'*res;
         S_post_inv  = Ie/S_post;
         sigma_inv   = nb_distribution.wish_rand(S_post_inv,v_post);
@@ -123,13 +149,32 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         
     end
     
-    kk = 1;
+    kk     = 1;
+    alphaB = alphaD; % Backup of to last value of burn in
     for ii = 1:draws*thin
     
         % Posterior y | alpha, SIGMA^(-1)
-        [~,ys] = nb_kalmansmoother_missing(@nb_bVarEstimator.getStateSpace,yT,XT,alphaD,sigmaD,nEq,nLags,nExo,restrictions,H,R_prior);
-        XS     = [x,ys(:,nEq+1:nEq*(nLags+1))]; % Exogenous and lags
-        ysDep  = ys(:,1:nEq);
+        if rem(ii,thin) == 0 && nowcast
+            [~,ys,~,~,~,~,P] = nb_kalmansmoother_missing(@nb_bVarEstimator.getStateSpace,yT,XT,alphaD,initSigma,nEq,nLags,nExo,restrictions,H,R_prior,yT);
+            PDraws(:,:,:,kk) = P(1:nEq,1:nEq,end-nowcast+1:end);
+        else
+            [~,ys] = nb_kalmansmoother_missing(@nb_bVarEstimator.getStateSpace,yT,XT,alphaD,initSigma,nEq,nLags,nExo,restrictions,H,R_prior,yT);
+        end
+        
+        % Add dummy priors
+        ysAllStates = ys(nLags+1:end,:);
+        if ~isempty(dummyPriorOptions)
+            % Here we remove the contant term as it is treated in a 
+            % special way in the dummy priors!
+            ysFull  = ys(:,1:nEq);
+            XSFull  = [x(:,dummyPriorOptions.constant+1:end),ys(:,nEq+1:nEq*(nLags+1))];
+            XS      = XSFull(nLags+1:end,:); 
+            ys      = ys(nLags+1:end,1:nEq);
+            [ys,XS] = nb_bVarEstimator.applyDummyPrior(dummyPriorOptions,ys,XS,ysFull,XSFull);
+        else
+            XS = [x(nLags+1:end,:),ys(nLags+1:end,nEq+1:nEq*(nLags+1))]; % Exogenous and lags
+            ys = ys(nLags+1:end,1:nEq);
+        end
         
         % Expand regressors and remove the variables restricted to be zero
         X = kron(Isigma,XS);
@@ -138,9 +183,10 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         end
         
         % Posterior of alpha | y, SIGMA^(-1)
-        vec_y = ysDep(:);
+        vec_y = ys(:);
+        TS    = size(ys,1);
         if restricted
-            VARIANCE = kron(sigma_inv,eye(T));
+            VARIANCE = kron(sigma_inv,eye(TS));
             SXT      = X'*VARIANCE;
             SXTX     = SXT*X;
             SXTy     = SXT*vec_y;
@@ -158,6 +204,9 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         tries       = 0;
         while unstable
             alphaD = a_post + chol_V_post*randn(N,1);
+            if nonStationary
+                break
+            end
             if restricted
                 alphaR(restr) = alphaD;
             else
@@ -174,9 +223,9 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
             if tries > maxTries
                 % Give up an use last value of alpha
                 if kk > 1
-                    alphaD = alphaB;
-                else
                     alphaD = alpha(:,kk-1);
+                else
+                    alphaD = alphaB;
                 end
                 break
             end
@@ -184,7 +233,7 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         
         % Posterior of SIGMA|alpha,Data ~ iW(inv(S_post),v_post)
         res           = vec_y - X*alphaD;
-        res           = reshape(res,T,nEq);
+        res           = reshape(res,TS,nEq);
         S_post        = S_prior + res'*res;
         S_post_inv    = Ie/S_post;
         sigmaD_ninv   = nb_distribution.wish_rand(S_post_inv,v_post);
@@ -193,7 +242,7 @@ function [beta,sigma,yDraws] = minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,ini
         if rem(ii,thin) == 0
             alpha(:,kk)    = alphaD;
             sigma(:,:,kk)  = sigmaD; 
-            yDraws(:,:,kk) = ys;
+            yDraws(:,:,kk) = ysAllStates;
             kk             = kk + 1;
         end
         

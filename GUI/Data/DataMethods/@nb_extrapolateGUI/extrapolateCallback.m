@@ -9,7 +9,7 @@ function extrapolateCallback(gui, varargin)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     components = gui.components;
     variables  = nb_getUIControlValue(components.variables);

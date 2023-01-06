@@ -17,7 +17,7 @@ function ret = nb_isUipanel(value)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     ret = false;
     if isa(value,'matlab.ui.container.Panel')

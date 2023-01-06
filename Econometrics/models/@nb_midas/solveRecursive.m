@@ -5,7 +5,7 @@ function tempSol = solveRecursive(results,opt)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
  
     % Estimation results
     beta = permute(results.beta,[2,1,3]);
@@ -36,7 +36,7 @@ function tempSol = solveRecursive(results,opt)
     if ~strcmpi(opt.algorithm,'beta')
         B = beta;
     else
-        B = beta(:,1:end-3,:);
+        B = beta(:,1:end-1,:);
     end
     
     % The final solution

@@ -16,9 +16,26 @@ function obj = checkExpressions(obj,expression,shift)
 %
 %                {Name1,  expression1,   description1;...
 %                 Name2,  expression2,   description2};
+%
+%                The first column sets the name of the created variable.
+%           
+%                The second column sets the expression to apply to the
+%                existing variables in the object. All methods of the 
+%                nb_math_ts class that perserve the time span are 
+%                supported in expression. You can also call user defined 
+%                functions, as long as they take and return a nb_math_ts 
+%                object. A nb_math_ts object is just a double with a time
+%                dimension! To get a list of all the methods of the 
+%                nb_math_ts class use; methods('nb_math_ts'). 
+%
+%                Caution: expression2 can depend on the Name1 variable.
+%                Caution: If Name1 is a name of an existing variable in
+%                         the object, it will be replaced.
 % 
 % - shift      : An object of class nb_ts storing the shift/trend 
-%                variables.
+%                variables. These are added to the matching variable 
+%                before the transformations are applied. If empty, this
+%                input is ignored. Default is [].
 %
 % Output:
 % 
@@ -26,23 +43,12 @@ function obj = checkExpressions(obj,expression,shift)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         shift = [];
     end
 
-    % Test expressions
-%     for ii = 1:size(expression,1)
-%         tested = expression{ii,1};
-%         ind    = regexp(expression{ii,2},['\<' expression{ii,1} '\>'],'once');
-%         if ~isempty(ind)
-%             error('nb_ts:checkExpressions:bothSides',...
-%                   [mfilename ':: The variable ' tested ' is both given as the name of '...
-%                              'the assign value and it is part of the expression; ' expression{ii,2} '. This is not allowed!'])
-%         end
-%     end
-    
     % Get data and variables to be forecast
     vars  = obj.variables;
     dataF = obj.data;

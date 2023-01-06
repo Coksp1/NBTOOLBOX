@@ -28,7 +28,7 @@ function out = vec(obj,endD)
 %
 % Written by Tobias Ingebrigtsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(endD, 'nb_year') && ~(length(obj) == length(endD))
         error('The start vector must be of the same length as the end vector');

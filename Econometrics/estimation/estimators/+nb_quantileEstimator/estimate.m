@@ -26,7 +26,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -337,7 +337,7 @@ function [results,options] = estimate(options)
         res = struct();
         if options.removeZeroRegressors
             numEq                     = size(y,2);
-            indA                      = [true(1,numCoeff - size(XRest,2)), ind];
+            indA                      = [true(1,numCoeff - size(X,2)), ind];
             res.beta                  = zeros(numCoeff,numEq,1,length(q));
             res.beta(indA,:,:,:)      = permute(beta,[1,2,4,3]);
             res.stdBeta               = nan(numCoeff,numEq,1,length(q));

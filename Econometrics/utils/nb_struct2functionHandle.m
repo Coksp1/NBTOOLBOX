@@ -19,14 +19,13 @@ function f = nb_struct2functionHandle(structThatRepresentsTheFunctionHandle)
 % - f : A function_handle.
 %
 % See also:
-% nb_functionHandle2Struct
+% nb_functionHandle2Struct, nb_isStructOfFunctionHandle
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if not(isfield(structThatRepresentsTheFunctionHandle,'function') && ...
-        isfield(structThatRepresentsTheFunctionHandle,'workspace'))
+    if ~nb_isStructOfFunctionHandle(structThatRepresentsTheFunctionHandle)
         error('The struct is not possible to convert to function_handle')   
     end
     if iscell(structThatRepresentsTheFunctionHandle.workspace)

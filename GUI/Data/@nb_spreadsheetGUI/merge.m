@@ -10,7 +10,7 @@ function merge(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     mergegui = nb_mergeDataGUI(gui.parent,gui.data,[],gui.dataName,'');
     addlistener(mergegui,'methodFinished',@gui.updateDataCallback);

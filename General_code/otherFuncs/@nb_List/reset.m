@@ -26,7 +26,7 @@ function obj = reset(obj,aObj,id)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~ischar(id)
         error([mfilename ':: The id input must be a char (string).'])

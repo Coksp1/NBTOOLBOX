@@ -4,7 +4,7 @@ function [lVarsXNew,lVarsYNew] = getLabelVariables(obj,type)
 % - type : > 1         : For nb_displayValue
 %          > otherwise : For nb_plotLabels
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         type = 1;

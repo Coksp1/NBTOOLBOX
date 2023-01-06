@@ -13,7 +13,7 @@ function [res,options] = correctResultsGivenUnbalanced(options,res)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     iter   = size(res.beta,3);
     nQuant = size(res.beta,4);

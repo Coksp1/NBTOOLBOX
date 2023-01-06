@@ -9,7 +9,7 @@ function inputs = getSolvedPrologue(obj,inputs,YT,proY,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nPro = sum(obj.parser.block.proEndo);
     if nPro == 0

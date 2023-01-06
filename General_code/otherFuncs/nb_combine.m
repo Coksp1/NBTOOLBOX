@@ -27,7 +27,7 @@ function vc = nb_combine(v,n,n2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isrow(v)
        error([mfilename ':: The v input must be vector.']);

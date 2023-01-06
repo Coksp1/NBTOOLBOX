@@ -10,7 +10,7 @@ function callbackMergeOnResponse(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Convert
     if isa(gui.data1,'nb_ts') || isa(gui.data1,'nb_data') 

@@ -10,7 +10,7 @@ function [res,options] = recursiveEstimationSingleEq(options,res)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the data to estimate the model
     tempData = options.data;

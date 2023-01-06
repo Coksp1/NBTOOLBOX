@@ -22,7 +22,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -30,6 +30,7 @@ function options = template(num)
 
     options                             = nb_model_generic.templateGeneral(num,'time-series');
     options.blocks                      = [];
+    options.calibrateR                  = {};
     options.constant                    = 1;
     options.dependent                   = {};
     options.observables                 = {}; % Need to come before frequency and mapping
@@ -51,7 +52,10 @@ function options = template(num)
     options.nLagsTests                  = 5;
     options.nonStationary               = false;
     options.prior                       = [];
+    options.renameVariables             = {};
     options.seasonalDummy               = '';
+    options.set2nan                     = struct();
+    options.setRToZero                  = false;
     options.time_trend                  = 0;
     options.transformation              = 'none';
 

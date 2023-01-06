@@ -10,7 +10,7 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;
@@ -24,12 +24,12 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
     if parameterDraws == 1 % Only residual uncertainty
         
         % Get model solution
-        [A,B,~,vcv,~] = nb_forecast.getModelMatrices(model,iter);
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
 
         % Make draws from the distributions of the exogenous and the shocks
-        E = nb_forecast.multvnrnd(vcv,1,draws);
+        E = nb_forecast.multvnrnd(modelIter.vcv,1,draws);
         E = permute(E,[2,1,3]);
-        X = restrictions.X(restrictions.index,:)';
+        X = permute(restrictions.X(restrictions.index,:,:),[2,1,3]);
         
         % Initial conditions
         Y(:,1,:) = y0(:,:,ones(1,draws));
@@ -37,7 +37,7 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
         % Make draws number of simulations of the residual and forecast
         % conditional on those residuals
         for jj = 1:draws
-            Y(:,:,jj) = nb_computeMidasForecast(A,B,Y(:,:,jj),X,E(:,:,jj));
+            Y(:,:,jj) = nb_computeMidasForecast(modelIter.A,modelIter.B,Y(:,:,jj),X,E(:,:,jj));
         end
         
     else
@@ -66,7 +66,7 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
         [betaD,sigmaD,estOpt] = nb_midasEstimator.bootstrapModel(model,options,results,method,parameterDraws,iter,false);
         
         % Preallocate
-        X = restrictions.X(restrictions.index,:)';
+        X = permute(restrictions.X(restrictions.index,:,:),[2,1,3]);
         
         % Initial conditions
         Y(:,1,:) = y0(:,:,ones(1,parameterDraws*draws));
@@ -107,7 +107,9 @@ function [fData,evalFcst] = midasDensityForecast(y0,restrictions,model,options,r
             end 
             
             % Get model solution
-            [A,B,~,vcv,~] = nb_forecast.getModelMatrices(modelDraw,1);
+            A   = modelDraw.A;
+            B   = modelDraw.B;
+            vcv = modelDraw.vcv;
 
             % Make draws from the distributions of the exogenous and the shocks
             ET = permute(nb_forecast.multvnrnd(vcv,1,draws),[2,1,3]);

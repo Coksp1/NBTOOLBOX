@@ -10,7 +10,7 @@ function [out,varsN] = getEqOfPeriod(eqs,matches,pars,paramN,varsExo,varsExoN,va
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nEqs = size(eqs,1);
 

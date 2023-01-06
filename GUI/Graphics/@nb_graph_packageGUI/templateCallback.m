@@ -9,7 +9,7 @@ function templateCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
         
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.templates)
         nb_errorWindow(['No templates are shared among all graphs of the package. ',...

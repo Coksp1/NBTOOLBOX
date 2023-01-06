@@ -16,7 +16,7 @@ function nb_writePostMacroFile(parsedFile,filename)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [path,name] = fileparts(filename);
     filename    = fullfile(path,[name '.nbm']);

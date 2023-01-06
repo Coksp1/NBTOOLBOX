@@ -1,9 +1,9 @@
-function obj = diff(obj,lag,skipNaN)
+function obj = diff(obj,lags,skipNaN)
 % Syntax:
 %
 % obj = diff(obj)
-% obj = diff(obj,lag)
-% obj = diff(obj,lag,skipNaN)
+% obj = diff(obj,lags)
+% obj = diff(obj,lags,skipNaN)
 %
 % Description:
 %
@@ -14,7 +14,7 @@ function obj = diff(obj,lag,skipNaN)
 % 
 % - obj     : An object of class nb_math_ts
 % 
-% - lag     : The number of lags in the diff formula, 
+% - lags    : The number of lags in the diff formula, 
 %             default is 1.
 %
 % - skipNaN : - 1 : Skip nan while using the diff operator. (E.g.
@@ -36,12 +36,12 @@ function obj = diff(obj,lag,skipNaN)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         skipNaN = 0;
         if nargin < 2
-            lag = 1; 
+            lags = 1; 
         end
     end
 
@@ -56,7 +56,8 @@ function obj = diff(obj,lag,skipNaN)
                 
                 dataTT              = dataT(:,jj,ii);
                 isNaN               = isnan(dataTT);
-                dataT(~isNaN,jj,ii) = [nan(lag,1,1);diff(dataTT(~isNaN),lag)];
+                y                   = dataTT(~isNaN);
+                dataT(~isNaN,jj,ii) = y - lag(y,lags);
                 
             end
             
@@ -64,9 +65,7 @@ function obj = diff(obj,lag,skipNaN)
         obj.data = dataT;
         
     else
-    
-        obj.data = [nan(lag,obj.dim2,obj.dim3);diff(obj.data,lag,1)];
-        
+        obj.data = obj.data - lag(obj.data,lags);      
     end
 
 end

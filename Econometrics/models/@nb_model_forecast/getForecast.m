@@ -105,7 +105,7 @@ function [fcstData,fcstPercData] = getForecast(obj,outputType,includeHist,vararg
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         includeHist = 0;

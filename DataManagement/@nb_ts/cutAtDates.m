@@ -19,15 +19,15 @@ function obj = cutAtDates(obj,endDates)
 % 
 % Written by Kenneth S. Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     siz = size(endDates);
     if siz(1) ~= obj.numberOfDatasets
-        error(['The endDates input must have ' int2str(obj.numberOfDatasets) 
+        error(['The endDates input must have ' int2str(obj.numberOfDatasets),... 
                'rows. Has ' int2str(siz(1))])
     end
     if siz(2) ~= obj.numberOfVariables
-        error(['The endDates input must have ' int2str(obj.numberOfVariables) 
+        error(['The endDates input must have ' int2str(obj.numberOfVariables) ,...
                'columns. Has ' int2str(siz(2))])
     end
     
@@ -35,8 +35,8 @@ function obj = cutAtDates(obj,endDates)
     for pp = 1:obj.numberOfDatasets
         for ii = 1:obj.numberOfVariables
             if endDates(pp,ii) < obj.endDate
-                tt                 = (endDates(pp,ii) - obj.startDate) + 1;
-                data(tt:end,ii,pp) = nan;
+                tt                   = (endDates(pp,ii) - obj.startDate) + 1;
+                data(tt+1:end,ii,pp) = nan;
             end
         end
     end

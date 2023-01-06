@@ -43,7 +43,7 @@ function weights = nb_defaultWeights(scores,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     default = {'num',    [],   @(x)nb_isScalarInteger(x,0);...
                'perc',   [],   @(x)nb_isScalarNumber(x,0,100);...   

@@ -51,7 +51,7 @@ function obj = assignPosteriorDraws(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: Can only assign posterior draws to one model at the time.'])

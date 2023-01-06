@@ -25,13 +25,15 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
     if isempty(options)
         error([mfilename ':: The options input cannot be empty!'])
     end
+    options = nb_defaultField(options,'exogenous',{});
+    options = nb_defaultField(options,'removeZeroRegressors',0);
 
     % Get the estimation options
     tempData = options.data;
@@ -46,15 +48,27 @@ function [results,options] = estimate(options)
     % Get the estimation data
     [test,indZ] = ismember(tempDep,options.dataVariables);
     if any(~test)
-        error([mfilename ':: Cannot locate the dependent variable(s); ' toString(tempDep(~test))])
+        error(['Cannot locate the dependent variable(s); ',...
+            toString(tempDep(~test))])
     end
     Z = tempData(:,indZ);
+    if isempty(options.exogenous)
+        X = nan(size(Z,1),0);
+    else
+        tempExo      = cellstr(options.exogenous);
+        [testX,indX] = ismember(tempExo,options.dataVariables);
+        if any(~testX)
+            error(['Cannot locate the exogenous variable(s); ',...
+                toString(tempExo(~testX))])
+        end 
+        X = tempData(:,indX);
+    end
     
     % Shorten sample
-    [options,Z] = nb_estimator.testSample(options,Z);
+    [options,Z,X] = nb_estimator.testSample(options,Z,X);
     
     % Get seasonally adjusted series by x12-census
-    [results,options] = nb_seasonalEstimator.estimateSeasonal(options,Z);
+    [results,options] = nb_seasonalEstimator.estimateSeasonal(options,Z,X);
 
     % Assign generic results
     results.includedObservations = size(Z,1);

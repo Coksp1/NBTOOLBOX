@@ -34,7 +34,7 @@ function x = meanshift_skewness(dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(lb) && isempty(ub)
         func    = str2func(['nb_distribution.' dist '_skewness']);

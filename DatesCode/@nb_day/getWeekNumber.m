@@ -22,7 +22,7 @@ function [weekNum,weekDay,yearN] = getWeekNumber(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen         
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen         
 
     weekDay               = rem(6 + [obj.dayNr],7);
     weekDay(weekDay == 0) = 7;

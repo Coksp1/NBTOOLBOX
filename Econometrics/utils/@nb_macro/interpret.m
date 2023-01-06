@@ -21,7 +21,7 @@ function obj = interpret(input)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nb_isempty(input)
         obj = nb_macro.empty();

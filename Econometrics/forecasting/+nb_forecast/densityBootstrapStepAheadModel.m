@@ -10,7 +10,7 @@ function [Y,XE] = densityBootstrapStepAheadModel(restrictions,model,options,resu
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isempty(inputs.missing)
         error([mfilename ':: Density forecast of step-ahead models that are estimated with missing '...

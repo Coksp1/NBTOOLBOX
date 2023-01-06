@@ -5,15 +5,15 @@ function obj = atanh(obj)
 %
 % Description:
 %
-% atanh(obj) is the inverse hyperbolic tangent of the elements of obj.
+% Inverse hyperbolic tangent.
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -21,7 +21,7 @@ function obj = atanh(obj)
 % 
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = atanh(obj.data);
 

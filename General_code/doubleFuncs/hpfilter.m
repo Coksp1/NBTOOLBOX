@@ -1,7 +1,8 @@
-function y = hpfilter(x,lamb)
+function y = hpfilter(x,lamb,perc,fcstLen)
 % Syntax:
 % 
 % y = hpfilter(x,lamb)
+% y = hpfilter1s(x,lamb,perc,fcstLen)
 % 
 % Description:
 % 
@@ -16,6 +17,11 @@ function y = hpfilter(x,lamb)
 % 
 % - lamb     : The lambda of the hp-filter
 % 
+% - perc     : Set to true to calculate the gap as (gap/trend)*100.
+%
+% - fcstLen  : The forecast length. Extrapolates the original series
+%              using the average of the last 4 periods. Default is 0.
+%
 % Output:
 % 
 % - y        : The cyclical component of the x-series
@@ -26,7 +32,14 @@ function y = hpfilter(x,lamb)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+
+    if nargin < 4
+        fcstLen = 0;
+        if nargin < 3
+            perc = false;
+        end
+    end
 
     % Check for nan
     [r,c,p] = size(x);
@@ -36,10 +49,14 @@ function y = hpfilter(x,lamb)
         for cc = 1:c
             for pp = 1:p
                 good          = isfinite(x(:,cc,pp));
-                y(good,cc,pp) = hpfilter(x(good,cc,pp),lamb);
+                y(good,cc,pp) = hpfilter(x(good,cc,pp),lamb,perc,fcstLen);
             end
         end
         return
+    end
+    
+    if fcstLen > 0 
+        r = r + fcstLen;
     end
 
     a = zeros(r,r);
@@ -68,9 +85,23 @@ function y = hpfilter(x,lamb)
     I = eye(r);
     A = (I - I/a);
     y = x;
-    for ii = 1:p
-        y(:,:,ii) = A*x(:,:,ii) ;
+    if fcstLen > 0 
+        for ii = 1:p
+            xt        = x(:,:,ii);
+            fcst      = mean(xt(end-3:end,:),1);
+            xt        = [xt;fcst(ones(fcstLen,1),:)];  %#ok<AGROW>
+            yt        = A*xt ; 
+            y(:,:,ii) = yt(1:end-fcstLen,:); 
+        end
+    else
+        for ii = 1:p
+            y(:,:,ii) = A*x(:,:,ii) ;
+        end
+    end
+    
+    if perc
+        t = x - y; 
+        y = (y./t)*100;
     end
     
 end
-

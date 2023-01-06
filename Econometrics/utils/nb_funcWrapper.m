@@ -26,7 +26,7 @@ function value = nb_funcWrapper(x,fHandle,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
    value = fHandle(x,inputs{:}); 
    

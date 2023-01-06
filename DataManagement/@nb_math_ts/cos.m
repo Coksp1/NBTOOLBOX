@@ -5,16 +5,15 @@ function obj =   cos(obj)
 %
 % Description:
 %
-% Take cos of the data stored in the nb_ts object
+% Cosine
 % 
 % Input:
 % 
-% - obj           : An object of class nb_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts where the data are on 
-%                   cos.
+% - obj : An object of class nb_math_ts.
 % 
 % Examples:
 % 
@@ -22,7 +21,7 @@ function obj =   cos(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = cos(obj.data);
     

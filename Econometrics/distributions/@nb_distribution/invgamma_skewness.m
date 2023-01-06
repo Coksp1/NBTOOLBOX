@@ -23,7 +23,7 @@ function x = invgamma_skewness(m,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if m > 3
         x = (4*sqrt(m - 2))/(m - 3);

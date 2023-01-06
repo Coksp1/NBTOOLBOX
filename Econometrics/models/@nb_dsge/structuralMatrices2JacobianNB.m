@@ -33,7 +33,7 @@ function jacobian = structuralMatrices2JacobianNB(Alead,A0,Alag,B,leadCurrentLag
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the indexes
     nForward  = sum(leadCurrentLag(:,1));

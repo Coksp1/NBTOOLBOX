@@ -17,7 +17,7 @@ function c = cellstr(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     c = cellstr(obj.symbols);
 

@@ -17,13 +17,12 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options                             = struct();
     options.AR                          = false;
     options.algorithm                   = 'unrestricted';
     options.constant                    = 1;
-    options.covrepair                   = false;
     options.data                        = [];
     options.dataStartDate               = '';
     options.dataVariables               = {};
@@ -37,8 +36,6 @@ function options = template()
     options.nLags                       = 1;
     options.nLagsTests                  = 5;
     options.nStep                       = 1;
-    options.optimizer                   = 'fmincon';
-    options.optimset                    = struct('MaxTime',[],'MaxFunEvals',inf,'MaxIter',10000,'Display','iter','TolFun',[],'TolX',[]);
     options.polyLags                    = [];
     options.recursive_estim             = 0;
     options.recursive_estim_start_ind   = [];

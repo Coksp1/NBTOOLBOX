@@ -9,7 +9,7 @@ function graphSelected(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.data) && isa(gui.data,'nb_dataSource')
         nb_errorWindow('No data to graph.')

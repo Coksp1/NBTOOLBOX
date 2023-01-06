@@ -22,7 +22,7 @@ function obj = atand(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = atand(obj.data);
 

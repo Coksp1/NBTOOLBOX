@@ -12,7 +12,7 @@ function res = doTest(res,options,beta,y,X,residual)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     T                      = size(residual,1);
     [numCoeff,numEq]       = size(beta);
@@ -62,6 +62,10 @@ function res = doTest(res,options,beta,y,X,residual)
         end
         res.whiteTest = wTest;
         res.whiteProb = wProb;
+    else
+        nEq           = size(y,2);
+        res.whiteTest = nan(1,nEq);
+        res.whiteProb = nan(1,nEq);
     end
     
     % Full system 

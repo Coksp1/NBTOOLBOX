@@ -31,7 +31,7 @@ function actual = getActual(models,vars,startFcst,nSteps,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         inputs = struct('compareTo','','compareToRev','');

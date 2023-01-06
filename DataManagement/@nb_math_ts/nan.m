@@ -32,7 +32,7 @@ function obj = nan(start,obs,vars,pages)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         pages = 1;
@@ -54,6 +54,6 @@ function obj = nan(start,obs,vars,pages)
     % Generate random data
     data = nan(obs, vars, pages);
     
-    % Return nb_ts object
+    % Return nb_math_ts object
     obj = nb_math_ts(data,start);
 end

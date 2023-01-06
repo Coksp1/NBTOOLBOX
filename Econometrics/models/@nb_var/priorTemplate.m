@@ -148,9 +148,10 @@ function prior = priorTemplate(type,num)
 %          - 'inwishartMF' : Same as 'inwishart'. This prior option
 %                            supports missing observations.
 %
-%          - For the 'glp', 'jeffrey', 'minnesota' and 'nwishart' priors 
-%            you also have the oppurtunity to apply the prior for the long
-%            run as in Giannone et. al (2014).
+%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
+%            'nwishart' and 'nwishartMF' priors you also have the 
+%            oppurtunity to apply the prior for the long run as in 
+%            Giannone et. al (2014).
 %
 %             > 'LR'      : Apply priors for the long run. See also
 %                           nb_var.applyLongRunPriors. true or false.
@@ -162,9 +163,10 @@ function prior = priorTemplate(type,num)
 %                           relations. For more see 
 %                           nb_var.applyLongRunPriors.
 %
-%          - For the 'glp', 'jeffrey', 'minnesota' and 'nwishart' priors 
-%            you also have the oppurtunity to apply the sum-of-coefficients  
-%            prior by Doan, Litterman, and Sims (1984).
+%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
+%            'nwishart' and 'nwishartMF' priors you also have the 
+%            oppurtunity to apply the sum-of-coefficients  prior by Doan, 
+%            Litterman, and Sims (1984).
 %
 %             > 'SC'      : Apply sum-of-coefficients prior. true or false.
 %
@@ -173,9 +175,10 @@ function prior = priorTemplate(type,num)
 %                           of a unit root in each equation and rules out 
 %                           cointegration. 
 %
-%          - For the 'glp', 'jeffrey', 'minnesota' and 'nwishart' priors 
-%            you also have the oppurtunity to apply the dummy-initial-
-%            observation prior by Sims (1993).
+%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
+%            'nwishart' and 'nwishartMF' priors you also have the 
+%            oppurtunity to apply the dummy-initial-observation prior by 
+%            Sims (1993).
 %
 %             > 'DIO'     : Apply dummy-initial-observation prior. true or 
 %                           false.
@@ -186,8 +189,27 @@ function prior = priorTemplate(type,num)
 %                           their unconditional mean, or the system is 
 %                           characterized by the presence of an
 %                           unspecified number of unit roots without 
-%                           drift. As such, the dummy-initialobservation 
+%                           drift. As such, the dummy-initial observation 
 %                           prior is consistent with cointegration
+%
+%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
+%            'nwishart' and 'nwishartMF' priors you also have the 
+%            oppurtunity to apply the stochastic-volatility-dummy prior
+%            "How to estimate a vector autoregression after March 2020"
+%            by Lenza and Primiceri (2020).
+%
+%             > 'SVD'        : Apply stochastic-volatility-dummy prior.   
+%                              true or false.
+% 
+%             > 'periodsMax' : Number of periods we allow for estimation
+%                              of s_t. Default is 3.
+%
+%             > 'rho'        : Decay parameter, used for s_t after reaching 
+%                              periodsMax. Default is 0.5.
+%
+%             > 'dateSVD'    : A one line char for where to start the
+%                              stochastic-volatility-dummy prior. E.g.
+%                              '2020Q1'. This must be set, if SVD == true!
 %
 %          - 'kkse'        : This is the prior used in the paper by 
 %                            Koop and Korobilis (2014) extended by Schroder 
@@ -205,7 +227,7 @@ function prior = priorTemplate(type,num)
 %           
 %            > 'V0VarScale'      : Scale factor on the mean of the  
 %                                  prior on the initial value of the 
-%                                  measurment equation covariance matrix.  
+%                                  measurement equation covariance matrix.  
 %                                  Default is 0.1. Dogmatic prior set to 
 %                                  V0VarScale*I. !!Remove!!
 %
@@ -223,7 +245,8 @@ function prior = priorTemplate(type,num)
 %                                  x option.nLags*option.nFactors. Default 
 %                                  value is 0.1.
 %
-%            > 'l_1m'            : Decay factor for the measurement error
+%            > 'l_1m'            : Starting value of:
+%                                  Decay factor for the measurement error
 %                                  variance of the monthly variables. A
 %                                  smaller value puts smaller weight on
 %                                  past observations and thus allows for
@@ -231,7 +254,8 @@ function prior = priorTemplate(type,num)
 %                                  implies constant parameters. Default
 %                                  is 1. Do not adjust!
 %
-%            > 'l_1q'           :  Decay factor for the measurement error
+%            > 'l_1q'           :  Starting value of:
+%                                  Decay factor for the measurement error
 %                                  variance of the quarterly variables. A
 %                                  smaller value puts smaller weight on
 %                                  past observations and thus allows for
@@ -239,27 +263,98 @@ function prior = priorTemplate(type,num)
 %                                  implies constant parameters. Default
 %                                  is 1. Do not adjust!
 %
-%            > 'l_2'             : Decay factor for the factor error
+%            > 'l_2'              : Starting value of:
+%                                  Decay factor for the factor error
 %                                  variance. A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters. 
-%                                  Default is 0.9.
+%                                  Default is 1.
 %
-%            > 'l_3'             : Decay factor for the loadings' error
+%            > 'l_3'              : Starting value of:
+%                                  Decay factor for the loadings' error
 %                                  variance. A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters.
 %                                  Default is 1. Do not adjust!
 %
-%            > 'l_4'             : Decay factor for the factor VAR
+%            > 'l_4'              : Starting value of:
+%                                  Decay factor for the factor VAR
 %                                  parameters' error variance.
 %                                  A smaller value puts smaller 
 %                                  weight on past observations and thus 
 %                                  allows for faster parameter change. A 
 %                                  value of 1 implies constant parameters. 
-%                                  Default is 0.9.
+%                                  Default is 1.
+%
+%            > 'l_1_endo_update' : Controls the endogenous forgetting
+%                                  factors
+%                                  1: l_1m and l_1q are time-varying/
+%                                     endogenous
+%                                  0: l_1m and l_1q are constant/static 
+%                                  Default is 0. Do not adjust!                                
+%
+%            > 'l_2 endo_update' : Controls the endogenous forgetting
+%                                  factors
+%                                  1: l_2 is time-varying/endogenous
+%                                  0: l_2 is constant/static 
+%                                  Default is 0.
+%
+%            > 'l_3_endo_update' : Controls the endogenous forgetting
+%                                  factors
+%                                  1: l_3 is time-varying/endogenous
+%                                  0: l_3 is constant/static 
+%                                  Default is 0. Do not adjust!
+%
+%            > 'l_4_endo_update' : Controls the endogenous forgetting
+%                                  factors
+%                                  1: l_4 is time-varying/endogenous
+%                                  0: l_4 is constant/static 
+%                                  Default is 0.
+%
+%          - 'dsge' : DSGE-VAR prior. See Del Negro and Schorfheide 
+%                     (2004), "Priors from General Equilibrium Models for 
+%                     VARS". Let N be number of dependent variables, L the 
+%                     number of lags of the VAR, and C is equal to 1 if a 
+%                     constant is inlcuded. otherwise 0.
+%
+%            > 'lambda'  : DSGE-VAR weight.
+%
+%            > 'GammaYY' : A N x N double with the nonstandardized sample
+%                          moments of the left-hand variables of the VAR.
+%
+%            > 'GammaXX' : A (C + N*L) x (C + N*L) double with the 
+%                          nonstandardized sample moments of the right-hand 
+%                          variables of the VAR.
+%
+%            > 'GammaXY' : A (C + N*L) x N double with the nonstandardized 
+%                          sample moments between the right-hand
+%                          variables and the left-hand variables of the 
+%                          VAR.
+%
+%            The last 3 fields can be found from a nb_model_generic model
+%            using the method nb_model_generic.getDSGEVARPriorMoments.
+%
+%          Settings for econometric bayesian and hyper-learning:
+%
+%            > 'logTransformation' : Set to true to use the log 
+%                                    transformation -log((MAX-VALUE)
+%                                    ./(VALUE-MIN)) to the parameters to 
+%                                    optimize over. May be important if the
+%                                    optimizer chosen do not support lower
+%                                    and upper bounds! 
+%
+%            > 'optParam'           : A cellstr with the parameters to
+%                                     optimize over or empty. If empty 
+%                                     it tries to optimize over all hyper
+%                                     parameters of the selected prior.
+%
+%          Settings for missing observations priors:
+%
+%            > 'nonStationary' : Set to true to use some tricks to be able
+%                                to handle problems related to models in
+%                                levels. 
 %
 % - num  : Number of prior templates to make.
 %
@@ -268,11 +363,12 @@ function prior = priorTemplate(type,num)
 % - options : A struct.
 %
 % See also:
-% nb_var, nb_model_generic.checkPosteriors
+% nb_var, nb_model_generic.checkPosteriors, 
+% nb_model_generic.getDSGEVARPriorMoments
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -296,13 +392,6 @@ function prior = priorTemplate(type,num)
             prior.lambda  = 0.2;
             prior.Vc      = 1e7;
             prior.S_scale = 1;
-            prior.LR      = false;
-            prior.phi     = [];
-            prior.H       = [];
-            prior.SC      = false;
-            prior.mu      = 1; 
-            prior.DIO     = false;
-            prior.delta   = 1;
 
             % Hyperpriors
             % Gamma with mode 1 and std 1
@@ -316,15 +405,6 @@ function prior = priorTemplate(type,num)
             
             % Gamma with mode 1 and std 1
             prior.S_scaleHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-            % Gamma with mode 1 and std 1
-            prior.phiHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-            % Gamma with mode 1 and std 1
-            prior.muHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-            % Gamma with mode 1 and std 1
-            prior.deltaHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
             
         case 'glpmf'
             
@@ -348,16 +428,10 @@ function prior = priorTemplate(type,num)
             % Gamma with mode 1 and std 1
             prior.S_scaleHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
               
+            prior.nonStationary     = false;
+            
         case 'jeffrey'
             
-            prior.LR    = false;
-            prior.phi   = [];
-            prior.H     = [];
-            prior.SC    = false;
-            prior.mu    = 1;
-            prior.DIO   = false;
-            prior.delta = 1;
-
         case {'minnesota','minnesotamf'}
 
             prior.a_bar_1 = 0.5;
@@ -369,20 +443,29 @@ function prior = priorTemplate(type,num)
             prior.burn    = 500;
             prior.thin    = 2;
             prior.S_scale = 1;
-            if strcmpi(type,'minnesota')
-                prior.LR    = false;
-                prior.phi   = [];
-                prior.H     = [];
-                prior.SC    = false;
-                prior.mu    = 1;
-                prior.DIO   = false;
-                prior.delta = 1;
-            end
             
+            if strcmpi(prior.type,'minnesotamf')
+                prior.nonStationary = false;
+            end
+             
         case 'nwishart'
 
             prior.V_scale = 10;
             prior.S_scale = 1;
+            
+            % Hyperpriors
+            % Gamma with mode 10 and std 10
+            prior.V_scaleHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,6.180340);
+            
+            % Gamma with mode 1 and std 1
+            prior.S_scaleHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
+            
+        case 'nwishartmf'
+            
+            prior.V_scale = 10;
+            prior.S_scale = 1;
+            prior.burn    = 500;
+            prior.thin    = 2;
             prior.LR      = false;
             prior.phi     = [];
             prior.H       = [];
@@ -398,21 +481,7 @@ function prior = priorTemplate(type,num)
             % Gamma with mode 1 and std 1
             prior.S_scaleHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
             
-            % Gamma with mode 1 and std 1
-            prior.phiHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-            % Gamma with mode 1 and std 1
-            prior.muHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-            % Gamma with mode 1 and std 1
-            prior.deltaHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
-            
-        case 'nwishartmf'
-            
-            prior.V_scale = 10;
-            prior.S_scale = 1;
-            prior.burn    = 500;
-            prior.thin    = 2;
+            prior.nonStationary = false;
             
         case {'inwishart','inwishartmf'} 
 
@@ -423,7 +492,6 @@ function prior = priorTemplate(type,num)
             
         case 'kkse'
             
-            % TODO: update here to default correctly!
             prior.f0VarScale      = 10;
             prior.lambda0VarScale = 1;
             prior.V0VarScale      = 0.1;
@@ -432,14 +500,77 @@ function prior = priorTemplate(type,num)
             prior.method          = 'tvpmfsv';
             prior.l_1m            = 1;
             prior.l_1q            = 1;
-            prior.l_2             = 0.9;
+            prior.l_2             = 1;
             prior.l_3             = 1;
-            prior.l_4             = 0.9;    
+            prior.l_4             = 1; 
+            prior.l_1_endo_update = 0;
+            prior.l_2_endo_update = 0;
+            prior.l_3_endo_update = 0;
+            prior.l_4_endo_update = 0;
+            
+        case {'horseshoe'} 
 
+            prior.S_scale = 1;
+            prior.burn    = 500;
+            prior.thin    = 2;
+            
+        case 'laplace'
+            
+            prior.lam2Prior = [];
+            prior.burn      = 500;
+            prior.thin      = 2;
+            
+        case 'dsge'
+            
+            prior.lambda  = 0;
+            prior.GammaYY = [];
+            prior.GammaXX = [];
+            prior.GammaXY = [];
+            
         otherwise
 
             error([mfilename ':: Unsupported prior type ' type])
 
     end
+    
+    % Dummy observation priors
+    dummyPriorTypes = {'glp','glpmf','jeffrey','minnesota','minnesotamf','nwishart','nwishartmf'};
+    if any(strcmpi(type,dummyPriorTypes))
+        
+        prior.LR         = false;
+        prior.phi        = [];
+        prior.H          = [];
+        prior.SC         = false;
+        prior.mu         = 1;
+        prior.DIO        = false;
+        prior.delta      = 1;
+        prior.SVD        = false;
+        prior.rho        = 0.5;
+        prior.periodsMax = 3;
+        prior.dateSVD    = '';
+        
+        % Does the prior support hyperpriors?
+        dummyHyperpriorTypes = {'glp','glpmf','nwishart','nwishartmf'};
+        if any(strcmpi(type,dummyHyperpriorTypes))
+            % Gamma with mode 1 and std 1
+            prior.phiHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
 
+            % Gamma with mode 1 and std 1
+            prior.muHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
+
+            % Gamma with mode 1 and std 1
+            prior.deltaHyperprior = @(x)nb_distribution.gamma_pdf(x,2.618034,0.618034);
+            
+            % Beta with mode 0.8 and std 0.2
+            prior.rhoHyperprior = @(x)nb_distribution.beta_pdf(x,3.0357,1.5089);
+        end
+        
+    end
+    
+    % Settings for econometric bayes or hyperlearning
+    if ~any(strcmpi(type,{'kkse','jeffrey'}))
+        prior.logTransformation = false;
+        prior.optParam          = {};
+    end
+    
 end

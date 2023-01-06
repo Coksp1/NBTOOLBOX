@@ -11,6 +11,10 @@ function calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResu
     if isempty(start)
         start = nb_calendar.getDefaultStart(modelGroup,doRecursive,fromResults);
     end
+    if finish < start
+        calendar = [];
+        return
+    end
     
     first = convert(start,obj.frequency);
     last  = convert(finish,obj.frequency);

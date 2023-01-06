@@ -58,7 +58,7 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6 
         constraints = [];

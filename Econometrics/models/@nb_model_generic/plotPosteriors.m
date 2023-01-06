@@ -25,6 +25,11 @@ function plotter = plotPosteriors(obj,varargin)
 % - 'subplot' : Give this string as an input to plot the priors and 
 %               posteriors in subplots instead of one plot per parameter.
 %
+% - 'draws'   : The number of draws to sample from the posterior to base 
+%               the kernel estimation on, if empty all draws are used 
+%               for estimation. If 'updated' is given as input, this will 
+%               also set the the same options for the updated prior!
+%
 % Output:
 % 
 % - plotter : A 1 x numCoeff vector of objects of class nb_graph_data. Use 
@@ -37,11 +42,12 @@ function plotter = plotPosteriors(obj,varargin)
 %                      posteriors on screen.
 %
 % See also:
-% nb_graph_data, nb_graphMultiGUI, nb_graphSubPlotGUI
+% nb_graph_data, nb_graphMultiGUI, nb_graphSubPlotGUI,
+% nb_model_generic.getPosteriorDistributions
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 
@@ -70,12 +76,12 @@ function plotter = plotPosteriors(obj,varargin)
     end
     
     if updated
-        [distrUpdatedPrior,~] = getUpdatedPriorDistributions(obj);
+        [distrUpdatedPrior,~] = getUpdatedPriorDistributions(obj,varargin{:});
     end
     if prior
         [distrPrior,~] = getPriorDistributions(obj);
     end
-    [distr,paramNames] = getPosteriorDistributions(obj);
+    [distr,paramNames] = getPosteriorDistributions(obj,varargin{:});
     
     if subplot
         

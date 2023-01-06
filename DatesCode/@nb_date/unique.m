@@ -21,7 +21,7 @@ function [out,IA,IC] = unique(in)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nr        = getNr(in);
     [~,IA,IC] = unique(nr);

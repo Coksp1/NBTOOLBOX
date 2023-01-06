@@ -9,7 +9,7 @@ function saveAs(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(gui.plotter,'nb_graph_adv')
         if isa(gui.plotter.plotter,'nb_table_data_source')

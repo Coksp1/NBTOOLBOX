@@ -15,7 +15,7 @@ function [eqs,leadCLag,auxLag] = addAuxiliaryLagVariables(eqs,leadCLag,ind,laged
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the number of added equations
     nLaged = length(lagedEndo);

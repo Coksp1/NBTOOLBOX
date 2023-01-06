@@ -12,7 +12,7 @@ function results = newton(opt,fVal)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     exitFlag     = 1;
     x            = opt.initialXValue;

@@ -32,7 +32,7 @@ function obj = mtimes(a,b)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if (isa(a,'double') && isa(b,'nb_math_ts'))  
 

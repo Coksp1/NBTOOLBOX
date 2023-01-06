@@ -75,7 +75,7 @@ function [theta, epsilonbar, epsilon_seq, epsilonbar_seq, logp, grad] = dualAver
 
 % Copyright (c) 2011, Matthew D. Hoffman
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Default argment values.
     if nargin < 6

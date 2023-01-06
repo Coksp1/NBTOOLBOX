@@ -19,7 +19,7 @@ function obj = solve(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@solve,@nb_model_recursive_detrending);

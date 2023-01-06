@@ -27,7 +27,7 @@ function s = nb_structcat(t,r,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         type = '';
@@ -84,8 +84,14 @@ function s = nb_structcat(t,r,type)
     end
     
     added   = fieldsM(~ind);
-    for ii = 1:length(added)
-        s.(added{ii}) = m.(added{ii});
+    if numel(s) > 1
+        for ii = 1:length(added)
+            [s.(added{ii})] = deal(m.(added{ii}));
+        end
+    else
+        for ii = 1:length(added)
+            s.(added{ii}) = m.(added{ii});
+        end
     end
     
 end

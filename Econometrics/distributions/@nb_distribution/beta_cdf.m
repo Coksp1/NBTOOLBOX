@@ -26,7 +26,7 @@ function f = beta_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x(x>1) = 1; 
     x(x<0) = 0;

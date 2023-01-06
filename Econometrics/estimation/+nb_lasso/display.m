@@ -12,7 +12,7 @@ function help = display()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     help = ['Level of display. ''iter'' displays output at some iterations. ''off'' ',...
             'prevent any displaying. See also the ''displayer'' options.'];

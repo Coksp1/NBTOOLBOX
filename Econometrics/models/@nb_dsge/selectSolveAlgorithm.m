@@ -14,7 +14,7 @@ function [A,B,C,CE,ss,parser,err] = selectSolveAlgorithm(parser,solution,options
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     B = [];
     if parser.optimal % Find solution under optimal monetary policy 

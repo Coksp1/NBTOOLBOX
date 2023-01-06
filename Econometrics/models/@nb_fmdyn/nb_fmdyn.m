@@ -110,7 +110,7 @@ classdef nb_fmdyn < nb_model_generic & nb_factor_model_generic & nb_calculate_ge
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true)
        

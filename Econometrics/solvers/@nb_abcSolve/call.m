@@ -55,7 +55,7 @@ function [x,fval,exitflag] = call(F,init,lb,ub,options,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         options = nb_abcSolve.optimset();

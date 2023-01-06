@@ -12,7 +12,7 @@ function switchImportPanel(gui,~,~)
 %
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isequal(gui.currentPanel,gui.initSelectPanel)
         set(gui.currentPanel,'Visible','off');

@@ -1,20 +1,19 @@
-function obj =   cot(obj)
+function obj = cot(obj)
 % Syntax:
 %
 % obj = cot(obj)
 %
 % Description:
 %
-% Take cotangent of the data stored in the nb_ts object
+% Cotangent
 % 
 % Input:
 % 
-% - obj           : An object of class nb_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts where the data are on 
-%                   cot.
+% - obj : An object of class nb_math_ts.
 % 
 % Examples:
 % 
@@ -22,7 +21,7 @@ function obj =   cot(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = cot(obj.data);
     

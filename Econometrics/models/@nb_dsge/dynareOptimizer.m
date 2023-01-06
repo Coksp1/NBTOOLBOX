@@ -17,7 +17,7 @@ function optimizer = dynareOptimizer(mode_compute)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     switch mode_compute
         case 1

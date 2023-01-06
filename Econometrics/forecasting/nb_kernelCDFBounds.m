@@ -20,12 +20,34 @@ function out = nb_kernelCDFBounds(type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if type 
-        out = 0.975;
+        kernelCDFLow = getenv('kernelCDFLow');
+        if isempty(kernelCDFLow)
+            out = 0.975;
+        else
+            out = str2double(kernelCDFLow);
+            if isnan(out)
+                error('The environment variable kernelCDFLow could not be interpreted as a number!')
+            end
+            if out < 0 || out > 0.99999
+                error('The environment variable kernelCDFLow must be in the interval [0,0.9999]!')
+            end
+        end
     else
-        out = 1.025; 
+        kernelCDFHigh = getenv('kernelCDFHigh');
+        if isempty(kernelCDFHigh)
+            out = 1.025;
+        else
+            out = str2double(kernelCDFHigh);
+            if isnan(out)
+                error('The environment variable kernelCDFHigh could not be interpreted as a number!')
+            end
+            if out > 2 || out < 1.00001
+                error('The environment variable kernelCDFHigh must be in the interval [1.00001,2]!')
+            end
+        end
     end
 
 end

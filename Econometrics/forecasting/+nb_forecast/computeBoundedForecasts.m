@@ -10,7 +10,7 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     h = inputs.waitbar;
     if isempty(h)

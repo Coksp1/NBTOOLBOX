@@ -22,6 +22,7 @@ classdef nb_numDaysCalendar < nb_calendar
 %               > 2 : Semi-annually, i.e. each half-year back in time. 
 %               > 4 : Quarterly, i.e. each quarter back in time. 
 %               > 12: Monthly, i.e. each month back in time. 
+%               > 52: Weekly, i.e. each week back in time.
 %               Default is yearly (1).
 %
 % See also: 
@@ -29,7 +30,7 @@ classdef nb_numDaysCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     properties
         
@@ -47,7 +48,7 @@ classdef nb_numDaysCalendar < nb_calendar
             if nargin < 1
                 return
             end
-            if ~ismember(frequency,[1,2,4,12])
+            if ~ismember(frequency,[1,2,4,12,52])
                 error([mfilename ':: The frequency input must be 1, 2, 4 or 12.'])
             end
             obj.frequency = frequency;
@@ -71,6 +72,10 @@ classdef nb_numDaysCalendar < nb_calendar
                     if numDays > 28
                         error([mfilename ':: For monthly frequency 28 days is max.'])
                     end
+                case 52
+                    if numDays > 7
+                        error([mfilename ':: For weekly frequency 7 days is max.'])
+                    end    
                     
             end
             obj.numDays = numDays;
@@ -78,9 +83,13 @@ classdef nb_numDaysCalendar < nb_calendar
         end
         
         function s = struct(obj)
-           s = struct('class',class(obj),...
-                      'numDays',obj.numDays,...
-                      'frequency',obj.frequency); 
+            s = struct('class',class(obj),...
+                'numDays',obj.numDays,...
+                'frequency',obj.frequency);
+        end
+        
+        function name = getName(obj)
+            name = ['NumDays - ' int2str(obj.numDays) ' - ' nb_date.getFrequencyAsString(obj.frequency)]; 
         end
         
     end

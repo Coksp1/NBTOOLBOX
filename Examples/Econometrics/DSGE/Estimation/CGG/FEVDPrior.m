@@ -18,7 +18,7 @@ function logSystemPrior = FEVDPrior(parser,solution)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Options
     prior.horizon    = [1,1];

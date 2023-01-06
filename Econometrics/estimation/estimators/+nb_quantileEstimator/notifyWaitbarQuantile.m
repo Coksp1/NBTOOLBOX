@@ -9,7 +9,7 @@ function notifyWaitbarQuantile(h,qq,note,numQ)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numQ == 1
         return

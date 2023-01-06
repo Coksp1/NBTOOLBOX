@@ -10,7 +10,7 @@ function [res,options] = normalEstimationStepAhead(options,res)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~options.unbalanced
         options.estim_start_ind = options.estim_start_ind + options.nLags;

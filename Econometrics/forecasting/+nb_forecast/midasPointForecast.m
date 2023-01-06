@@ -10,16 +10,18 @@ function [Y,evalFcst] = midasPointForecast(y0,restrictions,model,options,~,nStep
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get model solution
-    [A,B] = nb_forecast.getModelMatrices(model,iter);
-    B     = B(all(~isnan(B),2),:);
+    modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
+    A         = modelIter.A;
+    B         = modelIter.B;
+    B         = B(all(~isnan(B),2),:);
     
     % Produce forecast
     Y      = nan(1,nSteps+1);
     Y(:,1) = y0;
-    X      = restrictions.X(restrictions.index,:)';
+    X      = permute(restrictions.X(restrictions.index,:,:),[2,1,3]);
     E      = zeros(1,nSteps);
     Y      = nb_computeMidasForecast(A,B,Y,X,E);
     Y      = Y(1,2:end)';

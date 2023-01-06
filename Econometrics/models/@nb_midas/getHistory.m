@@ -30,7 +30,7 @@ function histData = getHistory(obj,vars,date,~,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         date = '';
@@ -57,7 +57,7 @@ function histData = getHistory(obj,vars,date,~,~)
         end
     end
     [~,indY] = ismember(estOpt.dependent,estOpt.dataVariables);
-    Y        = estOpt.data(estOpt.start_low:estOpt.increment:estOpt.end_low,indY);  
+    Y        = estOpt.data(estOpt.mappingDep,indY);  
     histData = nb_ts(Y,'',estOpt.estim_start_date_low,estOpt.dependent(1));
     
     warning('off','nb_ts:window:VariableNotFound');

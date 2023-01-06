@@ -1,7 +1,7 @@
 function obj = merge2Series(obj,other,method,varargin)
 % Syntax:
 %
-% obj = merge2Series(obj,var1,var2,new,method,varargin)
+% obj = merge2Series(obj,other,method,varargin)
 %
 % Description:
 %
@@ -47,7 +47,7 @@ function obj = merge2Series(obj,other,method,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = 'level';

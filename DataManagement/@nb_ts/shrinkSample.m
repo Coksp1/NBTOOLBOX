@@ -26,7 +26,7 @@ function obj = shrinkSample(obj,variables,periods)
 %
 % Written by Kenneth S. Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         periods = 0;

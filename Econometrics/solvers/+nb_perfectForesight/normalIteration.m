@@ -10,7 +10,7 @@ function [YT,err] = normalIteration(obj,funcs,inputs,iter,outer,YT)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nSilent = ~obj.options.silent;
     funcs   = nb_perfectForesight.updateStackedSystemFunction(obj,funcs,inputs,iter);

@@ -9,7 +9,7 @@ function [Y,X] = map2Density(dist,Y,X,nDep)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Transform the dependent variables of the model
     distY = dist(1,1:nDep);

@@ -38,7 +38,7 @@ function [obj,dist] = doForecastPerc2ParamDist(obj,distribution,draws,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error('The obj input must be a scalar nb_model_forecast object.')

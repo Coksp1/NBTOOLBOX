@@ -34,7 +34,7 @@ classdef (Abstract) nb_historyGUI < handle
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Access = protected)
         % Cell array of names of variables to log

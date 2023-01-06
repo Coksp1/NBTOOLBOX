@@ -18,7 +18,7 @@ classdef nb_importDataGUI < nb_heavyJobInterface
 % 
 % Written by Kenneth Sæterhagen Paulsen/Eyo Herstad
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         

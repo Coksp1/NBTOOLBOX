@@ -27,9 +27,9 @@ function defaultColors = nb_defaultColors(number,isNB)
 % 
 % defaultColors : A n x 3 double with the RGB colors.
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         isNB = false;

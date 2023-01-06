@@ -10,7 +10,7 @@ function [irfDataD,paused] = doParallel(method,model,options,results,inputs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     numCores = [];
     if isfield(inputs,'cores')

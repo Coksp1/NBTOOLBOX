@@ -29,7 +29,12 @@ function obj = horzcat(a,b,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+
+    if nargin == 1
+        obj = a;
+        return
+    end
 
     if isa(a,'cell') 
         obj = [a,{b}];

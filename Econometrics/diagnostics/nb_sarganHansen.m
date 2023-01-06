@@ -40,7 +40,7 @@ function [test,pval] = nb_sarganHansen(residual,x,inst,overident,constant,timeTr
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     n    = size(inst,1);
     nEq  = size(residual,2);

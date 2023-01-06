@@ -36,7 +36,7 @@ function [loc,ind,dataOut,numberOfDatasets] = getLocInd(dataIn)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [s1,s2,s3,s4] = size(dataIn);
     if s4 > 1

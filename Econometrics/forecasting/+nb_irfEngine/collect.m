@@ -12,7 +12,7 @@ function irfData = collect(options,inputs,Y,dep,results,ss)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Reported variables
     Y = permute(Y,[2,1,3]);
@@ -139,6 +139,11 @@ function ssMat = getSteadyState(inputs,nShocks,ss)
             ssMat = ss;
             return
         end
+    end
+    
+    if iscell(ss) && (isempty(inputs.startingValues) || ...
+            any(strcmpi(inputs.startingValues,{'steady_state','steadystate'})))
+        inputs.startingValues = 'steady_state(1)';
     end
 
     switch lower(inputs.startingValues)

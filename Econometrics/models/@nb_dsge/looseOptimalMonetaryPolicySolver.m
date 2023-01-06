@@ -35,7 +35,7 @@ function [H,D,DE,parser,err] = looseOptimalMonetaryPolicySolver(parser,solution,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     persistent H0;
     err = '';

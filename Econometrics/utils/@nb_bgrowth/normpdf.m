@@ -21,9 +21,9 @@ function obj = normpdf(obj)
 % 
 % - obj : An object of class nb_bgrowth.
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj  = obj(:);

@@ -13,7 +13,7 @@ function [YDRAW,start,finish,indY,startEst] = makeArtificial(model,options,resul
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     error('Cannot make artificial data from a model estimated with RIDGE')
     

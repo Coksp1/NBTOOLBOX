@@ -21,7 +21,7 @@ function day = christmas(obj,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This function only handle a scalar nb_date object.'])

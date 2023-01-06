@@ -118,7 +118,7 @@ function [decomp,decompBand,plotter] = shock_decomposition(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen    
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if any(~issolved(obj))
         error([mfilename ':: All the models must be solved to do shock decomposition'])
@@ -281,7 +281,12 @@ function [decomp,decompBands] = packOutput(decompC,models,results,opt,vars,packa
         if isempty(sInd(mm)) || isnan(sInd(mm))
             sInd(mm) = optModel.estim_start_ind;
         end
-        start = nb_date.date2freq(optModel.dataStartDate) + sInd(mm) - 1;
+        if isfield(results{mm},'filterStartDate')
+            estInd = nb_dateminus(results{mm}.filterStartDate,optModel.dataStartDate) + 1;
+            start  = nb_date.date2freq(results{mm}.filterStartDate) + max(sInd(mm)-estInd + 1,1) - 1;
+        else
+            start = nb_date.date2freq(optModel.dataStartDate) + sInd(mm) - 1;
+        end
         
         % Get model properties
         cl = '';

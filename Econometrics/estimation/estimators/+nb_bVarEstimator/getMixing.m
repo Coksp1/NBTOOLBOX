@@ -9,7 +9,7 @@ function mixing = getMixing(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     mixing.indObservedOnly = options.indObservedOnly;
     vars                   = [options.dependent,options.block_exogenous];

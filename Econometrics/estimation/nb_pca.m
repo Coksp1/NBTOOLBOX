@@ -11,7 +11,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = nb_pca(X,r,method,varargin)
 %
 % The following equation applies:
 %
-% X = c + F*LAMBDA.*sigma + e, e ~ N(0,R) (1)
+% X = (c + F*LAMBDA + e).*sigma, e ~ N(0,R) (1)
 % 
 % Input:
 % 
@@ -126,7 +126,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = nb_pca(X,r,method,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = 'svg';
@@ -198,6 +198,8 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = nb_pca(X,r,method,varargin)
     if nargout > 4
         expl = 100*varF/sum(varF);
         expl = expl(:,1:r);
+    end
+    if nargout > 3
         varF = varF(:,1:r);
     end
     
@@ -459,7 +461,3 @@ function [F,LAMBDA,varF,r,c,sigma,Z] = estimateUnbalanced(options,X,r,method)
     end
     
 end
-
-
-
-

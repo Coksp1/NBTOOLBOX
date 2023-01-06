@@ -1,7 +1,7 @@
-function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
+function [extra,betaD,sigmaD,yD,pD] = drawMoreFromPosterior(inputs,coeffDraws)
 % Syntax:
 %
-% [extra,betaD,sigmaD,yD] = nb_forecast.drawMoreFromPosterior(inputs,...
+% [extra,betaD,sigmaD,yD,pD] = nb_forecast.drawMoreFromPosterior(inputs,...
 %                               coeffDraws)
 %
 % Description:
@@ -11,7 +11,7 @@ function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     yD = [];
     if isfield(coeffDraws,'yD')
@@ -19,6 +19,13 @@ function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
         ySampling = true;
     else
         ySampling = false;
+    end
+    pD = [];
+    if isfield(coeffDraws,'pD')
+        pD        = coeffDraws.pD;
+        pSampling = true;
+    else
+        pSampling = false;
     end
     
     betaD = coeffDraws.betaD;
@@ -45,17 +52,17 @@ function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
         indE = nDraws + 1:parameterDraws;
         
         % Out of posterior draws, so we need more!
-        [s1,s2,~]            = size(betaD);
-        [ss1,ss2,~]          = size(sigmaD);
-        betaDFull            = nan(s1,s2,parameterDraws);
-        sigmaDFull           = nan(ss1,ss2,parameterDraws);
-        betaDFull(:,:,ind)   = betaD;
-        sigmaDFull(:,:,ind)  = sigmaD;
-        [betaDT,sigmaDT,yDT] = nb_drawFromPosterior(coeffDraws,parameterDraws - nDraws,h);
-        betaDFull(:,:,indE)  = betaDT;
-        sigmaDFull(:,:,indE) = sigmaDT;
-        betaD                = betaDFull;
-        sigmaD               = sigmaDFull;
+        [s1,s2,~]                = size(betaD);
+        [ss1,ss2,~]              = size(sigmaD);
+        betaDFull                = nan(s1,s2,parameterDraws);
+        sigmaDFull               = nan(ss1,ss2,parameterDraws);
+        betaDFull(:,:,ind)       = betaD;
+        sigmaDFull(:,:,ind)      = sigmaD;
+        [betaDT,sigmaDT,yDT,pDT] = nb_drawFromPosterior(coeffDraws,parameterDraws - nDraws,h);
+        betaDFull(:,:,indE)      = betaDT;
+        sigmaDFull(:,:,indE)     = sigmaDT;
+        betaD                    = betaDFull;
+        sigmaD                   = sigmaDFull;
         
         if ySampling
             [s1,s2,~]        = size(yD);
@@ -63,6 +70,13 @@ function [extra,betaD,sigmaD,yD] = drawMoreFromPosterior(inputs,coeffDraws)
             yDFull(:,:,ind)  = yD;
             yDFull(:,:,indE) = yDT;
             yD               = yDFull;
+        end
+        if pSampling
+            [s1,s2,s3,~]       = size(pD);
+            pDFull             = nan(s1,s2,s3,parameterDraws);
+            pDFull(:,:,:,ind)  = pD;
+            pDFull(:,:,:,indE) = pDT;
+            pD                 = pDFull;
         end
         
     end

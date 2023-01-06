@@ -17,7 +17,7 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options                           = struct();
     options.data                      = [];
@@ -26,10 +26,12 @@ function options = template()
     options.dependent                 = {};
     options.estim_end_ind             = [];
     options.estim_start_ind           = [];
+    options.exogenous                 = {};
     options.maxIter                   = 2500;
     options.missing                   = '';
     options.recursive_estim           = 0;
     options.recursive_estim_start_ind = [];
+    options.removeZeroRegressors      = false;
     options.requiredDegreeOfFreedom   = 3;
     options.rollingWindow             = [];
     options.tolerance                 = 1e-5;

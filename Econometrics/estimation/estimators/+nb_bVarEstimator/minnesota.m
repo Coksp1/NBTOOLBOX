@@ -60,7 +60,7 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         waitbar = 0;
@@ -132,14 +132,15 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
         % minnesota prior itself, so here we remove the dummy
         % observation temporarily
         if prior.LR || prior.SC 
-            yT     = y(1:end-numDep,:);
             TrawAR = TrawAR - numDep;
-        elseif prior.DIO
-            yT     = y(1:end-1,:);
-            TrawAR = TrawAR - 1;    
-        else
-            yT = y;
         end
+        if prior.DIO
+            TrawAR = TrawAR - 1;
+        end
+        if prior.SVD
+            TrawAR = min(TrawAR,prior.obsSVD - 1);
+        end
+        yT = y(1:TrawAR,:);
     else
         yT = y;
     end

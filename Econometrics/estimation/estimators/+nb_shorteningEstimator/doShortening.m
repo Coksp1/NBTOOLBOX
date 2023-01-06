@@ -3,7 +3,7 @@ function [res,options] = doShortening(options,Z)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [~,freq] = nb_date.date2freq(options.dataStartDate);
     dof      = options.requiredDegreeOfFreedom*freq;
@@ -17,7 +17,7 @@ function [res,options] = doShortening(options,Z)
         F  = nan(T,size(Z,2),iter);
         kk = 1;
         for tt = start:T
-            F(ss(kk):tt,:,kk) = Z(ss(kk):tt,:,kk);
+            F(ss(kk):tt,:,kk) = Z(ss(kk):tt,:);
             kk                = kk + 1;
         end
            

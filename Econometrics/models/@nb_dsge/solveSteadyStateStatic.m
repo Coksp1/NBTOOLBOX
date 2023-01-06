@@ -41,7 +41,7 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         bgp = [];
@@ -118,9 +118,6 @@ function [ss,pSolved,err,parser] = solveSteadyStateStatic(parser,options,pKnown,
         
     else % Get initial values
         ss = options.steady_state_init;
-        if isfield(ss,'DELTA_SA_NW')
-            ss.DELTA_SA_NW = 0.018;
-        end
         p  = pKnown;
     end
     

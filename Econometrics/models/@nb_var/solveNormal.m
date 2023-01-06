@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,opt,ident)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         ident = [];
@@ -14,10 +14,18 @@ function tempSol = solveNormal(results,opt,ident)
     maxLag = max(opt.maxLagLength + 1,opt.nLags + 1);
 
     % Provide solution
-    dep = opt.dependent;
-    if isfield(opt,'block_exogenous')
-        dep = [dep,opt.block_exogenous];
+    if strcmpi(opt.estim_method,'tvpmfsv')
+        [auxDep,res] = nb_tvpmfsvEstimator.getStateNames(opt);
+        dep          = regexprep(auxDep(1:size(res,2)),'^AUX\_','');
+    else
+        dep  = opt.dependent;
+        if isfield(opt,'block_exogenous')
+            dep = [dep,opt.block_exogenous];
+        end
+        res = strcat('E_',dep);
     end
+    obs = dep;
+    
     exo = opt.exogenous;
     if opt.time_trend
         exo = ['Time-trend',exo]; %#ok<*AGROW>
@@ -44,8 +52,33 @@ function tempSol = solveNormal(results,opt,ident)
         tempSol.F           = results.C;
         tempSol.G           = results.Z;
         tempSol.S           = results.S; % To do re-standardization later, if empty no need
-        tempSol.R           = results.R; % Measurment error covariance matrix
+        tempSol.R           = zeros(size(results.Z,1)); % Turn of measurement error during forecasting
+        tempSol.P           = results.P; % One-step ahead forecast error variance
          
+        if ~nb_isempty(opt.measurementEqRestriction)
+            % We only add support for measurement restrictions post
+            % estimation
+            
+            % Get time-varying measurement equations
+            [tempSol.G,yRest] = nb_bVarEstimator.applyMeasurementEqRestriction(tempSol.G,[],opt);
+            obs               = [obs,{opt.measurementEqRestriction.restricted}];
+            tempSol.G         = tempSol.G(:,:,end);
+            
+            % Get weighted parameters in F
+            weights   = tempSol.G(numDep+1:end,1:numDep);
+            FRest     = weights*tempSol.F;
+            tempSol.F = [tempSol.F;FRest];
+            
+            % Append measurement error covariance matrix
+            numObs              = length(obs);
+            R                   = zeros(numObs,1);
+            R_scale             = [opt.measurementEqRestriction.R_scale];
+            R(numDep+1:end)     = nanvar(yRest)./R_scale;
+            tempSol.R           = R;
+            tempSol.observables = obs;
+            
+        end
+        
     else
     
         % Estimation results
@@ -90,6 +123,11 @@ function tempSol = solveNormal(results,opt,ident)
         end
         vcv = results.sigma;
         
+        % Do we want to apply some measurement restrictions?
+        if ~nb_isempty(opt.measurementEqRestriction)
+            tempSol = appendMeasurementRest(tempSol,opt,results,obs,numDep,numRows);
+        end
+        
     end
     
     if isfield(ident,'stabilityTest')
@@ -102,7 +140,6 @@ function tempSol = solveNormal(results,opt,ident)
     end
     
     % Identification of the VAR
-    res     = strcat('E_',dep);
     counter = [];
     if nb_isempty(ident)
         tempSol.C = [eye(numDep);zeros(numRows,numDep)];
@@ -141,10 +178,19 @@ function tempSol = solveNormal(results,opt,ident)
          
     end
     
+    % Calibrate measurement error covariance matrix
+    if ~isempty(opt.calibrateR) && isfield(tempSol,'R')
+        tempSol = calibrateR(tempSol,opt,tempSol.observables);
+    end
+    
     % Get the ordering
-    tempSol.endo           = [dep,nb_cellstrlag(dep,nLags-1,'varFast')];
+    if strcmpi(opt.estim_method,'tvpmfsv')
+        tempSol.endo = auxDep;
+    else
+        tempSol.endo = [dep,nb_cellstrlag(dep,nLags-1,'varFast')];
+    end
     tempSol.exo            = exo;
-    tempSol.obs            = dep;
+    tempSol.obs            = obs;
     tempSol.res            = res;
     tempSol.vcv            = vcv;
     tempSol.identification = ident;
@@ -157,3 +203,51 @@ function tempSol = solveNormal(results,opt,ident)
     tempSol.type = 'nb';
     
 end
+
+
+%==========================================================================
+function tempSol = appendMeasurementRest(tempSol,opt,results,obs,numDep,numRows)
+
+    tempSol.G           = [eye(numDep),zeros(numDep,numRows)];
+    [tempSol.G,yRest]   = nb_bVarEstimator.applyMeasurementEqRestriction(tempSol.G,[],opt);
+    tempSol.G           = permute(tempSol.G,[1,2,4,3]);
+    obs                 = [obs,{opt.measurementEqRestriction.restricted}];
+    tempSol.observables = obs;
+
+    % Measurement error covariance matrix
+    if ~isfield(results,'R')
+        numObs                  = length(obs);
+        tempSol.R               = zeros(numObs,1);
+        R_scale                 = [opt.measurementEqRestriction.R_scale];
+        tempSol.R(numDep+1:end) = nanvar(yRest)./R_scale;
+    else
+        tempSol.R = results.R; 
+    end
+end
+
+%==========================================================================
+function tempSol = calibrateR(tempSol,opt,obs)
+
+    % Calibrate measurement equation
+    tempSol.RCalib = tempSol.R;
+    vars           = opt.calibrateR(1:2:end);
+    R_scale        = [opt.calibrateR{2:2:end}];
+    if length(vars) ~= length(R_scale)
+        error('The calibrateR option must have even numbered length.')
+    end
+    [test,loc] = ismember(vars,obs);
+    if any(~test)
+        error(['You cannot calibrate the measurement error on ',...
+            'the following variables ' toString(vars(~test))])
+    end
+    [~,locY] = ismember(vars,opt.dataVariables);
+    sample   = opt.estim_start_ind:opt.estim_end_ind;
+    Y        = opt.data(sample,locY);
+    if size(tempSol.RCalib,2) > 1
+        tempSol.RCalib(loc,loc) = diag(nanvar(Y)./R_scale);
+    else
+        tempSol.RCalib(loc) = nanvar(Y)./R_scale;
+    end
+    
+end
+    

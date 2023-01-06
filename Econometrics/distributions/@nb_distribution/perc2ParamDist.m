@@ -52,7 +52,7 @@ function [obj,err] = perc2ParamDist(dist,perc,values,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     [optimizer,varargin] = nb_parseOneOptional('optimizer','fmincon',varargin{:});
     optimset             = nb_parseOneOptional('optimset',[],varargin{:});

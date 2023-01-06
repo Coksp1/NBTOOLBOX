@@ -8,6 +8,9 @@ function ret = nb_openPool(cores)
 %
 % Open up a parallel session if not already open.
 %
+% Caution: To open a cluster pool set the environtment variable 
+%          clusterProfile; setenv('clusterProfile','yourProfileName')
+%
 % Input:
 %
 % - cores : Number of cores to open, as an integer. Default is available.
@@ -21,7 +24,7 @@ function ret = nb_openPool(cores)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         cores = [];
@@ -47,23 +50,41 @@ function ret = nb_openPool(cores)
         
     else
         
-        poolobj = gcp('nocreate');
-        if ~isempty(cores)
-            if isempty(poolobj)
-                parpool(cores);
-                ret = 1;
-            else
-                if poolobj.NumWorkers ~= cores
-                    nb_closePool(true); % Close old parallel session
+        clusterProfile = getenv('clusterProfile');
+        poolobj        = gcp('nocreate');
+        if isempty(clusterProfile)
+        
+            if ~isempty(cores)
+                if isempty(poolobj)
                     parpool(cores);
+                    ret = 1;
+                else
+                    if poolobj.NumWorkers ~= cores
+                        nb_closePool(true); % Close old parallel session
+                        parpool(cores);
+                        ret = 1;
+                    end
+                end
+            else
+                if isempty(poolobj)
+                    parpool;
                     ret = 1;
                 end
             end
+            
         else
+            
+            if ~isempty(cores)
+                warning('nb_openPool:CannotSetCoresWhenCluster',...
+                    ['The number of cores cannot be set when using a ',...
+                    'cluster profile. The profile sets this.'])
+            end
             if isempty(poolobj)
-                parpool;
+                p = parcluster(clusterProfile);
+                parpool(p);
                 ret = 1;
             end
+            
         end
         
     end

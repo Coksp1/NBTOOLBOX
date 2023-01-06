@@ -55,22 +55,41 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         waitbar = true;
     end
-
+    
+    if prior.LR || prior.SC || prior.DIO || prior.SVD
+        error('Cannot apply dummy priors for the prior inwishart')
+    end
+    
     % Are we dealing with all zero regressors?
     [T,numDep]             = size(y);
     [x,indZR,restrictions] = nb_bVarEstimator.removeZR(x,constant,timeTrend,numDep,0,restrictions);
     numCoeff               = size(x,2) + constant + timeTrend;
 
     % Initial values for Gibbs
+    TrawOLS = T;
+    if isfield(prior,'LR')
+        % We don't want the dummy observation of the long run prior mess
+        % up the OLS estimation itself, so here we remove the dummy
+        % observation temporarily
+        if prior.LR || prior.SC 
+            TrawOLS = TrawOLS - numDep;
+        end
+        if prior.DIO
+            TrawOLS = TrawOLS - 1;
+        end
+        if prior.SVD
+            TrawOLS = min(TrawOLS,prior.obsSVD - 1);
+        end
+    end
     if isempty(restrictions)
-        [A_OLS,~,~,~,r,X] = nb_ols(y,x,constant,timeTrend);
+        [A_OLS,~,~,~,r,X] = nb_ols(y(1:TrawOLS,:),x(1:TrawOLS,:),constant,timeTrend);
     else
-        [A_OLS,~,~,~,r,X] = nb_olsRestricted(y,x,restrictions,constant,timeTrend);
+        [A_OLS,~,~,~,r,X] = nb_olsRestricted(y(1:TrawOLS,:),x(1:TrawOLS,:),restrictions,constant,timeTrend);
     end
     SSE       = r'*r;
     initSigma = SSE./(T-numCoeff+1);

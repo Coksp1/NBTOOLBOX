@@ -21,7 +21,7 @@ function dateString = realTimespan(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(obj.plotter,'nb_graph_ts') || isa(obj.plotter,'nb_table_ts')
         dateString = realTimespan(obj.plotter);       

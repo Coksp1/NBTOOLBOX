@@ -42,7 +42,7 @@ function out = callrtfun(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [func,varargin] = nb_parseOneOptional('func',@(x)x,varargin{:});
     [name,varargin] = nb_parseOneOptional('name','new',varargin{:});

@@ -27,7 +27,7 @@ function [common,base1,base2] = findCommonTerms(base1,base2,pow1,pow2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get commond terms from base1
     commonTerms1 = getCommonTermsSub(base1,pow1);

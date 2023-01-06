@@ -149,3 +149,20 @@ set(plotter,'startGraph','2017M1')
 nb_graphSubPlotGUI(plotter);
 plotter   = plotForecast(modelRecF,'hairyplot');
 nb_graphSubPlotGUI(plotter);
+
+%% Density forecast
+
+modelRecDensF = forecast(modelRecS,4,'fcstEval','SE',...
+    'draws',1,'parameterDraws',1000);
+plotter   = plotForecast(modelRecDensF,'default','2020M2');
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
+plotter   = plotForecast(modelRecDensF,'default','2020M3');
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
+plotter   = plotForecast(modelRecDensF,'default','2020M4');
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
+plotter   = plotForecast(modelRecDensF,'default','2020M5');
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);

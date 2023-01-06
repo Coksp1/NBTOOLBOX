@@ -24,7 +24,7 @@ function x = beta_kurtosis(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = 6*((m- k)^2*(m + k + 1) - m*k*(m + k + 2));
     d = m*k*(m + k + 2)*(m + k + 3);

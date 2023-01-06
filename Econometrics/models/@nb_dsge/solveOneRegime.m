@@ -34,7 +34,7 @@ function [A,B,C,CE,ss,JAC,err] = solveOneRegime(options,beta,skipSolve,silent)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         silent = true;

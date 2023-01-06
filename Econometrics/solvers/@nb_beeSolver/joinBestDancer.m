@@ -25,7 +25,7 @@ function joiners = joinBestDancer(joiners,minXValue,minFunctionValue,minFFunctio
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nBees = size(joiners,1);
     if nBees == 0

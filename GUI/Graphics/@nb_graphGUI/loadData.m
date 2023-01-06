@@ -9,7 +9,7 @@ function loadData(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     loader = nb_loadDataGUI(gui.parent);
     addlistener(loader,'sendLoadedData',@gui.mergeOrReset);

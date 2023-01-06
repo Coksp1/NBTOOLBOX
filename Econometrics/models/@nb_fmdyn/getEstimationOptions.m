@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimators
     obj  = obj(:);
@@ -68,7 +68,7 @@ function outOpt = getEstimationOptions(obj)
                 tempOpt.mapping     = obj.observables.mapping;
                 tempOpt.frequency   = obj.observables.frequency;
                 tempOpt.factorNames = obj.factors.name;
-                
+               
             otherwise
 
                 error([mfilename ':: The estimation method ' estim_method ' is not supported.'])

@@ -57,7 +57,7 @@ function test = nb_cfsTest(X,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [T,N,P] = size(X);
     if P > 1

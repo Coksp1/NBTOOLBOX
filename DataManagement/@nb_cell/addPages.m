@@ -32,7 +32,7 @@ function obj = addPages(obj,DB,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isa(DB,'nb_cell') || ~isa(obj,'nb_cell')
         error([mfilename ':: The added pages must both be nb_cell objects.'])

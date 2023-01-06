@@ -33,7 +33,7 @@ function draws = ast_rand(nrow,ncol,a,b,c,d,e)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     cstar = nb_ast_cstar(c,d,e);
     if cstar == 1

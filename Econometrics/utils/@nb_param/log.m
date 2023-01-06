@@ -17,7 +17,7 @@ function obj = log(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     paramStr      = nb_mySD.addPar(obj.parameter,false);
     obj.parameter = ['log' paramStr];

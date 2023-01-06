@@ -29,7 +29,7 @@ function draws = logistic_rand(nrow,ncol,m,k)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if m <= 0
        error([mfilename ':: Parameter m is wrong'])

@@ -10,7 +10,7 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true)
         
@@ -115,7 +115,7 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
         %
         % - factors     : A 1 x nfact cellstr with the estimated  
         %                 factors and/or exogenous variables of the 
-        %                 measurment equation.
+        %                 measurement equation.
         %
         % - F           : See the equation above. A nobs x nExo double. 
         %                 (Storing the impact of exogenous terms of the  
@@ -308,6 +308,8 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
                 if isa(tempObj,'nb_mfvar')
                     temp.mixing = repmat({''},[1,temp.number]);
                 end
+            elseif isa(tempObj,'nb_midas')
+                temp.frequency = cell(1,temp.number);
             end
 
             switch lower(type)
@@ -437,6 +439,7 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
     methods (Static=true,Hidden=true)    
         
         varargout = defaultInputs(varargin)
+        varargout = isMixedFrequencyStatic(varargin)
         varargout = loopForecast(varargin)
         varargout = templateGeneral(varargin)
         

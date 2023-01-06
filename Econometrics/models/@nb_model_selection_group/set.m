@@ -30,7 +30,7 @@ function obj = set(obj, varargin)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nobj = numel(obj);
     if nobj > 1

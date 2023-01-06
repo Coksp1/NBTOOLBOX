@@ -10,7 +10,7 @@ function changeGraph(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     num     = gui.subPlotSize(1)*gui.subPlotSize(2);
     figNum  = get(hObject,'userdata');

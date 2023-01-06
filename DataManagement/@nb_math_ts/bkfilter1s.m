@@ -29,7 +29,7 @@ function obj = bkfilter1s(obj,low,high)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = nb_bkfilter1s(obj.data,low,high);
 

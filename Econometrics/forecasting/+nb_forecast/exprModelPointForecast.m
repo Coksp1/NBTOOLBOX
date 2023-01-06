@@ -10,7 +10,7 @@ function [Y,evalFcst] = exprModelPointForecast(Z,restrictions,model,options,resu
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     try options = options(iter); catch; end %#ok<CTCH>
     
@@ -107,13 +107,16 @@ function inputs = doExoProj(options,inputs,restrictions,nSteps)
         % Forecast exogenous variables
         XAR = nb_forecast.estimateAndBootstrapX(opt,restr,1,eInd,inputs,'X')';
         if size(XAR,2) < length(options.exogenousOrig)
-            indCovid = nb_contains(options.exogenousOrig,'covidDummy');
-            if sum(indCovid) < length(options.exogenousOrig) - size(XAR,2) 
+            indCovid  = nb_contains(options.exogenousOrig,'covidDummy');
+            indEaster = nb_contains(options.exogenousOrig,'easterDummy');
+            indTime   = nb_contains(options.exogenousOrig,'timeDummy');
+            indDummy  = indCovid | indEaster | indTime;
+            if sum(indDummy) < length(options.exogenousOrig) - size(XAR,2) 
                 error([mfilename ':: There are some exogenous variables that has not been projected properly. Contact NB toolbox development team.'])
             end
             XAROld           = XAR;
             XAR              = zeros(size(XAR,1),length(options.exogenousOrig));
-            XAR(:,~indCovid) = XAROld;
+            XAR(:,~indDummy) = XAROld;
         end
         
         % Merge with conditional inprmations

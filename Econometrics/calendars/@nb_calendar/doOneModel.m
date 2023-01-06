@@ -30,7 +30,7 @@ function [index,isMatch] = doOneModel(model,calendar)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the contexts of this model as double
     if isa(model,'nb_model_forecast_vintages')

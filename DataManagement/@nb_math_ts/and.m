@@ -26,14 +26,24 @@ function a = and(a,b)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(a,'nb_math_ts') && isa(b,'nb_math_ts')
 
         [a,b] = checkConformity(a,b);
 
-        a.data = a.data & b.data;
-
+        ind = ~isnan(a.data) & ~isnan(b.data);
+        if any(~ind(:))
+            for pp = 1:a.dim3
+                for vv = 1:a.dim2
+                    a.data(ind(:,vv,pp),vv,pp)  = a.data(ind(:,vv,pp),vv,pp) & b.data(ind(:,vv,pp),vv,pp);
+                    a.data(~ind(:,vv,pp),vv,pp) = nan;
+                end
+            end
+        else
+            a.data = a.data & b.data;
+        end
+        
     else
 
         error([mfilename ':: Undefined function ''and'' for input arguments of type ''' class(a) ''' and ''' class(b) '''.'])

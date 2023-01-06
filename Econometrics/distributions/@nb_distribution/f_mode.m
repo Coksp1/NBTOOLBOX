@@ -26,7 +26,7 @@ function x = f_mode(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if m > 2
         x = k/(k+2)*((m - 2)/m);

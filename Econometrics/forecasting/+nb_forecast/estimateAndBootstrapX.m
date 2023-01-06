@@ -11,7 +11,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         type = 'X';
@@ -28,11 +28,12 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
     inputs        = nb_defaultField(inputs,'exoProjAR',nan);
     inputs        = nb_defaultField(inputs,'exoProjDummies',{});
     inputs        = nb_defaultField(inputs,'exoProjCalib',{});
+    inputs        = nb_defaultField(inputs,'exoProjDiff',{});
     deterministic = nb_forecast.getDeterministicVariables(exoKeep);
 
     switch lower(inputs.exoProj)
         
-        case 'ar'
+        case {'ar','rw'}
 
             % Get the historical data
             indR   = nb_ismemberi(exo,deterministic);
@@ -147,37 +148,52 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                     end
                     
                     % Estimate model
-                    if isempty(inputs.exoProjCalib)
-                        loc = [];
-                    else
-                        loc = find(strcmp(exoT{ii},inputs.exoProjCalib{1:2:end}));
-                    end
-                    if isempty(loc)
-                        results = nb_arimaFunc(Xt,inputs.exoProjAR,0,0,0,0,'maxAR',maxAR,'constant',true,...
-                                        'test',false,'alpha',0.1,'texo',texo);
-                        lambda  = results.beta;
-                        reg     = Xt - lambda(1);
-                        int     = results.i;
-                        calib   = false;
-                        numAR   = results.AR;
-                    else
-                        lambda = inputs.exoProjCalib{loc*2};
-                        if ~nb_sizeEqual(lambda,[1,2])
-                            error(['The calibrated AR process of the exogenous variable ',... 
-                                exoT{ii} ' is not correct. Must be a 1x2 double. Check the exoProjCalib ',...
-                                'input.'])
+                    if strcmpi(inputs.exoProj,'rw')
+                        if ~isempty(texo)
+                            error('Cannot use the exoProjDummies when exoProj is set to ''rw''.')
                         end
-                        lambda = lambda';
-                        reg    = Xt - lambda(1);
-                        reg    = [reg,lag(Xt)]; %#ok<AGROW>
+                        lambda = [0;1]; % Random walk
+                        reg    = Xt;
                         reg    = reg(~any(isnan(reg),2),:);
                         int    = 0;
                         calib  = true;
                         numAR  = 1;
+                        nExoT  = 0;
+                    else
+                        if isempty(inputs.exoProjCalib)
+                            loc = [];
+                        else
+                            loc = find(strcmp(exoT{ii},inputs.exoProjCalib(1:2:end)));
+                        end
+                        if isempty(loc)
+                            results = nb_arimaFunc(Xt,inputs.exoProjAR,0,0,0,0,'maxAR',maxAR,'constant',true,...
+                                            'test',false,'alpha',0.1,'texo',texo);
+                            lambda  = results.beta;
+                            reg     = Xt - lambda(1);
+                            int     = results.i;
+                            calib   = false;
+                            numAR   = results.AR;
+                            nExoT   = size(texo,2);
+                        else
+                            lambda = inputs.exoProjCalib{loc*2};
+                            if ~nb_sizeEqual(lambda,[1,2])
+                                error(['The calibrated AR process of the exogenous variable ',... 
+                                    exoT{ii} ' is not correct. Must be a 1x2 double. Check the exoProjCalib ',...
+                                    'input.'])
+                            end
+                            lambda = lambda';
+                            reg    = Xt - lambda(1);
+                            reg    = reg(~any(isnan(reg),2),:);
+                            int    = 0;
+                            calib  = true;
+                            numAR  = 1;
+                            nExoT  = 0;
+                        end
+                        
                     end
+                    
                     t   = size(reg,1);
                     reg = [ones(t,1),reg]; %#ok<AGROW>
-                    
                     if int > 1
                         error([mfilename ':: The maximum degree of integration for exogenous variables is 1.'])
                     end
@@ -194,14 +210,17 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
 
                     % Residual std
                     if calib
-                        vcv = 0;
+                        % Calculate the residuals given the calibrated
+                        % parameter values. Here we used the demeaned
+                        % series for calibrated parameters, and original
+                        % series for 'rw'.
+                        resid = reg(2:end,2) - reg(1:end-1,2)*lambda(2);
                     else
                         resid = results.residual;
-                        vcv   = sqrt(resid'*resid/(size(resid,1) - size(lambda,1)));
                     end
+                    vcv = sqrt(resid'*resid/(size(resid,1) - size(lambda,1)));
                     
                     % Produce density forecast
-                    nExoT = size(texo,2);
                     N     = numAR - 1;
                     I     = eye(N);
                     A     = [lambda(2:end-nExoT,:)';I,zeros(N,1)];
@@ -221,7 +240,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                         y0(isnan(y0)) = lambda(1,:);
 
                     end
-                    %y0       = bsxfun(@minus,y0, B);
+                    y0       = flip(y0,1);
                     Y(:,1,:) = y0(:,:,ones(1,draws));
                     if draws == 1
                         E = zeros(1,nStepsT,draws);

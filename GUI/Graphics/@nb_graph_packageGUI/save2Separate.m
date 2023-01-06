@@ -9,7 +9,7 @@ function save2Separate(gui,~,~,language,format,includeFigureNumber,singleFolder)
 % 
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         singleFolder = false;

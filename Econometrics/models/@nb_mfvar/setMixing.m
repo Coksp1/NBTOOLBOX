@@ -29,7 +29,7 @@ function obj = setMixing(obj,mixing)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(mixing)
         return
@@ -73,7 +73,7 @@ function obj = setMixing(obj,mixing)
                 obj(oo).dependent.mixing{indVar} = otherVar;
             elseif any(indVar(num(1) + 1:end)) && any(indVarO(num(1) + 1:end))
                 indVar = indVar(num(1) + 1:end);
-                obj(oo).block_exogenous.mapping{indVar} = otherVar;
+                obj(oo).block_exogenous.mixing{indVar} = otherVar;
             else
                 error([mfilename ':: The input assign to the mixing is wrong. The ' var ' that is assign the variable ' otherVar ...
                                  ' as the same variable, but with another frequency must either both be dependent or both be block exogenous.'])

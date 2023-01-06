@@ -9,19 +9,19 @@ function predicted = getPredicted(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isfield(results,'Z')
         predicted = nb_ts();
     else
 
-        indF  = 1:options(end).nFactors*max(options(end).nLags,5);
-        alpha = results.smoothed.variables.data(:,indF)';
-        Z     = results.Z(:,indF)*alpha;
+        indF  = 1:min(options(end).nFactors*max(options(end).nLags,5),size(results.Z,2));
+        alpha = results.smoothed.variables.data(:,indF,end)';
+        Z     = results.Z(:,indF,end)*alpha;
         if ~isempty(results.S)
-            Z = bsxfun(@times,Z,results.S);
+            Z = bsxfun(@times,Z,results.S(:,:,end));
         end
-        Z         = results.C*results.W' + Z;
+        Z         = results.C(:,:,end)*results.W(:,:,end)' + Z;
         vars      = strcat('Predicted_',options(end).observables);
         predicted = nb_ts(Z', 'Predicted', results.smoothed.variables.startDate,vars,false); 
 

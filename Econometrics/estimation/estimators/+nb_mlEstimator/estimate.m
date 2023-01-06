@@ -24,7 +24,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -48,7 +48,7 @@ function [results,options] = estimate(options)
         % The nb_missingEstimator does not make sense for nb_mfvar, but we 
         % want to indicated that we are dealing with missing observation
         % when producing forecast.
-        options.missingMethod = ''; % For now!!!
+        options.missingMethod = 'kalman'; 
         options               = nb_mlEstimator.interpretMeasurementError(options);
     else
         options.missingMethod = 'kalman';
@@ -196,25 +196,33 @@ function [results,options] = estimate(options)
             h = false;
         end
         
+        % Find number of missing observations for each variable
+        missingPer = nan(1,numDep);
+        for ii = 1:numDep
+            missingPer(ii) = T - find(~isnan(y(:,ii)),1,'last');
+        end
+        nNow = max(missingPer);
+        
         % Estimate the model recursively by maximum likelihood
         %--------------------------------------------------
         beta    = nan(numCoeff,numDep,iter);
         stdBeta = nan(numCoeff,numDep,iter);
         sigma   = nan(numDep,numDep,iter);
         omega   = nan(numCoeff*numDep,numCoeff*numDep,iter);
+        pD      = nan(numDep,numDep,nNow,iter);
         kk      = 1;
         init    = [];
         switch lower(options.class)
             case 'nb_mfvar'
                 
-                H       = nb_mlEstimator.getMeasurmentEqMFVAR(options);
+                H       = nb_mlEstimator.getMeasurementEqMFVAR(options);
                 nStates = size(H,2);
                 ys      = nan(T,nStates,iter);
                 ys0     = nan(1,nStates,iter);
                 
                 if options.parallel
                     
-                    [beta,stdBeta,resid,sigma,omega,ys,ys0] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,ss,start);
+                    [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missingPer);
                     
                 else
                 
@@ -222,13 +230,14 @@ function [results,options] = estimate(options)
                     for tt = start:T
 
                         if size(H,3) > 1
-                            % Time-varying measurment equations
+                            % Time-varying measurement equations
                             HT = H(:,:,ss(kk):tt);
                         else
                             HT = H;
                         end
+                        yOne = nb_estimator.correctForMissing(y(ss(kk):tt,:),missingPer);
                         [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resid(ss(kk):tt,:,kk),...
-                            ys(ss(kk):tt,:,kk),~,omega(:,:,kk)] = nb_mlEstimator.mfvarEstimator(y(ss(kk):tt,:),X(ss(kk):tt,:),options,HT,init);
+                            ys(ss(kk):tt,:,kk),~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.mfvarEstimator(yOne,X(ss(kk):tt,:),options,HT,init);
 
                         % Get initial values for next iteration
                         ys0(:,:,kk) = ys(tt,:,kk);
@@ -257,9 +266,10 @@ function [results,options] = estimate(options)
                 ys0   = nan(1,numDep*options.nLags,iter);
                 resid = nan(T,numDep,iter);
                 for tt = start:T
+                    yOne = nb_estimator.correctForMissing(y(ss(kk):tt,:),missingPer);
                     [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resid(ss(kk):tt,:,kk),...
-                        ys(ss(kk):tt,:,kk),~,omega(:,:,kk)] = nb_mlEstimator.varEstimator(...
-                        y(ss(kk):tt,:),X(ss(kk):tt,:),options,init);
+                        ys(ss(kk):tt,:,kk),~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.varEstimator(...
+                        yOne,X(ss(kk):tt,:),options,init);
                     
                     % Get initial values for next iteration
                     ys0(:,:,kk) = ys(tt,:,kk);
@@ -293,6 +303,7 @@ function [results,options] = estimate(options)
         res.omega    = omega;
         res.residual = resid;
         res.ys0      = ys0; 
+        res.pD       = pD;
         
     %======================
     else % Not recursive
@@ -307,10 +318,10 @@ function [results,options] = estimate(options)
         %--------------------------------------------------
         switch lower(options.class)
             case 'nb_mfvar'
-                H     = nb_mlEstimator.getMeasurmentEqMFVAR(options);
-                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega] = nb_mlEstimator.mfvarEstimator(y,X,options,H,[]);
+                H     = nb_mlEstimator.getMeasurementEqMFVAR(options);
+                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] = nb_mlEstimator.mfvarEstimator(y,X,options,H,[]);
             case 'nb_var'
-                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega] = nb_mlEstimator.varEstimator(y,X,options,[]);
+                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] = nb_mlEstimator.varEstimator(y,X,options,[]);
             otherwise
                 error([mfilename 'Cannot set ''estim_method'' to ''ml'' for the class ' option.class ' class.'])
         end 
@@ -325,6 +336,7 @@ function [results,options] = estimate(options)
         res.residual   = resid;
         res.sigma      = sigma;
         res.omega      = omega;
+        res.pD         = pD;
         nDep           = size(y,2);
         yObs           = ys(:,1:nDep);
         res.predicted  = yObs(:,~options.indObservedOnly) - resid;
@@ -407,7 +419,7 @@ function [results,options] = estimate(options)
 end
 
 %==========================================================================
-function [beta,stdBeta,resid,sigma,omega,ys,ys0] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,ss,start)
+function [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missing)
 
     % Do we want a waitbar?
     iter = size(beta,3);
@@ -431,13 +443,14 @@ function [beta,stdBeta,resid,sigma,omega,ys,ys0] = mfvarInParallel(options,y,X,w
     
     % Initial estimation
     if size(H,3) > 1
-        % Time-varying measurment equations
+        % Time-varying measurement equations
         HT = H(:,:,ss(1):tt(1));
     else
         HT = H;
     end
+    yOne = nb_estimator.correctForMissing(y(ss(1):tt(1),:),missing);
     [beta(:,:,1),stdBeta(:,:,1),~,~,sigma(:,:,1),resC{1},...
-        ysC{1},~,omega(:,:,1)] = nb_mlEstimator.mfvarEstimator(y(ss(1):tt(1),:),X(ss(1):tt(1),:),options,HT,[]);
+        ysC{1},~,omega(:,:,1),pD(:,:,:,1)] = nb_mlEstimator.mfvarEstimator(yOne,X(ss(1):tt(1),:),options,HT,[]);
 
     % Get initial values used for all the other iterations                  
     betaInit    = beta(:,:,1)';
@@ -456,16 +469,17 @@ function [beta,stdBeta,resid,sigma,omega,ys,ys0] = mfvarInParallel(options,y,X,w
     parfor kk = 2:iter
 
         if size(H,3) > 1
-            % Time-varying measurment equations
+            % Time-varying measurement equations
             HT = H(:,:,ss(kk):tt(kk));
         else
             HT = H;
         end
         yOne = y;
+        yOne = nb_estimator.correctForMissing(yOne,missing);
         XOne = X;
         
         [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resC{kk},...
-            ysC{kk},~,omega(:,:,kk)] = nb_mlEstimator.mfvarEstimator(yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),options,HT,init);
+            ysC{kk},~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.mfvarEstimator(yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),options,HT,init);
 
         % Notify waitbar
         if waitbar 

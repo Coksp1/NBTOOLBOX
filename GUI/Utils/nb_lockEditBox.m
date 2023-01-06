@@ -22,7 +22,7 @@ function nb_lockEditBox(box,event,oldString)
 % 
 % Written by Eyo I. Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Allow the user to use some shortcuts
     if isempty(event)

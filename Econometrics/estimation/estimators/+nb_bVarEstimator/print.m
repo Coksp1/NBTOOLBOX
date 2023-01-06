@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -171,7 +171,7 @@ function res = normalPrint(results,options,precision)
     table(3:2:end,2:end) = stdBeta;
 
     % Print results of hyperparameters
-    if options.empirical
+    if options.empirical || options.hyperLearning
         
         % Get estimated hyperparameters
         [hyperParam,nCoeff,betaHyper] = nb_bVarEstimator.getInitAndHyperParam(options);
@@ -184,7 +184,15 @@ function res = normalPrint(results,options,precision)
         
         % Create table
         numHyperPar = size(betaHyper,1);
-        if options.hyperprior && ~strcmpi(options.prior.type,'glpMF')
+        if options.hyperLearning
+            if ~isempty(results.logMarginalLikelihood)
+                extra = 5;
+                e     = 3;
+            else
+                extra = 4;
+                e     = 2;
+            end
+        elseif options.hyperprior
             extra = 5;
             e     = 3;
         else
@@ -195,19 +203,36 @@ function res = normalPrint(results,options,precision)
         hyperTable{2,1}       = 'Hyper parameter';
         hyperTable(3:end-e,1) = hyperParam;
         hyperTable(3:end-e,2) = nb_double2cell(betaHyper,precision);
-        if strcmpi(options.prior.type,'glpMF')
-            hyperTable{end,1} = 'Initital log posterior';
-            hyperTable{end,2} = num2str(results.initialLogPosterior,precision);
+        if options.hyperLearning
+            if ~isempty(results.logMarginalLikelihood)
+                if nb_contains(options.prior.type,'MF')
+                    hyperTable{end-1,1} = 'Initital log marginal likelihood';
+                else
+                    hyperTable{end-1,1} = 'Log marginal likelihood';
+                end
+                hyperTable{end-1,2} = num2str(results.logMarginalLikelihood,precision);
+            end
+            if nb_contains(options.prior.type,'MF')
+                hyperTable{end,1} = 'Initital forecast score';
+            else
+                hyperTable{end,1} = 'Forecast score';
+            end
+            hyperTable{end,2} = num2str(results.forecastScore,precision);
         else
             if options.hyperprior
-                hyperTable{end-1,1} = 'Log posterior';
+                if nb_contains(options.prior.type,'MF')
+                    hyperTable{end-1,1} = 'Initital log posterior';
+                else
+                    hyperTable{end-1,1} = 'Log posterior';
+                end
                 hyperTable{end-1,2} = num2str(results.logPosterior,precision);
-                hyperTable{end,1}   = 'Log marginal likelihood';
-                hyperTable{end,2}   = num2str(results.logMarginalLikelihood,precision);
+            end
+            if nb_contains(options.prior.type,'MF')
+                hyperTable{end,1} = 'Initital log marginal likelihood';
             else
                 hyperTable{end,1} = 'Log marginal likelihood';
-                hyperTable{end,2} = num2str(results.logMarginalLikelihood,precision);
             end
+            hyperTable{end,2} = num2str(results.logMarginalLikelihood,precision);
         end
         table = [table;hyperTable];
         
@@ -373,7 +398,9 @@ function priorType = getPriorType(options)
                 priorType = 'Mixed Frequency Independent Normal-Wishart Prior';
             else
                 priorType = 'Missing Observations Independent Normal-Wishart Prior';
-            end    
+            end     
+        otherwise
+            priorType = [upper(options.prior.type(1)), options.prior.type(2:end), ' Prior'];
     end
     
     LR = false;
@@ -398,6 +425,14 @@ function priorType = getPriorType(options)
     end
     if DIO
         priorType = [priorType ' (+ dummy-inital-observation prior)'];
+    end
+    
+    SVD = false;
+    if isfield(options.prior,'SVD')
+        SVD = options.prior.SVD;
+    end
+    if SVD
+        priorType = [priorType ' (+ stochastic-volatility-dummy prior)'];
     end
     
 end

@@ -22,18 +22,21 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
     end
 
-    options              = nb_model_generic.templateGeneral(num,'time-series');
-    options.dependent    = {};
-    options.estim_method = 'seasonal';
-    options.maxIter      = 2500;
-    options.missing      = false;
-    options.tolerance    = 1e-5;
+    options                      = nb_model_generic.templateGeneral(num,'time-series');
+    options.dependent            = {};
+    options.estim_method         = 'seasonal';
+    options.exogenous            = {};
+    options.maxIter              = 2500;
+    options.missing              = false;
+    options.removeZeroRegressors = false;
+    options.renameVariables      = {};
+    options.tolerance            = 1e-5;
 
 
 end

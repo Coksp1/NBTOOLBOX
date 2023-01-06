@@ -9,7 +9,7 @@ function [varsExo,varsExoN,varsExoNS] = getExo(parser)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [varsExoN,varsExoNS,varsExo] = nb_createGenericNames(parser.exogenous,'varsExo');
     

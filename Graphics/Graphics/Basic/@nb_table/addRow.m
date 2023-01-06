@@ -2,7 +2,7 @@ function addRow(obj, y)
 % Adds row at position y,
 % copying formatting from the preceding row
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     oldSize = obj.size;
 

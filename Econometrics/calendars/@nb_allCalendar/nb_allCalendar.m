@@ -17,12 +17,16 @@ classdef nb_allCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     methods 
         
         function s = struct(obj)
            s = struct('class',class(obj)); 
+        end
+        
+        function name = getName(~)
+           name = 'All'; 
         end
         
     end

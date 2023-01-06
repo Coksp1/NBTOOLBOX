@@ -17,7 +17,7 @@ function terms = getTerms(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     terms = collect(obj);
     if ischar(terms)

@@ -15,7 +15,7 @@ function [A,C,jacobian,err] = solveSimpleRule(parser,sol,srCoeff,srInd,param)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get options and solution
     jacobian = full(sol.jacobian);

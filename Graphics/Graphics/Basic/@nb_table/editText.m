@@ -1,7 +1,7 @@
 function editText(obj, textHandle, ~)
 % Make selected cell editable
  
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get cell position in table grid
     [y, x] = obj.getGridPosition(textHandle);

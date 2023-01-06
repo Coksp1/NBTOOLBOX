@@ -5,16 +5,15 @@ function obj = asind(obj)
 %
 % Description:
 %
-%  asind(obj) is the inverse sine, expressed in degrees,
-% of the elements of obj
+% Inverse sine, expressed in degrees.
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -22,7 +21,7 @@ function obj = asind(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = asind(obj.data);
 

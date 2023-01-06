@@ -26,7 +26,7 @@ function obj = addPageCopies(obj,num)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if obj.numberOfDatasets > 1
         error([mfilename ':: Only possible to append copies of the data of an object if it consist of only one dataset.'])

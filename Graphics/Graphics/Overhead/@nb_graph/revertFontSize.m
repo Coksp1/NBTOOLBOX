@@ -9,7 +9,7 @@ function revertFontSize(obj,oldFontSizes)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
 
     obj.axesFontSize   = oldFontSizes(1);
     obj.titleFontSize  = oldFontSizes(2);

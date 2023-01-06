@@ -26,7 +26,7 @@ function nb_optimizerMessageState(value)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nb_isScalarLogical(value)
         if value 

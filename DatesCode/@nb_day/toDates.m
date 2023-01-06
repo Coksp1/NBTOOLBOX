@@ -84,7 +84,7 @@ function varargout = toDates(obj,periods,format,newFreq,first)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         first = 1;

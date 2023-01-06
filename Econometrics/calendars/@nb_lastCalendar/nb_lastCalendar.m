@@ -17,7 +17,7 @@ classdef nb_lastCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     methods 
         
@@ -25,11 +25,15 @@ classdef nb_lastCalendar < nb_calendar
            s = struct('class',class(obj)); 
         end
         
+        function name = getName(~)
+           name = 'Last'; 
+        end
+        
     end
     
     methods (Static=true)
        
-        function obj = unstruct(s)
+        function obj = unstruct(~)
             obj = nb_lastCalendar();
         end
         

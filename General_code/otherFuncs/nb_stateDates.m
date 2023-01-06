@@ -41,7 +41,7 @@ function out = nb_stateDates(startYear,endYear,d,freq,laglead)
 %
 % Written by Tobias Ingebrigtsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         laglead = 10;

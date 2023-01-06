@@ -25,7 +25,7 @@ function f = laplace_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f = 0.5 + 0.5*sign(x - m).*(1 + exp(-abs(x - m)./k));
     

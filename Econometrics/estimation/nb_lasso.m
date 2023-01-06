@@ -60,19 +60,22 @@ function [beta,exitflag,residual,X] = nb_lasso(y,X,t,constant,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         options = [];
         if nargin < 4
             constant = false;
             if nargin < 3
-                t = inf;
+                t = [];
             end
         end
     end
     if isempty(options)
         options = nb_lasso.optimset();
+    end
+    if isempty(t)
+        t = inf;
     end
     
     % Do some initial tests
@@ -105,13 +108,24 @@ function [beta,exitflag,residual,X] = nb_lasso(y,X,t,constant,options)
     if S ~= T
         error('The number of rows of y and X must be equal.')
     end
-    beta = nan(size(X,2),numEq);
+    if isempty(options.beta0)
+        options.beta0 = zeros(numX,numEq);
+    else
+        if ~nb_sizeEqual(options.beta0,[numX,numEq])
+            error(['The beta0 option does not match the number of estimated ',...
+                  'parameter. Must have size ' int2str(numX) 'x' int2str(numEq)])
+        end
+    end
+    beta = nan(numX,numEq);
     for ii = 1:numEq
         [beta(:,ii),exitflag] = doOneEquation(y(:,ii),X,t,verbose,displayer,...
-            options.mode,options.maxIter,options.threshold,options.beta0);
+            options.mode,options.maxIter,options.threshold,options.beta0(:,ii));
         if exitflag < 0
             residual = nan(T,numEq);
             X        = nan(T*numEq,numX*S);
+            if constant 
+                beta = [c; beta]; %#ok<AGROW>
+            end
             return
         end
     end
@@ -202,20 +216,15 @@ function [w,exitFlag] = doOneEquation(y,X,t,verbose,displayer,mode,maxIter,thres
             min_gamma = 1;
             min_gamma_i = -1;
             for k = 1:size(beta,1)
-                if (abs(beta(k)) > threshold)
-                    gamma = -beta(k)/h(k);
-                    if gamma > 0 && gamma < min_gamma
-                        min_gamma = gamma;
-                        min_gamma_i = k;
-                    end
+                gamma = -beta(k)/h(k);
+                if gamma > 0 && gamma < min_gamma
+                    min_gamma = gamma;
+                    min_gamma_i = k;
                 end
             end
             if min_gamma_i == -1
-                exitFlag = -1;
-                if verbose
-                    notifyError(displayer,'Numerical breakdown, check for dependent columns.');
-                end
-                break;
+                min_gamma_i = find(sign(beta_t(sigma)) ~= theta_sigma,1);
+                min_gamma   = -beta(min_gamma_i)/h(min_gamma_i);
             end
 
             % A1: set beta to h truncated at first zero-crossing

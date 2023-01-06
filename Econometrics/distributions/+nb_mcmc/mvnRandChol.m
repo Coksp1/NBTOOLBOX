@@ -21,7 +21,7 @@ function betaDraw = mvnRandChol(output)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     eps      = nb_mvnrandChol(1,1,0,output.sigmaCholLast);
     betaDraw = output.betaLast + eps;

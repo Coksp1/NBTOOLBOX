@@ -1,27 +1,27 @@
-function obj =   acsc(obj)
+function obj = acsc(obj)
 % Syntax:
 %
-% obj = csc(obj)
+% obj = acsc(obj)
 %
 % Description:
 %
-% Take csc of the data stored in the nb_cs object
+% Inverse cosecant, expressed in radians
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data has been transformed
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = csc(obj);
+% obj = acsc(obj);
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = acsc(obj.data);
     

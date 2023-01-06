@@ -13,7 +13,7 @@ function saveCallback(gui,hObject,~)
 %
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isempty(hObject)
         % Get nb_ts,nb_cs or nb_data object from the 

@@ -56,7 +56,7 @@ function obj = structure2Dataset(obj,givenStruct,NameOfDataset,startDate)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         startDate = '';

@@ -8,5 +8,6 @@ function calc = getCalculated(obj)
     start       = obj.results.smoothed.variables.startDate;
     factorNames = nb_appendIndexes('Facor',1:obj.options.nFactors)';
     calc        = nb_ts(factorData,'',start,factorNames);
+    calc        = nb_calculate_generic.rename(calc,obj.options.renameVariables);
     
 end

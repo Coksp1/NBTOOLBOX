@@ -23,7 +23,7 @@ function [value,rest] = nb_parseOneOptional(name,default,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     ind = find(strcmpi(name,varargin));
     if isempty(ind)

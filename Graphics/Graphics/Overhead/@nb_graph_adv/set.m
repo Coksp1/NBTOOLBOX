@@ -28,7 +28,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     for jj = 1:2:size(varargin,2)
 

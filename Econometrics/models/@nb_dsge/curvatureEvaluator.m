@@ -35,7 +35,7 @@ function [post,lik,prior,sPrior] = curvatureEvaluator(par,estStruct,tol)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Calculate minus the log likelihood
     [lik,sol] = nb_dsge.likelihood(par,estStruct);

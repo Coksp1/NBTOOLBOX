@@ -23,7 +23,7 @@ function KJPB = nb_kolsrudJointPredictionBands(fcst,percUL)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     maxDist = chebyshevDistance(fcst);
     [~,i]   = sort(maxDist);

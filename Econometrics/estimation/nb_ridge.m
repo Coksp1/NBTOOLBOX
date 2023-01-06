@@ -46,7 +46,7 @@ function [beta,residual,X] = nb_ridge(y,X,k,constant)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         constant = false;
@@ -115,9 +115,7 @@ function beta = doOneEquation(y,x,k)
     if T < 3
         error([mfilename ':: The estimation sample must be longer than 2 periods.']);
     end
-    
-    xpxi = (x'*x - k*eye(N))\eye(N);
-    beta = xpxi*(x'*y);
+    beta = (x'*x - k*eye(N))\(x'*y);
 
 end
 

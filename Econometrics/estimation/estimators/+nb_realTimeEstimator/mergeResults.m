@@ -5,7 +5,7 @@ function res = mergeResults(res,resTemp)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nb_isempty(res)
         remove     = {'includedObservations','elapsedTime'};

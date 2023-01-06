@@ -17,7 +17,7 @@ function results = initialize(options,X)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Spline each series separately, and use ARI model to fill in for
     % leading and trailing nan values.
@@ -129,7 +129,7 @@ function [HR,F,res] = doOneMeasurementBlock(options,res,nanInd,index)
                 % Apply the mapping 
                 Hlow = Hlow - FpFi*R'*((R*FpFi*R')\(R*Hlow - r));
 
-                % Put into full measurment equation 
+                % Put into full measurement equation 
                 HR(nHigh+ii,:) = Hlow';  
 
             end
@@ -204,7 +204,7 @@ function [HR,F,res] = doMeasurement(options,res,nanInd)
             % Apply the mapping 
             Hlow = Hlow - FpFi*R'*((R*FpFi*R')\(R*Hlow - r));
 
-            % Put into full measurment equation 
+            % Put into full measurement equation 
             HR(nHigh+ii,:) = Hlow';  
 
         end
@@ -276,7 +276,7 @@ function [AI,QI,R] = doIdiosyncraticTransition(res,nanInd)
         
     end
     
-    % No measurment error
+    % No measurement error
     R = zeros(N,N);
     
 end
@@ -290,7 +290,7 @@ function [AI,QI,R] = doIdiosyncatic(options,res,nanInd)
 % Idiosyncratic components are not AR(1) processes as in 
 % doIdiosyncraticTransition
 
-    % Measurment error covariance matrix, assume uncorrelated idiosyncratic
+    % Measurement error covariance matrix, assume uncorrelated idiosyncratic
     % components
     [T,N] = size(res);
     if options.mixedFrequency

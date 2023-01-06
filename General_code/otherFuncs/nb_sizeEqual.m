@@ -23,7 +23,7 @@ function ret = nb_sizeEqual(input,shouldBeSize)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     isSize = size(input);
     if size(isSize,2) ~= size(shouldBeSize,2)

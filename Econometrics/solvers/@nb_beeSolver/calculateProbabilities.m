@@ -32,7 +32,7 @@ function prob = calculateProbabilities(employed)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fit  = [employed.fitness];
     prob = cumsum(fit/sum(fit));

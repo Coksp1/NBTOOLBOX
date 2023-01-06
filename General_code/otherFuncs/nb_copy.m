@@ -9,7 +9,7 @@ function obj = nb_copy(obj)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(obj, 'handle')
         obj = copy(obj);

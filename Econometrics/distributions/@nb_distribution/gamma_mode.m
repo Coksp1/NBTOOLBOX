@@ -23,7 +23,7 @@ function x = gamma_mode(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if m >= 1
         x = (m-1)*k;

@@ -21,7 +21,7 @@ function obj = unstruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(s,'nb_model_convert')
         obj = s; % This is for backward compatibility

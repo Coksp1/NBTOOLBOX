@@ -67,8 +67,7 @@ function obj = append(obj,DB,interpolateDate,method,rename,type)
 %                     For more see the 'rename' option of the 
 %                     convert method.
 %
-% - type            : The type of series to merge. Only when append is 
-%                     equal to 1.
+% - type            : The type of series to merge.
 %
 %                     > 'levelGrowth' : Append level data with growth
 %                                       rates. Must be one period growth.
@@ -98,7 +97,7 @@ function obj = append(obj,DB,interpolateDate,method,rename,type)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
    if nargin < 6
        type = '';

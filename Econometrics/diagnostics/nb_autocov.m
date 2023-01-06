@@ -67,7 +67,7 @@ function [acf,lBound,uBound] = nb_autocov(y,lags,errorBound,alpha,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         alpha = 0.05;

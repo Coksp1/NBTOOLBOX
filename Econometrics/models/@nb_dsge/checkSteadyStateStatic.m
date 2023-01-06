@@ -27,7 +27,7 @@ function err = checkSteadyStateStatic(options,paramV,tol,ss,steady_state_exo)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         steady_state_exo = [];

@@ -22,7 +22,7 @@ function x = truncnormal_variance(m,k,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     beta  = (ub - m)/k;
     alpha = (lb - m)/k;

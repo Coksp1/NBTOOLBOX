@@ -24,7 +24,7 @@ function obj = cumnansum(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     dat = obj.data;
     for ii = 1:obj.numberOfVariables

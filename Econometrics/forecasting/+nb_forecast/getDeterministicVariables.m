@@ -9,7 +9,7 @@ function deterministic = getDeterministicVariables(exo)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     ind           = strncmpi('covidDummy',exo,10);
     indT          = strncmpi('timeDummy',exo,9);

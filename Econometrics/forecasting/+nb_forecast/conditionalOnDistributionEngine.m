@@ -1,8 +1,8 @@
-function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfunc,nSteps,draws,restrictions,solution,inputs)
+function [E,X,states,solution] = conditionalOnDistributionEngine(y0,model,ss,nSteps,draws,restrictions,solution,inputs)
 % Syntax:
 %
 % [E,X,states,solution] = nb_forecast.conditionalOnDistributionEngine(y0,
-%                       A,B,C,ss,Qfunc,nSteps,draws,restrictions,...
+%                       model,ss,nSteps,draws,restrictions,...
 %                       solution)
 %
 % Description:
@@ -16,7 +16,7 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfu
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Make waitbar or append already made waitbar
     if isfield(inputs,'waitbar')
@@ -93,7 +93,9 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfu
 
         YTCOND = nan(nVar,nSteps,draws);
         for ii = 1:draws
-            [YT,states(:,:,ii)] = nb_forecast.condShockForecastEngine(y0,A,B,C,ss,Qfunc,X(:,:,ii),ET(:,:,ii),states(:,:,ii),restrictions.PAI0,nSteps);
+            [YT,states(:,:,ii)] = nb_forecast.condShockForecastEngine(y0,...
+                model.A,model.B,model.C,ss,model.Qfunc,X(:,:,ii),ET(:,:,ii),...
+                states(:,:,ii),restrictions.PAI0,nSteps);
             YTCOND(:,:,ii)      = YT(restrictions.indY,2:nSteps+1)';        % nSteps x nrest   This has to be decided!!!
         end
         distUncond = nb_distribution.sim2KernelDist(YTCOND);
@@ -126,7 +128,7 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfu
             simRestrictions.states = states(:,:,ii);
 
             % Identify the shocks that meets the restriction from this draw
-            [ET,~,states(:,:,ii),solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,simRestrictions,solution);
+            [ET,~,states(:,:,ii),solution] = nb_forecast.conditionalProjectionEngine(y0,model,ss,nSteps,simRestrictions,solution);
             E(:,:,ii)                      = ET(:,1:nSteps,:);
             
             % Report current status in the waitbar's message field
@@ -175,7 +177,7 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,A,B,C,ss,Qfu
             simRestrictions.states = states(:,:,ii);
 
             % Identify the shocks that meets the restriction from this draw
-            [ET,~,states(:,:,ii),solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,simRestrictions,solution);
+            [ET,~,states(:,:,ii),solution] = nb_forecast.conditionalProjectionEngine(y0,model,ss,nSteps,simRestrictions,solution);
             E(:,:,ii) = ET(:,1:nSteps,:);
 
             % Report current status in the waitbar's message field

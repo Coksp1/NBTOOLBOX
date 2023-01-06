@@ -5,16 +5,15 @@ function obj =   asin(obj)
 %
 % Description:
 %
-% Take sin of the data stored in the nb_cs object
+% Inverse sine, expressed in radians.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data are on 
-%                   sin.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
@@ -22,7 +21,7 @@ function obj =   asin(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = asin(obj.data);
     

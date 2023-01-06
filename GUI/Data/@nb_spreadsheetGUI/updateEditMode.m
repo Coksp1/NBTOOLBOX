@@ -9,7 +9,7 @@ function updateEditMode(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the selected editable mode (old)
     editable = get(hObject,'checked');

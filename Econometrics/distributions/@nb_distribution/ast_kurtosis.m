@@ -31,7 +31,7 @@ function x = ast_kurtosis(a,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     cstar = nb_ast_cstar(c,d,e);
     if cstar == 1 % Symmetric distribution

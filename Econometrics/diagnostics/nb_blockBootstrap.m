@@ -38,7 +38,7 @@ function artificial = nb_blockBootstrap(y,draws,method,blockLength)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         blockLength = [];

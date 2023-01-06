@@ -9,7 +9,7 @@ function [h,note,isWaitbar] = openWaitbar(waitbar,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     isWaitbar = true;
     note      = nb_when2Notify(iter);

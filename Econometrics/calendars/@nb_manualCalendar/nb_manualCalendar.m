@@ -22,7 +22,7 @@ classdef nb_manualCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     properties
         
@@ -65,7 +65,11 @@ classdef nb_manualCalendar < nb_calendar
         
         function s = struct(obj)
            s = struct('class',   class(obj),...
-                      'calendar',obj.calendar); 
+                      'calendar',{obj.calendar}); 
+        end
+        
+        function name = getName(~)
+           name = 'Manual'; 
         end
         
     end

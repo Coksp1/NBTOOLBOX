@@ -56,7 +56,7 @@ function obj = deleteTypes(obj,deletedType)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~ischar(deletedType) && ~iscellstr(deletedType)
         error([mfilename ':: The second argument (including the object itself) should be a char, char array or a cellstr'])

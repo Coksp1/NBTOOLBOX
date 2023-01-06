@@ -18,7 +18,7 @@ classdef nb_unitRootGUI < nb_methodGUI
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
 

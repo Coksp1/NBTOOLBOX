@@ -34,7 +34,7 @@ function obj = splitSeries(obj,variable,date,postfix,overlapping)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         overlapping = true;

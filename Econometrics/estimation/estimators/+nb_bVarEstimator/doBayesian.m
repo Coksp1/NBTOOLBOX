@@ -1,8 +1,10 @@
-function [betaD,sigmaD,XX,posterior,pY] = doBayesian(options,h,nLags,restrictions,y,X,yFull,XFull)
+function [betaD,sigmaD,XX,posterior,pY] = doBayesian(options,h,nLags,restrictions,y,X,yFull,XFull,obsSVD)
 % Syntax:
 %
 % [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(...
-%    options,h,nLags,restrictions,y,X)
+%    options,h,nLags,restrictions,y,X,yFull,XFull)
+% [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(...
+%    options,h,nLags,restrictions,y,X,yFull,XFull,obsSVD)
 %
 % Description:
 %
@@ -13,7 +15,11 @@ function [betaD,sigmaD,XX,posterior,pY] = doBayesian(options,h,nLags,restriction
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+
+    if nargin > 8
+        options.prior.obsSVD = obsSVD;
+    end
 
     pY = [];
 
@@ -29,6 +35,12 @@ function [betaD,sigmaD,XX,posterior,pY] = doBayesian(options,h,nLags,restriction
             [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.nwishart(options.draws,y,X,nLags,options.constant,options.time_trend,options.prior,restrictions,h);
         case 'inwishart'
             [betaD,sigmaD,XX,posterior] = nb_bVarEstimator.inwishart(options.draws,y,X,options.constant,options.time_trend,options.prior,restrictions,h);
+        case 'horseshoe'
+            [betaD,sigmaD,XX,posterior] = nb_bVarEstimator.horseshoe(options.draws,y,X,options.constant,options.time_trend,options.prior,restrictions,h);
+        case 'laplace'
+            [betaD,sigmaD,XX,posterior] = nb_bVarEstimator.laplace(options.draws,y,X,options.constant,options.time_trend,options.prior,restrictions,h);
+        case 'dsge'
+            [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.dsge(options.draws,y,X,nLags,options.constant,options.time_trend,options.prior,restrictions,h);
         otherwise
             error([mfilename ':: Unsupported prior type ' options.prior.type])
     end

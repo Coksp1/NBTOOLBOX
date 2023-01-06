@@ -9,7 +9,7 @@ function wrapCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nb_getUIControlValue(gui.figureTitleWrapping,'logical')
         string = '*) Use // to force line break.';

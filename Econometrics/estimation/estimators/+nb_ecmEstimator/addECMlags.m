@@ -5,7 +5,7 @@ function [options,maxLags] = addECMlags(options,fixed)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     maxLags = 0;
     if iscell(options.nLags)

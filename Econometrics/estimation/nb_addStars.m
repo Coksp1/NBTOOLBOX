@@ -5,7 +5,7 @@ function tests = nb_addStars(tests,indNT,indW,indARCH,indAT)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Indicate if significant
     if ~isempty(indNT)

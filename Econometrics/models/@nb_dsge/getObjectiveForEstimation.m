@@ -14,7 +14,7 @@ function [fh,estStruct,lb,ub,opt,options] = getObjectiveForEstimation(options,fo
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         forSystemPrior = false;

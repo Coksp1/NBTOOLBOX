@@ -18,7 +18,7 @@ function obj = checkModel(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     for ii = 1:length(obj.models)
         obj.models{ii} = checkModel(obj.models{ii});

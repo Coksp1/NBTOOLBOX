@@ -33,7 +33,7 @@ function f = skewedt_cdf(x,a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     dist       = nb_distribution('type','normal','parameters',{a,b});
     [s1,s2,s3] = size(x);

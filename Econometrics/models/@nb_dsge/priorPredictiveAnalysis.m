@@ -56,7 +56,7 @@ function varargout = priorPredictiveAnalysis(obj,method,draws,rmsd,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 

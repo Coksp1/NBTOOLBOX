@@ -25,7 +25,7 @@ function ci = parameterIntervals(obj,alpha)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     parNames = obj.parameters.name;
     if strcmpi(obj.estOptions.estimType,'classic')

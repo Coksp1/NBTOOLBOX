@@ -37,7 +37,7 @@ function smoothDensity(obj,smoothing,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This function only handles a scalar nb_distribution object.'])

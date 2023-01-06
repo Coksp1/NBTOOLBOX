@@ -28,7 +28,7 @@ function x = truncated_mode(dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(dist,'beta') % Could be bimodal
 

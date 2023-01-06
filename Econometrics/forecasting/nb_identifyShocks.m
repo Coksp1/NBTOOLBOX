@@ -39,7 +39,7 @@ function E = nb_identifyShocks(A,B,C,Y0,X,E,MUy,indY)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nSteps = size(MUy,2);
     Yt     = Y0;

@@ -1,12 +1,12 @@
-function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = mfvarEstimator(y,X,options,H,init)
+function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega,pD] = mfvarEstimator(y,X,options,H,init)
 % Syntax:
 %
-% [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,ysl,lik,Hessian] = 
+% [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,ysl,lik,Omega,pD] = 
 % nb_mlEstimator.mfvarEstimator(y,X,options,H,init)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get mixing options
     nObs                   = size(y,2);
@@ -42,7 +42,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = mfvarEs
     end
     restrVal = zeros(size(restr));       
     
-    % Measurment errors
+    % Measurement errors
     R = zeros(nObs,1);
 
     % Initial parameters
@@ -137,6 +137,8 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = mfvarEs
     
     % Smoothing variables and residuals
     %----------------------------------------------------------------------
-    [~,ys,residual] = nb_kalmansmoother_missing(@nb_mfvar.stateSpace,y',X',estPar,nDep,nLags,nCoeffExo,restr,restrVal,options.measurementErrorInd,H);
+    [~,ys,residual,~,~,~,P] = nb_kalmansmoother_missing(@nb_mfvar.stateSpace,y',X',estPar,nDep,nLags,nCoeffExo,restr,restrVal,options.measurementErrorInd,H);
+    nowcast                 = T - find(~any(isnan(y),2),1,'last');
+    pD                      = P(1:nDep,1:nDep,end-nowcast+1:end);
     
 end

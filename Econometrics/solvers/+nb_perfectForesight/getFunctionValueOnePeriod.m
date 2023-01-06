@@ -11,7 +11,7 @@ function FY = getFunctionValueOnePeriod(Y,funcs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % For the first period
     FY = funcs.F(Y);

@@ -18,7 +18,7 @@ function [results,options] = normalEstimation(options,results)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         results = [];
@@ -34,6 +34,14 @@ function [results,options] = normalEstimation(options,results)
     [~,indW] = ismember(options.exogenous,options.dataVariables);
     W        = options.data(startInd:endInd,indW);
     W        = addDeterministic(options,W);
+    
+    % Set observations to nan
+    if ~nb_isempty(options.set2nan)
+        startD = nb_date.date2freq(options.dataStartDate) + (startInd - 1);
+        X      = nb_estimator.set2nan(X,startD,options.observables,options.set2nan);
+    end
+    
+    % Clean data of exogenous part.
     [Xhat,C] = cleanGivenExo(options,X,W);
     [Xhat,S] = applyTransformation(options,Xhat);
     
@@ -86,6 +94,35 @@ function [results,options] = normalEstimation(options,results)
                                     P0,Pinf0,Xhat',options.kf_kalmanTol,options.kf_presample);
     end
     
+    % Explained variance
+    if ~options.mixedFrequency && options.doTests
+        F    = alpha(1:options.nFactors,:);
+        H    = results.Z(:,1:options.nFactors);
+        fVar = nan(1,size(F,1));
+        for ii = 1:size(F,1)
+            XPred = nan(size(Xhat,2),size(Xhat,1)); 
+            for tt = 1:size(XPred,2)
+                for vv = 1:size(XPred,1)
+                    XPred(vv,tt) = H(vv,ii)*F(ii,tt);
+                end
+            end
+            fVar(ii) = sum(diag(XPred*XPred'/size(XPred,2)));
+        end
+
+        isNaN = isnan(Xhat);
+        if any(isNaN(:))
+            for tt = 1:size(Xhat,1)
+                for vv = 1:size(Xhat,2)
+                    if isNaN(tt,vv)
+                        Xhat(tt,vv) = results.Z(vv,:)*alpha(:,tt);
+                    end
+                end
+            end
+        end
+        totVar       = sum(diag(Xhat'*Xhat/size(Xhat,1)));
+        results.expl = fVar./totVar*100;
+    end
+    
     % Get estimate of the variance of factors 
     T    = size(Ps,3);
     nFac = options.nFactors;
@@ -104,7 +141,7 @@ function [results,options] = normalEstimation(options,results)
     results.likelihood           = lik;  
     results.W                    = W;
     
-    % Measurment errors
+    % Measurement errors
     if options.nLagsIdiosyncratic
         vs    = Xhat' - results.Z*alpha;
         i     = isnan(vs);
@@ -118,7 +155,7 @@ function [results,options] = normalEstimation(options,results)
     
     % Get the missing values of all the observables
     observables                  = double(nb_dfmemlEstimator.getObservables(results,options));
-    results.smoothed.observables = struct('data',observables(:,options.reorderLoc),'startDate',toString(sDate),'variables',{options.observablesOrig});
+    results.smoothed.observables = struct('data',observables,'startDate',toString(sDate),'variables',{options.observablesOrig});
     
     % Construct the vector of estimated parameters
     results = reorderObservables(options,results);

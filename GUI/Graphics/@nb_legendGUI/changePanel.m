@@ -9,7 +9,7 @@ function changePanel(gui,~,event)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     old  = event.OldValue;
     type = get(old,'string');

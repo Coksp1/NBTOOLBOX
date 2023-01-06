@@ -70,7 +70,7 @@ function lik = nb_kalmanLikelihoodBreakPointDSGE(par,model,y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)

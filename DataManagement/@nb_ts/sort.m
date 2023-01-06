@@ -12,7 +12,7 @@ function obj = sort(obj,mode,dim,variable)
 % 
 % Input:
 % 
-% - obj       : An object of class nb_data
+% - obj       : An object of class nb_ts
 % 
 % - mode      : 'descend' (default)
 %               'ascend'
@@ -38,7 +38,7 @@ function obj = sort(obj,mode,dim,variable)
 % 
 % Written by Kenneth S. Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         variable = '';

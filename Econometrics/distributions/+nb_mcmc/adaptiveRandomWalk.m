@@ -24,7 +24,7 @@ function [betaDraw,output] = adaptiveRandomWalk(output)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if output.index > output.minIter
         sigmaLast = (1-output.weight)*(5.6644/output.numVar)*cov(output.betaBurn(1:output.index-1,:)) + output.weight*output.sigma;

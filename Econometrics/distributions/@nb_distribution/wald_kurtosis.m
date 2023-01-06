@@ -25,7 +25,7 @@ function x = wald_kurtosis(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = 15*m/k + 3;
 

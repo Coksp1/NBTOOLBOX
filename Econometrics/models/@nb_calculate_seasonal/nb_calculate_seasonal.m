@@ -21,7 +21,7 @@ classdef nb_calculate_seasonal < nb_calculate_only
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
    
     properties
         
@@ -34,6 +34,15 @@ classdef nb_calculate_seasonal < nb_calculate_only
         % or use the <className>.template() method.
         dependent      = struct(); 
  
+        % A struct with the fields name, tex_name and number. The name 
+        % field holds a cellstr with the names of all the exogenous 
+        % variables, the tex_name holds the names in the tex format. The 
+        % number field holds a double with the number of exogenous 
+        % variables. To set it use the set function. E.g. obj = 
+        % set(obj,'exogenous',{'Var1','Var2'}); or use the 
+        % <className>.template() method.
+        exogenous       = struct();
+        
     end
 
     methods
@@ -42,15 +51,16 @@ classdef nb_calculate_seasonal < nb_calculate_only
         % Constructor
 
             % Setup the model variables structures
-            temp            = struct();
-            temp.name       = {};
-            temp.tex_name   = {};
-            temp.number     = [];
+            temp          = struct();
+            temp.name     = {};
+            temp.tex_name = {};
+            temp.number   = [];
             obj.dependent = temp;
+            obj.exogenous = temp;
             
             % Set the properties and options of the model
             temp           = nb_calculate_seasonal.template();
-            temp           = rmfield(temp,{'dependent'});
+            temp           = rmfield(temp,{'dependent','exogenous'});
             obj.options    = temp;
             obj            = set(obj,varargin{:});
             
@@ -125,6 +135,10 @@ classdef nb_calculate_seasonal < nb_calculate_only
             switch lower(type)
                 case 'dependent'
                     tempObj.dependent = temp;
+                case 'exogenous'
+                    tempObj.exogenous = temp;
+                otherwise
+                    error(['Unsupported tyoe ' type])
             end
 
         end

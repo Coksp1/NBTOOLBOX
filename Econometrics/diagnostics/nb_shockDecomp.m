@@ -74,7 +74,7 @@ function decomp = nb_shockDecomp(model,options,results,startInd,endInd,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         inputs = struct('replic',[],'method','','perc',[]);            
@@ -503,6 +503,10 @@ function decomp = decompPoint(model,options,results,startInd,endInd,Y,X,inputs)
     % Get the residuals/shocks
     if isfield(results,'smoothed') % The model has filtered unobservables
         [Y,R] = getSmoothed(model,inputs,options,results,startInd,endInd);
+        d     = size(X,1) - size(Y,1);
+        if size(X,1) > size(Y,1)
+            X = X(d+1:end,:);
+        end
     else 
         sInd = startInd - options.estim_start_ind + 1;
         eInd = endInd - options.estim_start_ind + 1;
@@ -561,7 +565,7 @@ function [Y,R] = getSmoothed(model,inputs,options,results,startInd,endInd)
     end
     
     estInd = nb_dateminus(results.filterStartDate,options.dataStartDate) + 1;
-    sInd   = startInd - estInd + 1;
+    sInd   = max(startInd - estInd + 1,1);
     eInd   = endInd - estInd + 1;
     if strcmpi(inputs.type,'updated')
         Y = results.updated.variables.data;

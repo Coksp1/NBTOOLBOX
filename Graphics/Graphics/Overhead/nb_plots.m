@@ -60,7 +60,7 @@ function plotter = nb_plots(structure,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [translate,varargin]       = nb_parseOneOptional('translate',{},varargin{:});
     [parent,varargin]          = nb_parseOneOptional('parent',[],varargin{:});

@@ -62,7 +62,7 @@ function [beta,sigma,residual,X] = nb_nwhishart(y,x,prior,constant,timeTrend)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         timeTrend = 0;

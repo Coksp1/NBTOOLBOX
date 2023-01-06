@@ -13,7 +13,7 @@ function obj = today()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     c   = clock;
     y   = str2double(sprintf('%.0f',c(1)));

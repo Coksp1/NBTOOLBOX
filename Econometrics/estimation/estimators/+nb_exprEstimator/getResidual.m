@@ -9,7 +9,7 @@ function residual = getResidual(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     dep = options.dependentOrig;
     if ~isfield(results,'residual')

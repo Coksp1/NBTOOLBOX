@@ -41,7 +41,7 @@ function obj = undiff(obj,initialValues,periods)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         periods = 1;
@@ -88,7 +88,7 @@ function obj = undiff(obj,initialValues,periods)
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@igrowth,{initialValues});
+        obj = obj.addOperation(@undiff,{initialValues,periods});
     end
 
 end

@@ -22,7 +22,7 @@ function betaDraw = mvnRand(output)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     eps      = nb_mvnrand(1,1,0,output.sigmaLast);
     betaDraw = output.betaLast + eps;

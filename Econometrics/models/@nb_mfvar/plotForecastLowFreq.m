@@ -52,7 +52,7 @@ function [plotter,plotFunction2Use] = plotForecastLowFreq(obj,freq,type,startDat
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         highPeriod = 0;

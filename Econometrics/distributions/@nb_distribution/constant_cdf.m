@@ -23,7 +23,7 @@ function f = constant_cdf(x,m)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f       = zeros(size(x));
     f(x>=m) = 1;

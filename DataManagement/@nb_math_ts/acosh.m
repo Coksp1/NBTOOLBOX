@@ -5,15 +5,15 @@ function obj = acosh(obj)
 %
 % Description:
 %
-% acosh(obj) is the inverse hyperbolic cosine of the elements of obj
+% Inverse hyperbolic cosine
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -21,7 +21,7 @@ function obj = acosh(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = acosh(obj.data);
 

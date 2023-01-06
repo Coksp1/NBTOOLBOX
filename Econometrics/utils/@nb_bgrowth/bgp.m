@@ -17,7 +17,7 @@ function obj = bgp(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     for ii = 1:numel(obj)
         obj(ii).constant    = true; % Turn it into a parameter

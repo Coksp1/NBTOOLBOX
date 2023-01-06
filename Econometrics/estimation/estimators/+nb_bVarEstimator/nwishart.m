@@ -64,7 +64,7 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         waitbar = true;
@@ -88,7 +88,22 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
     numCoeff = size(x,2);
 
     % Prior on vec(beta) ~ N(vec(A_prior), Sigma x V_prior)
-    [A_OLS,~,~,~,r,X] = nb_ols(y,x);
+    TrawOLS = T;
+    if isfield(prior,'LR')
+        % We don't want the dummy observation of the long run prior mess
+        % up the OLS estimation itself, so here we remove the dummy
+        % observation temporarily
+        if prior.LR || prior.SC 
+            TrawOLS = TrawOLS - numDep;
+        end
+        if prior.DIO
+            TrawOLS = TrawOLS - 1;
+        end
+        if prior.SVD
+            TrawOLS = min(TrawOLS,prior.obsSVD - 1);
+        end
+    end
+    [A_OLS,~,~,~,r,X] = nb_ols(y(1:TrawOLS,:),x(1:TrawOLS,:));
     SSE               = r'*r;
     A_prior           = zeros(numCoeff,numDep); 
     a_ols             = A_OLS(:);
@@ -119,7 +134,8 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
     
     if nargout == 1
         % In this case we report the marginal likelihood p(Y)
-        beta = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,s_prior,v_prior,V_prior_inv,S_post);
+        eps  = y - x*A_post;
+        beta = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
     else
     
         % Simulate from posterior using Monte carlo integration
@@ -136,7 +152,8 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
                                'regressors',X,'a_post',a_post,'S_post',S_post,'v_post',v_post,...
                                'V_post',V_post,'restrictions',{restrictions});
             if nargout > 4
-                pY = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,s_prior,v_prior,V_prior_inv,S_post);
+                eps = y - x*A_post;
+                pY  = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
             end
         end
         
@@ -150,20 +167,34 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
 end
 
 %==========================================================================
-function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,s_prior,v_prior,V_prior_inv,S_post)
+function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,A_post,s_prior,v_prior,eps)
 
     xx = x'*x;
-    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,s_prior,v_prior,V_prior_inv,S_post);
+    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,A_prior,A_post,s_prior,v_prior,eps);
     if prior.LR || prior.SC || prior.DIO
+        elem = 0;
         if prior.LR || prior.SC
-            yd = y(end-numDep+1:end,:);
-            xd = x(end-numDep+1:end,:);
-        else
-            yd = y(end,:);
-            xd = x(end,:);
+            elem = elem + numDep;
         end
-        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,A_prior,s_prior,v_prior,V_prior_inv);
+        if prior.DIO
+            elem = elem + 1;
+        end
+        yd   = y(end-elem+1:end,:);
+        xd   = x(end-elem+1:end,:);
+        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,A_prior,s_prior,v_prior);
         pY   = pY - norm;
+    end
+    if prior.SVD
+        % Correct for stocastic-volatility-dummy prior
+        T = size(y,1);
+        if prior.LR || prior.SC
+            T = T - numDep;
+        end
+        if prior.DIO
+            T = T - 1;
+        end
+        invWeights = nb_bVarEstimator.constructInvWeights(prior,T);
+        pY         = pY - size(y,2)*sum(log(invWeights));
     end
         
 end

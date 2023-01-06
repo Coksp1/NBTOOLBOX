@@ -47,7 +47,7 @@ function S = ABidentification(ident,A,sigma,maxDraws,draws)
 % long-run restrictions with sign-restrictions",
 % Working Paper 2013/14, Norges Bank.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(A)
         A = zeros(size(sigma));

@@ -10,7 +10,7 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isempty(inputs.missing)
         error([mfilename ':: Density forecast of factor models that are estimated with missing '...
@@ -62,15 +62,15 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
         end
         
         % Get model solution
-        [A,B,C,vcv,~] = nb_forecast.getModelMatrices(model,iter);
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
         
         % Make draws from the distributions of the exogenous and the shocks
-        [E,X,solution] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,[],[],vcv,nSteps,draws,restrictions,solution,inputs,options);
+        [E,X,solution] = nb_forecast.drawShocksAndExogenous(y0,modelIter,[],nSteps,draws,restrictions,solution,inputs,options);
         
         % Make draws number of simulations of the residual and forecast
         % conditional on those residuals
         for jj = 1:draws
-            Y(:,:,jj) = nb_computeForecast(A,B,C,Y(:,:,jj),X(:,:,jj),E(:,:,jj));
+            Y(:,:,jj) = nb_computeForecast(modelIter.A,modelIter.B,modelIter.C,Y(:,:,jj),X(:,:,jj),E(:,:,jj));
         end
         
         if ~isempty(inputs.observables) 
@@ -185,7 +185,7 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
             end 
             
             % Get model solution
-            [A,B,C,vcv,~] = nb_forecast.getModelMatrices(model,1);
+            modelDraw = nb_forecast.getModelMatrices(modelDraw,1,false,options,nSteps);
             
             % As we are dealing with uncertainty in the factors we need
             % to change the starting values accordingly
@@ -197,12 +197,12 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
             
             % Make draws from the distributions of the exogenous and the shocks
             y0                        = Y(:,1,1+mm); % Initial condition for forecast
-            [E(:,:,indK),X(:,:,indK)] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,[],[],vcv,nSteps,draws,restrictions,struct(),inputs,options);
+            [E(:,:,indK),X(:,:,indK)] = nb_forecast.drawShocksAndExogenous(y0,modelDraw,[],nSteps,draws,restrictions,struct(),inputs,options);
             
             % Make draws number of simulations of the residual and forecast
             % conditional on those residuals
             for qq = indK
-                Y(:,:,qq) = nb_computeForecast(A,B,C,Y(:,:,qq),X(:,:,qq),E(:,:,qq));
+                Y(:,:,qq) = nb_computeForecast(modelDraw.A,modelDraw.B,modelDraw.C,Y(:,:,qq),X(:,:,qq),E(:,:,qq));
             end
             
             if strcmpi(model.class,'nb_fm')

@@ -9,7 +9,7 @@ function paste(gui,~,~,subPlotter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     object = gui.parent.copiedObject;
     if not(isa(object,'nb_graph_obj') || isa(object,'nb_graph_adv'))

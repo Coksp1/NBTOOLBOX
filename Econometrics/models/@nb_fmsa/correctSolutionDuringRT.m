@@ -8,7 +8,7 @@ function sol = correctSolutionDuringRT(obj,sol,estOptions)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Here we must correct the solution of the model due to regressor may
     % change over time, as the observables may lead one period.

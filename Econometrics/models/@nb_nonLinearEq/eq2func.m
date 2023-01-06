@@ -9,7 +9,7 @@ function parser = eq2func(parser)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Remove equality
     eqs = nb_model_parse.removeEquality(parser.equations);

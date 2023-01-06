@@ -23,7 +23,7 @@ function x = logistic_variance(~,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = (k^2*pi^2)/3;
 

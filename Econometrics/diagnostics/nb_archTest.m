@@ -21,7 +21,7 @@ function [stat,pval] = nb_archTest(residual,lags)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     residual    = residual.^2;
     [stat,pval] = nb_autocorrTest(residual,lags);

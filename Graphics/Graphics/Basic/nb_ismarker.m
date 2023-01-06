@@ -19,7 +19,7 @@ function ret = nb_ismarker(in,log)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     if nargin == 1
         log = 0;

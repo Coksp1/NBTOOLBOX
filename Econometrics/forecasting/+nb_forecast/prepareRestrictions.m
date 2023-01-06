@@ -1,8 +1,8 @@
-function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVars,inputs,shockProps)
+function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,condDBVars,inputs,shockProps)
 % Syntax:
 %
-% restrictions = nb_forecast.prepareRestrictions(model,options,nSteps,...
-%                       condDB,condDBVars,inputs,shockProps)
+% restrictions = nb_forecast.prepareRestrictions(model,...
+%       options,results,nSteps,condDB,condDBVars,inputs,shockProps)
 %
 % Description:
 %
@@ -10,29 +10,25 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     restrictions = struct();
     if inputs.condDBStart == 0
         if isempty(condDB)
             restrictions.initDB     = [];
             restrictions.initDBVars = {};
-            extra                   = 0;
         else
             % Store conditional information on initial values. See
             % nb_forecast.setInitialValues2CondDB
             restrictions.initDB     = condDB(1,:);
             restrictions.initDBVars = condDBVars;
             condDB                  = condDB(2:end,:);
-            extra                   = 1;
         end
-    else
-        extra = 0;
     end
 
     if ~isempty(condDB)
         if nSteps ~= size(condDB,1)
-            error([mfilename ':: The condDB input (' int2str(size(condDB,1) + extra) ') must match the nSteps inputs (' int2str(nSteps) ')'])
+            error([mfilename ':: The condDB input (' int2str(size(condDB,1)) ') must match the nSteps inputs (' int2str(nSteps) ')'])
         end
     end
     if isfield(inputs,'exoProj')
@@ -116,28 +112,21 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     end
     
     % Get model properties
-    endo = model.endo;
+    if isfield(model,'observables') && ~strcmpi(model.class,'nb_dsge')
+        endo = model.observables;
+    else
+        endo = model.endo;
+    end
     res  = model.res;
     nRes = length(res);
     
     % Get deterministic exogenous vars
-    if strcmpi(model.class,'nb_arima')
-        constant = false; % Constant is in the observation equation if any in this case...
-    else
-        if isfield(options,'constant')
-            constant = options.constant;
-        else
-            constant = []; % Not used in this case
-        end
-    end
-    [X,exoWithoutDet] = nb_forecast.getDeterministic(options,inputs,nSteps,model.exo,constant);
     if condDistribution
         if isfield(inputs,'initPeriods')
             initPeriods = inputs.initPeriods;
         else
             initPeriods = 0;
         end
-        X = nb_distribution.double2Dist(X); 
     end
     
     % Get endo restrictions
@@ -174,6 +163,21 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     restrictions.endo     = endo;
     restrictions.condEndo = endoCondVars;
     
+    % Get deterministic exogenous vars
+    if strcmpi(model.class,'nb_arima')
+        constant = false; % Constant is in the observation equation if any in this case...
+    else
+        if isfield(options,'constant')
+            constant = options.constant;
+        else
+            constant = []; % Not used in this case
+        end
+    end
+    [X,exoWithoutDet] = nb_forecast.getDeterministic(options,inputs,nSteps,model.exo,constant);
+    if condDistribution
+        X = nb_distribution.double2Dist(X); 
+    end
+    
     % Get exo restrictions (besides constant, time-trend and seasonals
     restrictions.exo = model.exo;
     if ~isempty(exoProj)
@@ -202,14 +206,21 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
             Xexo(isnan(Xexo)) = 0;
         end
 
-        Xexo           = permute(Xexo,[3,2,1]);
-        Xexo           = Xexo(ones(1,nSteps),:,:);
-        restrictions.X = [X,Xexo];
+        Xexo = permute(Xexo,[3,2,1]);
+        Xexo = Xexo(ones(1,nSteps),:,:);
+        Xexo = [X,Xexo];
+        
+        % Sort to have the same order as in model.exo!
+        indD           = ~ismember(model.exo,exoWithoutDet);
+        order          = [model.exo(indD),exoWithoutDet];
+        [~,reorderInd] = ismember(model.exo,order);
+        restrictions.X = Xexo(:,reorderInd,:);
+        
     else
         if ~isempty(exoWithoutDet)
             if strcmpi(model.class,'nb_fm')
                 exoData = getFactorsAndExogenous(model,inputs,condDB,condDBVars);
-                if isempty(exoDataFact)
+                if isempty(exoData)
                     exoData = nan(nSteps,size(exoWithoutDet,2),inputs.nPeriods);
                 end
             elseif strcmpi(model.class,'nb_ecm')
@@ -416,22 +427,28 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
     end
     
     % Are we doing a Kalman filter? In this case we also store the history
-    if inputs.kalmanFilter
+    if inputs.kalmanFilter && ~isempty(restrictions.Y)
         
-        if ~any(strcmpi(restrictions.class,{'nb_var','nb_pitvar'}))
+        if ~any(strcmpi(restrictions.class,{'nb_var','nb_pitvar','nb_mfvar','nb_fmdyn'}))
             error(['The kalmanFilter options can only be set to true when the object ',...
-                   'is of class nb_var or nb_pitvar']);
+                   'is of class nb_var, nb_pitvar or nb_mfvar']);
         end
         restrictions.kalmanFilter = true;
         
         % Get historical data
-        dep      = [options.dependent, options.block_exogenous];
+        if isfield(model,'observables')
+            dep           = model.observables;
+            exoWithoutDet = options.exogenous;
+        else
+            dep           = [options.dependent, options.block_exogenous];
+            exoWithoutDet = options.exogenous; 
+        end
+        pred          = nb_cellstrlag(dep,options.nLags + 1,'varFast');
+        ind           = ~ismember(exoWithoutDet,pred);
+        exoWithoutDet = exoWithoutDet(ind); % Remove lagged dependent from rhs variables in estimation
+        
         [~,indY] = ismember(dep,options.dataVariables);
         myHist   = options.data(options.estim_start_ind:options.estim_end_ind,indY);
-        exoWithoutDet      = options.exogenous;
-        pred     = nb_cellstrlag(dep,options.nLags + 1,'varFast');
-        ind      = ~ismember(exoWithoutDet,pred);
-        exoWithoutDet      = exoWithoutDet(ind); % Remove lagged dependent from rhs variables in estimation
         [~,indX] = ismember(exoWithoutDet, options.dataVariables);
         mxHist   = options.data(options.estim_start_ind:options.estim_end_ind,indX);
         if options.time_trend
@@ -442,6 +459,19 @@ function restrictions = prepareRestrictions(model,options,nSteps,condDB,condDBVa
         end
         restrictions.YHist = myHist;
         restrictions.XHist = mxHist;
+        
+        if isfield(model,'P') && ~isempty(model.P)
+            % The model has provided us with an estimate of the one-step 
+            % ahead forecast error variance, and we then need the starting
+            % values of the state variable and not the data on the
+            % observables! State variables are taken from the smoothed 
+            % estimates.
+            [~,indY]                = ismember(model.endo,results.smoothed.variables.variables);
+            myStatesHist            = results.smoothed.variables.data(:,indY);
+            remove                  = all(isnan(myStatesHist),2);
+            myStatesHist(remove,:)  = [];
+            restrictions.statesHist = myStatesHist;
+        end
         
     else
         restrictions.kalmanFilter = false;
@@ -660,18 +690,4 @@ function [exoData,exoNames] = getDiffAndLevel(exo,opt,inputs,condDB,condDBVars)
         
     end
         
-    % Reorder the data
-%     allExo = [opt.exogenous,opt.rhs];
-%     ind    = ismember(exo,allExo);
-%     if any(~ind)
-%         % Correct for diff of endogenous is forced into the solution
-%         exoDataT         = exoData;
-%         exoData          = zeros(s1,length(exo),s3);
-%         [t,indR]         = ismember(exo,exoNames);
-%         exoDataT         = exoDataT(:,indR(t),:);
-%         exoData(:,ind,:) = exoDataT;
-%     else
-%         [~,indR] = ismember(exo,exoNames);
-%         exoData  = exoData(:,indR,:);
-%     end
 end

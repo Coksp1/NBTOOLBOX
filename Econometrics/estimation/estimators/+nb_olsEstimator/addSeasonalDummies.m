@@ -9,7 +9,7 @@ function options = addSeasonalDummies(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
       
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     startDate       = options.dataStartDate;
     [ind,frequency] = nb_isQorM(startDate);

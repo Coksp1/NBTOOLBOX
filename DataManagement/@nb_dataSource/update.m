@@ -42,7 +42,7 @@ function obj = update(obj,warningOff,inGUI)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         inGUI = 'off';
@@ -194,245 +194,30 @@ function [merged,index] = recursiveUpdate(cl,subLinks,index,warningOff,inGUI,loc
             
             temp = nb_readMat(source,sorted);
 
-        case 'db'
+        case {'db','realdb','releasedb','nbrealdb','nbreleasedb'}
 
-            vars      = subLink.variables;
-            startDate = subLink.startDate;
-            endDate   = subLink.endDate;
-            vintage   = subLink.vintage;
-            freq      = subLink.freq;
-            host      = subLink.host;
-            port      = subLink.port;
-            options   = subLink.options;
-            
-            % Check the vintage for local variable notation
-            local = 0;
-            if ischar(vintage)
-                local = nb_contains(vintage,'%#');
-                if local
-                    locVint = vintage;
-                    vintage = nb_localVariables(locVars,vintage);
+            try
+                temp = nb_updateFAMELink(subLink,warningOff,inGUI,locVars,sorted);
+            catch Err
+                if ~exist('nb_updateFAMELink','file')
+                error('You need to have access to FAME functionality to update the dataset.')
+                else
+                    rethrow(Err)
                 end
-            elseif iscell(vintage)
-                locVint = vintage;
-                local   = 0;
-                for ii = 1:length(vintage)
-                    vin = vintage{ii};
-                    if ischar(vin)
-                        local = nb_contains(vin,'%#');
-                        if local
-                            vintage{ii} = nb_localVariables(locVars,vin);
-                        end
-                    end
-                end 
-            end
-             
-            oilprice = false;
-            if iscell(options) && ~isempty(options)
-                if strcmpi(options{1},'oilprice')
-                    oilprice = true;
-                end
-            end
-                
-            if oilprice
-            
-                try
-                    temp = oilpricetermin(freq,vars{1},options{2},source,options{3});
-                catch Error
-
-                    if strcmpi(warningOff,'on')
-                        func_handle = @warning;
-                    else
-                        func_handle = @error;
-                    end                    
-                    func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                        '(Do you have access to the FAME database you are fetching from, or is it deleted?) '...
-                        'Returns the object with the same data. ' Error.message])
-
-                end
-                
-            else
-                
-                try
-                    temp = nb_fetchFromFame(source,vars,startDate,endDate,vintage,freq,host,port,options,sorted);
-                catch Error
-
-                    if strcmpi(warningOff,'on')
-                        func_handle = @warning;
-                    else
-                        func_handle = @error;
-                    end
-
-                    if strcmpi(inGUI,'on')
-
-                        if ~isempty(Error.message)
-                            func_handle(['There was an error while checking the variable names: ' Error.message]);
-                        else
-                            func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                                '(Do you have access to the FAME database you are fetching from, or is it deleted? Or does it need MACM functionalities.) '...
-                                'Returns the object with the same data. ' Error.message])
-
-                        end
-
-                    else
-                        func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                                '(Do you have access to the FAME database you are fetching from, or is it deleted? Or does it need MACM functionalities.) '...
-                                'Returns the object with the same data. ' Error.message])
-                    end
-
-                end
-                
-            end
-            
-            if local
-                link                  = get(temp,'links');
-                link.subLinks.vintage = locVint;
-                temp                  = temp.setLinks(link);
             end
             
         case 'smart'
             
-            if ~exist('nb_startSMART','file')
-                error([mfilename ':: You need to have access to SMART to update ',...
-                    'the dataset.'])
-            end
-
-            variables = subLinks.variables;
-            vintages  = subLinks.vintage;
-            
-            [temp,err] = nb_smart2TS(variables,vintages);
-            if ~isempty(err)
-                if strcmpi(warningOff,'on')
-                    func_handle = @warning;
-                else
-                    func_handle = @error;
-                end
-                func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. ' err])
-            end
-            
-        case {'realdb','releasedb'}
-
-            vars      = subLink.variables;
-            startDate = subLink.startDate;
-            endDate   = subLink.endDate;
-            last      = subLink.vintage;
-            host      = subLink.host;
-            port      = subLink.port;
-            options   = subLink.options;
-            
-            % Check the vintage for local variable notation
-            local = 0;
-            if ischar(last)
-                local = nb_contains(last,'%#');
-                if local
-                    locVint = last;
-                    last = nb_localVariables(locVars,last);
-                end
-            elseif iscell(last)
-                locVint = last;
-                local   = 0;
-                for ii = 1:length(last)
-                    vin = last{ii};
-                    if ischar(vin)
-                        local = nb_contains(vin,'%#');
-                        if local
-                            last{ii} = nb_localVariables(locVars,vin);
-                        end
-                    end
-                end 
-            end
-            
             try
-                temp = nb_fetchRealTimeFromFame(source,vars,startDate,endDate,host,port,sorted,options,last);
-            catch Error
+                temp = nb_updateSMARTLink(subLink,warningOff,locVars,sorted);
+            catch Err
+                if ~exist('nb_updateSMARTLink','file')
+                    error('You need to have access to SMART to update the dataset.')
+                else
+                    rethrow(Err)
+                end
+            end
                 
-                if strcmpi(warningOff,'on')
-                    func_handle = @warning;
-                else
-                    func_handle = @error;
-                end
-                    
-                if strcmpi(inGUI,'on')
-
-                    if ~isempty(Error.message)
-                        func_handle(['There was an error while checking the variable names: ' Error.message]);
-                    else
-                        func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                            '(Do you have access to the FAME database you are fetching from, or is it deleted? Or does it need MACM functionalities.) '...
-                            'Returns the object with the same data. ' Error.message])
-
-                    end
-
-                else
-                    func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                            '(Do you have access to the FAME database you are fetching from, or is it deleted? Or does it need MACM functionalities.) '...
-                            'Returns the object with the same data. ' Error.message])
-                end
-                     
-            end
-            
-            if local
-                link                  = get(temp,'links');
-                link.subLinks.vintage = locVint;
-                temp                  = temp.setLinks(link);
-            end    
-            
-        case {'nbrealdb','nbreleasedb'} 
-            
-            vars      = subLink.variables;
-            startDate = subLink.startDate;
-            endDate   = subLink.endDate;
-            startVint = subLink.vintage;
-            options   = subLink.options;
-            
-            % Check the vintage for local variable notation
-            local = 0;
-            if ischar(startVint)
-                local = nb_contains(startVint,'%#');
-                if local
-                    locVint   = startVint;
-                    startVint = nb_localVariables(locVars,startVint);
-                end
-            end
-            
-            if strcmpi(options,'oilprice')
-                try
-                    temp = nb_realTimeOilPrice(startVint,vars{1},startDate,endDate,source);
-                catch Error
-
-                    if strcmpi(warningOff,'on')
-                        func_handle = @warning;
-                    else
-                        func_handle = @error;
-                    end                    
-                    func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                        '(Do you have access to the FAME database you are fetching from, or is it deleted?) '...
-                        'Returns the object with the same data. ' Error.message])
-
-                end  
-            else
-                try
-                    temp = nb_fetchRealTime(source,vars,startVint,sorted,startDate,endDate);
-                catch Error
-
-                    if strcmpi(warningOff,'on')
-                        func_handle = @warning;
-                    else
-                        func_handle = @error;
-                    end                    
-                    func_handle('nb_dataSource:CouldNotUpdateObject',[mfilename ':: The data of the object couldn''t be updated. '...
-                        '(Do you have access to the FAME database you are fetching from, or is it deleted?) '...
-                        'Returns the object with the same data. ' Error.message])
-
-                end
-            end
-            
-            if local
-                link                  = get(temp,'links');
-                link.subLinks.vintage = locVint;
-                temp                  = temp.setLinks(link);
-            end 
-            
         case 'private(nb_cs)'
             
             vars                   = subLink.variables;

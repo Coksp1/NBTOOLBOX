@@ -1,7 +1,8 @@
-function A = invwish_rand(h,n)
+function A = invwish_rand(h,n,type)
 % Syntax:
 %
 % A = invwish_rand(h,n)
+% A = invwish_rand(h,n,type)
 %
 % Description:
 %
@@ -16,6 +17,8 @@ function A = invwish_rand(h,n)
 % - h : m x m scale matrix.
 %
 % - n : scalar degrees of freedom.
+%
+% - type : 'cov' or 'covrepair'. See nb_chol
 % 
 % Output:
 % 
@@ -23,9 +26,13 @@ function A = invwish_rand(h,n)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    ch    = nb_chol(h,'cov')';
+    if nargin < 3
+        type = 'cov';
+    end
+
+    ch    = nb_chol(h,type)';
     x     = randn(n,size(h,1));
     [~,R] = qr(x,0);
     T     = ch/R;

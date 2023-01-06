@@ -9,7 +9,7 @@ function irfData = irfPoint(solution,options,inputs,results)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isfield(results,'densities')
         dist = results.densities; % Used by PIT models
@@ -41,8 +41,13 @@ function irfData = irfPoint(solution,options,inputs,results)
     end
     
     % Get model information
-    [A,B,C,vcv,Qfunc] = nb_forecast.getModelMatrices(solution,'end',1);
-
+    solutionEnd = nb_forecast.getModelMatrices(solution,'end',1,options,periods);
+    A           = solutionEnd.A;
+    B           = solutionEnd.B;
+    C           = solutionEnd.C;
+    vcv         = solutionEnd.vcv;
+    Qfunc       = solutionEnd.Qfunc;
+    
     endo = solution.endo;
     res  = solution.res;
     if isfield(options,'dependent') && ~strcmpi(options.class,'nb_mfvar')
@@ -265,16 +270,20 @@ function irfData = irfPoint(solution,options,inputs,results)
     
     % Now we need to get the irf of the observables if we are dealing with
     % a factor model
-    if isfield(solution,'G') && ~strcmpi(solution.class,'nb_arima')
+    if isfield(solution,'observables') && ~strcmpi(solution.class,'nb_arima')
         
         [ind,indO] = ismember(solution.observables,vars);
         indO       = indO(ind);
         if ~isempty(indO)
             
-            G = solution.G(indO,:,end);  
+            H = solution.H(indO,:,:);  
             Z = nan(size(G,1),periods + 1,nShocks);
-            for jj = 1:nShocks
-                Z(:,:,jj) = G*Y(:,:,jj); % Observation equation
+            if size(H,3) > 1
+                error('Cannot produce IRFs of models with time-varying measurement equations!')
+            else
+                for jj = 1:nShocks
+                    Z(:,:,jj) = H*Y(:,:,jj); % Observation equation
+                end
             end
             dep = [dep,solution.observables(ind)];
             Y   = [Y;Z];
@@ -285,16 +294,7 @@ function irfData = irfPoint(solution,options,inputs,results)
     
     % Add irfs for observables if we are dealing with a MF-VAR
     ss = [];
-    if strcmpi(options.class,'nb_mfvar')
-        nShocks = size(Y,3);
-        nObs    = size(solution.H,1);
-        Yobs    = nan(nObs,size(Y,2),nShocks);% nObs x nHor x nShocks
-        for ii = 1:nShocks
-            Yobs(:,:,ii) = solution.H*Y(:,:,ii); % Get forecast on the observed variables
-        end
-        Y   = [Yobs;Y(1:nObs,:,:)];
-        dep = [options.dependent,dep(1:nObs)];
-    elseif isfield(solution,'ss')  
+    if isfield(solution,'ss')  
         if ~iscell(solution.ss)
             if inputs.addSS
                 Y = bsxfun(@plus,Y,solution.ss);

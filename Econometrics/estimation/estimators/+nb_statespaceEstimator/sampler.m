@@ -13,7 +13,7 @@ function [betaD,sigmaD,posterior] = sampler(posterior,draws)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         draws = [];
@@ -48,12 +48,13 @@ function [betaD,sigmaD,posterior] = sampler(posterior,draws)
     end
     output = samplerFunc(posterior.objective,posterior.betaD(:,:,end)',omega,opt); 
          
-    if cont
+    if cont || size(output(1).beta,1) == draws
         % In this case we keep all
         betaD = permute(output(1).beta,[2,3,1]); % nParam x 1 x draws
     else
         % Randomly select ammong the sampled draws from chain 1.
-        randInd = ceil(opt.draws*rand(draws,1));
+        randInd  = randperm(size(output(1).beta,1));
+        randInd  = randInd(1:draws);
         if isempty(output(1).files)  
             betaD   = permute(output(1).beta(randInd,:),[2,3,1]); % nParam x 1 x draws
         else

@@ -19,7 +19,7 @@ function default = defaultInputs(convert)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         convert = true;
@@ -66,6 +66,7 @@ function default = defaultInputs(convert)
                'foundReplic',       [],         {@isstruct,'||',@isempty};...
                'condAssumption',    'before',   {{@nb_ismemberi,{'','after','before'}}};...
                'condDBStart',       1,          @nb_isScalarInteger;...
+               'condDBType',        'soft',     {{@nb_ismemberi,{'soft','hard'}}};...
                'kalmanFilter',      false,      @nb_isScalarLogical};
            
     if convert       

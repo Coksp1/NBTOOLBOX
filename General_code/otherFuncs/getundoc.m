@@ -5,7 +5,7 @@ function undocumentedProps = getundoc(arg, skipStandardProps)
 %
 % Written by Yair Altman
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 %GETUNDOC Get Undocumented Object Properties.
 % GETUNDOC('OBJECT') or GETUNDOC(H) returns a structure of

@@ -69,7 +69,7 @@ function varargout = callfun(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % When the object is updateable, we need to tell it to return
     % a spesific element of the given update, i.e. this is done
@@ -80,8 +80,8 @@ function varargout = callfun(obj,varargin)
     
     if ~isempty(freq)
         
-        warning('off','nb_ts:convert:noOptionIncludeLastWhenDiscrete');
-        warning('off','nb_ts:convert:noOptionIncludeLastWhenFirst');
+        warning('off','nb_math_ts:convert:noOptionIncludeLastWhenDiscrete');
+        warning('off','nb_math_ts:convert:noOptionIncludeLastWhenFirst');
         
         oldStart = obj.startDate;
         oldEnd   = obj.endDate;
@@ -126,7 +126,8 @@ function varargout = callfun(obj,varargin)
     end
     
     % Convert to nb_dataSource object(s)
-    siz = size(obj.data);
+    siz    = size(obj.data);
+    siz(2) = nan;
     for ii = 1:length(varargout)    
         if nb_sizeEqual(varargout{ii},siz) && any(strcmpi(class(varargout{ii}),{'double','logical','nb_distribution'}))
             temp          = obj;
@@ -150,8 +151,8 @@ function varargout = callfun(obj,varargin)
     end
     
     if ~isempty(freq)
-        warning('on','nb_ts:convert:noOptionIncludeLastWhenDiscrete');
-        warning('on','nb_ts:convert:noOptionIncludeLastWhenFirst')
+        warning('on','nb_math_ts:convert:noOptionIncludeLastWhenDiscrete');
+        warning('on','nb_math_ts:convert:noOptionIncludeLastWhenFirst')
     end
        
 end

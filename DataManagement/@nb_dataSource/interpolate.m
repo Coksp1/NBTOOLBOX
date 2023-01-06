@@ -29,7 +29,7 @@ function obj = interpolate(obj,method)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(obj,'nb_cell')
         error([mfilename ':: The method interpolate is not supported for objects of class nb_cell.'])

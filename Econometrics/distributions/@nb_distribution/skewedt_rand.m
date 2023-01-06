@@ -34,7 +34,7 @@ function draws = skewedt_rand(nrow,ncol,a,b,c,d)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     p     = rand(nrow,ncol);
     draws = nb_distribution.skewedt_icdf(p,a,b,c,d);

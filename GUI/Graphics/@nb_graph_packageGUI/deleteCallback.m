@@ -9,7 +9,7 @@ function deleteCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % List of graphs (of call nb_graph_adv)
     graphNames = gui.package.identifiers;

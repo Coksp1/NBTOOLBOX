@@ -14,7 +14,7 @@ function fcst = loopForecast(names,sol,opt,res,startInd,endInd,nSteps,inputsW,co
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up file to write if asked for
     writeInputs = nb_logger.openLoggerFile(writeInputs);

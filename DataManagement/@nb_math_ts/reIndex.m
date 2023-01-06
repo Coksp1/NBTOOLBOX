@@ -1,7 +1,8 @@
-function obj = reIndex(obj,date)
+function obj = reIndex(obj,date,value)
 % Syntax:
 %
 % obj = reIndex(obj,date)
+% obj = reIndex(obj,date,value)
 %
 % Description:
 % 
@@ -11,15 +12,16 @@ function obj = reIndex(obj,date)
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj   : An object of class nb_math_ts
 % 
-% - date      : The date at which the data should be reindexed to. 
-%               (Reindexed to 100)
+% - date  : The date at which the data should be reindexed to.
+%
+% - value : The value to re-index the data to. Default is 100    
 %               
 % Output:
 % 
-% - obj       : An object of class nb_math_ts where all the objects
-%               timeseries are reindexed to 100 at the given date
+% - obj   : An object of class nb_math_ts where all the timeseries 
+%           are reindexed to value at the given date.
 % 
 % Examples:
 % 
@@ -27,20 +29,18 @@ function obj = reIndex(obj,date)
 %
 % Written by Kenneth S. Paulsen     
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+
+    if nargin < 3
+        value = 100;
+    end
 
     if ischar(date)
-
         date = nb_date.date2freq(date);
-
     elseif isa(date,'nb_date')
-
         % Do nothing
-
     elseif isnumeric(date)
-
         date = nb_year(date);
-
     else 
         error([mfilename ':: the ''startDate'' input must either be a string or an integer.'])
     end
@@ -71,28 +71,28 @@ function obj = reIndex(obj,date)
                     end
             end
 
-            period          = date - obj.startDate + 1;
-            indexPeriods    = period:period + extra;
+            period       = date - obj.startDate + 1;
+            indexPeriods = period:period + extra;
             try
                 indexPeriodData = nanmean(obj.data(indexPeriods,:,:),1);
             catch 
                 error('nb_math_ts:reIndex:outsideBounds',[mfilename ':: You cannot index to date which is not part of the objects window!'])
             end
-            factor          = 100./indexPeriodData;
-            obj.data        = obj.data.*repmat(factor,obj.dim1,1);
+            factor   = value./indexPeriodData;
+            obj.data = obj.data.*repmat(factor,obj.dim1,1);
 
         end
 
     else
 
-        indexPeriod     = date - obj.startDate + 1;
+        indexPeriod = date - obj.startDate + 1;
         try
            indexPeriodData = obj.data(indexPeriod,:,:);
         catch %#ok<CTCH>
             error('nb_math_ts:reIndex:outsideBounds',[mfilename ':: You cannot index to date which is not part of the objects window!'])
         end
-        factor          = 100./indexPeriodData;
-        obj.data        = obj.data.*repmat(factor,obj.dim1,1);
+        factor   = value./indexPeriodData;
+        obj.data = obj.data.*repmat(factor,obj.dim1,1);
 
     end
 

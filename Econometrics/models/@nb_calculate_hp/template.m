@@ -22,18 +22,19 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
     end
 
-    options              = nb_model_generic.templateGeneral(num,'time-series');
-    options.dependent    = {};
-    options.estim_method = 'hp';
-    options.lambda       = 1600;
-    options.oneSided     = false;
-    options.type         = 'gap';
+    options                 = nb_model_generic.templateGeneral(num,'time-series');
+    options.dependent       = {};
+    options.estim_method    = 'hp';
+    options.lambda          = 1600;
+    options.oneSided        = false;
+    options.renameVariables = {};
+    options.type            = 'gap';
 
 
 end

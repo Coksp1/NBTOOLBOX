@@ -25,7 +25,7 @@ function str = nb_checkForErrors(expression,macro)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         macro = false;
@@ -40,13 +40,13 @@ function str = nb_checkForErrors(expression,macro)
     if macro
         ind = regexp(expression,'[§£¤$%?`\´¨;]','once');
     else
-        ind = regexp(expression,'[§#£¤$%?`\´¨;{}\[\]]','once');
+        ind = regexp(expression,'[§#£¤$%?`\´¨{}]','once');
     end
     if ~isempty(ind)
         if macro
             str = 'The following characters is not supported; § £ ¤ $ %% & ? ` \\ ´ ¨ ;';
         else
-            str = 'The following characters is not supported; ! § # £ ¤ $ %% { [ ] } ? ` \\ ´ ¨ ;';
+            str = 'The following characters is not supported; ! § # £ ¤ $ %% { } ? ` \\ ´ ¨';
         end
         return
     end

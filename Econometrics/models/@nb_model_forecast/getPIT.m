@@ -61,7 +61,7 @@ function [pit,plotter,pitTest] = getPIT(obj,startDate,endDate,onlyFinal)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         onlyFinal = false;

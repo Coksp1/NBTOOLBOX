@@ -26,7 +26,7 @@ function f = empirical_pdf(x,domain,CDF)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Find the PDF
     diffR   = (domain(end)-domain(1))/length(domain);

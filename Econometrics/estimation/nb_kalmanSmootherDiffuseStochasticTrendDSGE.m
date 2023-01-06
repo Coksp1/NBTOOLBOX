@@ -91,7 +91,7 @@ function [xf,xs,us,xu,uu,A,B,C,ss,p] = nb_kalmanSmootherDiffuseStochasticTrendDS
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

@@ -24,7 +24,7 @@ function obj = convertModel(obj)
 %
 % Written by Tobias Ingebrigtsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check options
     obj   = check(obj);

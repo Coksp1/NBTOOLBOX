@@ -25,13 +25,15 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
     if isempty(options)
         error([mfilename ':: The options input cannot be empty!'])
     end
+    options = nb_defaultField(options,'func',[]);
+    options = nb_defaultField(options,'handleMissing',false);
 
     % Get the estimation options
     tempData = options.data;
@@ -51,9 +53,32 @@ function [results,options] = estimate(options)
     Z = tempData(:,indZ);
     
     % Shorten sample
-    [options,Z] = nb_estimator.testSample(options,Z);
-    [results,options] = nb_shorteningEstimator.doShortening(options,Z);
-
+    if options.handleMissing
+        isNaN = all(~isfinite(Z),2);
+        if isempty(options.estim_end_ind)
+            endI = find(~isNaN,1,'last');
+            if isempty(endI)
+                error([mfilename ':: None of the variables has any observations.'])
+            end
+            options.estim_end_ind = endI;
+        end
+        if isempty(options.estim_start_ind)
+            startI = find(~isNaN,1);
+            if isempty(startI)
+                error([mfilename ':: None of the variables has any observations.'])
+            end
+            options.estim_start_ind = startI;
+        end
+        Z = Z(options.estim_start_ind:options.estim_end_ind,:);
+    else
+        [options,Z] = nb_estimator.testSample(options,'handleNaN',Z);
+    end
+    if isempty(options.func)
+        [results,options] = nb_shorteningEstimator.doShortening(options,Z);
+    else 
+        [results,options] = nb_shorteningEstimator.doFunc(options,Z);
+    end
+    
     % Assign generic results
     results.includedObservations = size(Z,1);
     results.elapsedTime          = toc(tStart);

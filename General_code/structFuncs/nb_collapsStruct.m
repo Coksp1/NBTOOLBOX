@@ -26,7 +26,7 @@ function cs = nb_collapsStruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [P,M]  = size(s);
     N      = max(P,M);

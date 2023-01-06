@@ -83,7 +83,7 @@ prior.mixing  = 'high';
 % Set how important it is to match the high frequency observations
 % on the variable 'VAR2'. Higher number means less measurement errors 
 % allow. The prior is set as sigma/R_scale, where sigma is the
-% variance of the residual of an AR(1) model on 'VAR2'.
+% variance of 'VAR2'.
 prior.R_scale = 100; 
 
 % Options

@@ -1,7 +1,7 @@
-function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
+function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
 % Syntax:
 %
-% [Y,dep] = nb_forecast.createReportedVariables(options,inputs,Y,...
+% [Yout,dep] = nb_forecast.createReportedVariables(options,inputs,Y,...
 %                                                   dep,start,iter)
 %
 % Description:
@@ -13,7 +13,7 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % If we are dealing with real-time data we need to index the
     % options struct to get hold of the correct vintage of historical 
@@ -32,7 +32,7 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
         if isempty(inputs.missing)
             nowcast = 0;
         else
-            nowcast = max(sum(inputs.missing,1));
+            nowcast = sum(any(inputs.missing,2));
         end
     end
     endInd = start - nowcast;
@@ -51,10 +51,10 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     nHistObs = size(data,1); 
     
     % Merge with forecast
-    [ind,indD]     = ismember(dep,variables);
-    indD           = indD(ind); % Some variables are not part of data
+    [indM,indD]    = ismember(dep,variables);
+    indD           = indD(indM); % Some variables are not part of data
     fcst           = nan(nSteps,length(variables),nDraws);
-    fcst(:,indD,:) = Y(:,ind,:);
+    fcst(:,indD,:) = Y(:,indM,:);
     data           = [data;fcst];
     
     % Insert for projected variables not part of model
@@ -105,6 +105,11 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     dataTS = nb_math_ts(data,dataStart);
     
     % Check each expressions
+    if isfield(options,'context')
+        contextText = ['. It is the case for the context; ', options.context];
+    else
+        contextText = '';
+    end
     for ii = 1:size(reporting,1)
         
         expression = reporting{ii,2};
@@ -115,15 +120,16 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
             continue
         end 
         if any(double(isnan(dataTSOne(nHistObs+1:end,:))))
-            if strcmpi(options.class,'nb_mfvar')
+            if nb_model_generic.isMixedFrequencyStatic(options)
                 if all(double(isnan(dataTSOne(nHistObs+1:end,:))))
-                    warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ' returned nan values']);
+                    warning('nb_forecast:createReportedVariables:returnedNaN',...
+                        ['The expression ' expression ' returned nan values' contextText]);
                 end 
             else
                 d   = dates(dataTSOne(nHistObs+1:end,:));
                 ind = isnan(double(dataTSOne(nHistObs+1:end,:)));
                 warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ,...
-                    ' returned nan values for the dates ' toString(d(ind))]);
+                    ' returned nan values for the dates ' toString(d(ind)) contextText]);
             end
         end
 
@@ -146,8 +152,14 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     outVars       = outVars(ind);
     
     % Merge reported variables with model forecast
-    Y   = double(dataTS);
-    Y   = Y(nHistObs+1:end,locKeep,:);
+    Yout = double(dataTS);
+    Yout = Yout(nHistObs+1:end,locKeep,:);
+    
+    % Add forecast of variables that does not have history
+    if any(~indM)
+        outVars = [dep(~indM),outVars];
+        Yout    = [Y(:,~indM,:),Yout];
+    end
     dep = outVars;
     
 end

@@ -9,7 +9,7 @@ function updateGUI(gui,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     % Get list of figure names
     pkg     = gui.package;

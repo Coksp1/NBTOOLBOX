@@ -19,7 +19,7 @@ function int = intersect(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [~,ind] = intersect(cellstr(obj),cellstr(another));
     int     = obj(ind);

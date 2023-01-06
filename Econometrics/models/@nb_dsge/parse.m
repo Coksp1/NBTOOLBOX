@@ -29,7 +29,7 @@ function obj = parse(filename,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     ind = cellfun(@(x)isa(x,'nb_dsge'),varargin);
     if any(ind) % Used by reparse!
@@ -115,6 +115,9 @@ function obj = parse(filename,varargin)
         end
         
     end
+    
+    % Have the user declared any temporary parameters using #?
+    parser.equations = nb_model_parse.parseTempParameters(parser.equations,obj.options.tempParametersVerbose);
     
     % Check that all symbolic expression are declared.
     endo  = [parser.endogenous, parser.unitRootVars, parser.obs_endogenous];

@@ -1,0 +1,22 @@
+endogenous
+k
+D_Z_k
+D_Z_N
+D_Z_A
+
+exogenous
+u
+
+parameters
+s
+delta
+alpha
+a
+
+model
+
+k/1 = ((1-delta)*(k(-1)*D_Z_k^-1))/1+(s*(1^(1-alpha)))*(((k(-1)*D_Z_k^-1)/1)^alpha);
+1 = ((1-a)*(1*D_Z_A^-1))*exp(u);
+1 = (1-a)*(1*D_Z_N^-1);
+alpha*log(D_Z_A)+alpha*log(D_Z_N)+log(D_Z_k)-alpha*log(D_Z_k)-log(D_Z_A)-log(D_Z_N);
+

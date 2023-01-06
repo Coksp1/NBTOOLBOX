@@ -30,7 +30,7 @@ function obj = convert(obj,frequency,first) %#ok
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         first = 1; %#ok
@@ -70,7 +70,7 @@ function obj = convert(obj,frequency,first) %#ok
         case 52
             % Do nothing
         case 365
-            obj = getDay(obj);
+            obj = getDay(obj,2);
         otherwise
             error([mfilename ':: Unsupported frequency ' int2str(frequency) '.'])
     end

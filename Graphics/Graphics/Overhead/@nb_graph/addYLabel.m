@@ -9,7 +9,7 @@ function addYLabel(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen         
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen         
 
     % Find out the y-axis label, if not given
     %--------------------------------------------------------------

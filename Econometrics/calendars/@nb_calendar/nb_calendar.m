@@ -1,4 +1,4 @@
-classdef nb_calendar
+classdef nb_calendar < matlab.mixin.Heterogeneous
 % Description:
 %
 % A superclass of the different calendars that can be used to construct 
@@ -15,11 +15,10 @@ classdef nb_calendar
 % nb_MPRCalendar
 % nb_MPRCutoffCalendar
 % nb_numDaysCalendar
-% nb_SMARTVariableCalendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen    
     
     methods (Abstract=true)
         
@@ -76,6 +75,17 @@ classdef nb_calendar
         % Written by Kenneth Sæterhagen Paulsen
         s = struct(obj)
         
+        % Syntax:
+        %
+        % name = getName(obj)
+        %
+        % Description:
+        %
+        % Get calendar name as one line char
+        %
+        % Written by Kenneth Sæterhagen Paulsen
+        name = getName(obj)
+        
     end
     
     methods
@@ -103,6 +113,7 @@ classdef nb_calendar
         varargout = getContextIndex(varargin)
         varargout = getDefaultStart(varargin)
         varargout = getStartOfCalendar(varargin)
+        vararout  = getSubClasses(varargin)
         varargout = shrinkCalendar(varargin)
         
         function obj = unstruct(s) 

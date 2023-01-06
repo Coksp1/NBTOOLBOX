@@ -9,7 +9,7 @@ function setPage(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
           
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(gui.parent,'nb_GUI')
         name = [gui.parent.guiName ': Set Page to Display'];

@@ -17,7 +17,7 @@ function results = getDynareEstimationResults(dynare_file_short)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get priors
     results   = struct;

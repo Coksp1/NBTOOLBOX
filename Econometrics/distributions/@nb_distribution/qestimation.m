@@ -61,7 +61,7 @@ function dist = qestimation(type,quantiles,values,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     default = {'optimizer', 'fmincon', @nb_isOneLineChar;...
                'optimset',  [],        @isstruct;...

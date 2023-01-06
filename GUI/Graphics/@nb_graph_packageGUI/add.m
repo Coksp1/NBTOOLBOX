@@ -9,7 +9,7 @@ function add(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
      
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Panel with graph selection list
     f   = nb_guiFigure(gui.parent,'Select Advanced Graph',[65   15  70   30],'modal','off');

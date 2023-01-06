@@ -9,7 +9,7 @@ function dep = getForecastVariables(options,model,inputs,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if any(strcmpi(model.class,{'nb_sa','nb_midas','nb_fmsa'}))
         dep = unique(regexprep(options(end).dependent,'_{0,1}lead[0-9]*$',''));
@@ -26,9 +26,27 @@ function dep = getForecastVariables(options,model,inputs,type)
                 dep = [options(end).dependent,model.endo];
             else
                 % Here the lags are not returned.
-                dep  = [options(end).dependent, options(end).block_exogenous];
-                nDep = length(dep) - sum(options.indObservedOnly);
+                dep = [options(end).dependent, options(end).block_exogenous];
+                if isfield(options,'measurementEqRestriction') && ...
+                            ~nb_isempty(options.measurementEqRestriction)
+                    dep = [dep,{options.measurementEqRestriction.restricted}]; 
+                end
+                if size(options.indObservedOnly,2) == length(dep)
+                    % Normal B-VAR where measurement restrictions are
+                    % taken into account during estimation
+                    remove = sum(options.indObservedOnly);
+                else
+                    remove = sum(options.indObservedOnly) + length(options.measurementEqRestriction); 
+                end
+                nDep = length(dep) - remove;
                 dep  = [dep, model.endo(1:nDep)];
+                if ~isempty(inputs.observables)
+                    [~,ind] = ismember(inputs.observables,model.observables);
+                    if size(ind,2) ~= size(model.observables,2)
+                        ind = [ind, size(dep,2)-nDep+1:size(dep,2)];
+                        dep = dep(ind);
+                    end
+                end
             end
         end
     else
@@ -56,6 +74,10 @@ function dep = getForecastVariables(options,model,inputs,type)
             end
             if isfield(options,'block_exogenous')
                 dep = [dep,options(end).block_exogenous];
+            end
+            if isfield(options,'measurementEqRestriction') && ...
+                        ~nb_isempty(options(end).measurementEqRestriction)
+                dep = [dep,{options(end).measurementEqRestriction.restricted}]; 
             end
         end
         

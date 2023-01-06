@@ -11,7 +11,7 @@ function lagLengthCallback(gui,~,~)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get components
     criterionBox    = gui.lagPanelComponents.criterionBox;

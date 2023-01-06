@@ -67,7 +67,7 @@ function [fcstData,fcstDates,fcstPercData] = getForecastLowFreq(obj,freq,outputT
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         variables = {};

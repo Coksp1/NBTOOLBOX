@@ -21,6 +21,9 @@ data    = [dataAQ,dataQ];
 % plotter.set('missingValues','interpolate');
 % nb_graphPagesGUI(plotter);
 
+%% General estimation options
+
+AR = true;
 
 %% Step ahead model (OLS)
 
@@ -52,8 +55,7 @@ t.frequency  = 1;
 t.nStep      = 4;
 t.nLags      = 3;
 t.doTests    = 1;
-t.AR         = 0;
-t.draws      = 500;
+t.AR         = AR;
 
 % Create model and estimate
 model = nb_midas(t);
@@ -121,7 +123,7 @@ t.nStep           = 4;
 t.nLags           = 3;
 t.doTests         = 1;
 t.recursive_estim = true;
-t.AR              = 0;
+t.AR              = AR;
 
 % Create model and estimate
 model = nb_midas(t);
@@ -140,10 +142,11 @@ nb_graphSubPlotGUI(plotter);
 
 %% Out-of-sample forecast evaluation of unrestricted MIDAS
 
-model   = forecast(model,4,'fcstEval',{'SE'});
+model   = forecast(model,4,'fcstEval',{'SE'});%,'startDate','2013','endDate','2040'
 plotter = plotForecast(model,'hairyplot');
 nb_graphSubPlotGUI(plotter);
 
+% Inverted RMSE!!!
 score = getScore(model,'RMSE');
 score.Model1
 
@@ -157,6 +160,7 @@ model   = forecast(model,4,...
 plotter = plotForecast(model,'hairyplot');
 nb_graphSubPlotGUI(plotter);
 
+% Inverted RMSE!!!
 score = getScore(model,'RMSE');
 score.Model1
 
@@ -179,65 +183,64 @@ score.Model1
 scoreLS = getScore(model,'EELS');
 scoreLS.Model1
 
-%% Test restricted MIDAS (beta)
+%% Test restricted MIDAS (almon)
 
 % Options
 t           = nb_midas.template();
 t.data      = data;
-t.algorithm = 'beta';
+t.algorithm = 'almon';
 t.dependent = {'A_VAR1'};
-t.exogenous = {'VAR2'};
+t.exogenous = {'VAR2','VAR3'};
 t.constant  = true;
 t.frequency = 1;
 t.nStep     = 4;
 t.nLags     = 4;
 t.doTests   = 1;
-t.AR        = 0;
-t.draws     = 1;
+t.AR        = AR;
+t.draws     = 500; % Need > 1 to get std!
 
 % Create model and estimate
 model = nb_midas(t);
 model = estimate(model);
 print(model)
 
-%% Solve restricted MIDAS
+%% Solve restricted MIDAS (almon)
 
 model = solve(model);
 
-%% Forecast restricted MIDAS
+%% Forecast restricted MIDAS (almon)
 
 model   = forecast(model,4);
 plotter = plotForecast(model);
 nb_graphSubPlotGUI(plotter);
 
-%% Density forecast with unrestricted MIDAS (no parameter uncertainty)
+%% Density forecast with restricted MIDAS (almon) (no parameter uncertainty)
 
 model   = forecast(model,4,'draws',1000,'parameterDraws',1);
 plotter = plotForecast(model);
 nb_graphSubPlotGUI(plotter);
 
-%% Density forecast with unrestricted MIDAS (parameter uncertainty)
-% Not yet finished!!!
+%% Density forecast with restricted MIDAS (almon) (parameter uncertainty)
 
-% model   = forecast(model,4,'draws',1000,'parameterDraws',1000);
-% plotter = plotForecast(model);
-% nb_graphSubPlotGUI(plotter);
+model   = forecast(model,4,'draws',2,'parameterDraws',500);
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
 
-%% Test restricted MIDAS (recursive)
+%% Test restricted MIDAS (almon) (recursive)
 
 % Options
 t                 = nb_midas.template();
 t.data            = data;
 t.algorithm       = 'almon';
 t.dependent       = {'A_VAR1'};
-t.exogenous       = {'VAR2'};
+t.exogenous       = {'VAR2','VAR3'};
 t.constant        = true;
 t.frequency       = 1;
 t.nStep           = 4;
 t.nLags           = 4;
 t.doTests         = 1;
 t.recursive_estim = true;
-t.AR              = 0;
+t.AR              = AR;
 t.draws           = 1;
 
 % Create model and estimate
@@ -245,25 +248,131 @@ model = nb_midas(t);
 model = estimate(model);
 print(model)
 
-%% Solve restricted MIDAS (recursive)
+%% Solve restricted MIDAS (almon) (recursive)
 
 model = solve(model);
 
-%% Out-of-sample forecast evaluation of restricted MIDAS
+%% Out-of-sample forecast evaluation of restricted MIDAS (almon)
 
 model   = forecast(model,4,'fcstEval',{'SE'});
 plotter = plotForecast(model,'hairyplot');
 nb_graphSubPlotGUI(plotter);
 
+% Inverse RMSE!!!
 score = getScore(model,'RMSE');
 score.Model1
 
-%% Density forecast with unrestricted MIDAS (no parameter uncertainty)
-% With parameter uncertainty is not yet finished!
+%% Density forecast with restricted MIDAS (almon) (no parameter uncertainty)
 
 model   = forecast(model,4,...
             'draws',1000,...
             'parameterDraws',1,...
+            'fcstEval',{'SE'});
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Density forecast with restricted MIDAS (almon) (with parameter uncertainty)
+
+model   = forecast(model,4,...
+            'draws',2,...
+            'parameterDraws',500,...
+            'fcstEval',{'SE'});
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Test restricted MIDAS (beta)
+
+% Options
+t           = nb_midas.template();
+t.data      = data;
+t.algorithm = 'beta';
+t.dependent = {'A_VAR1'};
+t.exogenous = {'VAR2','VAR3'};
+t.constant  = true;
+t.frequency = 1;
+t.nStep     = 4;
+t.nLags     = 4;
+t.doTests   = 1;
+t.AR        = AR;
+t.draws     = 500; % Need > 1 to get std!
+
+% Create model and estimate
+model = nb_midas(t);
+model = estimate(model);
+print(model)
+
+%% Solve restricted MIDAS (beta)
+
+model = solve(model);
+
+%% Forecast restricted MIDAS (beta)
+
+model   = forecast(model,4);
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Density forecast with restricted MIDAS (beta) (no parameter uncertainty)
+
+model   = forecast(model,4,'draws',1000,'parameterDraws',1);
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Density forecast with restricted MIDAS (beta) (parameter uncertainty)
+
+model   = forecast(model,4,'draws',2,'parameterDraws',500);
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Test restricted MIDAS (beta) (recursive)
+
+% Options
+t                 = nb_midas.template();
+t.data            = data;
+t.algorithm       = 'beta';
+t.dependent       = {'A_VAR1'};
+t.exogenous       = {'VAR2','VAR3'};
+t.constant        = true;
+t.frequency       = 1;
+t.nStep           = 4;
+t.nLags           = 4;
+t.doTests         = 1;
+t.recursive_estim = true;
+t.AR              = AR;
+t.draws           = 500;
+
+% Create model and estimate
+model = nb_midas(t);
+model = estimate(model);
+print(model)
+
+%% Solve restricted MIDAS (beta) (recursive)
+
+model = solve(model);
+
+%% Out-of-sample forecast evaluation of restricted MIDAS (almon)
+
+model   = forecast(model,4,'fcstEval',{'SE'});
+plotter = plotForecast(model,'hairyplot');
+nb_graphSubPlotGUI(plotter);
+
+% Inverse RMSE!!!
+score = getScore(model,'RMSE');
+score.Model1
+
+%% Density forecast with restricted MIDAS (beta) (no parameter uncertainty)
+
+model   = forecast(model,4,...
+            'draws',1000,...
+            'parameterDraws',1,...
+            'fcstEval',{'SE'});
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Density forecast with restricted MIDAS (betacl) (with parameter uncertainty)
+
+model   = forecast(model,4,...
+            'draws',2,...
+            'parameterDraws',1000,...
             'fcstEval',{'SE'});
 plotter = plotForecast(model);
 nb_graphSubPlotGUI(plotter);

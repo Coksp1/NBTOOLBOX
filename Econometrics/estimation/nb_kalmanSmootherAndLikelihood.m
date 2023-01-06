@@ -1,8 +1,8 @@
-function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,B,x0,P0,y,kalmanTol,kf_presample)
+function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,B,x0,P0,y,kalmanTol,kf_presample,G,z,s)
 % Syntax:
 %
 % [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,...
-%                               A,B,obs,x0,P0,y,kalmanTol,kf_presample)
+%     A,B,obs,x0,P0,y,kalmanTol,kf_presample,G,z,s)
 %
 % Description:
 %
@@ -14,6 +14,10 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
 % State equation:
 % x(t) = A*x(t-1) + B*u(t)
 %
+% or if G and z is given
+%
+% x(t) = A*x(t-1) + G*z(t) + s(t)*B*u(t)
+%
 % Where u ~ N(0,I) and v ~ N(0,R).
 %
 % See for example: Koopman and Durbin (1998), "Fast filtering ans smoothing
@@ -24,8 +28,8 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
 %
 % - H            : Observation matrix. As a nObs x nEndo double.
 %
-% - R            : Measurment error covariance matrix. As a nObs x nObs 
-%                  double. If you assume no measurment error, give 
+% - R            : Measurement error covariance matrix. As a nObs x nObs 
+%                  double. If you assume no measurement error, give 
 %                  zeros(nObs).
 %
 % - A            : State transition matrix. As a size nEndo x nEndo.
@@ -41,6 +45,13 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
 % - kalmanTol    : Kalman tolerance. 
 %
 % - kf_presample : Number of periods before the likelihood is calculated.
+%
+% - G            : A nEndo x nExo double.
+%
+% - z            : A nExo x T double
+%
+% - s            : A 1 x T double. With the stochastic-volatility process.
+%                  Defaults to 1.
 %
 % Output:
 %
@@ -78,12 +89,8 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 8
-        kf_presample = 5;
-    end
-    
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------
     nExo  = size(B,2);
@@ -97,6 +104,11 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     invF  = cell(1,T);
     K     = cell(1,T);
     
+    if nargin < 10
+        G = zeros(nEndo,0);
+        z = zeros(0,T);
+    end
+        
     % Intial values
     Pf(:,:,1)   = P0; % P 1|0 
     Pu(:,:,1)   = P0; % P 0|0
@@ -113,18 +125,33 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     AT       = A';
     m        = ~isnan(y);
     
+    % Stochastic-volatility process
+    if nargin < 12
+        s2 = ones(1,T);
+    else
+        if isempty(s)
+            s2 = ones(1,T);
+        else
+            s2 = s.^2;
+        end
+    end
+    
     % Loop through the kalman filter iterations
     %--------------------------------------------------------------
     for t = 1:T
         
         mt = m(:,t);
         if all(~mt)
-            xu(:,t+1)   = xf(:,t);
-            xf(:,t+1)   = A*xf(:,t);
+            xu(:,t+1) = xf(:,t);
+            if nargin > 10
+                xf(:,t+1) = A*xf(:,t) + G*z(:,t);  % x t+1 | t = A * x t|t + G * z t + 1
+            else
+                xf(:,t+1) = A*xf(:,t);              % x t+1 | t = A * x t|t
+            end
             Pu(:,:,t+1) = Pf(:,:,t);
-            Pf(:,:,t+1) = A*Pf(:,:,t)*AT + BB;
+            Pf(:,:,t+1) = A*Pf(:,:,t)*AT + s2(t)*BB;
             invF{t}     = 0;
-            K{t}        = 0;
+            K{t}        = zeros(size(HT,1),0);
         else
         
             % Prediction for observation vector and covariance:
@@ -138,9 +165,14 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
                 if all(abs(F(:))) < kalmanTol
                     break;
                 else
-                    xf(:,t+1)   = xt;
+                    xu(:,t+1) = xf(:,t);
+                    if nargin > 10
+                        xf(:,t+1) = A*xf(:,t) + G*z(:,t);  % x t+1 | t = A * x t|t + G * z t + 1
+                    else
+                        xf(:,t+1) = A*xf(:,t);              % x t+1 | t = A * x t|t
+                    end
                     Pu(:,:,t+1) = Pf(:,:,t);
-                    Pf(:,:,t+1) = A*Pf(:,:,t)*AT + BB;
+                    Pf(:,:,t+1) = A*Pf(:,:,t)*AT + s2(t)*BB;
                     invF{t}     = 0;
                     K{t}        = 0;
                 end
@@ -158,8 +190,8 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
                 Pu(:,:,t+1) = (Ia - Ktt*Hmt)*Pf(:,:,t); % P t|t
                 
                 % Predicted
-                xf(:,t+1)   = A*xu(:,t+1);              % x t+1|t
-                Pf(:,:,t+1) = A*Pu(:,:,t+1)*AT + BB;    % P t+1|t
+                xf(:,t+1)   = A*xu(:,t+1) + G*z(:,t);  % x t+1|t
+                Pf(:,:,t+1) = A*Pu(:,:,t+1)*AT + s2(t)*BB;    % P t+1|t
 
                 % Store filteres results
                 vf(mt,t) = nut;
@@ -194,31 +226,39 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
             r(:,t) = AT*r(:,t+1);    
         end
         xs(:,t) = xf(:,t) + Pf(:,:,t)*r(:,t);
-        us(:,t) = BT*r(:,t);
+        if nargin <= 10
+            us(:,t) = BT*r(:,t);
+        end
+    end
+    
+    % Get the smoothed shocks when exogenous variables are included in the
+    % model
+    if nargin > 10
+        us(:,1) = B\(xs(:,1) - G*z(:,1));
+        for t = 2:T
+            us(:,t) = B\(xs(:,t) - A*xs(:,t-1) - G*z(:,t));
+        end
     end
     
     % Report likelihood if asked for
     lik = sum(0.5*lik(kf_presample+1:end));
     
-    % Calculate x t|T and P t|T, i.e. smoothed estimates of the covariance  
+    % Calculate P t|T, i.e. smoothed estimates of the covariance  
     % matrix of one step ahead forecast. Uses section 13.6 of 
     % Hamilton (1994).
     %----------------------------------------------------------------------
     % Preallocation
-    %xss  = nan(nEndo,T+1);        % x t|T
     Ps   = nan(nEndo,nEndo,T+1);  % P t|T   = Cov(x(t)|T)
     Ps_1 = nan(nEndo,nEndo,T);    % P_1 t|T = Cov(x(t) x(t-1)|T)
     
     % Final period
-    %xss(:,T+1)  = xu(:,T+1);                     % x T|T
-    Ps(:,:,T+1) = Pu(:,:, T+1);                   % P T|T
-    Ps_1(:,:,T) = (Ia - K{end}*Hmt)*A*Pu(:,:, T); % P_1 T|T = (I - K*Hmt)*A*(P T-1|T-1)
+    Ps(:,:,T+1) = Pu(:,:, T+1);                           % P T|T
+    Ps_1(:,:,T) = (Ia - K{end}*H(m(:,T),:))*A*Pu(:,:, T); % P_1 T|T = (I - K*Hmt)*A*(P T-1|T-1)
     
     % See equation 13.6.11 of Hamilton (1994)
     J2 = Pu(:,:, T)*A'*pinv(Pf(:,:, T)); % J T-1 = P T-1|T-1*A'*P T|T-1
     for t = T:-1:1
         J1        = J2;
-        %xss(:,t)  = xu(:,t) + J1*(xss(:,t+1) - xf(:,t));            % x t-1|T, equation 13.6.16 of Hamilton (1994)
         Ps(:,:,t) = Pu(:,:, t) + J1*(Ps(:,:,t+1) - Pf(:,:, t))*J1'; % P t-1|T, equation 13.6.20 of Hamilton (1994)
         if t > 1
             J2            = Pu(:,:,t-1)*A'*pinv(Pf(:,:,t-1));

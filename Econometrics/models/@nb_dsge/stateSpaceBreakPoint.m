@@ -56,7 +56,7 @@ function sol = stateSpaceBreakPoint(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Assign current estimate
     estStruct.beta(estStruct.indPar) = par(~estStruct.isBreakP & ~estStruct.isTimeOfBreakP);

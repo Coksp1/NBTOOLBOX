@@ -9,7 +9,7 @@ function importDialog(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
         
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the file name
     [gui.filename, gui.pathname] = uigetfile({'*.*',  'All Files (*.*)'},'',nb_getLastFolder(gui));

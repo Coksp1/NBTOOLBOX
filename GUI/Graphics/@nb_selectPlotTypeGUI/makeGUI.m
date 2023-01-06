@@ -11,7 +11,7 @@ function makeGUI(gui)
     plotterT = gui.plotter;
     parent   = gui.plotter.parent;
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check if we are dealing with Dates vs Dates Plot
     include  = true;      

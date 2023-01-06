@@ -12,7 +12,7 @@ function help = mode()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     help = 'Do QR on X''*X (0) or QR on X (1). Default is 0.';
 

@@ -14,7 +14,7 @@ function L = solveAndCalculateLossUncertain(srCoeff,srInd,param,parser,sol,optio
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nDraws = size(param,2);
     if strcmpi(options.osr_type,'discretion')

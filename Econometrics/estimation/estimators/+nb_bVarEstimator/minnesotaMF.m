@@ -39,7 +39,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
 %                  of the MF-VAR. Is empty if VAR with missing
 %                  observations.
 %
-% - H            : Mapping of the measurment equation of the state-space
+% - H            : Mapping of the measurement equation of the state-space
 %                  representation of the missing observation VAR or MF-VAR
 %                  model.
 %
@@ -74,7 +74,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -186,9 +186,9 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
         x = [ones(Traw,1), x];
     end
     
-    % Set up prior on measurment error covariance matrix. Here using a
+    % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(~indObservedOnly) && ~isempty(mixing)
+    if any(indObservedOnly) && ~isempty(mixing)
         % Even if all observation of the series are nan, this is not a
         % problem as the nan elements of R will never be used!
         if isscalar(prior.R_scale)
@@ -207,19 +207,22 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
         error([mfilename ':: The prior must provide a stationary process. Reset the ARcoeff or coeff prior options.'])
     end
     
+    % Collect dummy prior options
+    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
+    
     % Gibbs sampling
     R = R_prior;
     if ~strcmpi(method,'default')
-        v_post          = Traw + numDep + 1;
-        S_prior         = S_scale*eye(numDep); % prior scale of SIGMA 
-        [beta,sigma,yD] = nb_bVarEstimator.minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,initSigma,...
-            a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar,maxTries);
+        v_post             = Traw + numDep + 1;
+        S_prior            = S_scale*eye(numDep); % prior scale of SIGMA 
+        [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs(draws,y,x,H,R_prior,initBeta,initSigma,...
+            a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar,maxTries,dummyPriorOptions);
     else
         % No sampling of sigma
-        v_post          = [];
-        S_prior         = [];
-        [beta,sigma,yD] = nb_bVarEstimator.minnesotaMFGibbs2(draws,y,x,H,R_prior,initBeta,initSigma,...
-            a_prior,V_prior,restrictions,burn,thin,waitbar,maxTries);
+        v_post             = [];
+        S_prior            = [];
+        [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs2(draws,y,x,H,R_prior,initBeta,initSigma,...
+            a_prior,V_prior,restrictions,burn,thin,waitbar,maxTries,dummyPriorOptions);
     end
     
     % Expand to include all zero regressors
@@ -230,7 +233,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     % Return the mean estimates of unobservables
     yM    = mean(yD,3);
     yMLag = yM(:,numDep+1:numDep*(nLags+1),:);
-    X     = [x,yMLag]; % Exogenous and lags
+    X     = [x(nLags+1:end,:),yMLag]; % Exogenous and lags
     X     = kron(eye(numDep),X);
     if ~isempty(restrictions)
         X = X(:,restr);
@@ -239,11 +242,11 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     % Return all needed information to do posterior draws
     %----------------------------------------------------
     if nargout > 3
-        posterior = struct('type','minnesotaMF','betaD',beta,'sigmaD',sigma,'yD',yD,'dependent',y,...
-                           'regressors',x,'a_prior',a_prior,'V_prior',V_prior,...
+        posterior = struct('type','minnesotaMF','betaD',beta,'sigmaD',sigma,'yD',yD,'pD',pD,...
+                           'dependent',y,'regressors',x,'a_prior',a_prior,'V_prior',V_prior,...
                            'restrictions',{restrictions},'method',method,'burn',burn,...
                            'thin',thin,'S_prior',S_prior,'v_post',v_post,'H',H,'R_prior',R_prior,...
-                           'maxTries',maxTries);
+                           'maxTries',maxTries,'dummyPriorOptions',dummyPriorOptions);
     end
     
 end

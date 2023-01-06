@@ -29,7 +29,7 @@ function f = skewedt_pdf(x,a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     g05  = gamma(d - 0.5);
     g05p = gamma(d + 0.5);

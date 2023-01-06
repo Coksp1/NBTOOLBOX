@@ -34,7 +34,7 @@ function obj = rand(start,obs,vars,pages,dist)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         dist = nb_distribution('type', 'uniform');
@@ -60,6 +60,6 @@ function obj = rand(start,obs,vars,pages,dist)
     data = dist.random(obs, vars*pages);
     data = reshape(data, obs, vars, pages);
     
-    % Return nb_ts object
+    % Return nb_math_ts object
     obj = nb_math_ts(data,start);
 end

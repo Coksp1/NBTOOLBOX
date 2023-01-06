@@ -24,7 +24,7 @@ X          = randn(100,N);
 Lambda     = sqrt(N)*Lambda;
 Lambda     = Lambda';
 
-% Simulate measurment equation
+% Simulate measurement equation
 nu = randn(T,N);
 u  = zeros(T+1,N);
 for tt = 1:T

@@ -10,7 +10,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = pca(obj,r,method,varargin)
 % 
 % Input:
 %
-% - obj     : An object of class nb_ts.
+% - obj     : An object of class nb_math_ts.
 %
 % - r       : The number of principal component. If empty this number will
 %             be found by the Bai and Ng (2002) test, see the optional
@@ -104,7 +104,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = pca(obj,r,method,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = 'svd';

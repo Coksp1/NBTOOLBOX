@@ -45,7 +45,7 @@ function obj = sample(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles scalar ' class(obj) '.'])
@@ -72,7 +72,7 @@ function obj = sample(obj,varargin)
     posterior.options.lb = lb;
     posterior.options.ub = ub;
     sampleFunc           = str2func([obj.estOptions.estimator,'.sampler']); % E.g. nb_statespaceEstimator.sampler
-    [~,~,posterior]      = sampleFunc(posterior);
+    [~,~,posterior]      = sampleFunc(posterior,obj.options.draws);
     
     % Save posterior draws and save path to object
     estOptions            = obj.estOptions;

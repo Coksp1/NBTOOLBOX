@@ -11,9 +11,13 @@ function vintageCallback(gui,~,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    string = get(gui.fameVintage,'string');
+    if strcmpi(get(gui.smartPanel,'visible'),'on')
+        string = get(gui.smartVint,'string');
+    else
+        string = get(gui.fameVintage,'string');
+    end
     local  = nb_contains(string,'%#');
     if local
         locVar = string;

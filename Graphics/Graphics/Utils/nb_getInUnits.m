@@ -5,7 +5,7 @@ function position = nb_getInUnits(object, property, units)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     originalUnits = get(object, 'Units');
     set(object, 'Units', units);

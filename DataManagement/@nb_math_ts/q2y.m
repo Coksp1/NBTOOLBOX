@@ -11,20 +11,16 @@ function obj = q2y(obj)
 % 
 % Input:
 % 
-% - obj     : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj     : An nb_math_ts object where the data are the sum over 
-%             the last 4 quarters.
-% 
-% Examples:
-%
-% obj = q2y(obj)
+% - obj : An nb_math_ts object where the data are the sum over 
+%         the last 4 quarters.
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if obj.startDate.frequency == 4
         

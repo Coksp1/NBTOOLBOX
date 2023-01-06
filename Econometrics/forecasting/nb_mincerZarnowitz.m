@@ -32,7 +32,7 @@ function [test,pval] = nb_mincerZarnowitz(actual,predicted)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [~,nvar,nhor] = size(predicted);
     test          = nan(nhor,nvar);

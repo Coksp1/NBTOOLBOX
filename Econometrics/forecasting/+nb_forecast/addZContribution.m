@@ -13,7 +13,7 @@ function [Y,Z] = addZContribution(Y,model,options,restrictions,inputs,draws,iter
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(model.factors)
         % No exogenous variables so we have nothing to do here.

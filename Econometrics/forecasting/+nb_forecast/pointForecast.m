@@ -11,7 +11,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     inputs = nb_defaultField(inputs,'bounds',[]);
     if strcmpi(model.class,'nb_tvp')
@@ -52,7 +52,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
         end
 
         % Get model info
-        [A,B,C,~,Qfunc] = nb_forecast.getModelMatrices(model,iter);
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
 
         % Get the variables to forecast
         dep = nb_forecast.getForecastVariables(options,model,inputs,'pointForecast');
@@ -61,14 +61,16 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
         index = restrictions.index;
         if restrictions.softConditioning
 
-            [E,X,states,solution] = dsge.softConditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
+            [E,X,states,solution] = dsge.softConditionalProjectionEngine(y0,...
+                modelIter.A,modelIter.B,modelIter.C,ss,modelIter.Qfunc,nSteps,restrictions,solution);
 
         elseif restrictions.condDistribution
 
             if restrictions.type == 3 
 
                 % Uses the mean of the distributions to make a point forecast
-                [E,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
+                [E,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,...
+                    modelIter.A,modelIter.B,modelIter.C,ss,modelIter.Qfunc,nSteps,restrictions,solution);
 
             else % Only restrictions on exogenous and shocks
 
@@ -85,10 +87,17 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
             if ~nb_isempty(inputs.bounds)
                 inputs.bounds         = nb_forecast.interpretRestrictions(inputs.bounds,model.endo,model.res);
                 restrictions          = nb_forecast.expandRestrictionsForBoundedForecast(restrictions,nSteps);
-                [E,X,states,solution] = nb_forecast.boundedConditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution,inputs);
+                [E,X,states,solution] = nb_forecast.boundedConditionalProjectionEngine(y0,...
+                    modelIter.A,modelIter.B,modelIter.C,ss,modelIter.Qfunc,nSteps,restrictions,solution,inputs);
                 inputs.bounds         = []; % Remove bounds during last step
             else
-                [E,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
+                svd = nb_forecast.checkSVDPrior(options);
+                if svd
+                    s = nb_forecast.getSVProcess(options,restrictions.start,nSteps,false);
+                else
+                    s = [];
+                end
+                [E,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,modelIter,ss,nSteps,restrictions,solution,s);
             end
             
         else % Only restrictions on exogenous and shocks
@@ -111,23 +120,25 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
             end
             E      = restrictions.E(:,:,index)';
             states = restrictions.states;
-            if iscell(C)
-                CT = C{1};
+            if iscell(modelIter.C)
+                sizeC3 = size(modelIter.C{1},3);
             else
-                CT = C;
+                sizeC3 = size(modelIter.C,3);
             end
-            if size(CT,3) > 1
-                ShockHorizon = size(CT,3) - 1 + nSteps;
-                if size(E,2) < ShockHorizon
-                    E = [E,zeros(size(E,1),size(CT,3) - 1)]; % Expected shocks
+            if sizeC3 > 1
+                shockHorizon = sizeC3 - 1 + nSteps;
+                if size(E,2) < shockHorizon
+                    E = [E,zeros(size(E,1),sizeC3 - 1)]; % Expected shocks
                 end
             end
         end
 
         % Do the forecast
-        if strcmpi(model.class,'nb_fmsa')
+        if strcmpi(model.class,'nb_fm')
+            error('Cannot forecast a model of class nb_fm.')
+        elseif strcmpi(model.class,'nb_fmsa')
 
-            Y     = B*X(:,1);
+            Y     = modelIter.B*X(:,1);
             nDep  = length(dep);
             leads = size(Y,1)/nDep;
             Y     = reshape(Y,[nDep,leads]);
@@ -136,7 +147,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 
         elseif strcmpi(model.class,'nb_sa')
 
-            Y     = B*X(:,1);
+            Y     = modelIter.B*X(:,1);
             nDep  = length(dep);
             leads = size(Y,1)/nDep;
             Y     = reshape(Y,[leads,nDep]);
@@ -151,7 +162,8 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
                inp = nb_forecast.setUpForBoundedForecast(nSteps,model,restrictions,inputs,1); 
             end
 
-            [Y,states,PAI,E] = nb_forecast.condShockForecastEngine(y0,A,B,C,ss,Qfunc,X,E,states,restrictions,nSteps,inp);
+            [Y,states,PAI,E] = nb_forecast.condShockForecastEngine(y0,...
+                modelIter.A,modelIter.B,modelIter.C,ss,modelIter.Qfunc,X,E,states,restrictions,nSteps,inp);
             
             if strcmpi(model.class,'nb_dsge')
                 if ~iscell(model.ss)
@@ -170,10 +182,10 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
                 Y = [yNow(:,1:end-1),Y];
             end
             
-            if strcmpi(model.class,'nb_fmdyn') || strcmpi(model.class,'nb_favar') ...
-                || (any(strcmpi(model.class,{'nb_mfvar','nb_var'})) && strcmpi(options.estim_method,'tvpmfsv'))
-                if ~isempty(inputs.observables)% Factor model
-                    [dep,Y] = nb_forecast.doMeasurementEq(options,results,inputs,nSteps,model,Y,X,dep,iter);
+            if isfield(modelIter,'H') && ~strcmpi(model.class,'nb_arima')
+                % Dealing with a model with a measurement equation!
+                if ~isempty(inputs.observables)
+                    [dep,Y] = nb_forecast.doMeasurementEq(options,results,inputs,nSteps,modelIter,Y,X,dep,iter);
                 end
             end
             if ~isempty(inputs.missing)
@@ -183,35 +195,30 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
             end
             Y = permute(Y,[2,1]);
 
-        end
+            if strcmpi(model.class,'nb_arima')
 
-        if strcmpi(model.class,'nb_arima')
+                % Add contribution of exogenous variables in the observation
+                % equation
+                Y     = Y';
+                [Y,Z] = nb_forecast.addZContribution(Y,model,options,restrictions,inputs,1,iter);
+                Y     = Y';
 
-            % Add contribution of exogenous variables in the observation
-            % equation
-            Y     = Y';
-            [Y,Z] = nb_forecast.addZContribution(Y,model,options,restrictions,inputs,1,iter);
-            Y     = Y';
- 
-            % Undiff ARIMA model
-            Y   = nb_forecast.undiffARIMA(options,restrictions.start,Y); 
-            dep = regexprep(dep,'diff\d_','');
+                % Undiff ARIMA model
+                Y   = nb_forecast.undiffARIMA(options,restrictions.start,Y); 
+                dep = regexprep(dep,'diff\d_','');
 
-        end
-
-        % Special stuff for MF-VAR models
-        if strcmpi(model.class,'nb_mfvar') && not(strcmpi(options.estim_method,'tvpmfsv'))
-            [Y,dep] = nb_forecast.mapToObservablesMFVAR(Y,options,model,inputs,restrictions.start);
-        end
-        
-        % Merge the states if we are dealing with a Markov-switching model
-        if nb_isModelMarkovSwitching(model)
-            if isempty(inputs.missing)
-                Y = [Y,states(:),permute(PAI(:,2:end),[2,1])];
-            else
-                Y = [Y,[nan(size(inputs.missing,1),1);states(:)],permute(PAI,[2,1])]; % Include nowcast
             end
-            dep = [dep,'states',model.regimes];
+
+            % Merge the states if we are dealing with a Markov-switching model
+            if nb_isModelMarkovSwitching(model)
+                if isempty(inputs.missing)
+                    Y = [Y,states(:),permute(PAI(:,2:end),[2,1])];
+                else
+                    Y = [Y,[nan(size(inputs.missing,1),1);states(:)],permute(PAI,[2,1])]; % Include nowcast
+                end
+                dep = [dep,'states',model.regimes];
+            end
+            
         end
 
     end

@@ -9,7 +9,7 @@ function options = fillInForMissing(options,check)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     data = options.missingData(options.missingStartInd:options.missingEndInd,:);
     if any(data(:)) % If missing data
@@ -44,6 +44,8 @@ function options = fillInForMissing(options,check)
                 options = nb_missingEstimator.kalmanMethod(options);
             case 'kalman'
                 % The missing data is filled in for by the estimator itself
+            otherwise
+                error(['The ''missingMethod'' option cannot be set to: ' options.missingMethod])
         end
         
     end

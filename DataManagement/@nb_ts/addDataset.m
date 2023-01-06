@@ -86,7 +86,7 @@ function obj = addDataset(obj,dataset,NameOfDataset,startDate,variables)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         variables = {};
@@ -261,44 +261,27 @@ function obj = addDataset(obj,dataset,NameOfDataset,startDate,variables)
     if ischar(dataset) && ~test
         
         % Add a link to the source
-        source     = dataset;
-        createLink = 0;
+        source = dataset;
         if nb_contains(source,'.db')
-            
-            % If vintage is given we don't have a updatable source
-            sourceType = 'db';
-            if ~nb_contains(source,':\')
-                createLink = 1;
-            else
-                shortcuts = nb_fameShortcuts();
-                found     = find(strcmpi(source,shortcuts),1);
-                if found
-                    createLink = 1;
+            try
+                obj = nb_createLink2FAME(obj,source,variablesOfNewDataBase,startDateNewDataBase,NameOfDataset);
+            catch Err
+                if ~exist('nb_createLink2FAME','file')
+                error('You need to have access to FAME functionality to create link to a FAME dataset.')
+                else
+                    rethrow(Err)
                 end
             end
-
-            if createLink == 1
-
-                % When the full path name is given we can store it as 
-                % a link to the given FAME database
-                newLink            = nb_createDefaultLink();
-                newLink.source     = source;
-                newLink.sourceType = sourceType;
-                newLink.variables  = variablesOfNewDataBase;
-                newLink.startDate  = startDateNewDataBase;
-                newLink.data       = obj.data(:,:,obj.numberOfDatasets);
-                
-                if ~isnan(str2double(NameOfDataset))  
-                    newLink.vintage = NameOfDataset; % A vintage is given
+        elseif strcmpi(source,'smart')
+            try
+                obj = nb_createLink2SMART(obj,variablesOfNewDataBase,startDateNewDataBase,endDateNewDataBase,NameOfDataset);
+            catch Err
+                if ~exist('nb_createLink2SMART','file')
+                error('You need to have access to SMART functionality to create link to a SMART dataset.')
+                else
+                    rethrow(Err)
                 end
-                
-                % Assign the link
-                link.subLinks    = newLink;
-                obj.links        = link;
-                obj.updateable   = 1;
-
             end
-            
         elseif nb_contains(source,':\')
             
             foundWorksheetName = 0;

@@ -1,8 +1,8 @@
-function [E,X,states,solution] = drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,solution,inputs,options)
+function [E,X,states,solution] = drawRegimes(y0,model,ss,nSteps,draws,restrictions,solution,inputs,options)
 % Syntax:
 %
-% [E,X,states,solution] = nb_forecast.drawRegimes(y0,A,B,C,ss,Qfunc,...
-%                   vcv,nSteps,draws,restrictions,solution,inputs,options)
+% [E,X,states,solution] = nb_forecast.drawRegimes(y0,model,ss,...
+%                   nSteps,draws,restrictions,solution,inputs,options)
 %
 % Description:
 %
@@ -10,7 +10,7 @@ function [E,X,states,solution] = drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     regimeDraws  = inputs.regimeDraws;
 
@@ -32,15 +32,15 @@ function [E,X,states,solution] = drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,
     end
 
     % Simulation regime paths
-    E      = nan(size(C{1},2),nSteps,regimeDraws*draws);
-    X      = nan(size(B{1},2),nSteps,regimeDraws*draws);
+    E      = nan(size(model.C{1},2),nSteps,regimeDraws*draws);
+    X      = nan(size(model.B{1},2),nSteps,regimeDraws*draws);
     states = nan(nSteps,1,regimeDraws*draws);
     noteR  = nb_when2Notify(regimeDraws);
     for ii = 1:regimeDraws
 
         mm  = draws*(ii-1);
         ind = 1+mm:draws+mm;
-        [E(:,:,ind),X(:,:,ind),states(:,:,ind),solution] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,solution,inputs,options); 
+        [E(:,:,ind),X(:,:,ind),states(:,:,ind),solution] = nb_forecast.drawShocksAndExogenous(y0,model,ss,nSteps,draws,restrictions,solution,inputs,options); 
 
         % Report current status in the waitbar's message field
         if ~inputs.parallel

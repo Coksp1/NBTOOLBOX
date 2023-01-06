@@ -20,7 +20,7 @@ function s = struct(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     s     = struct('class',class(obj));
     props = properties(obj);
@@ -128,6 +128,18 @@ function s = struct(obj)
         s.steadyStateSolved       = obj.steadyStateSolved;
         s.takenDerivatives        = obj.takenDerivatives;
         
+    end
+    
+    % Convert function handles provided to the func option of the
+    % nb_calculate_expr class
+    if isa(obj,'nb_calculate_expr')
+        if isfield(obj.options,'func')
+            if isa(obj.options.func,'function_handle')
+                s.options.func = nb_functionHandle2Struct(s.options.func);
+            end
+        else
+            s.options.func = [];
+        end
     end
     
 end

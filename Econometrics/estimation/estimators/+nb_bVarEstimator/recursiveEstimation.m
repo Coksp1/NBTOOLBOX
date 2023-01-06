@@ -10,12 +10,12 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options = nb_defaultField(options,'parallel',false);
     options = nb_defaultField(options,'cores',[]);
-    if options.empirical && ~strcmpi(options.prior.type,'glpMF')
-        error([mfilename ':: Empirical bayesian is not supported for recursivly ',...
+    if options.empirical || options.hyperLearning
+        error([mfilename ':: Empirical bayesian or hyper learning is not supported for recursivly ',...
                          'estimated VARs. Estimate the model over the full sample first ',...
                          'then assume these estimated hyperparameters as fixed when ',...
                          'estimating the model recursivly.'])
@@ -50,6 +50,11 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             error([mfilename ':: The estimation data is not balanced.'])
         end
         numCoeff = size(X,2) + options.constant + options.time_trend;
+    end
+    
+    % Get stochastic volatility prior
+    if options.prior.SVD
+        options = nb_bVarEstimator.getSVDPrior(options,y);
     end
     
     % Check the sample
@@ -104,7 +109,7 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
               
             % Add one extra state variable here, if only 'end' mapping
             % is used
-            [H,freq,extra] = nb_mlEstimator.getMeasurmentEqMFVAR(options,1);
+            [H,freq,extra] = nb_mlEstimator.getMeasurementEqMFVAR(options,1);
             
             % Store the mixing options in the prior
             mixing = nb_bVarEstimator.getMixing(options);
@@ -117,6 +122,12 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             freq   = [];
             mixing = [];
         end
+        if ~nb_isempty(options.measurementEqRestriction)
+            [H,y,mixing]            = nb_bVarEstimator.applyMeasurementEqRestriction(H,y,options,mixing);
+            options.indObservedOnly = mixing.indObservedOnly;
+            numObs                  = size(y,2);
+        end
+        
         nStates = size(H,2);
         
         sizes = struct(...
@@ -127,52 +138,31 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             'nStates',nStates,...
             'ss',ss,...
             'start',start,...
-            'T',T);
+            'T',T,...
+            'nLags',options.nLags);
         
-        switch lower(options.prior.type)
-            
-            case 'glpmf'
-                
-                if options.parallel
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doGLPMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes);
-                else
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doGLPMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes);
-                end
-            
-            case 'minnesotamf'
-                
-                if options.parallel
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes);
-                else
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes);
-                end
-                
-            case 'nwishartmf'
-                
-                if options.parallel
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doNwishartMFParallel(options,y,X,restrictions,waitbar,H,mixing,sizes);
-                else
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doNwishartMFNormal(options,y,X,restrictions,h,note,H,mixing,sizes);
-                end
-                     
-            case 'inwishartmf'
-                
-                if options.parallel
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doInwishartMFParallel(options,y,X,restrictions,waitbar,H,mixing,sizes);
-                else
-                    [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doInwishartMFNormal(options,y,X,restrictions,h,note,H,mixing,sizes);
-                end 
-                
-            otherwise
-                error([mfilename ':: Unsupported prior type ' options.prior.type])
+        % Find number of missing observations for each variable
+        missingPer = nan(1,numObs);
+        for ii = 1:numObs
+            missingPer(ii) = T - find(~isnan(y(:,ii)),1,'last');
         end
+        
+        if options.parallel
+            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missingPer);
+        else
+            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(options,y,X,restrictions,waitbar,note,freq,H,mixing,sizes,missingPer);
+        end 
         
     %======================================================================
     else % Not missing or mixed-frequency
     %======================================================================
     
         if options.empirical
-            error([mfilename ':: Emprirical bayesian is not yet supported for recursive estimation.'])
+            error('Emprirical bayesian is not yet supported for recursive estimation.')
+        end
+        if ~nb_isempty(options.measurementEqRestriction)
+            error(['Cannot apply the measurementEqRestriction option for ',...
+                   'the prior; ' options.prior.type])
         end
     
         numDep = numObs;
@@ -226,7 +216,7 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         end
         
         dataStart           = nb_date.date2freq(options.dataStartDate);
-        res.filterStartDate = toString(dataStart + options.estim_start_ind - 1);
+        res.filterStartDate = toString(dataStart + options.estim_start_ind - 1 + options.nLags);
         res.filterEndDate   = toString(dataStart + options.estim_end_ind - 1);
         res.realTime        = false;
 
@@ -235,7 +225,7 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             ys  = ys(:,1:numDep*nLags,:);
             ys0 = ys0(:,1:numDep*nLags,:);
         end
-        if mfvar 
+        if mfvar || ~nb_isempty(options.measurementEqRestriction)
             % Get the low frequency smoothed variables
             [ys,allEndo] = nb_bVarEstimator.getAllMFVariablesRec(options,ys,H,tempDep,ss,start);
         else
@@ -250,110 +240,16 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doGLPMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes)
+function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes,missing)
 
-    draws      = options.draws;
+    if options.prior.SVD
+        obsSVD = options.prior.obsSVD;
+    else
+        obsSVD = 0;
+    end
+
     nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ys         = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0        = nan(1,sizes.nStates,sizes.iter);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    ss         = sizes.ss;
-    waitbar    = ~islogical(h); % Then h is a waitbar
-    kk         = 1;
-    iter       = sizes.iter;
-    for tt = sizes.start:sizes.T
-        [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tt,:,kk),~,posterior{kk}] = nb_bVarEstimator.glpMF(draws,...
-            y(ss(kk):tt,:),X(ss(kk):tt,:),nLags,constant,time_trend,prior,restrictions,h,false,freq,H,mixing);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        ys0(:,:,kk) = ys(tt,:,kk);
-        if waitbar 
-            nb_estimator.notifyWaitbar(h,kk,iter,note)
-        end
-        kk = kk + 1;
-    end
-
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doGLPMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes)
-
-    % Do we want a waitbar?
-    if waitbar
-        [waitbar,D] = nb_parCheck();
-        if waitbar
-            h      = nb_waitbar([],'Recursive estimation',sizes.iter,false,false);
-            h.text = 'Working...';
-            afterEach(D,@(x)nb_updateWaitbarParallel(x,h));
-        end
-    end
-    
-    % Open parallel pool if not already open
-    ret = nb_openPool(options.cores);
-
-    % Do the recursive estimation
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ysC        = cell(sizes.iter,1);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    tt         = sizes.start:sizes.T;
-    ss         = sizes.ss;
-    parfor kk = 1:sizes.iter
-
-        yOne = y;
-        XOne = X;
-        
-        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.glpMF(draws,...
-            yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),nLags,constant,time_trend,prior,...
-            restrictions,false,false,freq,H,mixing);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        if waitbar 
-            send(D,1); % Update waitbar
-        end
-        
-    end
-    
-    % Close parallel pool only if it where open locally
-    nb_closePool(ret);
-    
-    % Convert smoothed estimates to double
-    ys  = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0 = nan(1,sizes.nStates,sizes.iter);
-    for ii = 1:sizes.iter
-        ys(ss(ii):tt(ii),:,ii) = ysC{ii};
-        ys0(:,:,ii)            = ys(tt(ii),:,ii);
-    end
-    
-    if waitbar
-        delete(h);
-    end
-    
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes)
-
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ys         = nan(sizes.T,sizes.nStates,sizes.iter);
+    ys         = nan(sizes.T - sizes.nLags,sizes.nStates,sizes.iter);
     ys0        = nan(1,sizes.nStates,sizes.iter);
     beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
     sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
@@ -367,15 +263,17 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFNormal(
     iter       = sizes.iter;
     for tt = sizes.start:sizes.T
         if size(H,3) > 1
-            % Time-varying measurment equations
+            % Time-varying measurement equations
             HT = H(:,:,ss(kk):tt);
         else
             HT = H;
         end
-        [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tt,:,kk),~,posterior{kk}] = nb_bVarEstimator.minnesotaMF(draws,...
-            y(ss(kk):tt,:),X(ss(kk):tt,:),nLags,constant,time_trend,prior,restrictions,h,freq,HT,mixing);    
+        tts  = tt-sizes.nLags;
+        yOne = nb_estimator.correctForMissing(y(ss(kk):tt,:),missing);
+        [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tts,:,kk),~,posterior{kk}] = ...
+            nb_bVarEstimator.doBayesianMF(options,h,nLags,restrictions,yOne,X(ss(kk):tt,:),freq,HT,mixing,obsSVD - ss(kk) + 1);
         [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        ys0(:,:,kk) = ys(tt,:,kk);
+        ys0(:,:,kk) = ys(tts,:,kk);
         if waitbar 
             nb_estimator.notifyWaitbar(h,kk,iter,note)
         end
@@ -385,7 +283,13 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFNormal(
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes)
+function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missing)
+
+    if options.prior.SVD
+        obsSVD = options.prior.obsSVD;
+    else
+        obsSVD = 0;
+    end
 
     % Do we want a waitbar?
     if waitbar
@@ -401,11 +305,7 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFParalle
     ret = nb_openPool(options.cores);
 
     % Do the recursive estimation
-    draws      = options.draws;
     nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
     ysC        = cell(sizes.iter,1);
     beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
     sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
@@ -417,16 +317,16 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFParalle
     ss         = sizes.ss;
     parfor kk = 1:sizes.iter
         if size(H,3) > 1
-            % Time-varying measurment equations
+            % Time-varying measurement equations
             HT = H(:,:,ss(kk):tt(kk));
         else
             HT = H;
         end
         yOne = y;
+        yOne = nb_estimator.correctForMissing(yOne(ss(kk):tt(kk),:),missing);
         XOne = X;
-        
-        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.minnesotaMF(draws,...
-            yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),nLags,constant,time_trend,prior,restrictions,false,freq,HT,mixing);    
+        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.doBayesianMF(...
+            options,false,nLags,restrictions,yOne,XOne(ss(kk):tt(kk),:),freq,HT,mixing,obsSVD - ss(kk) + 1);    
         [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
         if waitbar 
             send(D,1); % Update waitbar
@@ -437,224 +337,11 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doMinnesotaMFParalle
     nb_closePool(ret);
     
     % Convert smoothed estimates to double
-    ys  = nan(sizes.T,sizes.nStates,sizes.iter);
+    ys  = nan(sizes.T-sizes.nLags,sizes.nStates,sizes.iter);
     ys0 = nan(1,sizes.nStates,sizes.iter);
     for ii = 1:sizes.iter
-        ys(ss(ii):tt(ii),:,ii) = ysC{ii};
-        ys0(:,:,ii)            = ys(tt(ii),:,ii);
-    end
-    
-    if waitbar
-        delete(h);
-    end
-    
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doNwishartMFNormal(options,y,X,restrictions,h,note,H,mixing,sizes)
-
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ys         = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0        = nan(1,sizes.nStates,sizes.iter);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    ss         = sizes.ss;
-    waitbar    = ~islogical(h); % Then h is a waitbar
-    kk         = 1;
-    iter       = sizes.iter;
-    for tt = sizes.start:sizes.T
-        if size(H,3) > 1
-            % Time-varying measurment equations
-            HT = H(:,:,ss(kk):tt);
-        else
-            HT = H;
-        end
-        [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tt,:,kk),~,posterior{kk}] = nb_bVarEstimator.nwishartMF(draws,...
-            y(ss(kk):tt,:),X(ss(kk):tt,:),nLags,constant,time_trend,prior,restrictions,h,HT,mixing);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        ys0(:,:,kk) = ys(tt,:,kk);
-        if waitbar 
-            nb_estimator.notifyWaitbar(h,kk,iter,note)
-        end
-        kk = kk + 1;
-    end
-
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doNwishartMFParallel(options,y,X,restrictions,waitbar,H,mixing,sizes)
-
-    % Do we want a waitbar?
-    if waitbar
-        [waitbar,D] = nb_parCheck();
-        if waitbar
-            h      = nb_waitbar([],'Recursive estimation',sizes.iter,false,false);
-            h.text = 'Working...';
-            afterEach(D,@(x)nb_updateWaitbarParallel(x,h));
-        end
-    end
-    
-    % Open parallel pool if not already open
-    ret = nb_openPool(options.cores);
-
-    % Do the recursive estimation
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ysC        = cell(sizes.iter,1);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    tt         = sizes.start:sizes.T;
-    ss         = sizes.ss;
-    parfor kk = 1:sizes.iter
-        if size(H,3) > 1
-            % Time-varying measurment equations
-            HT = H(:,:,ss(kk):tt(kk));
-        else
-            HT = H;
-        end
-        yOne = y;
-        XOne = X;
-        
-        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.nwishartMF(draws,...
-            yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),nLags,constant,time_trend,prior,restrictions,false,HT,mixing);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        if waitbar 
-            send(D,1); % Update waitbar
-        end
-        
-    end
-    
-    % Close parallel pool only if it where open locally
-    nb_closePool(ret);
-    
-    % Convert smoothed estimates to double
-    ys  = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0 = nan(1,sizes.nStates,sizes.iter);
-    for ii = 1:sizes.iter
-        ys(ss(ii):tt(ii),:,ii) = ysC{ii};
-        ys0(:,:,ii)            = ys(tt(ii),:,ii);
-    end
-    
-    if waitbar
-        delete(h);
-    end
-    
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doInwishartMFNormal(options,y,X,restrictions,h,note,H,mixing,sizes)
-
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ys         = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0        = nan(1,sizes.nStates,sizes.iter);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    ss         = sizes.ss;
-    waitbar    = ~islogical(h); % Then h is a waitbar
-    kk         = 1;
-    iter       = sizes.iter;
-    for tt = sizes.start:sizes.T
-        if size(H,3) > 1
-            % Time-varying measurment equations
-            HT = H(:,:,ss(kk):tt);
-        else
-            HT = H;
-        end
-        [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tt,:,kk),~,posterior{kk}] = nb_bVarEstimator.inwishartMF(draws,...
-            y(ss(kk):tt,:),X(ss(kk):tt,:),nLags,constant,time_trend,prior,restrictions,h,HT,mixing);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        ys0(:,:,kk) = ys(tt,:,kk);
-        if waitbar 
-            nb_estimator.notifyWaitbar(h,kk,iter,note)
-        end
-        kk = kk + 1;
-        
-    end
-
-end
-
-%==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doInwishartMFParallel(options,y,X,restrictions,waitbar,H,mixing,sizes)
-
-    % Do we want a waitbar?
-    if waitbar
-        [waitbar,D] = nb_parCheck();
-        if waitbar
-            h      = nb_waitbar([],'Recursive estimation',sizes.iter,false,false);
-            h.text = 'Working...';
-            afterEach(D,@(x)nb_updateWaitbarParallel(x,h));
-        end
-    end
-    
-    % Open parallel pool if not already open
-    ret = nb_openPool(options.cores);
-
-    % Do the recursive estimation
-    draws      = options.draws;
-    nLags      = options.nLags;
-    constant   = options.constant;
-    time_trend = options.time_trend;
-    prior      = options.prior;
-    ysC        = cell(sizes.iter,1);
-    beta       = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
-    sigma      = nan(sizes.numDep,sizes.numDep,sizes.iter);
-    stdBeta    = nan(size(beta));
-    stdSigma   = nan(size(sigma));
-    R          = nan(sizes.numObs,1,sizes.iter);
-    posterior  = cell(1,sizes.iter);
-    tt         = sizes.start:sizes.T;
-    ss         = sizes.ss;
-    parfor kk = 1:sizes.iter
-        if size(H,3) > 1
-            % Time-varying measurment equations
-            HT = H(:,:,ss(kk):tt(kk));
-        else
-            HT = H;
-        end
-        yOne = y;
-        XOne = X;
-        
-        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.inwishartMF(draws,...
-            yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),nLags,constant,time_trend,prior,restrictions,false,HT,mixing);     
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
-        if waitbar 
-            send(D,1); % Update waitbar
-        end
-        
-    end
-    
-    % Close parallel pool only if it where open locally
-    nb_closePool(ret);
-    
-    % Convert smoothed estimates to double
-    ys  = nan(sizes.T,sizes.nStates,sizes.iter);
-    ys0 = nan(1,sizes.nStates,sizes.iter);
-    for ii = 1:sizes.iter
-        ys(ss(ii):tt(ii),:,ii) = ysC{ii};
-        ys0(:,:,ii)            = ys(tt(ii),:,ii);
+        ys(ss(ii):tt(ii)-sizes.nLags,:,ii) = ysC{ii};
+        ys0(:,:,ii)                        = ys(tt(ii)-sizes.nLags,:,ii);
     end
     
     if waitbar
@@ -665,6 +352,12 @@ end
 
 %==========================================================================
 function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,yFull,XFull,restrictions,h,note,sizes)
+
+    if options.prior.SVD
+        obsSVD = options.prior.obsSVD;
+    else
+        obsSVD = 0;
+    end
 
     beta      = nan(sizes.numCoeff,sizes.numDep,sizes.iter);
     sigma     = nan(sizes.numDep,sizes.numDep,sizes.iter);
@@ -679,7 +372,7 @@ function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,
     for tt = sizes.start:sizes.T 
         [betaD,sigmaD,~,posterior{kk}] = nb_bVarEstimator.doBayesian(...
         	options,h,nLags,restrictions,y(ss(kk):tt,:),X(ss(kk):tt,:),...
-            yFull(ss(kk):tt+nLags,:),XFull(ss(kk):tt+nLags,:));
+            yFull(ss(kk):tt+nLags,:),XFull(ss(kk):tt+nLags,:),obsSVD - ss(kk) + 1);
         [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
         if waitbar 
             nb_estimator.notifyWaitbar(h,kk,iter,note)
@@ -691,6 +384,12 @@ end
 
 %==========================================================================
 function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(options,y,X,yFull,XFull,restrictions,waitbar,sizes)
+
+    if options.prior.SVD
+        obsSVD = options.prior.obsSVD;
+    else
+        obsSVD = 0;
+    end
 
     % Do we want a waitbar?
     if waitbar
@@ -715,13 +414,14 @@ function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(options,y,
     tt        = sizes.start:sizes.T;
     ss        = sizes.ss;
     parfor kk = 1:sizes.iter
+        
         yOne     = y;
         XOne     = X;
         yFullOne = yFull;
         XFullOne = XFull;
         [betaD,sigmaD,~,posterior{kk}] = nb_bVarEstimator.doBayesian(...
         	options,false,nLags,restrictions,yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),...
-            yFullOne(ss(kk):tt(kk)+nLags,:),XFullOne(ss(kk):tt(kk)+nLags,:));
+            yFullOne(ss(kk):tt(kk)+nLags,:),XFullOne(ss(kk):tt(kk)+nLags,:),obsSVD - ss(kk) + 1);
         [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
         if waitbar 
             send(D,1); % Update waitbar

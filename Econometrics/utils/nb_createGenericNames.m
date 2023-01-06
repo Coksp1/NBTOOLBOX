@@ -25,7 +25,7 @@ function [out,outS,inS,reorder] = nb_createGenericNames(in,generic)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     n    = length(in);
     num  = 1:n;

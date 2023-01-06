@@ -9,7 +9,7 @@ function assignTemplates(gui,plotter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     templateAll     = gui.parent.settings.graphSettings.(gui.template);
     tempProps       = nb_graph.getTemplateProps();

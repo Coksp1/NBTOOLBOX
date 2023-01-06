@@ -17,7 +17,7 @@ function x = nb_betaLag(theta,K)
 %
 % Output:
 % 
-% - x     : A 1 x K double with the value of the Almon lag polynominal for
+% - x     : A 1 x K double with the value of the Beta lag polynominal for
 %           k = 1:K.
 %
 % See also:
@@ -25,7 +25,7 @@ function x = nb_betaLag(theta,K)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     Q = size(theta,2);
     if Q ~= 2

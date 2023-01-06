@@ -5,14 +5,15 @@ function dout = nb_diff(din,t)
 %
 % Description:
 %
-% Same as MATLAB built in, but preserve size by adding nan at the start.
+% Difference operator x(s) - x(s-t). dout will append nan at the start to
+% preserve the same size of dout as din.
 %
 % See also:
 % growth
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         t = 1;

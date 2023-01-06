@@ -29,7 +29,7 @@ function draws = uniform_rand(nrow,ncol,m,k)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin ~= 4
         error([mfilename ':: Wrong # of arguments to uniform_rand']);

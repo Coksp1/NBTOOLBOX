@@ -26,7 +26,7 @@ function obj = keepPages(obj,pages)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(pages)
         pagesInt = false(1,obj.numberOfDatasets);

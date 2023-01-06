@@ -1,8 +1,8 @@
 function [y,X,constant,options] = applyDummyPrior(options,y,X,yFull,XFull)
 % Syntax:
 %
-% [y,X,constant,options] = nb_bVarEstimator.applyDummyPrior(options,...
-%                           y,X,yFull,XFull)
+% [y,X,constant,options] = nb_bVarEstimator.applyDummyPrior(...
+%       options,y,X,yFull,XFull)
 %
 % Description:
 %
@@ -13,9 +13,12 @@ function [y,X,constant,options] = applyDummyPrior(options,y,X,yFull,XFull)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if options.prior.LR || options.prior.SC || options.prior.DIO
+    % The SVD prior was added 8/9-2022, so saved posterior struct may
+    % not include this!
+    options.prior = nb_defaultField(options.prior,'SVD',false);  
+    if options.prior.LR || options.prior.SC || options.prior.DIO || options.prior.SVD
         nExo     = size(X,2) - size(y,2)*(options.nLags + 1);
         exoX     = XFull(:,1:nExo); % Pure exogenous variables
         constant = options.constant;
@@ -34,6 +37,18 @@ function [y,X,constant,options] = applyDummyPrior(options,y,X,yFull,XFull)
         error([mfilename ':: Cannot set time_trend to true if using a dummy variable prior.'])
     end
     
+    if options.prior.SVD
+        % Stochastic volatility dummy prior
+        % How to estimate a vector autoregression after March 2020
+        % Lenza and Primiceri (2020)
+        T  = size(y,1);
+        TC = options.prior.obsSVD;
+        if TC <= T
+            invWeights = nb_bVarEstimator.constructInvWeights(options.prior,T);
+            y          = bsxfun(@times,(1./invWeights),y);
+            X          = bsxfun(@times,(1./invWeights),X);
+        end  
+    end
     if options.prior.LR
         % Here we apply a conjugate dummy observation prior for the
         % long run as in Giannone et. al (2014).
@@ -45,7 +60,8 @@ function [y,X,constant,options] = applyDummyPrior(options,y,X,yFull,XFull)
         [yPlus,XPlus] = nb_bVarEstimator.setUpPriorSC(options.prior,yFull,exoX,options.nLags+1,constant,options.time_trend);
         y             = [y;yPlus];
         X             = [X;XPlus];
-    else
+    end
+    if options.prior.DIO
         % Dummy-initial-observation prior by Sims (1993)
         [yPlus,XPlus] = nb_bVarEstimator.setUpPriorDIO(options.prior,yFull,exoX,options.nLags+1,constant,options.time_trend);
         y             = [y;yPlus];

@@ -15,7 +15,7 @@ function [forecastOutput,startFcstObj] = adjustForecastGivenNowcast(nowcast,fore
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 % Remember: Here I only allow for combination of one variable! This means
 %           I don't care about the rest of the variable are dated 

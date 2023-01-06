@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimator
     %------------------------------------------------------
@@ -31,20 +31,16 @@ function outOpt = getEstimationOptions(obj)
                 tempOpt.name = obj.name;
 
                 % Model settings
-                exo = obj.exogenous.name;
-%                 if isscalar(tempOpt.nLags)
-%                     nlags         = tempOpt.nLags;
-%                     tempOpt.nLags = nlags(:,ones(1,size(exo,2)));
-%                 end
-                
                 if ~nb_isScalarInteger(tempOpt.nStep)
                     error([mfilename 'The options.nStep option must be an intger greater than 0.'])
                 end
                 if tempOpt.nStep < 1
                     error([mfilename 'The options.nStep option must be an integer greater than 0.'])
                 end
-                tempOpt.dependent = obj.dependent.name;
-                tempOpt.exogenous = exo;
+                tempOpt.dependent    = obj.dependent.name;
+                tempOpt.frequency    = [obj.dependent.frequency{:}];
+                tempOpt.exogenous    = obj.exogenous.name;
+                tempOpt.frequencyExo = obj.exogenous.frequency;
                 
                 % Data, dates, variables and types
                 dataObj = tempOpt.data;

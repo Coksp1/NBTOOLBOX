@@ -12,7 +12,7 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_sa')
         [Y,XE] = nb_forecast.densityBootstrapStepAheadModel(restrictions,model,options,results,nSteps,iter,inputs);
@@ -47,6 +47,11 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
     else
         func = str2func([model.class, '.solveNormal']);
     end
+    if isfield(model,'identification')
+        identified = true;
+    else
+        identified = false;
+    end
     
     forecastOrKalman = false;
     if parameterDraws == 1 % Only residual uncertainty
@@ -58,10 +63,20 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
         end
         
         % Get model solution
-        [A,B,C,vcv,~] = nb_forecast.getModelMatrices(model,iter);
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
+        if restrictions.type ~= 3 || ~restrictions.softConditioning 
+            if identified
+                % But we need to rescale the residual standard 
+                % deviation to N(0,1) as this is assumed for a 
+                % identified model!
+                QS            = transpose(chol(modelIter.vcv));
+                modelIter.C   = modelIter.C*QS;
+                modelIter.vcv = eye(size(QS,1));
+            end
+        end
 
         % Make draws from the distributions of the exogenous and the shocks
-        [E,X,~,solution] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,[],[],vcv,nSteps,draws,restrictions,solution,inputs,options);
+        [E,X,~,solution] = nb_forecast.drawShocksAndExogenous(y0,modelIter,[],nSteps,draws,restrictions,solution,inputs,options);
         
         % If we are dealing with missing observation we need to draw
         % nowcast as well
@@ -80,7 +95,7 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
         % Make draws number of simulations of the residual and forecast
         % conditional on those residuals
         for jj = 1:draws
-            Y(:,:,jj) = nb_computeForecast(A,B,C,Y(:,:,jj),X(:,:,jj),E(:,:,jj));
+            Y(:,:,jj) = nb_computeForecast(modelIter.A,modelIter.B,modelIter.C,Y(:,:,jj),X(:,:,jj),E(:,:,jj));
         end
         
         % Append contribution of exogenous variables when dealing with
@@ -150,7 +165,7 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
             % Solve the model given the draw
             if restrictions.type == 3 || restrictions.softConditioning
                 try
-                    if isfield(model,'identification')
+                    if identified
                         modelDraw = func(res,estOpt,model.identification);
                     else
                         modelDraw = func(res,estOpt);
@@ -161,7 +176,15 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
             else
                 % No identification even for VARs when not conditional 
                 % forecast!
-                modelDraw = func(res,estOpt); % No identification even for VARs! 
+                modelDraw = func(res,estOpt);  
+                if identified
+                    % But we need to rescale the residual standard 
+                    % deviation to N(0,1) as this is assumed for a 
+                    % identified model!
+                    QS            = transpose(chol(modelDraw.vcv));
+                    modelDraw.C   = modelDraw.C*QS;
+                    modelDraw.vcv = eye(size(QS,1));
+                end
             end
             
             if inputs.stabilityTest
@@ -172,7 +195,7 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
             end 
             
             % Get model solution
-            [A,B,C,vcv,~] = nb_forecast.getModelMatrices(modelDraw,1);
+            modelDraw = nb_forecast.getModelMatrices(modelDraw,1,false,options,nSteps);
 
             % If we are dealing with missing observation we need to draw
             % nowcast as well (some method are not related to the parameter
@@ -186,11 +209,11 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
             end
             
             % Make draws from the distributions of the exogenous and the shocks
-            [E(:,:,ind),X(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,[],[],vcv,nSteps,draws,restrictions,struct(),inputs,options);
+            [E(:,:,ind),X(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,modelDraw,[],nSteps,draws,restrictions,struct(),inputs,options);
             
             % Forecast conditional on the simulated residuals
             for qq = ind
-                Y(:,:,qq) = nb_computeForecast(A,B,C,Y(:,:,qq),X(:,:,qq),E(:,:,qq));
+                Y(:,:,qq) = nb_computeForecast(modelDraw.A,modelDraw.B,modelDraw.C,Y(:,:,qq),X(:,:,qq),E(:,:,qq));
             end
             
             % Append contribution of exogenous variables when dealing with

@@ -28,16 +28,17 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
-
+    
     if isempty(options)
         error([mfilename ':: The options input cannot be empty!'])
     end
     % We want to indicated that we are dealing with missing observations
     % when producing forecast.
-    options.missingMethod = ''; 
+    options.missingMethod = 'kalman'; 
+    options = nb_defaultField(options,'set2nan',struct());
 
     % Check inputs
     %------------------------------------------------------

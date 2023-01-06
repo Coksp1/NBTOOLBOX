@@ -24,7 +24,7 @@ function forecastOutput = forecastPerc2Dist(forecastOutput)
 % Written by Per Bjarne Bye, Kenneth Sæterhagen Paulsen and Atle
 % Loneland
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     perc    = forecastOutput.perc;
     data    = forecastOutput.data; % nHor x nVars x nPerc + 1 x nRec

@@ -21,7 +21,7 @@ function string = nb_any2String(anyObject)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if iscellstr(anyObject)
         string = ['{', nb_cell2String(anyObject), '}']; 

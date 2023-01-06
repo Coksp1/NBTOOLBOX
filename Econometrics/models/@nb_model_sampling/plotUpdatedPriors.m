@@ -2,7 +2,7 @@ function plotter = plotUpdatedPriors(obj,varargin)
 % Syntax:
 %
 % plotter = plotUpdatedPriors(obj)
-% plotter = plotUpdatedPriors(obj,'subplot')
+% plotter = plotUpdatedPriors(obj,varargin)
 %
 % Description:
 %
@@ -23,6 +23,10 @@ function plotter = plotUpdatedPriors(obj,varargin)
 % - 'subplot' : Give this string as an input to plot the priors and 
 %               posteriors in subplots instead of one plot per parameter.
 %
+% - 'draws'   : The number of draws to sample from the updated prior
+%               to base the kernel estimation on, if empty all draws are 
+%               used for estimation.
+%
 % Output:
 % 
 % - plotter : A 1 x numCoeff vector of objects of class nb_graph_data. Use 
@@ -35,11 +39,12 @@ function plotter = plotUpdatedPriors(obj,varargin)
 %                      updated priors on screen.
 %
 % See also:
-% nb_graph_data, nb_graphMultiGUI, nb_graphSubPlotGUI
+% nb_graph_data, nb_graphMultiGUI, nb_graphSubPlotGUI,
+% nb_model_sampling.getUpdatedPriorDistributions
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 
@@ -66,7 +71,7 @@ function plotter = plotUpdatedPriors(obj,varargin)
     end
     
     % Get the updated priors
-    [distr,paramNames] = getUpdatedPriorDistributions(obj);
+    [distr,paramNames] = getUpdatedPriorDistributions(obj,varargin{:});
     
     % Plot 
     if subplot

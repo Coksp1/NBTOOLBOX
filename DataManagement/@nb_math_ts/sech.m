@@ -5,15 +5,15 @@ function obj = sech(obj)
 %
 % Description:
 %
-% sech(obj) is the hyperbolic secant of the elements of obj.
+% Hyperbolic secant.
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -21,7 +21,7 @@ function obj = sech(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = sech(obj.data);
 

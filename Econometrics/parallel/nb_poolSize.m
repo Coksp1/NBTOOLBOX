@@ -16,7 +16,7 @@ function s = nb_poolSize()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if verLessThan('matlab','8.2')
         s = matlabpool('size');

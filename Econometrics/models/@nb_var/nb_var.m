@@ -43,7 +43,7 @@ classdef nb_var < nb_model_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -113,9 +113,9 @@ classdef nb_var < nb_model_generic
                 name = 'B_VAR';
             else
                 if strcmpi(obj.options.estim_method,'ml')
-                    name = 'ML_VAR';
+                    name = 'ML_VAR';   
                 else
-                    name = 'OLS_VAR';
+                    name = [upper(obj.options.estim_method),'_VAR'];
                     switch lower(obj.options.missingMethod)
                         case 'forecast'
                             name = [name ,'_F'];

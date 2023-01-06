@@ -8,7 +8,7 @@ classdef (Abstract) nb_model_sampling
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true,SetAccess=protected)
         

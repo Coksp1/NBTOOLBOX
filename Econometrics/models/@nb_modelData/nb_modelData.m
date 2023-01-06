@@ -14,7 +14,7 @@ classdef (Abstract) nb_modelData < nb_model_options
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess = protected)
         
@@ -273,6 +273,19 @@ classdef (Abstract) nb_modelData < nb_model_options
             end
             obj.preventSettingData = true;
             
+        end
+        
+    end
+    
+    methods (Static=true)
+        
+        function data = getDataAsObject(options)
+            if isfield(options,'context')
+                dataName = options.context;
+            else
+                dataName = '';
+            end
+            data = nb_ts(options.data,dataName,options.dataStartDate,options.dataVariables);
         end
         
     end

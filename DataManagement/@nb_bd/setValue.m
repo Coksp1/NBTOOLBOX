@@ -65,7 +65,7 @@ function obj = setValue(obj,varname,value,startDateOfValues,endDateOfValues,page
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         pages = 1:obj.numberOfDatasets;

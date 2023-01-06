@@ -9,7 +9,7 @@ function differentFreqMerge(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen   
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     name              = [gui.parent.guiName ': Select Dataset to Convert'];
     currentMonitor    = nb_getCurrentMonitor();

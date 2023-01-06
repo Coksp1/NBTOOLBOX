@@ -35,9 +35,9 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
 %
 % - restrictions : Index of parameters that are restricted to zero.
 %
-% - waitbar      : true, false or an object of class nb_waitbar5.
+% - waitbar      : true, false or an object of class nb_waitbar.
 %
-% - H            : Mapping of the measurment equation of the state-space
+% - H            : Mapping of the measurement equation of the state-space
 %                  representation of the missing observation VAR or MF-VAR
 %                  model.
 %
@@ -72,7 +72,7 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -102,7 +102,7 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
     a_prior     = zeros(numCoeff*numDep,1); 
     V_prior_inv = (1/prior.V_scale)*eye(numCoeff);
     
-    % Remove mixing variables from measurment equation used for 
+    % Remove mixing variables from measurement equation used for 
     % setting up the prior
     yPrior = y(:,~indObservedOnly);
     Hprior = H(~indObservedOnly,:,:);
@@ -168,16 +168,27 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
         x = [ones(T,1), x];
     end
     
-    % Set up prior on measurment error covariance matrix. Here using a
+    % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(~indObservedOnly) && ~isempty(mixing)
-        R_prior(mixing.loc) = nanvar(y(:,mixing.loc))/prior.R_scale;
+    if any(indObservedOnly) && ~isempty(mixing)
+        % Even if all observation of the series are nan, this is not a
+        % problem as the nan elements of R will never be used!
+        if isscalar(prior.R_scale)
+            R_prior(mixing.loc) = nanvar(y(:,mixing.loc))/prior.R_scale;
+        else
+            varDep                      = nanvar(y(:,prior.R_scale(:,1)))';
+            R_prior(prior.R_scale(:,1)) = varDep./prior.R_scale(:,2);
+        end
     end
     
+    % Collect dummy prior options
+    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
+    
     % Gibbs sampler
-    R               = R_prior;
-    [beta,sigma,yD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R_prior,A_OLS,initSigma,...
-        a_prior,V_prior_inv,S_prior,v_post,restrictions,thin,burn,waitbar,maxTries);
+    R                  = R_prior;
+    [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R_prior,A_OLS,initSigma,...
+        a_prior,V_prior_inv,S_prior,v_post,restrictions,thin,burn,waitbar,maxTries,...
+        dummyPriorOptions);
     
     % Expand to include all zero regressors
     if any(~indZR)
@@ -187,15 +198,15 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
     % Return the mean estimates of unobservables
     yM    = mean(yD,3);
     yMLag = yM(:,numDep+1:numDep*(nLags+1),:);
-    X     = [x,yMLag]; % Exogenous and lags
+    X     = [x(nLags+1:end,:),yMLag]; % Exogenous and lags
     X     = kron(eye(numDep),X);
     
     % Return all needed information to do posterior draws
     if nargout > 3
-        posterior = struct('type','nwishartMF','betaD',beta,'sigmaD',sigma,'dependent',y,'yD',yD,...
+        posterior = struct('type','nwishartMF','betaD',beta,'sigmaD',sigma,'dependent',y,'yD',yD,'pD',pD,...
                            'regressors',x,'H',H,'a_prior',a_prior,'S_prior',S_prior,'v_post',v_post,...
                            'V_prior_inv',V_prior_inv,'restrictions',{restrictions},'R_prior',R_prior,...
-                           'maxTries',maxTries);
+                           'maxTries',maxTries,'dummyPriorOptions',dummyPriorOptions);
     end
     
 end

@@ -25,7 +25,7 @@ function C = nb_chol(A,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         type = '';
@@ -54,7 +54,7 @@ function C = nb_chol(A,type)
                 if p == 0
                     C = diag(sqrt(DT))*T(:,t)';
                 elseif strcmpi(type,'covrepair')
-                    D(D<0) = 0;
+                    D(D<0) = eps(max(D));
                     AT     = T*diag(D)*T';
                     C      = nb_chol(AT,'cov');
                 else

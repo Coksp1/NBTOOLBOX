@@ -20,7 +20,7 @@ function func = nb_cell2func(eqs,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     eqs  = strcat(eqs,';');
     eqs  = [eqs{:}];

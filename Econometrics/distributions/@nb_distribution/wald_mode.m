@@ -25,7 +25,7 @@ function x = wald_mode(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = m*(sqrt(1 + (9*m^2)/(4*k^2)) - (3*m)/(2*k));
 

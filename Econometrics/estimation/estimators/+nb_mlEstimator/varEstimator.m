@@ -1,12 +1,12 @@
-function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = varEstimator(y,X,options,init)
+function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega,pD] = varEstimator(y,X,options,init)
 % Syntax:
 %
-% [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,XX,lik,Omega] = 
+% [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,XX,lik,Omega,pD] = 
 % nb_mlEstimator.varEstimator(y,X,options,init)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Initialize
     %----------------------------------------------------------------------
@@ -136,7 +136,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = varEsti
         fh = @nb_kalmanlikelihood;
     end
     if strcmpi(options.optimizer,'nb_abc')
-        error([mfilename ':: The nb_abc optimizer is not supported for a model of class nb_arima.'])
+        error([mfilename ':: The nb_abc optimizer is not supported for maximum likelihood estimation.'])
     end
     [estPar,lik,Hessian] = nb_callOptimizer(options.optimizer,fh,par,LB,UB,options.optimset,...
                                 ':: Estimation of the VAR model failed.',@nb_var.stateSpace,y',X',...
@@ -190,8 +190,11 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega] = varEsti
     
     % Smoothing residuals
     %----------------------------------------------------------------------
+    pD = [];
     if missing
-        [~,ys,residual,~] = nb_kalmansmoother_missing(@nb_var.stateSpace,y',X',estPar,nDep,nLags,nCoeffExo,restr,restrVal);
+        nowcast                 = T - find(~any(isnan(y),2),1,'last');
+        [~,ys,residual,~,~,~,P] = nb_kalmansmoother_missing(@nb_var.stateSpace,y',X',estPar,nDep,nLags,nCoeffExo,restr,restrVal);
+        pD                      = P(1:nDep,1:nDep,end-nowcast+1:end);
     else
         [~,ys,residual,~] = nb_kalmansmoother(@nb_var.stateSpace,y',X',estPar,nDep,nLags,nCoeffExo,restr,restrVal);
     end

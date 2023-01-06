@@ -15,7 +15,7 @@ function [A,B,C,ss,p,err] = updateSolution(options,results,xu,p,tt)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     results.beta       = p;
     [A,B,C,~,ss,p,err] = nb_dsge.solveOneIteration(options,results,xu);

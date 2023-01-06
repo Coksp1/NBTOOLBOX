@@ -37,7 +37,7 @@ function [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expressi
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin == 3
         stack      = {};
@@ -332,6 +332,18 @@ function [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expressi
 
         end
         
+        % Is it a matrix enclosed in []
+        [cstr,indE] = regexp(expression,'^\[.+\]','match','end');
+        if ~isempty(cstr)
+            
+            last = false;
+            out  = [out,cstr];
+            nInp = [nInp,0];
+            [str,out,nInp,stack,nInpStack,prec] = nb_shuntingYardAlgorithm(expression(indE+1:end),variables,macro,out,stack,prec,nInp,nInpStack,last);
+            return
+            
+        end
+        
     end % macro
              
     % New input to function
@@ -481,8 +493,8 @@ end
 function nInp = findNumberOfInputs(expression)
 
     match = nb_getMatchingParentheses(expression);
-    indO  = strfind(expression,'(');
-    indC  = strfind(expression,')');
+    indO  = regexp(expression,'[\[\(]');
+    indC  = regexp(expression,'[\]\)]');
     indO  = indO(indO > match(1) & indO < match(2));
     indC  = indC(indC < match(2));
     indD  = strfind(expression(1:match(2)),',');

@@ -46,7 +46,7 @@ function [lambda,gamma,bandWidth] = nb_zeroSpectrumEstimation(u,kernel,bandWidth
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     T = size(u,1);
     if ~isempty(bandWithCrit)

@@ -31,7 +31,7 @@ classdef nb_sa < nb_model_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -61,7 +61,7 @@ classdef nb_sa < nb_model_generic
             if ~isscalar(obj)
                 error('This method only handle a scalar nb_model_name object.')
             end
-            name = ['EQ_SA' int2str(obj.options.nStep)];
+            name = ['EQ_SA' int2str(obj.options.nStep) '_' upper(obj.options.estim_method)];
             if ~isempty(obj.options.modelSelection)
                 name = [name ,'_MS'];
             end

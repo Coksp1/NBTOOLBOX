@@ -10,7 +10,7 @@ function fcst = midas(model,options,results,startInd,endInd,nSteps,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     %--------------------------------------------------------------
@@ -41,46 +41,70 @@ end
 function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)  
     
     if numel(options) > 1
-        error('It is not possible to forecast models using the real_time_estim option set to true.')
+        error('It is not possible to forecast MIDAS models using the real_time_estim option set to true.')
     end
     
     % Get actual data (and values of lagged dependent variable)
     endo     = strrep(model.endo(1),'_lead1','');
     [~,indY] = ismember(endo,options.dataVariables);
-    Y0       = options.data(options.start_low:options.increment:options.end_low,indY);
+    Y0       = options.data(options.mappingDep,indY);
     
     % Get exogenous
     exo       = options.exogenous;
+    nExo      = length(exo);
     [~,indX]  = ismember(exo,options(end).dataVariables);
-    X0        = options.data(options.start_high:options.increment:options.end_high,indX);
+    X0        = nan(size(Y0,1),nExo);
+    for ii = 1:nExo
+        X0(:,ii) = options.data(options.mappingExo(:,ii),indX(ii));
+    end
     if any(strcmpi(options.algorithm,{'almon','legendre'}))
         
         % Transform exogenous using polynomials
         if strcmpi(options.algorithm,'almon')
             Q = nb_almonPoly(options.polyLags,options.nLags + 1,options.nExo); 
         elseif strcmpi(options.algorithm,'legendre')
-            Q = nb_legendrePoly(options.polyLags,options.nLags + 1,options.nExo); 
+            Q = nb_legendrePoly(options.polyLags,options.nLags + 1,options.nExo);  
         end
-        P = options.polyLags;
-        X = nan(size(X0,1),options.nExo*P);
-        for t = 1:size(X0,1) 
-            X(t,:) = transpose(Q*X0(t,:)');
-        end
-        X0 = X;
+        X0 = transpose(Q*X0');
         
     elseif strcmpi(options.algorithm,'mean')
     
         % Transform exogenous using mean
         X = nan(size(X0,1),options.nExo);
         for ii = 1:options.nExo
-           ind     = ii:nExo:nExo*nLags;
+           ind     = nb_getMidasIndex(ii,options.nLags + 1,options.nExo);
            X(:,ii) = mean(X0(:,ind),2);
         end
         X0 = X;
         
+    elseif strcmpi(options.algorithm,'beta') 
+        % For the beta lag model we have different mapping for each
+        % forecast horizon. So we add nSteps pages to the mapped exogenous
+        % variables. This is handled in nb_computeMidasForecast!
+        X = nan(size(X0,1),options.nExo,options.nStep);
+        if options.recursive_estim 
+            % In this case we have recursivly profiled the second parameter
+            % of the beta lag polynomial, and therefor we need to index
+            % beta accordingly. 
+            startRec = options.recursive_estim_start_ind_low - (options.start_low_in_low - 1);
+            for hh = 1:options.nStep
+                kk = 1;
+                for tt = startRec:size(X0,1)
+                    Q          = nb_betaPoly(results.beta(end,hh,kk),options.nLags + 1,options.nExo); 
+                    X(tt,:,hh) = transpose(Q*X0(tt,:)');
+                    kk         = kk + 1;
+                end
+            end
+        else
+            for hh = 1:options.nStep
+                Q         = nb_betaPoly(results.beta(end,hh),options.nLags + 1,options.nExo); 
+                X(:,:,hh) = transpose(Q*X0');
+            end
+        end
+        X0 = X;
     end
     if options.constant
-       X0 = [ones(size(X0,1),1),X0]; 
+       X0 = [ones(size(X0,1),1,size(X0,3)),X0]; 
     end
     restrictions = struct('X',X0,'type',1,'softConditioning',false,'condDistribution',false,'states',ones(nSteps,1));
     
@@ -134,49 +158,50 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         % Get some properties
         if isempty(start)
             if options.recursive_estim
-                start = options.recursive_estim_start_ind_low + 1;
+                start = options.recursive_estim_start_ind_low + 1 - (options.start_low_in_low - 1);
             else
                 start = 2; 
             end
         else
             if start < 2
-                if input.startIndWarning
+                startEstP1 = nb_date.date2freq(options.estim_start_date_low) + 1;
+                if inputs.startIndWarning
                     warning('nb_forecast:adjustStartInd',['Cannot start forecast evalutation before ',...
-                        'the start date of estimation + 1 of estimation. Reset to first possible value.'])
+                        'the start date of estimation + 1 (' toString(startEstP1) '). Reset to first possible value.'])
                     start = 2;
                 else
-                    error([mfilename ':: Cannot start forecast evalutation before the start date of estimation + 1 of estimation.'])
+                    error([mfilename ':: Cannot start recursive forecast before the ',...
+                        'start date of estimation + 1; ' toString(startEstP1) '.'])
                 end
             end
-            
-            % Remove the real time estimation options before the start date 
-            % of the forecast
-            if numel(options) > 1
-                ind = start - options.recursive_estim_start_ind_low;
-                if ind < 1
-                    error([mfilename ':: Cannot start real-time forecast before the recursive forecast start date.'])
-                end
-            end
-            
         end
         
         if isempty(finish)
             finish = nb_date.date2freq(options.estim_end_date_low) - convert(nb_date.date2freq(options.dataStartDate),1) + 1;
         end
         startFcst = start:finish;
-        
-        if isempty(startFcst)
-            error([mfilename ':: Cannot evaluate forecast. Start date is after the end date of estimation'])
-        end
-        
         if options.recursive_estim
-            if startFcst(1) < 2
-                start     = nb_date.date2freq(options.estim_start_date_low);
-                startRec  = start + options.recursive_estim_start_ind_low;
-                startFcst = start + (startFcst(1) - 1);
-                error([mfilename ':: Cannot evaluate forecast. Start date (' toString(startFcst) ') is before the start date of recursive estimation + 1 (' toString(startRec) ')'])
+            if finish > (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3))
+                startDLow  = nb_date.date2freq(options.estim_start_date_low);
+                endRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3) - 1);
+                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set endDate to something else!'])
+            end
+            if isempty(startFcst)
+                startDLow  = nb_date.date2freq(options.estim_start_date_low);
+                endRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3) - 1);
+                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set startDate to something else!'])
             end
         else
+            if finish > options.end_low_in_low
+                startDLow  = nb_date.date2freq(options.estim_start_date_low);
+                endRecFcst = startDLow + (options.end_low_in_low - 1);
+                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set endDate to something else!'])
+            end
+            if isempty(startFcst)
+                startDLow  = nb_date.date2freq(options.estim_start_date_low);
+                endRecFcst = startDLow + (options.end_low_in_low - 1);
+                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set startDate to something else!'])
+            end
             if startFcst(1) < 2
                 start     = nb_date.date2freq(options.estim_start_date_low);
                 startRec  = start + 1;
@@ -207,9 +232,11 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         forecastData = nan(nSteps,numVar,dim3,iter);
         kk           = 1;
         if options.recursive_estim   
-            jj = start - options.recursive_estim_start_ind_low;
-            if iter > size(model.A,3)
-                error([mfilename ':: The number recursive forecasting periods (' int2str(iter) ') are greater than the number of recursive estimation periods (' size(model.A,3) ').'])
+            jj = start - options.recursive_estim_start_ind_low + (options.start_low_in_low - 1);
+            if jj < 1
+                startDLow    = nb_date.date2freq(options.estim_start_date_low);
+                startRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1));
+                error(['Cannot pruce recursive forecast before ' toString(startRecFcst) '. Set startDate to something else!'])
             end
         else
             jj = 1;
@@ -222,7 +249,7 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
             y0 = Y0(ii-1,:)';
             
             % Store the iteration index
-            restrictions.index = kk;
+            restrictions.index = startFcst(kk)-1;
             restrictions.start = startFcst(kk)-1;
             
             % Calculate forecast
@@ -279,27 +306,38 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         % end_low_in_low in nb_midasEstimator.estimate
         if isempty(start)
             y0        = Y0(end,:);
-            startFcst = options.end_low_in_low + 1;
+            startFcst = options.end_low_in_low + 1 - (options.start_low_in_low - 1);
         else
-            startFcst = start + options.start_low_in_low;
+            startFcst = start;
             if start < 2
                 startDLow = nb_date.date2freq(options.estim_start_date_low);
                 startFcst = startDLow + (start-1);
                 startC    = startDLow + 1;
                 error([mfilename ':: Cannot forecast from a date (' toString(startFcst) ') before the start date of estimation + 1 (' toString(startC) ').'])
+            elseif start > options.end_low_in_low
+                startDLow = nb_date.date2freq(options.estim_start_date_low);
+                startFcst = startDLow + (start-1);
+                startC    = startDLow + options.end_low_in_low - options.start_low_in_low + 1;
+                error([mfilename ':: Cannot forecast from a date (' toString(startFcst) ') as it ',...
+                       'is after the end date of estimation + 1 (' toString(startC) ').'])
             end
             y0 = Y0(start-1,:);
         end
         
         % Which recursive estimation to index
         if options.recursive_estim
-            iter = startFcst - options.recursive_estim_start_ind_low;
+            iter = startFcst - options.recursive_estim_start_ind_low + (options.start_low_in_low - 1);
+            if iter < 1
+                startDLow    = nb_date.date2freq(options.estim_start_date_low);
+                startRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1));
+                error(['Cannot produce forecast before the recursive start date + 1; ' toString(startRecFcst)])
+            end
         else
             iter = 1;
         end
         
         % Calculate forecast
-        restrictions.index = startFcst - options.start_low_in_low; % How to index restrictions.X
+        restrictions.index = startFcst - 1; % How to index restrictions.X
         restrictions.start = startFcst - 1; % The index of last date of history in low units
         if inputs.draws < 2 && inputs.parameterDraws < 2 && inputs.regimeDraws < 2
             [Y,evalFcst] = nb_forecast.midasPointForecast(y0',restrictions,model,options,results,nSteps,iter,[],inputs);
@@ -326,7 +364,7 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
                   'dependent',      {dep},...
                   'nSteps',         nSteps,...
                   'type',           'unconditional',...
-                  'start',          startFcst,...
+                  'start',          startFcst + (options.start_low_in_low - 1),...
                   'nowcast',        false,...
                   'missing',        [],...
                   'evaluation',     evalFcst,...

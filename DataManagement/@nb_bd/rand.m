@@ -38,7 +38,7 @@ function obj = rand(start,obs,vars,pages,dist,sorted)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         sorted = true;

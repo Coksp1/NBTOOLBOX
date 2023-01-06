@@ -17,7 +17,7 @@ function nb_newGraphGUI(mainGUI)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     currentMonitor    = nb_getCurrentMonitor();
     defaultBackground = get(0,'defaultUicontrolBackgroundColor');

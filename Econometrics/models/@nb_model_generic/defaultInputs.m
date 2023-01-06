@@ -19,7 +19,7 @@ function default = defaultInputs(convert)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     default  = nb_forecast.defaultInputs(false);
     default2 = {'cores',             [],         {@nb_iswholenumber,'&&',@isscalar,'&&',{@gt,0},'||',@isempty};...

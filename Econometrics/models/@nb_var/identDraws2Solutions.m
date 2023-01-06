@@ -19,7 +19,7 @@ function sol = identDraws2Solutions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     solAll = obj.solution;
     num    = size(solAll.C,4);

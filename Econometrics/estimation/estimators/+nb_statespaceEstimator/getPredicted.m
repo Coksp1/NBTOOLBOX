@@ -9,7 +9,7 @@ function predicted = getPredicted(results,options) %#ok<INUSD,STOUT>
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: This method is not supported by the nb_statespaceEstimator package.'])
 

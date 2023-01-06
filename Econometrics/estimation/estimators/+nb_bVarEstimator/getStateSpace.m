@@ -1,18 +1,18 @@
-function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,nLags,nExo,restrictions,H,R)
+function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,nLags,nExo,restrictions,H,R,x)
 % Syntax:
 %
 % [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = nb_bVarEstimator.getStateSpace(...
-%               alpha,sigma,nDep,nLags,nExo,restr,H,R)
+%               alpha,sigma,nDep,nLags,nExo,restr,H,R,x)
 %
 % Description:
 %
 % Go from draws from the posterior to state-space representation of the
-% model. Used by the Kalman filter iteration when dealing with missinge
+% model. Used by the Kalman filter iteration when dealing with missing
 % observations or mixed frequency VARs.
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     failed   = false;
     nStates  = size(H,2)/nDep;
@@ -62,8 +62,22 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,n
     
     % Initialization of the filter
     s   = size(A,1);
-    x0  = zeros(s,1);
-    BQB = B*Q*B';
-    P0  = nb_lyapunovEquation(A,BQB);
+    if nargin < 9 
+        x0  = zeros(s,1);
+    else
+        x0            = x(:,1);
+        x0(isnan(x0)) = 0;
+        x0            = [x0;zeros(s-size(x0,1),1)];
+    end
+    BQB      = B*Q*B';
+    [P0,err] = nb_lyapunovEquation(A,BQB);
+    if err
+        % In this case we just take the covariance of the raw data, and
+        % assume RW!
+        xBal   = x(:,all(~isnan(x),1))';
+        nLags  = size(A,1)/size(x,1) - 1;
+        covMat = nb_autocovMat(xBal,nLags);
+        P0     = nb_constructStackedCorrelationMatrix(covMat);
+    end
 
 end

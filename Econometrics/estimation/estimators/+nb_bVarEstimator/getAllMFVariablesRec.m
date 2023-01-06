@@ -13,7 +13,7 @@ function [ys,allEndo,exo] = getAllMFVariablesRec(options,ys,H,tempDep,ss,start)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     N   = size(H,1);
     T   = size(ys,1);
@@ -21,10 +21,12 @@ function [ys,allEndo,exo] = getAllMFVariablesRec(options,ys,H,tempDep,ss,start)
     ysl = nan(N,T,P);
     if size(H,3) > 1
         % Time-varying measurement equations 
-        ysT = permute(ys,[2,1,3]);
+        ysT   = permute(ys,[2,1,3]);
+        nLags = options.nLags;
+        start = start - nLags;
         for pp = 1:P
             for tt = ss(pp):start + pp - 1
-                ysl(:,tt,pp) = H(:,:,tt)*ysT(:,tt,pp);
+                ysl(:,tt,pp) = H(:,:,tt+nLags)*ysT(:,tt,pp);
             end
         end
     else
@@ -41,5 +43,9 @@ function [ys,allEndo,exo] = getAllMFVariablesRec(options,ys,H,tempDep,ss,start)
     allEndo = strcat('AUX_',allEndo);
     allEndo = [allEndo,tempObs];
     exo     = strcat('E_',tempDep);
+    if ~nb_isempty(options.measurementEqRestriction)
+        obsRest = {options.measurementEqRestriction.restricted};
+        allEndo = [allEndo,obsRest];
+    end
 
 end

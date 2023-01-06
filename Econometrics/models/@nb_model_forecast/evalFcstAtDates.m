@@ -58,7 +58,7 @@ function [evaluation,errorDates] = evalFcstAtDates(obj, dates, type, density, qu
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: This function takes only one nb_model_generic object as input. Not a vector!'])

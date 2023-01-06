@@ -70,7 +70,7 @@ function scores = getScore(obj,type,allPeriods,startDate,endDate,invert,rollingW
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         lambda = [];

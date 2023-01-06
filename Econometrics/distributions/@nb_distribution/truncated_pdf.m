@@ -30,7 +30,7 @@ function f = truncated_pdf(x,dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     func    = str2func(['nb_distribution.' dist '_pdf']);
     funcCDF = str2func(['nb_distribution.' dist '_cdf']);

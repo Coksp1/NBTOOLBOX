@@ -28,7 +28,7 @@ function obj = deleteMethodCalls(obj,sourceNr,methodNrs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~obj.updateable
         error([mfilename ':: The object is not updateable'])

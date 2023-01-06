@@ -31,7 +31,7 @@ function obj = filter(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         [waitbar,varargin] = nb_parseOneOptionalSingle('waitbar',false,true,varargin{:});
@@ -125,8 +125,8 @@ function obj = filter(obj,varargin)
         alpha = alpha(restr);
     end
     
-    % Get measurment equation
-    [H,~,extra] = nb_mlEstimator.getMeasurmentEqMFVAR(options,1);
+    % Get measurement equation
+    [H,~,extra] = nb_mlEstimator.getMeasurementEqMFVAR(options,1);
     
     % Get needed posterior information
     if any(~options.indObservedOnly)

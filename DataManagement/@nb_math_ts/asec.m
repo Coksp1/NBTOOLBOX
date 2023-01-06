@@ -1,28 +1,27 @@
 function obj =  asec(obj)
 % Syntax:
 %
-% obj = sec(obj)
+% obj = asec(obj)
 %
 % Description:
 %
-% Take sec of the data stored in the nb_cs object
+% Inverse secant, expressed in degrees.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data are on 
-%                   sec.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = sec(obj);
+% obj = asec(obj);
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = asec(obj.data);
 end

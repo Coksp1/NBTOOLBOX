@@ -19,7 +19,7 @@ function nb_writeError(Err,fileToWrite,extra)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         extra = '';
@@ -30,17 +30,22 @@ function nb_writeError(Err,fileToWrite,extra)
         fileToWrite = fopen(fileToWrite,'a');
         doClose     = true;
     end
-    report = getReport(Err,'extended','hyperLinks','off');
-    report = regexp(report,'\n','split')';
-    if ~isempty(extra)
-        report = [{extra};{''};report;
+    if isempty(Err)
+        report = [{extra};
                   {'---------------------------------------------------------------------------'};{''}];
+    else
+        report = getReport(Err,'extended','hyperLinks','off');
+        report = regexp(report,'\n','split')';
+        if ~isempty(extra)
+            report = [{extra};{''};report;
+                      {'---------------------------------------------------------------------------'};{''}];
+        end
     end
     report = nb_makeWritable(report);
     nb_cellstr2file(report,fileToWrite,true);
     
     if doClose 
-        fclose(writer);
+        fclose(fileToWrite);
         fclose('all');
     end
     

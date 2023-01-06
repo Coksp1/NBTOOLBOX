@@ -55,7 +55,7 @@ function [plotter,plotFunction2Use] = plotForecast(obj,type,startDate,increment,
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4 
         increment = 1;
@@ -271,7 +271,12 @@ function [plotter,plotFunction2Use] = defaultMethod(obj,startDate,inputs)
         density(indS,ind,:)  = fcstData(:,indV,:);
         density              = nb_ts(density,'',startFcstObj-1,allVars);
         density.dataNames    = perc;
-        plotter.set('fanDatasets',density);
+        if isempty(obj(1).forecastOutput.perc)
+            plotter.set('fanDatasets',density);
+        else
+            plotter.set('fanDatasets',density,'fanPercentiles',...
+                nb_interpretPerc(obj(1).forecastOutput.perc,true));
+        end
 
     end  
 
@@ -303,7 +308,7 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
     end
     
     allVars = unique(nb_nestedCell2Cell(vars));
-    allVars = nb_ts.getDiff(allVars,{'Constant','Time-trend'});
+    %allVars = nb_ts.getDiff(allVars,{'Constant','Time-trend'});
     nVars   = length(allVars);
     maxNow  = max(nowcast);
     mSteps  = max(nSteps) + maxNow; % Include nowcast
@@ -322,7 +327,8 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
     for ii = nowcasted
         missingInd   = any(obj(ii).forecastOutput.missing,1);
         missingT     = vars{ii}(missingInd);
-        [~,loc]      = ismember(missingT,allVars);
+        [ind,loc]    = ismember(missingT,allVars);
+        loc          = loc(ind);
         missing(loc) = sum(obj(ii).forecastOutput.missing(:,missingInd),1);
     end
     
@@ -335,7 +341,10 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
         
             varT = varsT{vv};
             indA = find(strcmpi(varT,allVars),1);
-            mis  = missing(indA);
+            if isempty(indA)
+                continue
+            end
+            mis = missing(indA);
             if mis > 0 && nowcast(ii) == 0
                 % This model does not use later information on other 
                 % variables as is the case for the other models, so we
@@ -407,7 +416,7 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
     misVars    = allVars(missing>0);
     miss       = missing(missing>0);
     for ii = 1:length(misVars)
-        subOptions.(misVars{ii}).dashedLine = toString(startDateObj - miss(ii) - 1);
+        subOptions.(strrep(misVars{ii},'.','_')).dashedLine = toString(startDateObj - miss(ii) - 1);
     end
     plotter.set('dashedLine',toString(startDateObj-1),'subPlotsOptions',subOptions);
     
@@ -437,7 +446,12 @@ function [plotter,plotFunction2Use] = defaultNowcastMethod(obj,startDate,nowcast
         density(indS,ind,:)  = fcstData(:,indV,:);
         density              = nb_ts(density,'',startDateObj-(1+nowcast(1)),allVars);
         density.dataNames    = perc;
-        plotter.set('fanDatasets',density);
+        if isempty(obj(1).forecastOutput.perc)
+            plotPerc = [0.3,0.5,0.7,0.9];
+        else
+            plotPerc = nb_interpretPerc(obj(1).forecastOutput.perc,true); 
+        end
+        plotter.set('fanDatasets',density,'fanPercentiles',plotPerc);
 
     end  
 
@@ -470,7 +484,7 @@ function [plotter,plotFunction2Use] = hairyplotMethod(obj,increment)
         objT       = objT.setEstOptions(obj.estOptions(end)); % Get final revision if dealing with real-time data
         dataActual = getHistory(objT,dep);
     else
-        dataActual = getHistory(obj,dep);
+        dataActual = getHistory(obj,dep,'',true);
     end
     dataActual.dataNames = {'Actual'};
     orderedVars          = dataActual.variables;
@@ -512,7 +526,7 @@ function [plotter,plotFunction2Use] = hairyplotMethod(obj,increment)
             end
         else
             if ~isempty(dataActual)
-                if startFcstM1 > dataActual.endDate
+                if startFcstM1 > dataActual.endDate || startFcstM1 < dataActual.startDate
                     actual = nan(0,size(fcstPeriod,2));
                 else
                     actual = double(dataActual.window(startFcstM1,startFcstM1));
@@ -538,7 +552,7 @@ function [plotter,plotFunction2Use] = hairyplotMethod(obj,increment)
     end
     plotter = nb_graph_ts(data);
     plotter.set('subPlotSize',[1,1],'lineWidths',{'Actual',4},'noLegend',1,...
-                'colors',{'Actual','black'});
+                'colors',{'Actual','black'},'missingValues','interpolate');
 
     plotFunction2Use = 'graphSubPlots';
 

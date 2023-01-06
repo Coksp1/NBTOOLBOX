@@ -8,7 +8,7 @@ function obj = callPowerOnSub(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isnumeric(obj)
         % Call nb_num.callPowerOnSub

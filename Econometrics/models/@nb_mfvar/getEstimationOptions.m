@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -88,6 +88,13 @@ function outOpt = getEstimationOptions(obj)
                 vars              = [obj.dependent.name,obj.block_exogenous.name];
                 tempOpt           = check(tempOpt,dataObj,vars);
                 
+                if strcmpi(estim_method,'ml')
+                    if ~nb_isempty(tempOpt.measurementEqRestriction)
+                        error(['The ''measurementEqRestriction'' option is not ',...
+                               'supported when ''estim_method'' is set to ''' estim_method '''.'])
+                    end
+                end
+                
             otherwise
 
                 error([mfilename ':: The estimation method ' estim_method ' is not supported.'])
@@ -128,10 +135,10 @@ function tempOpt = check(tempOpt,dataObj,vars)
         if ~isempty(tempOpt.mixing{ii})
             freqLow = tempOpt.frequency{ii};
             if iscell(freqLow)
-                error([mfilename ':: The variable ' vars{ii} ' cannot be have a changed frequency and mixing ',...
+                error([mfilename ':: The variable ' vars{ii} ' cannot have a changed frequency and mixing ',...
                                  'frequency variable (' tempOpt.mixing{ii}  ') at the same time.'])
             elseif isempty(freqLow)
-                error([mfilename ':: The variable ' vars{ii} ' cannot be have the default frequency when it is assign a mixing ',...
+                error([mfilename ':: The variable ' vars{ii} ' cannot have the default frequency when it is assign a mixing ',...
                                  'frequency variable (' tempOpt.mixing{ii}  ') at the same time.'])
             end
             indVar  = strcmpi(tempOpt.mixing{ii},vars);

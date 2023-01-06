@@ -43,7 +43,7 @@ function frequency = fromxlsDates2freq(dates)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Find out if the date is on the format 'dd.mm.yyyy'
     exp = regexp(strtrim(dates{1}),'[0-9]{2,2}\.[0-9]{2,2}\.[0-9]{4,4}','match');

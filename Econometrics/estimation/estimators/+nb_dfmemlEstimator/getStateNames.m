@@ -9,7 +9,7 @@ function [stateNames,resNames] = getStateNames(options)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     factorNames = nb_appendIndexes('Factor',1:options.nFactors)';
     if options.mixedFrequency

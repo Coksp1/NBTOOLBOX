@@ -65,7 +65,7 @@ function [theta, alpha_ave, nfevals, logp, grad] = NUTS(f, epsilon, theta0, maxT
 
 % Copyright (c) 2011, Matthew D. Hoffman
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nfevals = 0;
 

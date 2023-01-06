@@ -32,7 +32,7 @@ function [output_matrix] = nb_lagmatrix(input_matrix,lags)
 %
 % Written by Maximilian Schröder
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     % Display an error message, if the lag length exceeds the time series 
     % length

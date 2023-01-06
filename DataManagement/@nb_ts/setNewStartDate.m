@@ -22,7 +22,7 @@ function obj = setNewStartDate(obj,start)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isa(start,'nb_date')
         start = nb_date.toDate(start,obj.startDate.frequency);

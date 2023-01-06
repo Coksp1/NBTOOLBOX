@@ -29,7 +29,7 @@ function ret = eq(obj,others)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [r1,r2,r3] = size(others);
     if numel(obj) == 1

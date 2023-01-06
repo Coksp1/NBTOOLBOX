@@ -49,7 +49,7 @@ function [d,H,R,c,A,B,Q,G,obs] = nb_varStateSpace(par,nDep,nLags,constant,nExo,r
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the equation x = c + A*x_1 + F z + B*u for the dynamic system
     %---------------------------------------------------------------

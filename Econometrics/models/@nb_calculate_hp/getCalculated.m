@@ -5,5 +5,6 @@ function calc = getCalculated(obj)
     end
     
     calc = nb_hpEstimator.getHP(obj.results,obj.estOptions(end));
+    calc = nb_calculate_generic.rename(calc,obj.estOptions(end).renameVariables);  
     
 end

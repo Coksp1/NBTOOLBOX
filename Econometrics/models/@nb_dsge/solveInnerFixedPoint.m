@@ -13,7 +13,7 @@ function [H,GAM,failed] = solveInnerFixedPoint(Alead,A0,Alag,H0,tol,rcondTol,max
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     crit   = inf;
     iter   = 0;

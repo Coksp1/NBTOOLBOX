@@ -22,7 +22,7 @@ function obj = nb_defaultField(obj,field,default)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isfield(obj.s,field)
         obj.s.(field) = default;

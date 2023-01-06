@@ -33,7 +33,7 @@ function [beforeSplit,afterSplit] = splitData(data,splitIndex,corr)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         corr = 0;

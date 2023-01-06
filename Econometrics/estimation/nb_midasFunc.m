@@ -1,9 +1,9 @@
-function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_midasFunc(y,x,constant,AR,type,nSteps,stdType,nExo,varargin)
+function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_midasFunc(y,x,constant,AR,type,nSteps,stdType,nExo,nLags,varargin)
 % Syntax:
 %
 % beta = nb_midasFunc(y,x)
 % [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_midasFunc(y,x,...
-%                constant,type,nSteps,stdType,nExo,varargin)
+%                constant,type,nSteps,stdType,nExo,nLags,varargin)
 %
 % Description:
 %
@@ -19,9 +19,13 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
 % - x        : A double matrix of size nobs x nxvar of the right  
 %              hand side variables of all equations of the 
 %              regression. These are of a higher frequency than y. Lags of
-%              regressors should already be added. If type is set to  
-%              something else than 'unrestricted', the nExo input must be 
-%              set. 
+%              regressors should already be added. The nExo input must be 
+%              set.
+%
+%              The order of the regressors must be;
+%              var1_lag1, var2_lag1, var1_lag2, var2_lag2, var1_lag3
+%              i.e. they can have different number of lags. See the 
+%              nLags input!
 %
 % - constant : true or false. If true a constant is included.
 %
@@ -29,8 +33,8 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
 %              specification of the MIDAS model.
 %
 % - type     : The type of MIDAS model to estimate. Either; 'unrestricted' 
-%              'beta' or 'almon'. If set to 'beta' or 'almon' NLS is used,
-%              otherwise OLS is used.
+%              'beta', 'legendre', 'mean' or 'almon'. If set to 'beta' 
+%              profiling is used, otherwise OLS is used.
 %
 % - nSteps   : Add leads to make the MIDAS models able to produce direct 
 %              forecast longer than 1 period forward. Default is 1. Must be
@@ -49,27 +53,20 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
 %              - 'h'    : Will return homoskedasticity only
 %                         robust standard errors. Default.
 %
-%              Caution: Only applies to method set to 'unrestricted',
-%                       otherwise the inverse fischer information matrix is
-%                       used.
-%
 % - nExo     : Number of exogenous variables excluding the lags.
+%
+% - nLags    : Either a scalar integer with the number of lags of all the
+%              regressors, or a vector of integers with length nExo with 
+%              the number of lags of each regressor. Default is 1!
 %
 % Optional inputs:
 %
-% - 'draws'         : Number of draws from the parameter distribution when
-%                     bootsrapping the standard error of the parameters. 
+% - 'draws'    : Number of draws from the parameter distribution when
+%                bootsrapping the standard error of the parameters. 
 %
-% - 'optimizer'     : Either 'fmincon'(default) | 'fminunc' | 'fminsearch'
-%
-% - 'covrepair'     : Give true to repair the covariance matrix of the 
-%                     estimated parameters if found to not be positive 
-%                     definite. Default is false, i.e. to throw an error if 
-%                     the covariance matrix is not positive definite.
-%
-% - 'opt'           : A struct returned by the optimset function.
-%
-% Caution : Only used if NLS is used.
+% - 'polyLags' : The number of polynomial lags to use when type is set
+%                to 'legendre' or 'almon'. Either as a scalar integer or
+%                a vector of integers with length nExo.
 %
 % Output: 
 % 
@@ -102,22 +99,28 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 7
-        nExo = [];
-        if nargin < 6
-            stdType = 'h';
-            if nargin < 5
-                nSteps = 1;
-                if nargin < 4
-                    AR = false;
-                    if nargin < 3
-                        type = 'unrestricted';
+    if nargin < 8
+        nLags = 1;
+        if nargin < 7
+            nExo = [];
+            if nargin < 6
+                stdType = 'h';
+                if nargin < 5
+                    nSteps = 1;
+                    if nargin < 4
+                        AR = false;
+                        if nargin < 3
+                            type = 'unrestricted';
+                        end
                     end
                 end
             end
         end
+    end
+    if isempty(nExo)
+        error('nExo cannot be empty or not provided!')
     end
     
     yLag = y;
@@ -125,11 +128,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
     
     % Parse optional inputs for NLS
     default = {'draws',           1000,       @nb_isScalarNumber;...
-               'opt',             [],         {@isstruct,'||',@isempty};...
-               'covrepair',       true,       @islogical;...
-               'optimizer',       'fminunc',  {{@nb_ismemberi,{'fmincon','fminunc','fminsearch'}}};...
-               'polyLags',        [],         @(x)nb_isScalarInteger(x,0);...
-               'waitbar',         false,      {@islogical,'||',@(x)isa(x,'nb_waitbar5')}};
+               'polyLags',        [],         @(x)nb_iswholenumber(x)};
     [inputs,message] = nb_parseInputs(mfilename,default,varargin{:});
     if ~isempty(message)
         error(message)
@@ -146,20 +145,22 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
         
         case {'almon','legendre','mean','unrestricted'}
             
-            [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(inputs,Y,yLag,x);
+            [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(inputs,Y,yLag,x,nLags);
                 
         case 'beta'
             
-            % Set up for NLS
-            func    = @(x,y)nb_betaLag(x,y);
-            betaHyp = [ones(1,nSteps);ones(1,nSteps);ones(1,nSteps)*4]; % Initial values
-            betaHyp = repmat(betaHyp,nExo);
-            ub      = inf(3*nExo,nSteps); % Upper bound
-            lb      = [-inf(1,nSteps);ones(2,nSteps)*eps]; % Lower bound
-            lb      = repmat(lb,nExo);
+            [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doProfiling(inputs,Y,yLag,x,nLags);
             
-            % Do NLS
-            [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doNLS(inputs,func,betaHyp,ub,lb,Y,yLag,x);
+%             % Set up for NLS
+%             func    = @(x,y)nb_betaLag(x,y);
+%             betaHyp = [ones(1,nSteps);ones(1,nSteps);ones(1,nSteps)*4]; % Initial values
+%             betaHyp = repmat(betaHyp,nExo);
+%             ub      = inf(3*nExo,nSteps); % Upper bound
+%             lb      = [-inf(1,nSteps);ones(2,nSteps)*eps]; % Lower bound
+%             lb      = repmat(lb,nExo);
+%             
+%             % Do NLS
+%             [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doNLS(inputs,func,betaHyp,ub,lb,Y,yLag,x,nLags);
             
         otherwise
             error([mfilename ':: Unsupported MIDAS type ''' type '''.'])   
@@ -170,7 +171,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = nb_mida
 end
 
 %==========================================================================
-function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(inputs,Y,yLag,x)
+function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(inputs,Y,yLag,x,nLags)
 
     AR       = inputs.AR;
     constant = inputs.constant;
@@ -178,7 +179,6 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(i
     nExo     = inputs.nExo;
     
     % Construct the mapping matrix of polynominal lags
-    nLags = size(x,2)/nExo;
     if strcmpi(inputs.type,'almon')
         Q = nb_almonPoly(inputs.polyLags,nLags,nExo); 
     elseif strcmpi(inputs.type,'legendre')
@@ -193,19 +193,18 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(i
       
         P = inputs.polyLags;
         if isempty(P)
-            P = nLags;
+            sP = sum(nLags);
+        else
+            sP = sum(P);
         end
-        X = nan(T,nExo*P);
-        for t = 1:T 
-            X(t,:) = transpose(Q*x(t,:)');
-        end
-        numCoeff = P*nExo + constant + AR;
+        X        = transpose(Q*x');
+        numCoeff = sP + constant + AR;
         
     elseif strcmpi(inputs.type,'mean')
        
         X = nan(T,nExo);
         for ii = 1:nExo
-           ind     = ii:nExo:nExo*nLags;
+           ind     = nb_getMidasIndex(ii,nLags,nExo);
            X(:,ii) = mean(x(:,ind),2);
         end
         numCoeff = nExo + constant + AR;
@@ -268,136 +267,69 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doOLS(i
 end
 
 %==========================================================================
-function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doNLS(inputs,func,betaHyp,ub,lb,Y,x)
+function [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = doProfiling(inputs,Y,yLag,X,nLags)
 
     AR       = inputs.AR;
     constant = inputs.constant;
     nSteps   = inputs.nSteps;
     nExo     = inputs.nExo;
-    if AR
-        betaHyp = [zeros(1,nSteps);betaHyp];
-        ub      = [ones(1,nSteps)-eps;ub];
-        lb      = [-ones(1,nSteps)+eps;lb];
-    end
-    if constant
-        betaHyp = [zeros(1,nSteps);betaHyp];
-        ub      = [inf(1,nSteps);ub];
-        lb      = [-inf(1,nSteps);lb];
-    end
     
-    if inputs.draws > 1
-        draws = inputs.draws;
+    % Preallocation
+    numCoeff = AR + constant + nExo + 1;
+    draws = inputs.draws;
+    if draws > 1
+        betaD  = nan(numCoeff,nSteps,draws);
+        sigmaD = zeros(nSteps,nSteps,draws);
     else
-        draws = 0;
+        betaD  = nan(0,0,0,1);
+        sigmaD = nan(0,0,0,1);
     end
-    
-    % Waitbar
-    if draws ~= 0
-        [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(inputs.waitbar,(draws+1)*nSteps);
-        status             = 1;
-    else
-        isWaitbar = false;
-    end
-    
-    % Use NLS to estimate model
-    numCoeff = constant + AR + 3;
-    residual = nan(size(y,1)-AR,nSteps);
-    T        = size(residual,1);
-    sigma    = zeros(nSteps,nSteps);
+
+    beta      = nan(numCoeff,nSteps);
+    stdBeta   = beta;
+    tStatBeta = beta;
+    pValBeta  = beta;
+    sigma     = zeros(nSteps,nSteps);
+    residual  = nan(size(Y,1) - 1,nSteps);
+    T         = size(residual,1);
     for ii = 1:nSteps
         
         if AR
-            xi = [Y(1:end-ii+1,ii-1),x(1:end-ii+1,:)];
-        else
-            xi = x(1:end-ii+1,:);
-        end
-        yi = Y(1:end-ii+1,ii);
-        
-        [message,betaHyp(:,ii),~,~,~,residual(1:end-ii+1,ii)] = nb_nls(betaHyp(:,ii),ub(:,ii),lb(:,ii),inputs.opt,inputs.optimizer,...
-            inputs.covrepair,@nb_midasResiduals,yi,xi,constant,func,nExo,AR); 
-        if isWaitbar
-            nb_bVarEstimator.notifyWaitbar(h,status,note);
-            status = status + 1;
-        end 
-        if isempty(message)
-            error(message);
-        end
-        sigma(ii,ii) = residual(1:end-ii+1,ii)'*residual(1:end-ii+1,ii)/(T - ii + 1 - numCoeff);
-    end
-    
-    % Bootstrap parameters
-    nLags       = size(x,2)/nExo;
-    indScale    = constant+AR+1;
-    indTheta    = constant+AR+2:size(betaHyp,1);
-    indHyper    = [1:constant+AR,constant + AR + nExo*nLags + 1:constant + AR + nExo*(nLags + 3)];
-    indNotHyper = constant + AR + 1:constant + AR + nExo*nLags;
-    if draws > 1 
-        
-        error([mfilename ':: Bootstrapping a beta lag or almon lag MIDAS model is not yet finished. ',...
-                         'Please set the draws option to 1 or use unrestricted MIDAS.'])
-        
-        betaD  = nan(constant + AR + nExo*(nLags + 3),nSteps,draws);
-        sigmaD = zeros(nSteps,nSteps,draws);
-        for ii = 1:nSteps
-
-            ysim    = nb_midasBootstrap(betaHyp(:,ii),residual(1:end-ii+1,ii),x(1:end-ii+1,:),constant,func,nExo,AR,draws);
-            kk      = 1;
-            tries   = 1;
-            betaSim = nan(size(betaHyp,1),1,draws);
-            while kk <= draws
-
-                [err,betaSimT,~,~,~,resid] = nb_nls(betaHyp(:,ii),ub(:,ii),lb(:,ii),inputs.opt,inputs.optimizer,...
-                                               inputs.covrepair,@nb_midasResiduals,ysim(:,tries),x(1:end-ii+1,:),constant,func,nExo,AR);
-                tries = tries + 1;
-                if tries > size(ysim,3)
-                    tries = 1;
-                    ysim    = nb_midasBootstrap(betaHyp(:,ii),residual(1:end-ii+1,ii),x(1:end-ii+1,:),constant,func,nExo,AR,draws/10);
-                end
-                if ~isempty(err)
-                    continue
-                end
-                betaSim(:,:,kk)  = betaSimT;
-                sigmaD(ii,ii,kk) = resid'*resid/(size(resid,1) + 1 - numCoeff);
-                if isWaitbar
-                    nb_bVarEstimator.notifyWaitbar(h,status,note);
-                end
-                kk     = kk + 1;        
-                status = status + 1;
-
+            if ii == 1
+                Xii = [yLag(1:end-ii),X(1:end-ii,:)];
+            else
+                Xii = [Y(1:end-ii,ii-1),X(1:end-ii,:)];
             end
+        else
+            Xii = X(1:end-ii,:);
+        end
+        Yii = Y(1:end-ii,ii);
+        
+        [beta(:,ii),residual(1:end-ii+1,ii),X_tilda] = nb_betaProfiling(Yii,Xii,constant,AR,nExo,nLags);
+        
+        % Estimate the covariance matrix
+        sigma(ii,ii) = residual(1:end-ii+1,ii)'*residual(1:end-ii+1,ii)/(T - ii + 1 - numCoeff);
 
-            betaD(indHyper,ii,:)    = betaSim;
-            betaD(indNotHyper,ii,:) = bsxfun(@times,betaSim(indScale,:,:),func(permute(betaSim(indTheta,:,:),[2,1,3]),nLags));
+        % Bootstrap
+        if draws > 1
+            
+            % Simulate and estimate model for each simulation
+            residSim = nb_bootstrap(residual(1:end-ii+1,ii),draws,'bootstrap');
+            residSim = permute(residSim,[3,2,1]);
+            ysim     = bsxfun(@plus,X_tilda*beta(1:end-1,ii),residSim);
+            for dd = 1:draws
+                [betaD(:,ii,dd),resid] = nb_betaProfiling(ysim(:,dd),Xii,constant,AR,nExo,nLags,beta(end,ii),1);
+                sigmaD(ii,ii,dd)       = resid'*resid/(T - ii + 1 - numCoeff);
+            end
+            stdBeta(:,ii)         = std(betaD(:,ii,:),0,3);
+            tStatBeta(1:end-1,ii) = abs(beta(1:end-1,ii))./stdBeta(1:end-1,ii);
+            try
+                pValBeta(1:end-1,ii) = nb_tStatPValue(tStatBeta(1:end-1,ii),T - ii + 1 - numCoeff);
+            catch %#ok<CTCH>
+               error('t-statistic not valid. Probably due to colinearity or missing observations?!') 
+            end
+        end
 
-        end
-        beta      = mean(betaD,3);
-        stdBeta   = std(betaD,0,3);
-        tStatBeta = beta./stdBeta;
-        T         = size(y,1);
-        nEst      = size(betaHyp,1);
-        
-        % Get p-values.
-        tStatBeta(isnan(tStatBeta)) = inf;
-        pValBeta                    = nb_tStatPValue(tStatBeta,T-nEst);
-        
-        if isWaitbar
-            nb_bVarEstimator.closeWaitbar(h);
-        end
-        
-    else
-        
-        % No bootstrapping
-        beta = nan(constant + AR + nExo*(nLags + 3),nSteps);
-        for ii = 1:nSteps
-            beta(indHyper,ii,:)    = betaHyp(:,ii);
-            beta(indNotHyper,ii,:) = bsxfun(@times,betaHyp(indScale,ii),func(permute(betaHyp(indTheta,ii),[2,1,3]),nLags));
-        end
-        betaD     = nan(0,0,0,1);
-        sigmaD    = nan(0,0,0,1);
-        stdBeta   = nan(size(beta));
-        tStatBeta = stdBeta;
-        pValBeta  = stdBeta;
-        
     end
 
 end

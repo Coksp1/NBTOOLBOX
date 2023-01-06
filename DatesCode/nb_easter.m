@@ -24,7 +24,7 @@ function easter = nb_easter(years)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if size(years,2)>1
         years = years';

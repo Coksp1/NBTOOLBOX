@@ -20,7 +20,7 @@ function nb_editNotes(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the notes from the underlying object storing them
     if isa(obj,'nb_graph_obj') || isa(obj,'nb_graph_adv')

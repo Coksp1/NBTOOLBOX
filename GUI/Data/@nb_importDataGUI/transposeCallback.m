@@ -12,7 +12,7 @@ function transposeCallback(gui,~,~)
 %
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Transpose data
     gui.dataC = gui.dataC';

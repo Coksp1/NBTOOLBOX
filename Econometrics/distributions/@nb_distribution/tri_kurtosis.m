@@ -25,7 +25,7 @@ function x = tri_kurtosis(~,~,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = -3/5 + 3;
     

@@ -1,9 +1,9 @@
-function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,ss,Qfunc,nSteps,restrictions,solution) 
+function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,model,ss,nSteps,restrictions,solution,s) 
 % Syntax:
 %
 % [Emean,Xmean,states,solution]...
-%       = nb_forecast.conditionalProjectionEngine(Y0,A,...
-%           B,CE,ss,Qfunc,nSteps,restrictions,solution)
+%       = nb_forecast.conditionalProjectionEngine(Y0,model,ss,nSteps,...
+%           restrictions,solution,s)
 %
 % Description:
 %
@@ -16,16 +16,19 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 5
-        solution = struct;
+    if nargin < 6
+        s = [];
+        if nargin < 5
+            solution = struct;
+        end
     end
     
-    if iscell(CE)
-        [nEndo,nExo,numAntPer] = size(CE{1});
+    if iscell(model.C)
+        [nEndo,nExo,numAntPer] = size(model.C{1});
     else
-        [nEndo,nExo,numAntPer] = size(CE);
+        [nEndo,nExo,numAntPer] = size(model.C);
     end
     
     % Extract the conditional information
@@ -37,10 +40,10 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
     [~,nCondPerE]     = size(me);
     yRestID           = restrictions.indY;
     if isempty(mx)
-        if iscell(B)
-            mx = zeros(size(B{1},2),nCondPerE);
+        if iscell(model.B)
+            mx = zeros(size(model.B{1},2),nCondPerE);
         else
-            mx = zeros(size(B,2),nCondPerE);
+            mx = zeros(size(model.B,2),nCondPerE);
         end
     end
 
@@ -63,20 +66,60 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
     % Simpler algorithm is used for all models except DSGE
     if restrictions.kalmanFilter
         
+        if nb_isempty(solution)
+            % Store other outputs needed for later
+            solution.nEndo                      = nEndo;
+            solution.nExo                       = nExo;
+            solution.nMax                       = nMax;                      
+            solution.numberOfAnticipatedPeriods = numAntPer;
+            solution.numberOfCondShocksPeriods  = nCondPer + numAntPer;
+        end
+        
         % Append history (Added in nb_forecast.prepareRestrictions)
         nObs                        = size(restrictions.YHist,2);
         myCond                      = nan(nObs,nSteps);
         myCond(restrictions.indY,:) = my;
-        myAll                       = [restrictions.YHist', myCond];
-        mxAll                       = [restrictions.XHist',mx];
-        nHist                       = size(restrictions.YHist,1);
+        if isempty(model.P)
+            myAll  = [restrictions.YHist', myCond];
+            mxAll  = [restrictions.XHist',mx];
+            myHist = restrictions.YHist;
+            nHist  = size(restrictions.YHist,1);
+        else
+            % The model has provided us with an estimate of the one-step 
+            % ahead forecast error variance, so we don't need to run the 
+            % filter over the whole history! 
+            % restrictions.YHist : Contains the state variables in this
+            % case!
+            myHist = restrictions.statesHist;
+            myAll  = myCond;
+            mxAll  = mx;
+            nHist  = 0;
+        end
         
+        % If data is standardize, we do that now
+        if ~isempty(model.S)
+            % Remove exogenous part
+            myAll = myAll - model.F*mxAll;
+            % Standardize
+            myAll = bsxfun(@rdivide,myAll,model.S);
+            % Set solution, so we do not remove exogenous part during
+            % filtering
+            model.F = zeros(size(model.F));
+        end
+            
         % Here we use a Kalman filter approach
-        statSpaceHandle = @()nb_forecast.getStateSpace(A,B,CE,nObs);
-        [~,~,Emean]     = nb_kalmansmoother_missing(statSpaceHandle,myAll,mxAll);
-        Xmean           = mx;
-        Emean           = Emean(nHist+1:end,:)';
-        states          = ones(nSteps,1);
+        if isempty(s)
+            statSpaceHandle = @()nb_forecast.getStateSpace(model,nObs,myHist,nSteps);
+            [~,~,Emean]     = nb_kalmansmoother_missing(statSpaceHandle,myAll,mxAll);
+        else
+            treshold                  = eps(max(myAll(:)));
+            [x0,P0,~,H,R,~,~,A,C,~,B] = nb_forecast.getStateSpace(model,nObs,myHist,nSteps);
+            [~,~,~,Emean]             = nb_kalmanSmootherAndLikelihood(H,R,A,C,x0,P0,myAll,treshold,0,B,mxAll,s);
+            Emean                     = Emean';
+        end
+        Xmean  = mx;
+        Emean  = Emean(nHist+1:end,:)';
+        states = ones(nSteps,1);
         return
         
     elseif ~strcmpi(restrictions.class,'nb_dsge') %&& size(MUy,1) == size(MUs,1)
@@ -96,7 +139,7 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
             solution.numberOfCondShocksPeriods  = nCondPer + numAntPer;
         end
         
-        Emean  = nb_identifyShocks(A,B,CE,Y0,mx,me,my,restrictions.indY);
+        Emean  = nb_identifyShocks(model.A,model.B,model.C,Y0,mx,me,my,restrictions.indY);
         Xmean  = mx;
         states = ones(nSteps,1);
         return
@@ -105,6 +148,11 @@ function [Emean,Xmean,states,solution] = conditionalProjectionEngine(Y0,A,B,CE,s
      
     % Produce unconditional forecast (i.e. no shocks), here we draw states
     % randomly as well
+    A     = model.A;
+    B     = model.B;
+    CE    = model.C;
+    Qfunc = model.Qfunc;
+    
     if ~isempty(Qfunc)
         states = restrictions.states;
         PAI0   = restrictions.PAI0;

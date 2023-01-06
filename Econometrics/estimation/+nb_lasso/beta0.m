@@ -12,7 +12,7 @@ function help = beta0()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     help = 'The starting value of the optimization. Default is [], i.e. zeros.';
 

@@ -32,7 +32,7 @@ function tau = nb_hpfilter(y,alpha)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check for nan
     [n,c,p] = size(y);

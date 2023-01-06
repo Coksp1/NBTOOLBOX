@@ -1,7 +1,8 @@
-function [distr,paramNames] = getPosteriorDistributions(obj)
+function [distr,paramNames] = getPosteriorDistributions(obj,varargin)
 % Syntax:
 %
-% [distr,paramNames] = getPosteriorDistributions(obj)
+% distr              = getPosteriorDistributions(obj)
+% [distr,paramNames] = getPosteriorDistributions(obj,'draws',1000)
 %
 % Description:
 %
@@ -11,6 +12,12 @@ function [distr,paramNames] = getPosteriorDistributions(obj)
 % 
 % - obj        : An object of class nb_model_generic. 
 % 
+% Optitonal input:
+%
+% - 'draws'    : The number of draws to sample from the posterior to base 
+%                the kernel estimation on, if empty all draws are used for 
+%                estimation.
+%
 % Output:
 % 
 % - distr      : A 1 x numCoeff nb_distribution object.
@@ -19,7 +26,7 @@ function [distr,paramNames] = getPosteriorDistributions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: This method only works on a scalar object.']) 
@@ -33,10 +40,27 @@ function [distr,paramNames] = getPosteriorDistributions(obj)
         error([mfilename ':: Model must be estimated with bayesian methods.'])
     end
     
+    draws     = nb_parseOneOptional('draws',[],varargin{:}); 
     estOpt    = obj.estOptions;
     posterior = nb_loadDraws(estOpt.pathToSave);
-    distr     = nb_distribution.sim2KernelDist(posterior.betaD);%,posterior.options.lb,posterior.options.ub
-    distr     = distr(:)';
+    beta      = posterior.betaD;
+    if ~isempty(draws) && draws < size(beta,3)
+        
+        defaultStream = RandStream.getGlobalStream;
+        savedState    = defaultStream.State;
+        s             = RandStream.create('mt19937ar','seed',1);
+        RandStream.setGlobalStream(s);
+        
+        ind  = randperm(size(beta,3));
+        ind  = ind(1:draws);
+        beta = beta(:,:,ind);
+        
+        defaultStream.State = savedState;
+        RandStream.setGlobalStream(defaultStream);
+        
+    end
+    distr = nb_distribution.sim2KernelDist(beta);%,posterior.options.lb,posterior.options.ub
+    distr = distr(:)';
     
     % Get the names of the parameters
     options = obj.estOptions;

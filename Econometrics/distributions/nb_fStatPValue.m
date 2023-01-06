@@ -25,7 +25,7 @@ function p = nb_fStatPValue(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if (m <= 0 || k <= 0)
         error([mfilename ':: Zero degrees of freedom when trying to evaluate the P-value of the F-statistics.']);

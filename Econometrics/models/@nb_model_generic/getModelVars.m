@@ -11,8 +11,6 @@ function vars = getModelVars(obj,varsIn)
 %
 % For factor models the observable (+ observableFast) are added as well.
 % 
-% The list will be sorted.
-%
 % Caution : For nb_dsge object only the observables are returned!
 %
 % Input:
@@ -30,7 +28,7 @@ function vars = getModelVars(obj,varsIn)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: Only scalar nb_model_generic object are supported.'])
@@ -60,8 +58,8 @@ function vars = getModelVars(obj,varsIn)
         if isprop(obj,'block_exogenous')
             vars = [vars,obj.block_exogenous.name];
         end
-        if isprop(obj,'endogneous')
-            vars = [vars,obj.endogneous.name];
+        if isprop(obj,'endogenous') && ~isa(obj,'nb_dsge')
+            vars = [vars,obj.endogenous.name];
         end
         if isprop(obj,'exogenous')
             vars = [vars,obj.exogenous.name];
@@ -71,6 +69,11 @@ function vars = getModelVars(obj,varsIn)
         end
         if isprop(obj,'observableFast')
             vars = [vars,obj.observableFast.name];
+        end
+        if isfield(obj.options,'measurementEqRestriction')
+            if ~nb_isempty(obj.options.measurementEqRestriction)
+                vars = [vars,{obj.options.measurementEqRestriction.restricted}];
+            end
         end
     end
 

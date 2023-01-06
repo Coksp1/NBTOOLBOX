@@ -99,7 +99,7 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties 
         
@@ -113,7 +113,7 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
         
         % The declared observables. As a struct with fields name, tex_name
         % and number.
-        observables         = struct();
+        observables;
         
     end
     

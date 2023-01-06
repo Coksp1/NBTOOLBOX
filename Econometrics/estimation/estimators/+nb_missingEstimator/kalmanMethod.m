@@ -9,7 +9,7 @@ function options = kalmanMethod(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~any(strcmpi(options.class,{'nb_var','nb_pitvar'}))
         error([mfilename ':: Setting missingMethod to ''kalmanFilter'' is only possible for nb_var and nb_pitvar objects.'])
@@ -26,19 +26,18 @@ function options = kalmanMethod(options)
     exo        = options.exogenous;
     allVars    = [dep,exo];
     [~,indAll] = ismember(allVars,options.dataVariables);
-    if isempty(tempOpt.estim_start_ind)
-        startInd = 1;
-    else
-        startInd = tempOpt.estim_start_ind;
-    end
-    XAll       = tempOpt.data(startInd:end,indAll);
+    XAll       = tempOpt.data(1:end,indAll);
     anyMissing = any(isnan(XAll),2);
     endInd     = find(~anyMissing,1,'last');
     startBal   = find(anyMissing(1:endInd),1,'last');
     if isempty(startBal)
         startBal = 0;
     end
-    tempOpt.estim_start_ind = startBal + options.nLags + 1;
+    if isempty(tempOpt.estim_start_ind)
+        tempOpt.estim_start_ind = startBal + options.nLags + 1;
+    else
+        tempOpt.estim_start_ind = max(tempOpt.estim_start_ind,startBal + options.nLags + 1);
+    end
     
     % Estimate model on the balanced data
     estFunc           = str2func(['nb_' options.estim_method 'Estimator.estimate']);

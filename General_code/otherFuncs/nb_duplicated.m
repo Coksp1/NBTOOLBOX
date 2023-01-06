@@ -24,7 +24,7 @@ function [isDup,dup] = nb_duplicated(in)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isvector(in)
         error([mfilename ':: The in input must be a vector.'])

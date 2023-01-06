@@ -24,7 +24,7 @@ function sigmaF = nb_constructStackedCorrelationMatrix(c)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nDep   = size(c,1);
     nLags  = size(c,3) - 1;

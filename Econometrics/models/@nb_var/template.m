@@ -25,7 +25,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -34,6 +34,7 @@ function options = template(num)
     options                             = nb_model_generic.templateGeneral(num,'time-series');
     options.block_exogenous             = {};
     options.blockLags                   = [];
+    options.calibrateR                  = {};
     options.constant                    = 1;
     options.cores                       = [];
     options.covrepair                   = false;
@@ -46,8 +47,11 @@ function options = template(num)
     options.exogenous                   = {};
     options.factors                     = {};
     options.hyperprior                  = false;
+    options.hyperLearning               = false;
+    options.hyperLearningSettings       = nb_bVarEstimator.defaultHyperLearningSettings();
     options.kf_presample                = 0;
     options.maxLagLength                = 10;
+    options.measurementEqRestriction    = struct();
     options.missingMethod               = '';
     options.modelSelection              = '';
     options.nLags                       = 1;
@@ -56,6 +60,7 @@ function options = template(num)
     options.optimset                    = struct('MaxTime',[],'MaxFunEvals',inf,'MaxIter',10000,'Display','iter','TolFun',[],'TolX',[]);
     options.parallel                    = false;
     options.prior                       = [];
+    options.regularization              = [];
     options.removeZeroRegressors        = false;
     options.seasonalDummy               = '';
     options.saveDraws                   = true;

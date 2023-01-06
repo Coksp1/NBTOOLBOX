@@ -12,7 +12,7 @@ function sourceCallback(gui,~,~)
 %
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(gui.data,'nb_modelDataSource')
         
@@ -83,14 +83,11 @@ function sourceCallback(gui,~,~)
     % Change the GUI
     switch lower(gui.currentSource) 
         case 'smart'
-            
-            if isa(gui.data,'nb_dataSource')
-                vintageList = gui.data.dataNames;
-            end
-                
+             
             % Update info
             set(gui.smartVar,'string',variableList);
-            set(gui.smartVint,'string',vintageList);
+            set(gui.smartVint,'string',vintage);
+            set(gui.smartFreq,'string',frequency);
             
             % Change Panel
             set(gui.nb_tsPanel,'visible','off');

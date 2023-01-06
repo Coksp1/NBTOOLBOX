@@ -35,7 +35,7 @@ function obj = not(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check if we are going to loop the operator
     [looped,obj] = loopOperator1(obj,@not);

@@ -12,7 +12,7 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(~,options,results,method
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         forceNewDraws = true;
@@ -29,8 +29,6 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(~,options,results,method
     estOpt.recursive_estim = 0;
     
     % Preallocation
-    beta       = results.beta(:,:,iter);
-    residual   = results.residual(:,:,iter);
     betaDraws  = nan(size(results.beta,1),size(results.beta,2),draws);
     sigmaDraws = zeros(size(results.beta,2),size(results.beta,2),draws);
     
@@ -46,129 +44,33 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(~,options,results,method
         if draws == 0
             return
         end 
-        start = madeDraws;
+        start = madeDraws + 1;
     else
-        start = 0;
+        start = 1;
     end
     
     % Get regressors
-    [~,indX] = ismember(options.exogenous,options.dataVariables);
-    x        = options.data(options.start_low:options.increment:options.estim_end_ind,indX); 
     [~,indY] = ismember(options.dependent(1),options.dataVariables);
-    y        = options.data(options.start_low:options.increment:options.estim_end_ind,indY); 
-    
-    if options.nStep > 1
-        Y = [y,nb_mlead(y,options.nStep-1)];
-    else 
-        Y = y;
+    y        = options.data(options.mappingDep,indY);
+    [~,indX] = ismember(options.exogenous,options.dataVariables);
+    nExo     = length(options.exogenous);
+    x        = nan(size(y,1),nExo);
+    for ii = 1:nExo
+        x(:,ii) = options.data(options.mappingExo(:,ii),indX(ii));
+    end
+    if options.recursive_estim
+        % When recursive forecast is produced we need to cut the sample
+        % according to the samle used at this recursion!
+        T = options.recursive_estim_start_ind_low - (options.start_low_in_low - 1) + (iter - 1);
+        y = y(1:T,:);
+        x = x(1:T,:);
     end
     
-    % Do the bootstrapping
-    constant = options.constant;
-    AR       = options.AR;
-    %======================================================================
-    if strcmpi(options.algorithm,'unrestricted')
-    %======================================================================
+    % Bootstrap MIDAS model
+    [~,~,~,~,~,~,betaDraws(:,:,start:end),sigmaDraws(:,:,start:end)] = ...
+        nb_midasFunc(y,x,options.constant,options.AR,options.algorithm,...
+        options.nStep,'h',options.nExo,options.nLags+1,'draws',draws,...
+        'polyLags',options.polyLags);
     
-        if AR
-           yLag = lag(y);
-           yLag = yLag(2:end);
-           Y    = Y(2:end,:);
-           x    = x(2:end,:);
-        end
-        
-        numCoeff = size(results.beta,1); 
-        for ii = 1:options.nStep
-            
-            if AR
-                if ii == 1
-                    xi = [yLag,x];
-                else
-                    xi = [Y(1:end-ii+1,ii-1),x(1:end-ii+1,:)];
-                end
-            else
-                xi = x(1:end-ii+1,:);
-            end
-            
-            res      = residual(:,ii);
-            isNaN    = ~isnan(res);
-            indFirst = find(isNaN,1);
-            indLast  = find(isNaN,1,'last');
-            res      = res(indFirst:indLast);
-            xiTemp   = xi(indFirst:indLast,:);
-            ysim     = nb_midasBootstrap(beta(:,ii),res,xiTemp,...
-                          constant,[],options.nExo,AR,draws,method);
-            for dd = 1:draws
-                [betaDraws(:,ii,start+dd),~,~,~,resid] = nb_ols(ysim(:,dd),xiTemp,constant,false);
-                sigmaDraws(ii,ii,start+dd)             = resid'*resid/(size(resid,1) + 1 - numCoeff);
-            end
-            
-        end
-        
-    %======================================================================    
-    else % Restricted
-    %======================================================================
-        
-        nSteps = options.nStep;
-        nExo   = options.nExo;
-        switch lower(options.algorithm)
-        
-            case 'almon'
-
-                func    = @(x,y)nb_almonLag(x,y);
-                betaHyp = [ones(1,nSteps);-ones(1,nSteps);zeros(1,nSteps)]; % Initial values
-                betaHyp = repmat(betaHyp,nExo);
-                ub      = inf(size(betaHyp)); % Upper bound
-                lb      = -inf(size(betaHyp)); % Lower bound
-
-            case 'beta'
-
-                func    = @(x,y)nb_betaLag(x,y);
-                betaHyp = [ones(1,nSteps);ones(1,nSteps);ones(1,nSteps)*4]; % Initial values
-                betaHyp = repmat(betaHyp,nExo);
-                ub      = inf(3*nExo,nSteps); % Upper bound
-                lb      = [-inf(1,nSteps);ones(2,nSteps)*eps]; % Lower bound
-                lb      = repmat(lb,nExo);
-
-            otherwise
-                error([mfilename ':: Unsupported MIDAS type ' type])   
-        end
-    
-        numCoeff    = size(betaHyp,1);
-        nLags       = options.nLags;
-        indInBeta   = size(beta,1)-2:size(beta,1);
-        indScale    = constant+AR+1;
-        indTheta    = constant+AR+2:constant+AR+3;
-        indHyper    = [1:constant+AR,constant + AR + nExo*nLags + 1:constant + AR + nExo*(nLags + 3)];
-        indNotHyper = constant + AR + 1:constant + AR + nExo*nLags;
-        for ii = 1:nSteps
-
-            ysim    = nb_midasBootstrap(beta(indInBeta,ii),residual(1:end-ii+1,ii),x(1:end-ii+1,:),constant,func,nExo,AR,draws);
-            dd      = 1;
-            tries   = 1;
-            betaSim = nan(size(betaHyp,1),1,draws);
-            while dd <= draws
-
-                [err,betaSimT,~,~,~,resid] = nb_nls(betaHyp(:,ii),ub(:,ii),lb(:,ii),options.optimset,options.optimizer,...
-                                               options.covrepair,@nb_midasResiduals,ysim(:,tries),x(1:end-ii+1,:),constant,func,nExo,AR);
-                tries = tries + 1;
-                if tries > size(ysim,3)
-                    tries = 1;
-                    ysim    = nb_midasBootstrap(betaHyp(:,ii),residual(1:end-ii+1,ii),x(1:end-ii+1,:),constant,func,nExo,AR,draws/10);
-                end
-                if ~isempty(err)
-                    continue
-                end
-                betaSim(:,:,start+dd)      = betaSimT;
-                sigmaDraws(ii,ii,start+dd) = resid'*resid/(size(resid,1) + 1 - numCoeff);
-                dd                         = dd + 1;
-
-            end
-            betaDraws(indHyper,ii,:)    = betaSim;
-            betaDraws(indNotHyper,ii,:) = bsxfun(@times,betaSim(indScale,:,:),func(permute(betaSim(indTheta,:,:),[2,1,3]),nLags));
-
-        end
-    
-    end
     
 end

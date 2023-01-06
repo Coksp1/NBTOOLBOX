@@ -26,7 +26,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if size(varargin,1) && iscell(varargin{1})
         % Makes it possible to give options directly through a cell

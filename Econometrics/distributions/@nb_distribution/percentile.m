@@ -27,7 +27,7 @@ function x = percentile(obj,perc)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = icdf(obj,perc/100);
 

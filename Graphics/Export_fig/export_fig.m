@@ -271,7 +271,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
 % 23/09/18: Fixed issue #243: only set non-bold font (workaround for issue #69) in R2015b or earlier; warn if changing font
 % 23/09/18: Workaround for issue #241: don't use -r864 in EPS/PDF outputs when -native is requested (solves black lines problem)
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargout
         [imageData, alpha] = deal([]);

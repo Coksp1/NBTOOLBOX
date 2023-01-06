@@ -25,7 +25,7 @@ function dout = nb_undiff(DX,initialValues,periods)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         periods = 1;
@@ -42,7 +42,8 @@ function dout = nb_undiff(DX,initialValues,periods)
 
         d0       = initialValues(ii,:,:);
         douttemp = cumsum(DX(ii+periods:periods:end,:,:),1);
-        dout(ii+periods:periods:end,:,:) = douttemp + d0(ones(1,dim1-1),:,:);
+        T        = size(douttemp,1);
+        dout(ii+periods:periods:end,:,:) = douttemp + d0(ones(1,T),:,:);
 
     end
     

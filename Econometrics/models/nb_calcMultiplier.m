@@ -28,7 +28,7 @@ function m = nb_calcMultiplier(dx,dy,r,gross)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [nObs,nVar,~] = size(dx);
     [nObsY,nY,~]  = size(dy);

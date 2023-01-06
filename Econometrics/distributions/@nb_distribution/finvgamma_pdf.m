@@ -25,7 +25,7 @@ function f = finvgamma_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x               = -x;
     f               = k^m.*x.^(-m-1).*exp(-(k./x));

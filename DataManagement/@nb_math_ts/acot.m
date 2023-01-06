@@ -1,28 +1,27 @@
-function obj =   acot(obj)
+function obj = acot(obj)
 % Syntax:
 %
-% obj = cot(obj)
+% obj = acot(obj)
 %
 % Description:
 %
-% Take cotangent of the data stored in the nb_cs object
+% Cotangent
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data are on 
-%                   cot.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = cot(obj);
+% obj = acot(obj);
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = acot(obj.data);
     

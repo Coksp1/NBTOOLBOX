@@ -35,7 +35,7 @@ function x = skewedt_icdf(p,a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

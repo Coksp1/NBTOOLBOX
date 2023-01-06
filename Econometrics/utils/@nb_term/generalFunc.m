@@ -24,7 +24,7 @@ function obj = generalFunc(obj,func,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~nb_isOneLineChar(func)
         error([mfilename ':: The func input must be a one line char with the name of the function to call.'])

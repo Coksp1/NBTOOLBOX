@@ -9,7 +9,7 @@ function selectDistributionCallback(gui, ~, ~)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     distributionGUI = nb_distributionGUI(gui, gui.distribution);
     addlistener(distributionGUI, 'done', @(varargin) updateDistribution(gui, distributionGUI));

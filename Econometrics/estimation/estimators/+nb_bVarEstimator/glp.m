@@ -64,7 +64,7 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 10
         waitbar = 0;
@@ -134,14 +134,15 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
         % up the minnesota prior itself, so here we remove the dummy
         % observation temporarily
         if prior.LR || prior.SC 
-            yT     = y(1:end-numDep,:);
             TrawAR = TrawAR - numDep;
-        elseif prior.DIO
-            yT     = y(1:end-1,:);
-            TrawAR = TrawAR - 1;
-        else
-            yT = y;
         end
+        if prior.DIO
+            TrawAR = TrawAR - 1;
+        end
+        if prior.SVD
+            TrawAR = min(TrawAR,prior.obsSVD - 1);
+        end
+        yT = y(1:TrawAR,:);
     else
         yT = y;
     end
@@ -196,14 +197,14 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
     
     if nargout == 1
         % In this case we report the marginal likelihood p(Y)
-        beta = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,s_prior,v_prior,V_prior_inv,S_post);
+        beta = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
     else
     
         % Simulate from posterior using Monte carlo integration
         if draws > 1
             [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_post,S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
         else
-            beta  = reshape(a_post,[numCoeff,numDep]);
+            beta  = A_post;
             sigma = S_post/v_post;
         end
 
@@ -215,7 +216,7 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
                                    'a_post',a_post,'S_post',S_post,'v_post',v_post,...
                                    'V_post',V_post,'restrictions',{restrictions});
                 if nargout > 4
-                    pY = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,s_prior,v_prior,V_prior_inv,S_post);
+                    pY = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
                 end
             end
         end
@@ -230,20 +231,34 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
 end
 
 %==========================================================================
-function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,s_prior,v_prior,V_prior_inv,S_post)
+function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,A_post,s_prior,v_prior,eps)
 
     xx = x'*x;
-    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,s_prior,v_prior,V_prior_inv,S_post);
+    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,A_prior,A_post,s_prior,v_prior,eps);
     if prior.LR || prior.SC || prior.DIO
+        elem = 0;
         if prior.LR || prior.SC
-            yd = y(end-numDep+1:end,:);
-            xd = x(end-numDep+1:end,:);
-        else
-            yd = y(end,:);
-            xd = x(end,:);
+            elem = elem + numDep;
         end
-        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,A_prior,s_prior,v_prior,V_prior_inv);
+        if prior.DIO
+            elem = elem + 1;
+        end
+        yd   = y(end-elem+1:end,:);
+        xd   = x(end-elem+1:end,:);
+        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,A_prior,s_prior,v_prior);
         pY   = pY - norm;
+    end
+    if prior.SVD
+        % Correct for stocastic volatility dummy prior
+        T = size(y,1);
+        if prior.LR || prior.SC
+            T = T - numDep;
+        end
+        if prior.DIO
+            T = T - 1;
+        end
+        invWeights = nb_bVarEstimator.constructInvWeights(prior,T);
+        pY         = pY - size(y,2)*sum(log(invWeights));
     end
         
 end

@@ -21,14 +21,15 @@ function [results,options] = estimate(options,check)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         check = true;
     end
     if ~strcmpi(options.class,'nb_var')
-        error([mfilename ':: Only nb_var models are supporting the ''missingMethod'' options (at least for know). '...
-                         'Please contact Kenneth S. Paulsen if you need to handle missing observations for another model class.'])
+        error([mfilename ':: Only nb_var models are supporting the ''missingMethod''',...
+            'options (at least for know). Please contact NB toolbox development ',...
+            'team if you need to handle missing observations for another model class.'])
     end
     start  = options.estim_start_ind;
 

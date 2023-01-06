@@ -9,7 +9,7 @@ function updateTableType(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
             
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(gui.data,'nb_cell')
         nb_errorWindow('Cannot set view mode when dealing with a cell object.')

@@ -32,7 +32,7 @@ classdef nb_date
 %
 % Written by Kenneth S. Paulsen    
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -84,6 +84,8 @@ classdef nb_date
         varargout = toFormat(varargin)
         varargout = vintage2Date(varargin)
         varargout = cell2Date(varargin)
+        varargout = max(varargin)
+        varargout = min(varargin)
         
     end
     

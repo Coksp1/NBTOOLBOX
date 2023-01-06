@@ -24,7 +24,7 @@ function [x,fval,exitflag,hessian] = testConstrained()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options                   = nb_abc.optimset('cutLimit',10,'maxTimeSinceUpdate',60,'maxTime',inf);
     [x,fval,exitflag,hessian] = nb_abc.call(@(x)rosenbrockVally(x),zeros(2,1),...

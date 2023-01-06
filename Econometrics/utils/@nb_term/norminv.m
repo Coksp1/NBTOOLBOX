@@ -19,9 +19,9 @@ function obj = norminv(obj,m,k)
 % 
 % - obj : A vector of nb_term objects.
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         obj = generalFunc(obj,'normcdf');

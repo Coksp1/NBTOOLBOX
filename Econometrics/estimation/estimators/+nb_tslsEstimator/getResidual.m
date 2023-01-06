@@ -9,7 +9,7 @@ function residual = getResidual(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     residual = nb_olsEstimator.getResidual(results.('mainEq'),options.('mainEq'));
 

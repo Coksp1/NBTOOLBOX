@@ -1,9 +1,9 @@
-function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikelihoodUnivariate(H,R,A,B,x0,P0,Pinf0,y,kalmanTol,kf_presample)
+function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikelihoodUnivariate(H,R,A,B,x0,P0,Pinf0,y,kalmanTol,kf_presample,G,z)
 % Syntax:
 %
 % [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = ...
 %    nb_kalmanSmootherAndLikelihood(H,R,A,B,obs,x0,P0,Pinf0,y,...
-%       kalmanTol,kf_presample)
+%       kalmanTol,kf_presample,G,z)
 %
 % Description:
 %
@@ -15,6 +15,10 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
 % State equation:
 % x(t) = A*x(t-1) + B*u(t)
 %
+% or if G and z is given
+%
+% x(t) = A*x(t-1) + G*z(t) + B*u(t)
+%
 % Where u ~ N(0,I) and v ~ N(0,R).
 %
 % See for example: Koopman and Durbin (1998), "Fast filtering ans smoothing
@@ -25,8 +29,8 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
 %
 % - H            : Observation matrix. As a nObs x nEndo double.
 %
-% - R            : Measurment error covariance matrix. As a nObs x nObs 
-%                  double. If you assume no measurment error, give 
+% - R            : Measurement error covariance matrix. As a nObs x nObs 
+%                  double. If you assume no measurement error, give 
 %                  zeros(nObs).
 %
 % - A            : State transition matrix. As a size nEndo x nEndo.
@@ -45,6 +49,10 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
 % - kalmanTol    : Kalman tolerance. 
 %
 % - kf_presample : Number of periods before the likelihood is calculated.
+%
+% - G            : A nEndo x nExo double.
+%
+% - z            : A nExo x T double
 %
 % Output:
 %
@@ -90,7 +98,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         kf_presample = 5;
@@ -168,8 +176,12 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
         end
             
         % Forecast
-        xu(:,tt+1)      = xt;               % x t|t
-        xf(:,tt+1)      = A*xt;             % x t+1 | t = A * x t|t
+        xu(:,tt+1) = xt;                    % x t|t
+        if nargin > 10
+            xf(:,tt+1) = A*xt + G*z(:,tt);  % x t+1 | t = A * x t|t + G * z t + 1
+        else
+            xf(:,tt+1) = A*xt;              % x t+1 | t = A * x t|t
+        end
         Pu(:,:,tt+1)    = PU;               % P t|t
         Pf(:,:,tt+1)    = A*PU*AT + BB;     % P t+1|t = A * P t|t * A' + B*B';
         Pinfu(:,:,tt+1) = PINFU;            % PINF t|t = A * PINF t|t * A';
@@ -179,7 +191,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
         rOld = rank(H*PINFU*H',kalmanTol);
         r    = rank(H*Pinf(:,:,tt+1)*H',kalmanTol);
         if rOld ~= r
-            disp(['nb_kalmanSmootherUnivariateDSGE:: The forecasting step does influence the rank of the ',...
+            disp(['nb_kalmanSmootherAndLikelihoodUnivariate:: The forecasting step does influence the rank of the ',...
                   'filtered one step ahead covariance matrix during the diffuse steps (PINF)!'])
         end
         
@@ -219,10 +231,14 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
         end    
         
         % Forecast 
-        xu(:,tt+1)   = xt;           % x t|t
-        xf(:,tt+1)   = A*xt;         % x t+1 | t = A * x t|t
-        Pu(:,:,tt+1) = PU;           % P t|t
-        Pf(:,:,tt+1) = A*PU*A' + BB; % P t+1|t = A * P t|t * A' + B*B';
+        xu(:,tt+1) = xt;                    % x t|t
+        if nargin > 10
+            xf(:,tt+1) = A*xt + G*z(:,tt);  % x t+1 | t = A * x t|t + G * z t + 1
+        else
+            xf(:,tt+1) = A*xt;              % x t+1 | t = A * x t|t
+        end
+        Pu(:,:,tt+1) = PU;                  % P t|t
+        Pf(:,:,tt+1) = A*PU*A' + BB;        % P t+1|t = A * P t|t * A' + B*B';
          
     end
     
@@ -260,7 +276,9 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
             end
         end
         xs(:,t) = xf(:,t) + Pf(:,:,t)*r(:,t);
-        us(:,t) = BT*r(:,t);
+        if nargin <= 10
+            us(:,t) = BT*r(:,t);
+        end
     end
     
     % Diffuse part of the smoother. Equations 23 of Koopman and 
@@ -279,6 +297,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
                 if FINF(ii,t) > kalmanTol
                     LINF      = I - KINF(:,ii,t)*H(ii,:)/FINF(ii,t);
                     L0        = (KINF(:,ii,t)*(FS(ii,t)/FINF(ii,t)) - KS(:,ii,t))*H(ii,:)/FINF(ii,t);
+                    LS        = I - KS(:,ii,t)*H(ii,:)/FS(ii,t);
                     r1(:,t)   = H(ii,:)'*vf(ii,t)/FINF(ii,t) + L0'*r(:,t) + LINF'*r1(:,t);  
                     r(:,t)    = LINF'*r(:,t);
                     N(:,:,t)  = LINF'*N(:,:,t)*LINF;
@@ -294,7 +313,18 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
                 end
             end
             xs(:,t) = xf(:,t) + Pf(:,:,t)*r(:,t) + Pinf(:,:,t)*r1(:,t);
-            us(:,t) = BT*r(:,t);
+            if nargin <= 10
+                us(:,t) = BT*r(:,t);
+            end
+        end
+    end
+    
+    % Get the smoothed shocks when exogenous variables are included in the
+    % model
+    if nargin > 10
+        us(:,1) = B\(xs(:,1) - G*z(:,1));
+        for t = 2:T
+            us(:,t) = B\(xs(:,t) - A*xs(:,t-1) - G*z(:,t));
         end
     end
     

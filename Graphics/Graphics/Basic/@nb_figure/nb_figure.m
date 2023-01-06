@@ -50,7 +50,7 @@ classdef nb_figure < handle
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess=protected)
            
@@ -130,10 +130,6 @@ classdef nb_figure < handle
         end    
         
         function set.userData(obj,value)
-            if ~isa(value,'double') && ~isempty(value)
-                error([mfilename '::  The userData property must be'...
-                    ' given as a double.'])
-            end
             obj.userData = value;
         end          
         
@@ -227,7 +223,7 @@ classdef nb_figure < handle
         % 
         % Written by Kenneth Sæterhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2023, Kenneth Sæterhagen Paulsen    
             
             if nargin < 2
                 units = get(obj.figureHandle,'units');

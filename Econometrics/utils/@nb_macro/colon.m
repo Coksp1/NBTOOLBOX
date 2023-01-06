@@ -31,7 +31,7 @@ function obj = colon(obj1,obj2,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin == 3
         error('The colon operator A:B:C is not supported for nb_macro objects.')

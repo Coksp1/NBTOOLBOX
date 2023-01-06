@@ -12,7 +12,7 @@ function actual = getActual(options,inputs,model,nSteps,dep,startFcst,split)
 %
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         split = true;
@@ -58,7 +58,7 @@ function actual = getActual(options,inputs,model,nSteps,dep,startFcst,split)
         if numel(options) == 1 || isempty(inputs.compareToRev)
             % Get final revision
             data = options(end).data;
-            data = data(options.start_low:options.increment:options.end_low,indD);
+            data = data(options.mappingDep,indD);
             data = data(startFcst(1,1:end-1),:);
             data = [data;nan(1,numDep)];
             if split

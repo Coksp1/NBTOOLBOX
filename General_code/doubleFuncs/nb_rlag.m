@@ -25,7 +25,7 @@ function xout = nb_rlag(xin,t,len)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [~,s2,s3] = size(xin);
     xout      = zeros(len,s2,s3);

@@ -25,7 +25,7 @@ function num = nb_countCombine(n,nMin,nMax)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     num = 0; 
     for q = nMin:nMax

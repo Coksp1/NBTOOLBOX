@@ -52,7 +52,7 @@ function [score,plotter] = getRecursiveScore(obj,type,dim,startDate,endDate,inve
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         invert = true;

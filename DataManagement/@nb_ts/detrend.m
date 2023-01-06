@@ -2,9 +2,8 @@ function [obj,trendObj,plotter] = detrend(obj,method,output,varargin)
 % Syntax:
 %
 % obj                    = detrend(obj,method)
-% obj                    = detrend(obj,method,output)
-% [obj,trendObj]         = detrend(obj,method)
-% [obj,trendObj,plotter] = detrend(obj,method)
+% obj                    = detrend(obj,method,output,varargin)
+% [obj,trendObj,plotter] = detrend(obj,method,output,varargin)
 %
 % Description:
 %
@@ -53,6 +52,9 @@ function [obj,trendObj,plotter] = detrend(obj,method,output,varargin)
 %
 % - trendObj : As a nb_ts object with the trend.
 %
+% - plotter  : A nb_graph_ts object. Use the graphInfoStruct method or
+%              the nb_graphInfoStructGUI class on the returned object.
+%
 % Examples:
 % 
 % obj = nb_ts.rand('2012Q1',10,3);
@@ -65,7 +67,7 @@ function [obj,trendObj,plotter] = detrend(obj,method,output,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         output = 'normal';
@@ -74,131 +76,27 @@ function [obj,trendObj,plotter] = detrend(obj,method,output,varargin)
         end
     end
     
+    % Convert to nb_math_ts
     trendObj = obj;
-    switch lower(method)
-        
-        case 'bkfilter'
-            
-            if length(varargin) ~= 2
-                error([mfilename ':: When method is ''bkfilter'' two additional inputs must be given to this method. '...
-                                 'I.e. the lowFreq and highFreq inputs.'])
-            end
-            
-            gap           = nb_bkfilter(obj.data,varargin{:});
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-            
-        case 'bkfilter1s'
-            
-            if length(varargin) ~= 2
-                error([mfilename ':: When method is ''bkfilter1s'' two additional inputs must be given to this method. '...
-                                 'I.e. the lowFreq and highFreq inputs.'])
-            end
-            
-            gap           = nb_bkfilter1s(obj.data,varargin{:});
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-        
-        case 'exponentialsmoother'
-            
-            if length(varargin) ~= 1
-                error([mfilename ':: When method is ''exponentialSmoother'' one additional input must be given to this method. I.e. the weight input.'])
-            end
-            
-            trend         = lag(exptrend(obj.data,varargin{:}));
-            obj.data      = obj.data - trend;
-            trendObj.data = trend;
-            
-        case 'hpfilter'
-            
-            if length(varargin) ~= 1
-                error([mfilename ':: When method is ''hpfilter'' one additional input must be given to this method. I.e. the lambda.'])
-            end
-            
-            gap           = hpfilter(obj.data,varargin{:});
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-            
-        case 'hpfilter1s'
-            
-            if length(varargin) ~= 1
-                error([mfilename ':: When method is ''hpfilter1s'' one additional input must be given to this method. I.e. the lambda.'])
-            end
-            
-            gap           = hpfilter1s(obj.data,varargin{:});
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-            
-        case 'linear'
+    objMath  = nb_math_ts(obj);
     
-            gap           = nb_linearFilter(obj.data);
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-            
-        case 'linear1s'
-            
-            gap           = nb_linearFilter1s(obj.data);
-            obj.data      = gap;
-            trendObj.data = trendObj.data - gap;
-            
-        case 'mean'
-            
-            mData         = repmat(mean(obj.data,1),[obj.numberOfObservations,1,1]);
-            obj.data      = obj.data - mData;
-            trendObj.data = mData;
-            
-        case 'baiperron'
-            
-            if obj.numberOfDatasets > 1
-                error([mfilename ':: The Bai-Perron detrending option is not supported for multi-paged datasets'])
-            end
-            
-            if nargin > 3
-                criterion = varargin{1};
-            else
-                criterion = 'bic';
-            end
-            
-            if nargin > 4
-                maxNumBreaks = varargin{2};
-            else
-                maxNumBreaks = 2;
-            end
-            
-            test  = nb_baiPerronTestStatistic(obj,...
-                        'constant',     true,...
-                        'criterion',    criterion,...
-                        'maxNumBreaks', maxNumBreaks);
-            vars  = obj.variables;
-            tData = obj.data; 
-            for ii = 1:obj.numberOfVariables
-                set(test,'dependent',vars{ii});
-                doTest(test);
-                if test.results.selectedBreak == 0
-                    tData(:,ii) = mean(obj.data(:,ii));
-                else
-                    tData(:,ii) = test.results.estTrend(:,test.results.selectedBreak);
-                end
-            end
-            obj.data      = obj.data - tData;
-            trendObj.data = tData;
-            
-        otherwise
-            
-            error([mfilename ':: Unsupported detrending method ' method '.'])
-            
-    end
+    % Do de-trending
+    [objMath,trendObjMath] = detrend(objMath,method,output,varargin{:});
+    
+    % Convert back to nb_ts
+    obj.data      = objMath.data;
+    trendObj.data = trendObjMath.data;
     
     if obj.isUpdateable()
         
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@detrend,{method});
+        obj = obj.addOperation(@detrend,[{method,''},varargin]);
         
         trendObj.links      = obj.links;
         trendObj.updateable = 1;
-        trendObj            = trendObj.addOperation(@detrend,{method,'trend'});
+        trendObj            = trendObj.addOperation(@detrend,[{method,'trend'},varargin]);
         
     end
     

@@ -35,7 +35,7 @@ function [C,Ceq] = constraints(pars,constrFuncEq,constrFuncIneq,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     C   = constrFuncIneq(pars);
     Ceq = constrFuncEq(pars);

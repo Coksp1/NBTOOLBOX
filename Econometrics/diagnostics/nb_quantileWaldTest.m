@@ -14,7 +14,7 @@ function [wTest,wProb] = nb_quantileWaldTest(A,c,X,beta,residual,q)
 % 
 % Input:
 % 
-% - A         : A nrestrictions x ncoeff double with the linear 
+% - A         : A nrestrictions x ncoeff*nq double with the linear 
 %               restrictions of the estimated coefficients (beta).
 %
 % - c         : A nrestrictions x 1 double with what the linear 
@@ -45,7 +45,7 @@ function [wTest,wProb] = nb_quantileWaldTest(A,c,X,beta,residual,q)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     m     = size(A,1); 
     discr = A*beta - c;

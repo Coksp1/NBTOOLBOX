@@ -25,7 +25,7 @@ classdef nb_logger < handle
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
 
     properties (Constant)
         ALL     = 0;
@@ -99,7 +99,7 @@ classdef nb_logger < handle
                     folderName = [folderName, filesep(), 'errors'];
                 end
                 inputs.closeFile = true;
-                fileNameToWrite  = [folderName, filesep() , 'errorReport_' getenv('username'),'_', nb_clock('vintage'), '.txt'];
+                fileNameToWrite  = [folderName, filesep() , 'errorReport_' getenv('username'),'_', nb_clock('vintage')];
                 if ~exist(folderName,'dir')
                     try
                         mkdir(folderName);
@@ -107,7 +107,7 @@ classdef nb_logger < handle
                        nb_error(['Could not create logger file; ' folderName '. '], Err); 
                     end
                 end
-                inputs.fileToWrite = fopen(fileNameToWrite,'a');
+                inputs.fileToWrite = fopen([fileNameToWrite, '.txt'],'a');
                 if inputs.fileToWrite == -1
                     error([mfilename ':: Cannot open the error file; ' fileNameToWrite '. Please change the userpath!']);
                 end
@@ -132,6 +132,7 @@ classdef nb_logger < handle
             if inputs.write && inputs.closeFile
                 fclose(inputs.fileToWrite);
             end
+            
         end
         
         function logging(messageLevel,inputs,message,Err) 
@@ -145,8 +146,8 @@ classdef nb_logger < handle
         % 
         % Written by Kenneth Sæterhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
-            
+        % Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
+        
             level = getenv('LOGGERLEVEL');
             if isempty(level)
                 level = nb_logger.DEFAULT;
@@ -214,7 +215,7 @@ classdef nb_logger < handle
         function loggingDuringParallel(messageLevel,write,w,message,Err) 
         % Syntax:
         % 
-        % nb_logger.loggingDuringParallel(write,w,message,Err) 
+        % nb_logger.loggingDuringParallel(messageLevel,write,w,message,Err) 
         %
         % Description:
         %
@@ -226,10 +227,18 @@ classdef nb_logger < handle
             if messageLevel <= level
                 return
             end
-        
+            
+            if isa(w,'WorkerObjWrapper')
+                fileId = w.Value;
+            else
+                fileId = w;
+            end
             if nargin < 5
                 if write
-                    nb_cellstr2file({message},w.Value,true); 
+                    if ischar(message)
+                        message = cellstr(message);
+                    end
+                    nb_cellstr2file(message,fileId,true); 
                 else
                     if messageLevel == nb_logger.ERROR
                         error(message); 
@@ -239,7 +248,7 @@ classdef nb_logger < handle
                 end
             else
                 if write
-                    nb_writeError(Err,w.Value,message); 
+                    nb_writeError(Err,fileId,message); 
                 else
                     if messageLevel == nb_logger.ERROR
                         nb_error(message,Err);

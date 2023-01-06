@@ -1,9 +1,9 @@
-function [res,options] = estimateSeasonal(options,Z)
+function [res,options] = estimateSeasonal(options,Z,X)
 % No documentation
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 
     [dataStart,freq] = nb_date.date2freq(options.dataStartDate);
@@ -18,9 +18,22 @@ function [res,options] = estimateSeasonal(options,Z)
         F  = nan(T,size(Z,2),iter);
         kk = 1;
         for tt = start:T
-            startDate         = dataStart + (options.estim_start_ind + ss(kk) - 2);
-            ZObj              = nb_math_ts(Z(ss(kk):tt,:,kk),startDate);
-            [seasObj,~,~,err] = x12Census(ZObj,'missing',options.missing,'maxIter',options.maxIter,'tolerance',options.tolerance);
+            
+            if options.removeZeroRegressors
+                ind = ~all(abs(X(ss(kk):tt,:)) < eps,1);
+            else
+                ind = true(1,size(X,2));
+            end
+            startDate = dataStart + (options.estim_start_ind + ss(kk) - 2);
+            ZObj      = nb_math_ts(Z(ss(kk):tt,:,kk),startDate);
+            if isempty(X)
+                XObj = [];
+            else
+                XObj = nb_math_ts(X(ss(kk):tt,ind),startDate);
+            end
+            [seasObj,~,~,err] = x12Census(ZObj,'missing',options.missing,...
+                'maxIter',options.maxIter,'tolerance',options.tolerance,...
+                'dummy',XObj);
             check(seasObj,options.dependent,err);
             F(ss(kk):tt,:,kk) = double(seasObj);
             kk                = kk + 1;
@@ -34,11 +47,23 @@ function [res,options] = estimateSeasonal(options,Z)
         nb_estimator.checkDOF(options,dof,T);
         
         % Estimate model by whitening
-        startDate         = dataStart + (options.estim_start_ind - 1);
-        ZObj              = nb_math_ts(Z,startDate);
-        [seasObj,~,~,err] = x12Census(ZObj,'missing',options.missing,'maxIter',2500,'tolerance',1e-4);
+        if options.removeZeroRegressors
+            ind = ~all(abs(X) < eps,1);
+        else
+            ind = true(1,size(X,2));
+        end
+        startDate = dataStart + (options.estim_start_ind - 1);
+        ZObj      = nb_math_ts(Z,startDate);
+        if isempty(X)
+            XObj = [];
+        else
+            XObj = nb_math_ts(X(:,ind),startDate);
+        end
+        [seasObj,~,~,err] = x12Census(ZObj,'missing',options.missing,...
+            'maxIter',options.maxIter,'tolerance',options.tolerance,...
+            'dummy',XObj);
         check(seasObj,options.dependent,err);
-        F                 = double(seasObj);
+        F = double(seasObj);
 
     end
     

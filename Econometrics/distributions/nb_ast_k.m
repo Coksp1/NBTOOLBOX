@@ -5,7 +5,7 @@ function f = nb_ast_k(x)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f1 = gamma((x + 1)./2);
     f2 = sqrt(pi.*x).*gamma(x./2);

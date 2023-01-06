@@ -9,32 +9,35 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if any(strcmpi(options(1).algorithm,{'unrestricted','beta'}))
-        if options(1).unbalanced
-            exo   = options(1).exogenous(1:options.nExo);
-            nLags = options(1).nLags - options(1).exogenousLead;
-            if options(1).exogenousLead > 0
-                exoLead = nb_cellstrlead(exo,options(1).exogenousLead,'varFast',true);
-            else
-                exoLead = {};
-            end
-            if nLags < 0
-                coeff = exoLead;
-            else
-                coeff = [exoLead, exo, nb_cellstrlag(exo,nLags,'varFast')];
-            end
-        else
-            coeff = options(1).exogenous;
+    if strcmpi(options(1).algorithm,'unrestricted')
+        exo    = options(1).exogenous(1:options.nExo);
+        nCoeff = max(options(1).nLags + 1);
+        coeff  = cell(options.nExo,nCoeff);
+        for ii = 1:options.nExo
+            coeffThis = nb_appendIndexes('Coeff',1:options(1).nLags(ii) + 1)';
+            coeffThis = strcat(coeffThis,['(' exo{ii} ')']);
+            coeff(ii,1:length(coeffThis)) = coeffThis;
         end
-        if strcmpi(options(1).algorithm,'beta')
-            coeff = [coeff, {'beta','theta1','theta2'}];
-        end
+        coeff = coeff(:);
+        coeff = coeff(~cellfun(@isempty,coeff))';
+    elseif strcmpi(options(1).algorithm,'beta')
+        coeff = strcat('Coeff1(',options(1).exogenous(1:options.nExo),')');
+        coeff = [coeff,{'theta2'}];
     elseif strcmpi(options(1).algorithm,'mean')
-        coeff = strcat({'Mean '}, options(1).exogenous(1:options.nExo));
+        coeff = strcat('Coeff1(', options(1).exogenous(1:options.nExo),')');
     else
-        coeff = nb_appendIndexes('Coeff',1:options(1).polyLags*options(1).nExo)';
+        exo    = options(1).exogenous(1:options.nExo);
+        nCoeff = max(options(1).polyLags + 1);
+        coeff  = cell(options.nExo,nCoeff);
+        for ii = 1:options.nExo
+            coeffThis = nb_appendIndexes('Coeff',1:options(1).polyLags(ii))';
+            coeffThis = strcat(coeffThis,['(' exo{ii} ')']);
+            coeff(ii,1:length(coeffThis)) = coeffThis;
+        end
+        coeff = coeff(:);
+        coeff = coeff(~cellfun(@isempty,coeff))';
     end
     if options(1).AR
         coeff = [{'AR'},coeff];

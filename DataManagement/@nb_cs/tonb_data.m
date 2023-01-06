@@ -24,7 +24,7 @@ function nb_data_DB = tonb_data(obj)
 % 
 % Written by Kenneth S. Paulsen      
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nb_data_DB = nb_data(double(obj),obj.dataNames,1,obj.variables);
     

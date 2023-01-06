@@ -8,7 +8,7 @@ classdef (Abstract) nb_model_estimate < matlab.mixin.Heterogeneous & nb_modelDat
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
 
@@ -115,6 +115,7 @@ classdef (Abstract) nb_model_estimate < matlab.mixin.Heterogeneous & nb_modelDat
         
         varargout = estimateOneLoop(varargin);
         varargout = loopEstimate(varargin);
+        varargout = getOptionsFromEstOptions(varargin);
         
         function dispProperties(className)
             props = properties(className);

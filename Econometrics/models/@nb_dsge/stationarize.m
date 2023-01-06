@@ -24,7 +24,7 @@ function obj = stationarize(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@stationarize,@nb_dsge,varargin{:});

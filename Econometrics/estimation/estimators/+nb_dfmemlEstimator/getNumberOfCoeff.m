@@ -9,7 +9,7 @@ function nCoeff = getNumberOfCoeff(options)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     % Transition equation including residual variances
     nObs = length(options.observables);
@@ -25,7 +25,7 @@ function nCoeff = getNumberOfCoeff(options)
 
     if ~isempty(options.blocks)
         
-        % Measurment equation
+        % Measurement equation
         if options.mixedFrequency
             nLow = options.nLow;
         else
@@ -39,12 +39,12 @@ function nCoeff = getNumberOfCoeff(options)
             error('For the moment you need to use the block option when using mixed frequency data.')
         end
         
-        % Measurment equation
+        % Measurement equation
         nCoeff = nCoeff + options.nFactors*nObs;
         
     end
     
-    % Measurment errors
+    % Measurement errors
     if ~options.nLagsIdiosyncratic
         nCoeff = nCoeff + nObs;
     end

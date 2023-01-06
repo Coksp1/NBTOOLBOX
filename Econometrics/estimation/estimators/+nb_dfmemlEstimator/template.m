@@ -17,7 +17,7 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options                             = struct();
     options.blocks                      = [];
@@ -47,6 +47,7 @@ function options = template()
     options.requiredDegreeOfFreedom     = 3;
     options.rollingWindow               = [];
     options.seasonalDummy               = '';
+    options.set2nan                     = struct();
     options.stdReplic                   = 1000;
     options.stdType                     = 'none';
     options.time_trend                  = 0;

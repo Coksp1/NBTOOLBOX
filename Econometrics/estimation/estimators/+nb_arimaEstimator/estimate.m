@@ -24,7 +24,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -181,8 +181,8 @@ function [results,options] = estimate(options)
         res.regressors = mRes.X;
         res.includedObservations = size(res.residual,1);
         
-        % Get residual from measurment error
-        uRes = nb_arimaEstimator.getMeasurmentEqRes(options,sq,sp,mRes.beta,mRes.y,mRes.z,mRes.x);
+        % Get residual from measurement error
+        uRes = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,mRes.beta,mRes.y,mRes.z,mRes.x);
         
         % Store numerically estimated Hessian
         if isfield(mRes,'omega')
@@ -417,7 +417,7 @@ function [res,options] = recursiveEstimation(options)
         resEnd(kk,:)        = res(end-MAterms+1:end)';
         
         % Get initial condition for forecasting
-        uEnd(kk,:) = nb_arimaEstimator.getMeasurmentEqRes(options,sq,sp,beta(:,:,kk),yTrans(tt-ARterms+1:tt,:),z(tt-ARterms+1:tt,:),x(tt-ARterms+1:tt,:))';
+        uEnd(kk,:) = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,beta(:,:,kk),yTrans(tt-ARterms+1:tt,:),z(tt-ARterms+1:tt,:),x(tt-ARterms+1:tt,:))';
         if storeOmega
             omega(:,:,kk) = mRes.omega;
         end

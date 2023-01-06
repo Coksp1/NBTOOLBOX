@@ -15,7 +15,7 @@ function editUnfreezeCellCallback(gui,hObject,event)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the cell that where edited
     r = event.Indices(1);

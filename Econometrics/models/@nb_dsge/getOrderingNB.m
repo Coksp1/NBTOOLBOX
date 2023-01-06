@@ -28,7 +28,7 @@ function [order,type,ss] = getOrderingNB(parser,ss)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     lcl  = parser.leadCurrentLag;
     endo = parser.endogenous;

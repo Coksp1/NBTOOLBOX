@@ -30,7 +30,7 @@ classdef nb_midas < nb_model_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -45,9 +45,14 @@ classdef nb_midas < nb_model_generic
 
             obj         = obj@nb_model_generic();
             temp        = nb_midas.template();
-            temp        = rmfield(temp,{'dependent','exogenous'});
+            temp        = rmfield(temp,{'dependent','exogenous','frequency'});
             obj.options = temp;
-            obj         = set(obj,varargin{:});
+            
+            % The frequency of each series
+            obj.dependent.frequency = {};
+            obj.exogenous.frequency = {};
+            
+            obj = set(obj,varargin{:});
             
         end
         
@@ -70,7 +75,7 @@ classdef nb_midas < nb_model_generic
             if obj.options.AR
                 name = [name '_AR'];
             end
-            name = [name ,'_FREQ' int2str(obj.options.frequency)];
+            name = [name ,'_FREQ' int2str(obj.dependent.frequency{1})];
             name = [name ,'_L' int2str(obj.options.nLags)];
             NX   = nb_conditional(isempty(obj.exogenous.number),0,obj.exogenous.number) +...
                    nb_conditional(isempty(obj.endogenous.number),0,obj.endogenous.number) +...

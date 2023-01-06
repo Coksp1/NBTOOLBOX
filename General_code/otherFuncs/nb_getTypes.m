@@ -39,7 +39,7 @@ function [out,type] = nb_getTypes(out,variables,data,macro,nInp)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         macro = false;
@@ -77,47 +77,78 @@ function [out,type] = nb_getTypes(out,variables,data,macro,nInp)
                 error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong use of function handle syntax. Error::' Err.message])
             end
         else
-            indS = regexp(element,'[\(\[][\w\d\:,]+[\)\]]','start');
-            if indS == 1
-                indS = [];
+            if macro
+                indS = regexp(element,'[\(\[][\w\d\:,]+[\)\]]','start');
+                if indS == 1
+                    indS = [];
+                end
+            else
+                indS = regexp(element,'[\(\[][\w\d\:,;\.]+[\)\]]','start');
             end
             if ~isempty(indS)
             
-                indexType  = element(indS);
-                index      = element(indS:end);
-                [s1,s2,s3] = size(data);
-                index      = interpretIndex(index,s1,s2,s3);
-                element    = element(1:indS-1);
-                ind        = strcmp(element,variables);
-                if any(ind)
-                    type(ii) = 1;
-                    if strcmp(indexType,'[')
-                        if ~isa(data,'nb_macro')
-                            error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing [].'])
-                        end
-                        dataVar = data(1,ind);
-                        if size(index,1) == 1
-                            try
-                                out{ii}  = indexing(dataVar,index(1,1):index(1,2)); % Index the nb_macro object
-                            catch Err
-                                error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing:: ' Err.message])
+                if macro
+                
+                    indexType  = element(indS);
+                    index      = element(indS:end);
+                    [s1,s2,s3] = size(data);
+                    index      = interpretIndex(index,s1,s2,s3);
+                    element    = element(1:indS-1);
+                    ind        = strcmp(element,variables);
+                    if any(ind)
+                        type(ii) = 1;
+                        if strcmp(indexType,'[')
+                            if ~isa(data,'nb_macro')
+                                error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing [].'])
+                            end
+                            dataVar = data(1,ind);
+                            if size(index,1) == 1
+                                try
+                                    out{ii}  = indexing(dataVar,index(1,1):index(1,2)); % Index the nb_macro object
+                                catch Err
+                                    error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing:: ' Err.message])
+                                end
+                            else
+                                error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing.'])
                             end
                         else
-                            error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing.'])
+                            try
+                                if size(index,1) < 3 
+                                    out{ii}  = data(index(1,1):index(1,2),ind); % Get the data of the given variable
+                                else
+                                    out{ii}  = data(index(1,1):index(1,2),ind,index(3,1):index(3,2)); % Get the data of the given variable
+                                end
+                            catch
+                                error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing:: ' Err.message])
+                            end
                         end
                     else
-                        try
-                            if size(index,1) < 3 
-                                out{ii}  = data(index(1,1):index(1,2),ind); % Get the data of the given variable
-                            else
-                                out{ii}  = data(index(1,1):index(1,2),ind,index(3,1):index(3,2)); % Get the data of the given variable
+                        error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing.'])
+                    end
+                    
+                else
+                    % We are dealing with a matrix
+                    num = str2num(element); %#ok<ST2NM>
+                    if isempty(num)
+                        indexType = element(indS);
+                        if strcmp(indexType,'[')
+                            values    = split(element(indS+1:end-1),',');
+                            outValues = cell(1,length(values));
+                            for vv = 1:length(values)
+                                ind = strcmp(values{vv},variables);
+                                if ~any(ind)
+                                    error(['Could not parse the term in brackets; ' element])
+                                end
+                                outValues{vv} = data(:,ind,:);
                             end
-                        catch
-                            error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing:: ' Err.message])
+                            num = horzcatfast(outValues{:});
+                        else
+                            error(['Could not parse the term in brackets; ' element])
                         end
                     end
-                else
-                    error([mfilename ':: Cannot interpret the part; ' out{ii} ' of the expression. Wrong indexing.'])
+                    out{ii}  = num;
+                    type(ii) = 3;
+                    
                 end
                 
             else

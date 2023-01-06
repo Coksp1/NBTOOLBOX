@@ -8,7 +8,7 @@ classdef (Abstract) nb_model_parse < nb_model_options
 %
 % Written by Kenneth Sæterhagen Paulsen
   
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Dependent = true)
         
@@ -83,6 +83,7 @@ classdef (Abstract) nb_model_parse < nb_model_options
     methods (Static=true)
         
         varargout = constraints(varargin)
+        varargout = parseTempParameters(varargin)
         
     end
     

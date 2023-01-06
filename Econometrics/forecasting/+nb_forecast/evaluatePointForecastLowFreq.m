@@ -11,7 +11,7 @@ function evalFcst = evaluatePointForecastLowFreq(evalFcst,options,Y,dep,model,in
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fcstEval = inputs.fcstEval;
     if isempty(fcstEval)

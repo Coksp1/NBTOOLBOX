@@ -5,7 +5,7 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options  = nb_defaultField(options,'requiredDegreeOfFreedom',3);
     if isempty(options.rollingWindow)
@@ -55,18 +55,21 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
             options.recursive_estim_start_ind = start + options.estim_start_ind - 1;
         else
             if options.rollingWindow > options.recursive_estim_start_ind - options.estim_start_ind + 1
-                date = nb_date.date2freq(options.dataStartDate);
-                date = date + (options.recursive_estim_start_ind - 1);
-                error([mfilename ':: The recursive_estim_start_date (' toString(date) ') results in an first estimation window with less ',...
-                                 'observation (' int2str(options.recursive_estim_start_ind- options.estim_start_ind + 1) ') '...
-                                 'then specified by the rollingWindow (' int2str(options.rollingWindow) ') input.' ])
+                date    = nb_date.date2freq(options.dataStartDate);
+                recDate = date + (options.recursive_estim_start_ind - 1);
+                needed  = date + (options.estim_start_ind - 1 + options.rollingWindow - 1);
+                error(['The recursive_estim_start_date (' toString(recDate) ') results in an first estimation window with less ',...
+                       'observation (' int2str(options.recursive_estim_start_ind- options.estim_start_ind + 1) ') '...
+                       'then specified by the rollingWindow (' int2str(options.rollingWindow) ') input. Set '... 
+                       'recursive_estim_start_date to ' toString(needed) '.'])
             end
             start = options.recursive_estim_start_ind - options.estim_start_ind + 1;
         end
         if options.requiredDegreeOfFreedom + numCoeff > start
-            error([mfilename ':: The rolling window length is to short. '...
-                'At least ' int2str(options.requiredDegreeOfFreedom) ' degrees of freedom are required. '...
-                'Which require a window of at least ' int2str(options.requiredDegreeOfFreedom + numCoeff) ' observations.'])
+            error(['The rolling window length is to short. At least '...
+                int2str(options.requiredDegreeOfFreedom) ' degrees of ' ...
+                'freedom are required. Which require a window of at least ' ...
+                int2str(options.requiredDegreeOfFreedom + numCoeff) ' observations.'])
         end
         iter  = T - start + 1;
         first = (start - options.rollingWindow) + 1;
@@ -77,6 +80,5 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
         ss = first:last;
         
     end
-
 
 end

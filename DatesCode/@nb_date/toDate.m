@@ -31,6 +31,10 @@ function dObj = toDate(date,frequency)
 %
 %   > Yearly        : 'dd.mm.yyyy' and 'yyyy'   
 %
+%   > Secondly      : 'yyyy-mm-dd hh:nn:ss' and 'yyyymmddhhnnss'
+%                      (only supported if this version of the toolbox
+%                      inlcudes the nb_second class)
+%
 % - frequency :
 %
 %   > Daily         : 365
@@ -45,6 +49,8 @@ function dObj = toDate(date,frequency)
 %
 %   > Yearly        : 1  
 % 
+%   > Secondly      : 31536000
+%
 % Output:
 % 
 % - dObj      : 
@@ -59,7 +65,9 @@ function dObj = toDate(date,frequency)
 %
 %   > Semiannually  : An nb_semiAnnual object
 %
-%   > Yearly        : An nb_year object  
+%   > Yearly        : An nb_year object 
+%
+%   > Secondly      : An nb_second object
 %  
 % Examples:
 % 
@@ -71,7 +79,7 @@ function dObj = toDate(date,frequency)
 %
 % Written by Kenneth S. Paulsen
               
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(date,'nb_date')
 
@@ -103,7 +111,9 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_year(date);
                     catch  %#ok<CTCH>
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency you have given a improper date:: it must be yearly. I.e. ''yyyy'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency you ',...
+                              'have given a improper date:: it must be yearly. I.e. ''yyyy'''...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end 
 
                 else
@@ -117,7 +127,9 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_semiAnnual(date);
                     catch 
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency you have given a improper date:: it must be semiannually. I.e. ''yyyySs'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency you ',...
+                              'have given a improper date:: it must be semiannually. I.e. ''yyyySs''',...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end 
 
                 else
@@ -131,7 +143,9 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_quarter(date);
                     catch 
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you have given a improper date:: it must be quarterly. I.e. ''yyyyQq'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you ',...
+                              'have given a improper date:: it must be quarterly. I.e. ''yyyyQq''',...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end
                 else
                     error([mfilename ':: Wrong input: it must either be a object which is a subclass of nb_date or a object of class char, but is ' class(date) '.'])   
@@ -144,7 +158,9 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_month(date);
                     catch 
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you have given a improper date:: it must be monthly. I.e. ''yyyyMm(m)'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you ',...
+                              'have given a improper date:: it must be monthly. I.e. ''yyyyMm(m)''',...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end
                 else
                     error([mfilename ':: Wrong input: it must either be a object which is a subclass of nb_date or a object of class char, but is ' class(date) '.'])    
@@ -157,7 +173,9 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_week(date);
                     catch 
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you have given an improper date:: it must be weekly. I.e. ''yyyyWw(w)'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you ',...
+                              'have given an improper date:: it must be weekly. I.e. ''yyyyWw(w)''',...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end
                 else
                     error([mfilename ':: Wrong input: it must either be a object which is a subclass of nb_date or a object of class char, but is ' class(date) '.']) 
@@ -170,11 +188,35 @@ function dObj = toDate(date,frequency)
                     try
                         dObj = nb_day(date);
                     catch 
-                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you have given an improper date:: it must be daily. I.e. ''yyyyMm(m)Dd(d)'', but is ''' date '''.'])
+                        error('nb_date:improperDate',[mfilename ':: Wrong frequency or you ',...
+                              'have given an improper date:: it must be daily. I.e. ''yyyyMm(m)Dd(d)''',...
+                              ' or ''dd.mm.yyyy'', but is ''' date '''.'])
                     end
                 else
-                    error([mfilename ':: Wrong input: it must either be a object which is a subclass of nb_date or a object of class char, but is ' class(date) '.']) 
+                    error([mfilename ':: Wrong input: it must either be a object which is a subclass ',...
+                        'of nb_date or a object of class char, but is ' class(date) '.']) 
                 end
+                
+            case 31536000
+
+                if ischar(date)
+
+                    try
+                        dObj = nb_second(date);
+                    catch Err
+                        if strcmpi(Err.message,'Undefined function ''nb_second'' for input arguments of type ''char''.')
+                            error('nb_date:notSupported',['The version of the toolbox ',...
+                                  'you are using does not support a secondly date.'])
+                        else
+                            error('nb_date:improperDate',[mfilename ':: Wrong frequency or you ',...
+                                  'have given an improper date:: it must be secondly. I.e. ',...
+                                  '''yyyy-mm-dd hh:nn:ss'' or ''yyyymmddhhnnss'', but is ''' date '''.'])
+                        end
+                    end
+                else
+                    error([mfilename ':: Wrong input: it must either be a object which is a subclass ',...
+                        'of nb_date or a object of class char, but is ' class(date) '.']) 
+                end    
 
             otherwise
 

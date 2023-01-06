@@ -5,16 +5,15 @@ function obj = acosd(obj)
 %
 % Description:
 %
-% acosd(obj) is the inverse cosine, expressed in degrees,
-% of the elements of obj
+% Inverse cosine, expressed in degrees
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -22,7 +21,7 @@ function obj = acosd(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = acosd(obj.data);
     

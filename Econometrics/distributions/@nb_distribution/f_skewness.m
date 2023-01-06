@@ -26,7 +26,7 @@ function x = f_skewness(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if k > 6
         x = (2*m + k - 2)*sqrt(8*(k - 4));

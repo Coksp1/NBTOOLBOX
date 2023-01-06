@@ -1,19 +1,19 @@
-function obj =   csc(obj)
+function obj = csc(obj)
 % Syntax:
 %
 % obj = csc(obj)
 %
 % Description:
 %
-% Take csc of the data stored in the nb_ts object
+% Cosecant of argument in radians.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts where the data has been transformed
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
@@ -21,7 +21,7 @@ function obj =   csc(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = csc(obj.data);
     

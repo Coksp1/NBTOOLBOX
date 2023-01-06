@@ -28,7 +28,7 @@ function x = kernel_kurtosis(domain,density)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     seed          = 2.0719e+05;

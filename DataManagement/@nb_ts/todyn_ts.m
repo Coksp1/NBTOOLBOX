@@ -21,7 +21,7 @@ function dyn_ts_DB = todyn_ts(obj)
 % 
 % Written by Kenneth S. Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if obj.frequency > 12
         error([mfilename ':: dyn_ts class doesn''t support the frequency ' int2str(obj.frequency) '.'])

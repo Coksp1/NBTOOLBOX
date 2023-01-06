@@ -51,9 +51,9 @@ function obj = max(obj,dim,outputType)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 2
+    if nargin < 3
         outputType = 'nb_math_ts';
     end
 

@@ -30,7 +30,7 @@ function obj = initialize(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
         
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if length(varargin) < 2
         varargin = {'type',{'normal'}};

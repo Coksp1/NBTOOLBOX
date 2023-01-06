@@ -1,7 +1,7 @@
 function bracePanel(gui)
 % Creates a panel for editing look properties  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get graph object 
     obj = gui.parent;

@@ -13,8 +13,8 @@ function names = nb_covidDummyNames(freq,covidDummyDates)
 % - freq            : The frequency of the covid dummy.           
 % 
 % - covidDummyDates : A cellstr with the dates of the covid-19 crisis.
-%                     Default is the period 16.03.2020 - 31.05.2020. 
-%                     Hint: Use nb_month(3,2020):nb_month(5,2020).
+%                     Default is the period 16.03.2020 - 31.12.2021. 
+%                     Hint: Use nb_month(3,2020):nb_month(12,2021).
 %
 % Output:
 % 
@@ -25,7 +25,7 @@ function names = nb_covidDummyNames(freq,covidDummyDates)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~nb_isScalarInteger(freq)
         error([mfilename ':: The freq input must be a scalar integer.'])

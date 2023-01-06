@@ -11,7 +11,7 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G] = getStateSpace(options,model)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Observation equation:
     % y(t) = d + H*x(t) + T*z(t) + R*v(t), v ~ N(0,R)

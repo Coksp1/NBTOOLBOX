@@ -31,7 +31,7 @@ function [fTest,fProb] = nb_fTest(residual1,residual2,nCoeff1,nCoeff2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     residual1 = residual1(:);
     residual2 = residual2(:);

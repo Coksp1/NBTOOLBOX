@@ -24,7 +24,7 @@ function results = emlIteration(options,results,X)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Run kalman filter
     [alpha0,P0,Pinf0] = nb_dfmemlEstimator.intiKF(results);
@@ -52,8 +52,8 @@ function results = emlIteration(options,results,X)
     %----------------------------------------------------
     results = nb_dfmemlEstimator.getBQ(results);
     
-    % Update measurment equation
-        %------------------------------------------------
+    % Update measurement equation
+    %------------------------------------------------
     if ~isempty(options.blocks)
         results = updateLoadingsBlocks(options,results,alpha,Ps,X);
     else
@@ -289,7 +289,7 @@ function results = updateLoadingsBlocks(options,results,alpha,Ps,X)
     end
     
     % If we have no serial correlation in the idiosyncratic components
-    % we need to update the measurment error covariance matrix. See
+    % we need to update the measurement error covariance matrix. See
     % appendix B of Banbura and Modugno (2010)
     if options.nLagsIdiosyncratic == 0
         In = eye(N);
@@ -429,7 +429,7 @@ function results = updateLoadings(options,results,alpha,Ps,X)
     end
     
     % If we have no serial correlation in the idiosyncratic components
-    % we need to update the measurment error covariance matrix. See
+    % we need to update the measurement error covariance matrix. See
     % appendix B of Banbura and Modugno (2010)
     if options.nLagsIdiosyncratic == 0
         In = eye(N);

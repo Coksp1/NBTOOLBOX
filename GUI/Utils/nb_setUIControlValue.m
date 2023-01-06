@@ -25,7 +25,7 @@ function handle = nb_setUIControlValue(handle, value, varargin)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     varargin = lower(varargin); 
     style    = get(handle, 'style');

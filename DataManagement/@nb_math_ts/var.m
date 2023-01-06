@@ -1,7 +1,7 @@
 function obj = var(obj,dim,outputType)
 % Syntax:
 %
-% obj = var(obj,flag,dim,outputType)
+% obj = var(obj,dim,outputType)
 % 
 % Description:
 %
@@ -15,11 +15,6 @@ function obj = var(obj,dim,outputType)
 % Input:
 % 
 % - obj        : An object of class nb_math_ts
-% 
-% - flag       : > 0 : normalises by N-1 (Default)
-%                > 1 : normalises by N
-% 
-%                Where N is the sample length.
 % 
 % - dim        : The dimension to take the var over
 % 
@@ -57,7 +52,7 @@ function obj = var(obj,dim,outputType)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         outputType = 'nb_math_ts';

@@ -21,9 +21,9 @@ function res = print(results,options,precision)
 % 
 % - results : A char with the estimation results.
 %
-% Written by Kenneth S�terhagen Paulsen
+% Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';

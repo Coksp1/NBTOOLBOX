@@ -14,7 +14,7 @@ function [Y,states,AA] = uncondForecastEngine(y0,A,B,ss,Qfunc,E,states,transProb
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isempty(Qfunc) % Markov switching model
         [Y,states,AA] = ms.uncondForecastEngine(y0,A,B,ss,Qfunc,E,states,transProbInit,maxiter);

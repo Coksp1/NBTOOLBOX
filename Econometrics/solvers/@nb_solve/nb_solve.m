@@ -43,7 +43,7 @@ classdef nb_solve < nb_settable & nb_getable
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     properties
         

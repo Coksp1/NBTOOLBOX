@@ -30,7 +30,7 @@ function x = ast_std(a,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = sqrt(nb_distribution.ast_variance(a,b,c,d,e));
 

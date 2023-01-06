@@ -1,20 +1,19 @@
-function obj =   sin(obj)
+function obj = sin(obj)
 % Syntax:
 %
 % obj = sin(obj)
 %
 % Description:
 %
-% Take sin of the data stored in the nb_ts object
+% Sine of argument in radians.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts where the data are on 
-%                   sin.
+% - obj : An object of class nb_math_ts.
 % 
 % Examples:
 % 
@@ -22,7 +21,7 @@ function obj =   sin(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = sin(obj.data);
 

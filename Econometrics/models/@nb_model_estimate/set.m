@@ -44,7 +44,7 @@ function obj = set(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         return
@@ -160,14 +160,8 @@ function obj = set(obj,varargin)
 
                     case 'frequency'
 
-                        if isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn')
+                        if isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn') || isa(obj(ii),'nb_midas')
                             obj(ii) = setFrequency(obj(ii),inputValue);
-                        elseif isa(obj(ii),'nb_midas')
-                            if nb_isScalarInteger(inputValue)
-                                obj(ii).options.frequency = inputValue;
-                            else
-                                error([mfilename ':: The model (nr. ' int2str(ii) ') has been assign a wrong input to the frequency option.']);
-                            end
                         else
                             error([mfilename ':: Bad field name of the options property found; ' inputName])
                         end
@@ -269,8 +263,17 @@ function obj = set(obj,varargin)
                         if ~isa(obj(ii),'nb_mfvar')
                             error([mfilename ':: Bad field name of the options property found; ' inputName])
                         end
-                        obj(ii) = setMixing(obj(ii),inputValue);    
+                        obj(ii) = setMixing(obj(ii),inputValue);      
+                        
+                    case 'measurementeqrestriction'
 
+                        if ~isa(obj(ii),'nb_var')
+                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                        end
+                        if ~nb_isempty(inputValue)
+                            obj(ii) = setMeasurementEqRestriction(obj(ii),inputValue);    
+                        end
+                        
                     case 'steady_state_change'
 
                         if ~any(strcmpi(inputName,fields))

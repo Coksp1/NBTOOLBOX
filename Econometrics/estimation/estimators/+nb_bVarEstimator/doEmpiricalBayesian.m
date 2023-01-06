@@ -1,9 +1,9 @@
-function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(options,h,nLags,restrictions,y,X,yFull,XFull)
+function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(options,h,nLags,restrictions,y,X,yFull,XFull,func)
 % Syntax:
 %
 % [betaD,sigmaD,XX,posterior,options,fVal,pY] = ...
 %    nb_bVarEstimator.doEmpiricalBayesian(options,h,nLags,restrictions,...
-%       y,X,yFull,XFull)
+%       y,X,yFull,XFull,func)
 %
 % Description:
 %
@@ -16,16 +16,42 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
-    % Get hyperparameters, inital values and bounds
-    [hyperParam,nCoeff,init,lb,ub] = nb_bVarEstimator.getInitAndHyperParam(options);
+    if nargin < 9
+        func = '';
+    end
 
+    % Get hyperparameters, inital values and bounds
+    [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = nb_bVarEstimator.getInitAndHyperParam(options);
+
+    % Map the parameter using log transformation
+    ind = ~isnan(paramMin);
+    if any(ind)
+        init(ind) = -log((paramMax(ind)-init(ind))./(init(ind)-paramMin(ind)));
+        ub(ind)   = inf;
+        lb(ind)   = -inf;
+    end
+    
     % Optimize over hyperparameters
-    opt           = nb_getDefaultOptimset(options.optimset,'fmincon');
-    fh            = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
+    opt = nb_getDefaultOptimset(options.optimset,options.optimizer);
+    if strcmpi(func,'calculateRMSE')
+        fh = @(x)nb_bVarEstimator.calculateRMSE(x,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
+    else
+        if ~any(strcmpi(options.prior.type,{'glp','nwishart','dsge'}))
+            error(['Unsupported prior type ' options.prior.type ' for empirical bayesian estimation.'])
+        end
+        fh = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
+    end
     [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,'Error occured during optimization of hyperparameters.');
-    fVal          = -fVal;
+    if ~strcmpi(func,'calculateRMSE')
+        fVal = -fVal;
+    end
+    
+    % Map back to normal transformation of the parameter
+    if any(ind)
+        estPar(ind) = paramMin(ind) + (paramMax(ind) - paramMin(ind))./(1 + exp(-estPar(ind)));
+    end
     
     % Assign the optimized value of the hyperparameters
     N  = length(hyperParam);
@@ -36,20 +62,7 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
         kk                             = kk + nCoeff(ii);
     end
     
-    % Apply dummy observation prior
-    [y,X,constant,options] = nb_bVarEstimator.applyDummyPrior(options,y,X,yFull,XFull);
-    
-    % Final estimation (i.e. draw from the posterior etc.)
-    switch lower(options.prior.type)
-        case 'glp'
-            [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.glp(options.draws,y,X,nLags,options.constant,options.constantAR,options.time_trend,options.prior,restrictions,h);   
-        case 'nwishart'
-            [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.nwishart(options.draws,y,X,nLags,options.constant,options.time_trend,options.prior,restrictions,h);
-        otherwise
-            error([mfilename ':: Unsupported prior type ' options.prior.type ' for empirical bayesian estimation.'])
-    end
-    if options.prior.LR || options.prior.SC || options.prior.DIO
-        options.constant = constant;
-    end
+    % Estimate the model at the found hyperparameters
+    [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(options,h,nLags,restrictions,y,X,yFull,XFull);
 
 end

@@ -23,8 +23,9 @@ function a = not(a)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    a.data = ~a.data;    
+    ind         = ~isnan(a.data);
+    a.data(ind) = ~a.data(ind);    
 
 end

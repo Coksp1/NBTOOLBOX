@@ -33,7 +33,7 @@ function contextsStart = getStartOfCalendar(modelGroup,doRecursive,fromResults)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isscalar(modelGroup) && isa(modelGroup,'nb_model_group_vintages') && doRecursive
         if fromResults
@@ -64,7 +64,7 @@ function contextsStart = getStartOfCalendar(modelGroup,doRecursive,fromResults)
                 if isa(modelGroup(ii),'nb_calculate_vintages')
                     error([mfilename ':: Cannot fetch contexts from the forecastOutput property of objects of class ' class(modelGroup(ii)) '.'])
                 end
-                if modelGroup(ii).valid
+                if ~isempty(modelGroup(ii).forecastOutput.context)
                     contextsStart{ii} = modelGroup(ii).forecastOutput.context{1};
                 end
             end

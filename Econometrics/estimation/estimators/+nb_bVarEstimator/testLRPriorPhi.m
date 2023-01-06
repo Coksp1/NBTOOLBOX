@@ -5,7 +5,7 @@ function phi = testLRPriorPhi(phi,n)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if size(phi,2) > 1 
         if size(phi,1)

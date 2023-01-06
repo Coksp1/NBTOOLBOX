@@ -12,7 +12,7 @@ function solution = derivativeLossFunction(parser,solution,paramV)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     lossVars       = parser.lossVariables;
     nLossVars      = length(lossVars);

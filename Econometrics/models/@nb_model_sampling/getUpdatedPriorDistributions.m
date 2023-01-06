@@ -1,7 +1,8 @@
-function [distr,paramNames] = getUpdatedPriorDistributions(obj)
+function [distr,paramNames] = getUpdatedPriorDistributions(obj,varargin)
 % Syntax:
 %
-% [distr,paramNames] = getUpdatedPriorDistributions(obj)
+% distr              = getUpdatedPriorDistributions(obj)
+% [distr,paramNames] = getUpdatedPriorDistributions(obj,'draws',1000)
 %
 % Description:
 %
@@ -11,6 +12,12 @@ function [distr,paramNames] = getUpdatedPriorDistributions(obj)
 % 
 % - obj        : An object of class nb_model_sampling. 
 % 
+% Optitonal input:
+%
+% - 'draws'    : The number of draws to sample from the updated prior to  
+%                base the kernel estimation on, if empty or not provided 
+%                all draws are used for estimation.
+%
 % Output:
 % 
 % - distr      : A 1 x numCoeff nb_distribution object.
@@ -19,7 +26,7 @@ function [distr,paramNames] = getUpdatedPriorDistributions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 
@@ -32,10 +39,25 @@ function [distr,paramNames] = getUpdatedPriorDistributions(obj)
     if isempty(obj.systemPriorPath)
         error([mfilename ':: Error no sampling of the updated priors has been done.'])
     end
-    output  = nb_loadDraws(obj.systemPriorPath);
-    randInd = ceil(output(1).draws*rand(1000,1)); 
-    beta    = output(1).beta(randInd,:); % Only keep 1000 of the draws
-    distr   = nb_distribution.sim2KernelDist(permute(beta,[2,3,1]));%,posterior.options.lb,posterior.options.ub
+    draws  = nb_parseOneOptional('draws',[],varargin{:});
+    output = nb_loadDraws(obj.systemPriorPath);
+    beta   = permute(output(1).beta,[2,3,1]);
+    if ~isempty(draws) && draws < size(beta,3)
+        
+        defaultStream = RandStream.getGlobalStream;
+        savedState    = defaultStream.State;
+        s             = RandStream.create('mt19937ar','seed',1);
+        RandStream.setGlobalStream(s);
+        
+        ind  = randperm(size(beta,3));
+        ind  = ind(1:draws);
+        beta = beta(:,:,ind);
+        
+        defaultStream.State = savedState;
+        RandStream.setGlobalStream(defaultStream);
+        
+    end
+    distr = nb_distribution.sim2KernelDist(beta);%,posterior.options.lb,posterior.options.ub
     
     % Get the names of the parameters
     paramNames = obj.options.prior(:,1)';

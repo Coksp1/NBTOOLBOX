@@ -24,7 +24,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -38,9 +38,6 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'modelSelection','');
     options = nb_defaultField(options,'polyLags',[]);
     options = nb_defaultField(options,'unbalanced',false);
-    if isempty(options.polyLags)
-        options.polyLags = options.nLags + 1;
-    end
     
     % Get the estimation options
     %------------------------------------------------------
@@ -59,84 +56,91 @@ function [results,options] = estimate(options)
     %------------------------------------------------------
     [sDataDate,options.dataFrequency] = nb_date.date2freq(options.dataStartDate);
     sDataDateLow                      = convert(sDataDate,options.frequency);
-
+    if options.dataFrequency <= options.frequency
+        error([mfilename ':: The frequency option (' int2str(options.frequency) ') ',...
+               'must be strictly lower than the frequency of the data (' int2str(options.dataFrequency) ').'])
+    end
+    
     % Add lags or find best model
+    nExo = length(options.exogenous);
     if ~isempty(options.modelSelection)
         error([mfilename ':: The modelSelection option is not yet supported.'])
     else
-        nExo = length(options.exogenous);
-        if ~nb_isScalarInteger(options.nLags)
-            error([mfilename ':: The nLags input must be a scalar.'])
+        [options,freqMapping] = nb_midasEstimator.addLags(options);
+        [~,indX]              = ismember(options.exogenous,options.dataVariables);
+    end
+    if isempty(options.polyLags)
+        options.polyLags = options.nLags + 1;
+        if any(strcmpi(options.algorithm,{'almon','legendre'}))
+            options.polyLags(options.polyLags > 3) = 3;
+        elseif strcmpi(options.algorithm,'beta')
+            options.polyLags(:) = 1;
         end
-        options  = nb_midasEstimator.addLags(options);
-        [~,indX] = ismember(options.exogenous,options.dataVariables);
+        
+    end
+    if isscalar(options.polyLags)
+        options.polyLags = repmat(options.polyLags,[1,length(options.nLags)]);
+    end
+    if any(strcmpi(options.algorithm,{'almon','legendre'}))
+        if any(options.polyLags > 3)
+            error(['No elements of polyLags can be set to a number greater than ',...
+                   '3, when the algorithm option is set to ''almon'' or ''legendre''!'])
+        end
+    elseif strcmpi(options.algorithm,'beta')
+        if any(options.polyLags > 1)
+            error(['No elements of polyLags can be set to a number greater than ',...
+                   '1 when, the algorithm option is set to ''beta''!'])
+        end
+    end
+    
+    % Get mapping of low frequency dependent variable in high frequency
+    % data
+    periods  = size(options.data,1);
+    freqName = ['freq', int2str(options.frequency)];
+    if isfield(freqMapping,freqName)
+        mappingDep = freqMapping.(freqName);
+    else
+        [~,mappingDep]         = sDataDate.toDates(0:periods,'xls',options.frequency,0);
+        freqMapping.(freqName) = mappingDep;
     end
 
     % Get estimation start and end dates
     startDateGiven = true;
     if isempty(options.estim_start_ind)
-        startInd = find(~any(isnan(options.data(:,indX)),2),1);
-        sDateInd = sDataDate + startInd;
-        switch options.frequency
-            case 4
-                lDate  = sDateInd.getQuarter();
-                startL = lDate.getMonth(false);
-                start  = (startL - sDateInd) + 1;
-            case 1
-                if options.dataFrequency == 12
-                    lDate  = sDateInd.getYear();
-                    startL = lDate.getMonth(false);
-                    start  = (startL - sDateInd) + 1;
-                else
-                    lDate  = sDateInd.getYear();
-                    startL = lDate.getQuarter(false);
-                    start  = (startL - sDateInd) + 1;
-                end
-            otherwise
-                error([mfilename ':: The frequency of the dependent variable can only be 1 (yearly) or 4 (quarterly).'])
+        ind = cellfun(@(x)x==options.frequency,options.frequencyExo);
+        if any(ind)
+            % We have regressors on the same frequency as the dependent
+            % variable, so lags will need to cut the sample accordingly
+            exo              = options.exogenous(1:nExo);
+            exoSameFreq      = strcat(exo(ind),'_lag',strtrim(cellstr(num2str(options.nLags(ind)')))');
+            [~,indXSameFreq] = ismember(exoSameFreq,options.dataVariables);
+            XSameFreq        = options.data(mappingDep,indXSameFreq);
+            startInMapping   = find(all(~isnan(XSameFreq),2),1,'first');
+        else
+            startInMapping = 1;
         end
-        options.estim_start_ind = startInd + start;
+        options.estim_start_ind = mappingDep(startInMapping);
         startDateGiven          = false;
     end
     sDate = sDataDate + (options.estim_start_ind - 1);
     if isempty(options.estim_end_ind)
         options.estim_end_ind = size(options.data,1);
     end
-    if options.dataFrequency <= options.frequency
-        error([mfilename ':: The frequency option (' int2str(options.frequency) ') must be strictly lower than the frequency of the data (' int2str(options.dataFrequency) ').'])
-    end
-    if options.dataFrequency > 12
-        error([mfilename ':: The frequency of the data cannot be higher than monthly.'])
-    end
-    switch options.frequency
-        case 4
-            lDate  = sDate.getQuarter();
-            startL = lDate.getMonth(false);
-            start  = (startL - sDate) + 1;
-            incr   = 3;
-        case 1
-            if options.dataFrequency == 12
-                lDate  = sDate.getYear();
-                startL = lDate.getMonth(false);
-                start  = (startL - sDate) + 1;
-                incr   = 12;
-            else
-                lDate  = sDate.getYear();
-                startL = lDate.getQuarter(false);
-                start  = (startL - sDate) + 1;
-                incr   = 4;
-            end
-        otherwise
-            error([mfilename ':: The frequency of the dependent variable can only be 1 (yearly) or 4 (quarterly).'])
-    end
-    start = start + options.estim_start_ind - 1;
+    lDate  = convert(sDate,options.frequency);
+    startL = convert(lDate,options.dataFrequency,false);
+    start  = (startL - sDate) + 1;
+    start  = start + options.estim_start_ind - 1;
 
+    % Remove mapping outside estimation window
+    mappingDep(mappingDep<start)                 = [];
+    mappingDep(mappingDep>options.estim_end_ind) = [];
+    
     % Get data
     [testY,indY] = ismember(tempDep,options.dataVariables);
     if any(~testY)
         error([mfilename ':: Some of the dependent variable are not found to be in the dataset; ' toString(tempDep(~testY))])
     end
-    y = options.data(start:incr:options.estim_end_ind,indY);
+    y = options.data(mappingDep,indY);
     if isempty(y)
         error([mfilename ':: The selected sample cannot be empty.'])
     end
@@ -151,14 +155,15 @@ function [results,options] = estimate(options)
                 % if start date is not given
                 locM                    = find(isMissing(locNM:end));
                 y                       = y(locNM:end);
-                options.estim_start_ind = options.estim_start_ind + incr*(locNM-1);
-                start                   = start + incr*(locNM-1);
+                options.estim_start_ind = mappingDep(locNM);
+                start                   = mappingDep(locNM);
                 lDate                   = lDate + (locNM - 1);
+                mappingDep              = mappingDep(locNM:end);
             end
         else
             locM = find(isMissing);
         end
-        locL = length(isMissing) + 1;
+        locL = size(y,1);
         for ii = length(locM):-1:1
             if locL - locM(ii) > 1
                 error([mfilename ':: MIDAS models cannot handle missing observation of the dependent variable in the start or in the middle of the sample.'])
@@ -171,28 +176,46 @@ function [results,options] = estimate(options)
     end
 
     % Correct for missing observation at the end of the dependent variable
-    y      = y(1:end - options.yMissingEnd,:);
-    finish = start + size(y,1)*incr - incr;
+    y          = y(1:end - options.yMissingEnd,:);
+    mappingDep = mappingDep(1:end-options.yMissingEnd);
+    if isempty(mappingDep)
+        error(['The estimation start date ' toString(sDate) ' gives no ',...
+            'data on the dependent variable to estimate the model on.']);
+    end
+    finish     = mappingDep(end);
     
     % Get the data on the exogenous
     if options.unbalanced
-        X          = options.data(:,indX);
-        end_high   = find(~any(isnan(X),2),1,'last');
-        dHigh      = end_high - finish;
-        if dHigh > incr
-            % Here we prevent the exogenous to lead more than one period
-            % at the low frequency
-            dHigh    = incr;
-            end_high = finish + incr;
+        
+        T             = size(mappingDep,1);
+        mappingExo    = nan(T,length(options.exogenous));
+        Xhigh         = options.data(:,indX);
+        X             = nan(T,length(options.exogenous));
+        exogenousLead = nan(1,nExo);
+        for ii = 1:nExo
+            end_high = find(~isnan(Xhigh(:,ii)),1,'last');
+            if isempty(end_high)
+                error(['The exogenous variable ' options.exogenous{ii},...
+                       ' does not have any valid observations!'])
+            end
+            d = end_high - mappingDep(end);
+            if d < 0
+                error(['The exogenous variable ' options.exogenous{ii},...
+                       ' have less observations than the dependent variable!'])
+            else
+                mappingExoThis = mappingDep + d;
+            end
+            ind               = nb_getMidasIndex(ii,options.nLags+1,nExo);
+            mappingExo(:,ind) = mappingExoThis(:,ones(1,sum(ind)));
+            X(:,ind)          = Xhigh(mappingExoThis,ind);
+            exogenousLead(ii) = d;
         end
-        start_high = start + dHigh;
-        X          = X(start_high:incr:end_high,:);
+        
     else
-        X          = options.data(start:incr:options.estim_end_ind,indX);
-        X          = X(1:end - options.yMissingEnd,:);
-        dHigh      = 0;
-        start_high = start;
-        end_high   = finish;
+        options.estim_end_ind = finish;
+        X                     = options.data(mappingDep,indX);
+        mappingExo            = mappingDep(:,ones(1,length(options.exogenous)));
+        exogenousLead         = zeros(1,nExo);
     end
     if size(X,2) == 0
         error([mfilename ':: You must select some regressors.'])
@@ -211,13 +234,13 @@ function [results,options] = estimate(options)
     %------------------------------------------------------
     options.start_low        = start;
     options.end_low          = finish;
-    options.start_high       = start_high;
-    options.end_high         = end_high;
-    options.exogenousLead    = dHigh;
-    options.increment        = incr;
+    options.mappingDep       = mappingDep;
+    options.mappingExo       = mappingExo;
     options.nExo             = nExo;
     options.start_low_in_low = (lDate - sDataDateLow) + 1;
     options.end_low_in_low   = size(y,1) - 1 + options.start_low_in_low;
+    options.freqMapping      = freqMapping;
+    options.exogenousLead    = exogenousLead;
     if options.recursive_estim    
         [results,options] = nb_midasEstimator.recursiveEstimation(options,y,X,nExo);
     else % Not recursive

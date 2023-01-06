@@ -5,7 +5,7 @@ function par = nb_reduceCov(C)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     n   = size(C,1);
     par = nan(sum(1:n),1);

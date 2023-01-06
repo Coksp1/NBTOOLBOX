@@ -18,7 +18,7 @@ function precision = interpretPrecision(precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(precision)
         precision = '%8.6f';

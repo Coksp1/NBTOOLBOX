@@ -31,11 +31,11 @@ function obj = denton(obj,z,k,type,d)
 % - x    : Output series as a nobs*k x nvars x npage nb_math_ts object.
 %
 % See also:
-% nb_ts.convert, nb_denton
+% nb_math_ts.convert, nb_denton
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         d = 1;

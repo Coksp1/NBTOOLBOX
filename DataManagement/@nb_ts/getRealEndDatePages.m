@@ -47,7 +47,7 @@ function realEndDate = getRealEndDatePages(obj,format,type,variables,pages)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         pages = [];

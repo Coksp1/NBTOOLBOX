@@ -23,7 +23,7 @@ classdef nb_waitbar5 < handle
 % 
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess=protected)
          
@@ -458,7 +458,7 @@ classdef nb_waitbar5 < handle
         %
         % Written by Kenneth Sæterhagen Paulsen
 
-        % Copyright (c) 2021, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2023, Kenneth Sæterhagen Paulsen    
             
             if isempty(obj.maxIterations1)
                 value = 1;

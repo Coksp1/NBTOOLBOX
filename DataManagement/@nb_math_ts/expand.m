@@ -39,7 +39,7 @@ function obj = expand(obj,newStartDate,newEndDate,type,warningOff)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         warningOff = 'on';
@@ -80,7 +80,7 @@ function obj = expand(obj,newStartDate,newEndDate,type,warningOff)
     % Add data for the number of periods before
     if numOfNewPerBefore < 0
         if strcmp(warningOff,'on')
-            warning('nb_ts:expand:newStartDateAfter','The new start date of the data is after or the same as the current start date. Nothing is done!') 
+            warning('nb_math_ts:expand:newStartDateAfter','The new start date of the data is after or the same as the current start date. Nothing is done!') 
         end
     elseif numOfNewPerBefore > 0
 
@@ -108,7 +108,7 @@ function obj = expand(obj,newStartDate,newEndDate,type,warningOff)
     % Add data for the number of periods after
     if numOfNewPerAfter < 0
         if strcmp(warningOff,'on')
-            warning('nb_ts:expand:newEndDateBefore','The new end date of the data is before or the same as the current end date. Nothing is done!') 
+            warning('nb_math_ts:expand:newEndDateBefore','The new end date of the data is before or the same as the current end date. Nothing is done!') 
         end
     elseif numOfNewPerAfter > 0
 

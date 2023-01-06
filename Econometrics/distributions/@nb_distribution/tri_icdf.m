@@ -28,7 +28,7 @@ function x = tri_icdf(p,m,k,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     p(p>1)  = 1; 
     p(p<0)  = 0;

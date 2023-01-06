@@ -23,7 +23,7 @@ function ci = confidenceInterval(distribution, alpha)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         alpha = 0.05;

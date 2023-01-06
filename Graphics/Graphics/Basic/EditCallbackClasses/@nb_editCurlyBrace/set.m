@@ -1,7 +1,7 @@
 function set(gui,hObject,~,type)
 % Callback function for setting properties of the text box
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj = gui.parent;
 

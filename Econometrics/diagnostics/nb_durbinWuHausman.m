@@ -41,7 +41,7 @@ function [test,pval] = nb_durbinWuHausman(y,x,z,inst,constant,timeTrend)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         timeTrend = 0;

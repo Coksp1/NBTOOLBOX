@@ -66,7 +66,7 @@ function lik = nb_kalmanlikelihood_missing(par,model,y,z,start,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(z)
         z = zeros(0,size(y,2));
@@ -81,11 +81,11 @@ function lik = nb_kalmanlikelihood_missing(par,model,y,z,start,varargin)
         return
     end
     
-    % Allow for time-varying measurment equation, so in the constant
+    % Allow for time-varying measurement equation, so in the constant
     % case we just expand it  
     [N,n] = size(y);
     if size(H,3) == 1
-        % We allow for the measurment equation to be time-varying
+        % We allow for the measurement equation to be time-varying
         H = H(:,:,ones(1,n));
     end
     
@@ -103,7 +103,7 @@ function lik = nb_kalmanlikelihood_missing(par,model,y,z,start,varargin)
         
         mt = m(:,tt);
         if all(~mt)
-            x = A*x + c;
+            x = A*x + G*z(:,tt) + c;
             P = A*P*AT + BQB;
         else
         

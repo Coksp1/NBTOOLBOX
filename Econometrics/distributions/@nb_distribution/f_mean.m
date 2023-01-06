@@ -26,7 +26,7 @@ function x = f_mean(~,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if k > 2
         x = k/(k-2);

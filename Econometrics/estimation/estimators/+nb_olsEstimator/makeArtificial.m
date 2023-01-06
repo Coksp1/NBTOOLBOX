@@ -13,7 +13,7 @@ function [YDRAW,start,finish,indY,startEst] = makeArtificial(model,options,resul
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_sa')
         ind = ismember(model.endo,options.dataVariables);

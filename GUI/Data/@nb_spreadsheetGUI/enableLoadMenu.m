@@ -9,7 +9,7 @@ function enableLoadMenu(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if gui.loadMode
         set(findobj(gui.dataMenu,'label','Load'),'enable','on');

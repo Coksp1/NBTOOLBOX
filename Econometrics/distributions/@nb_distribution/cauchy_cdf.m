@@ -25,7 +25,7 @@ function f = cauchy_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f = (1/pi).*atan((x - m)./k) + 0.5;
     

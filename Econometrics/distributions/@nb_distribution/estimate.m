@@ -36,7 +36,7 @@ function obj = estimate(x,xi,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Find the domain of the distribution
     if nargin < 2

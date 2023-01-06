@@ -17,7 +17,7 @@ function cout = nb_obj2cell(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [s1,s2,s3] = size(obj);
     cout       = cell(s1,s2,s3);

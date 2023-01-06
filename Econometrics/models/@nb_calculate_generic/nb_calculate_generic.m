@@ -12,7 +12,7 @@ classdef (Abstract) nb_calculate_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
    
     methods (Sealed=true)
         
@@ -40,6 +40,24 @@ classdef (Abstract) nb_calculate_generic
         %
         % Written by Kenneth Sæterhagen Paulsen
         calc = getCalculated(obj)
+        
+    end
+    
+    methods (Static=true)
+        
+        function calc = rename(calc,renameVariables)
+            
+            if isempty(renameVariables)
+                return
+            end
+            if length(calc.variables) ~= length(renameVariables)
+                error(['The length of the renamedVariables must be equal ',...
+                       'to the number of calculated factors (',...
+                       int2str(length(calc.variables)) ').'])
+            end
+            calc = renameMore(calc,'variables',calc.variables,renameVariables);
+           
+        end
         
     end
     

@@ -2,7 +2,7 @@
 function colormap(obj)
     bgColors = obj.BackgroundColor;
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     strings = obj.String;
     numbers = cellfun(@str2double, strings, 'UniformOutput', false);

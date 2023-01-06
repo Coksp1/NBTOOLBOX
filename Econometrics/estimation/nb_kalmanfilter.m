@@ -65,7 +65,7 @@ function [x,u,v] = nb_kalmanfilter(model,y,z,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(z)
         z = zeros(0,size(y,2));

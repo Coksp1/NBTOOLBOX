@@ -1,7 +1,7 @@
 function formatGUI(obj, ~, ~, range)
 % Show formatting window
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the handle to the main program
     mainGUI = obj.gui;

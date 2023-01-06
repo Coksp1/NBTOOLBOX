@@ -22,7 +22,7 @@ function obj = unstruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isa(s,'nb_model_sampling')
         obj = s; % This is for backward compatibility
@@ -159,6 +159,14 @@ function obj = unstruct(s)
     if isa(obj,'nb_dsge')
         default     = nb_dsge.getDefaultParser();
         obj.parser  = nb_structcat(obj.parser,default,'first');
+    end
+    
+    if isa(obj,'nb_calculate_expr')
+        if isfield(obj.options,'func')
+            if isstruct(obj.options.func)
+                obj.options.func = nb_struct2functionHandle(obj.options.func);
+            end
+        end
     end
     
     % If new options are added we add default values for those...

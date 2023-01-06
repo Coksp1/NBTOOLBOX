@@ -1,7 +1,7 @@
-function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
+function [betaDraws,sigmaDraws,yD,pD] = drawParameters(results,options,draws,iter)
 % Syntax:
 %
-% [betaDraws,sigmaDraws,yD] = nb_mlEstimator.drawParameters(results,...
+% [betaDraws,sigmaDraws,yD,pD] = nb_mlEstimator.drawParameters(results,...
 %                                               draws,iter)
 %
 % Description:
@@ -16,9 +16,9 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 6
+    if nargin < 4
         iter = 'end';
     end
 
@@ -47,6 +47,7 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
     % Make draws
     %----------------------
     betaDrawsV = random(copula,draws,1);           % draws x nCoeff*nEq x 1
+    betaDrawsV = checkFailed(copula,betaDrawsV,options,eq);
     betaDraws  = reshape(betaDrawsV,[draws,eq,c]); % draws x nEq x nCoeff
     betaDraws  = permute(betaDraws,[3,2,1]);       % nCoeff x nEq x draws
     sigmaDraws = results.sigma(:,:,ones(1,draws)); % Constant std on residual
@@ -64,12 +65,25 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
         if options.constant
             X = [ones(1,T);X];
         end
+        missingPer = nan(1,eq);
+        for ii = 1:eq
+            missingPer(ii) = T - find(~isnan(y(ii,:)),1,'last');
+        end
+        nNow = max(missingPer);
         
         if options.recursive_estim
             ind = 1:options.recursive_estim_start_ind + iter - 1;
             y   = y(:,ind);
+            y   = nb_estimator.correctForMissing(y',missingPer)';
             X   = X(:,ind);
         end
+        if nNow == 0
+            y  = y(:,end);
+            yD = y(:,:,ones(1,draws));
+            pD = [];
+            return
+        end
+        
         nDep      = size(y,1);
         nLags     = options.nLags;
         nExo      = size(X,1);
@@ -99,14 +113,16 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
                 % Keep measurement error std constant
                 paramDraws = [paramDraws;results.R(measErrInd,ones(1,draws))];
             end
-            H         = nb_mlEstimator.getMeasurmentEqMFVAR(options);
-            yD        = nan(size(y,2),size(H,2),draws);
+            H         = nb_mlEstimator.getMeasurementEqMFVAR(options);
+            yD        = nan(nDep,size(H,2),draws);
+            pD        = nan(nDep,nDep,nNow,draws);
             ii        = 1;
             numFailed = 0;
             while ii <= draws
                 try
-                    [~,yD(:,:,ii)] = nb_kalmansmoother_missing(@nb_mfvar.stateSpace,y,X,paramDraws(:,ii),nDep,nLags,nCoeffExo,restr,restrVal,measErrInd,H);
-                    ii             = ii +1;
+                    [~,yD(:,:,ii),~,~,~,~,P] = nb_kalmansmoother_missing(@nb_mfvar.stateSpace,y,X,paramDraws(:,ii),nDep,nLags,nCoeffExo,restr,restrVal,measErrInd,H);
+                    pD(:,:,:,ii)             = P(1:nDep,1:nDep,end-nNow+1:end);
+                    ii                       = ii +1;
                 catch Err
                     if numFailed > draws
                         rethrow(Err)
@@ -115,11 +131,14 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
             end
         else
             yD        = nan(size(y,2),nDep*nLags,draws);
+            pD        = nan(nDep,nDep,nNow,draws);
             ii        = 1;
             numFailed = 0;
             while ii <= draws
                 try
-                    [~,yD(:,:,ii)] = nb_kalmansmoother_missing(@nb_var.stateSpace,y,X,paramDraws(:,ii),nDep,nLags,nCoeffExo,restr,restrVal);
+                    [~,yD(:,:,ii),~,~,~,~,P] = nb_kalmansmoother_missing(@nb_var.stateSpace,y,X,paramDraws(:,ii),nDep,nLags,nCoeffExo,restr,restrVal);
+                    pD(:,:,:,ii)             = P(1:nDep,1:nDep,end-nNow+1:end);
+                    ii                       = ii +1;
                 catch Err
                     if numFailed > draws
                         rethrow(Err)
@@ -130,4 +149,34 @@ function [betaDraws,sigmaDraws,yD] = drawParameters(results,options,draws,iter)
         
     end
     
+end
+
+%==========================================================================
+function betaDrawsV = checkFailed(copula,betaDrawsV,options,nDep)
+
+    numCoeff  = size(betaDrawsV,2)/nDep;
+    nExo      = length(options.exogenous);
+    nExo      = nExo + options.constant + options.time_trend;
+    nExoCoeff = nExo*nDep;
+    nLags     = (numCoeff - nExo)/nDep;
+    numRows   = (nLags - 1)*nDep;
+    I         = eye(numRows);
+    Z         = zeros(numRows,nDep);
+    nDraws    = size(betaDrawsV,1);
+    failed    = true(1,nDraws);
+    for ii = 1:nDraws
+        betaTemp = betaDrawsV(ii,nExoCoeff+1:end);
+        betaTemp = reshape(betaTemp,[nDep,numRows + nDep]);
+        A        = [betaTemp; I,Z];
+        [~,~,m]  = nb_calcRoots(A);
+        if all(m < 1)
+            failed(ii) = false; 
+        end
+    end
+    if any(failed)
+        draws                = sum(failed);
+        betaDrawsV(failed,:) = random(copula,draws,1); % draws x nCoeff*nEq x 1
+        betaDrawsV(failed,:) = checkFailed(copula,betaDrawsV(failed,:),options,nDep);
+    end
+
 end

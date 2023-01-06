@@ -17,7 +17,7 @@ function modelList = nb_getModelListFromLibrary(folder)
 %
 % Written by Erlend Salvesen Njølstad
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     modelList = dir(fullfile(folder,'*.mat'));
     modelList = join({modelList.folder;modelList.name}','/');

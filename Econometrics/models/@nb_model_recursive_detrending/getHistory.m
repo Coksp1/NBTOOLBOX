@@ -1,4 +1,4 @@
-function histData = getHistory(obj,vars,date)
+function histData = getHistory(obj,vars,date,~,~)
 % Syntax:
 %
 % histData = getHistory(obj,vars,date)
@@ -27,7 +27,7 @@ function histData = getHistory(obj,vars,date)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         date = '';

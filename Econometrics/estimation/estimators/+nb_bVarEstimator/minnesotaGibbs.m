@@ -21,7 +21,7 @@ function [beta,sigma] = minnesotaGibbs(draws,y,X,initBeta,initSigma,a_prior,V_pr
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Waitbar
     [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(waitbar,burn + draws);

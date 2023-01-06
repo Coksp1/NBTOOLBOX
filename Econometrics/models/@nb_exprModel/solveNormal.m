@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,opt)
 %
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tempSol = nb_exprModel.solveRecursive(results,opt);
 

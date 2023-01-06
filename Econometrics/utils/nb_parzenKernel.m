@@ -17,7 +17,7 @@ function y = nb_parzenKernel(x)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [s1,s2] = size(x);
     x       = x(:);

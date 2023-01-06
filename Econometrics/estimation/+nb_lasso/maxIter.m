@@ -12,7 +12,7 @@ function help = maxIter()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     help = 'Maximum number of iterations. As a scalar integer. Default is 10000.';
 

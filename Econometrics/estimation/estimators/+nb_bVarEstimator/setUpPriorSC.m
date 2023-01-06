@@ -14,7 +14,7 @@ function [yPlus,xPlus] = setUpPriorSC(prior,y,x,lags,constant,timeTrend)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if timeTrend
         error([mfilename ':: If you apply the sum-of-coefficients prior you cannot include a time trend.'])
@@ -31,9 +31,9 @@ function [yPlus,xPlus] = setUpPriorSC(prior,y,x,lags,constant,timeTrend)
     end
     
     % Remove missing observations at the start
-    y(any(isnan(y),2)) = [];
+    y(any(isnan(y),2),:) = [];
     if isempty(x)
-        x(any(isnan(x),2)) = [];
+        x(any(isnan(x),2),:) = [];
     end
     
     % Form the artificial data

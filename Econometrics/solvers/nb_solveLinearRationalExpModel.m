@@ -38,7 +38,7 @@ function [D,L,err] = nb_solveLinearRationalExpModel(A,B,nState)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     err            = '';
     [AA, BB, Q, Z] = qz(A,B);

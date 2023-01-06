@@ -25,9 +25,9 @@ classdef nb_bgrowth
 % See also:
 % nb_st
 %
-% Written by Kenneth S�terhagen Paulsen    
+% Written by Kenneth Sæterhagen Paulsen    
     
-% Copyright (c)  2019, Norges Bank
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     
     properties (SetAccess=protected)

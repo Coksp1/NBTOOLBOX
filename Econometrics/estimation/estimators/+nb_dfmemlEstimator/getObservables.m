@@ -9,16 +9,23 @@ function observables = getObservables(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isfield(results,'Z')
         observables = nb_ts();
     else
 
+        if isfield(options,'observablesOrig')
+            % During estimation
+            obs = options.observablesOrig;
+        else
+            obs = options.observables;
+        end
+        
         % Actual observations
         startInd = options.estim_start_ind;
         endInd   = options.estim_end_ind;
-        [~,indX] = ismember(options.observables,options.dataVariables);
+        [~,indX] = ismember(obs,options.dataVariables);
         X        = options.data(startInd:endInd,indX)';
 
         % Estimate of missing
@@ -36,7 +43,7 @@ function observables = getObservables(results,options)
                 end
             end
         end
-        observables = nb_ts(X', 'Observables', results.smoothed.variables.startDate, options.observables,false); 
+        observables = nb_ts(X', 'Observables', results.smoothed.variables.startDate, obs,false); 
 
     end
 

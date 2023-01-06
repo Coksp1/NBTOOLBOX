@@ -12,7 +12,7 @@ function [out,data_nb_ts] = callTVNBFilter(obj,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~issolved(obj)
         obj = solve(obj);
@@ -49,7 +49,7 @@ function [out,data_nb_ts] = callTVNBFilter(obj,inputs)
     sDate      = data_nb_ts.startDate;
     eDate      = data_nb_ts.endDate;
     
-    % Get measurment equation
+    % Get measurement equation
     [~,loc] = ismember(obj.observables.name,obj.parser.endogenous);
     nObs    = obj.observables.number;
     nEndo   = obj.dependent.number;

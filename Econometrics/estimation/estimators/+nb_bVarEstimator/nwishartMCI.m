@@ -23,7 +23,7 @@ function [beta,sigma] = nwishartMCI(draws,initBeta,initSigma,a_post,V_post,S_pos
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Waitbar
     [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(waitbar,draws);

@@ -22,7 +22,7 @@ function fh = getOutputFunction(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen    
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fh = @(x,optVal,state,varargin)obj.update(x,optVal,state,varargin);
 

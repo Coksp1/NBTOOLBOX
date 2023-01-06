@@ -135,7 +135,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if obj.numberOfDatasets > 1
         error([mfilename ':: This method does not support multi-paged nb_ts objects.'])
@@ -151,8 +151,9 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
     dummy   = double(options.dummy);
 
     if ~isempty(dummy)
-        if size(data,2) == size(dummy,2)
-            error([mfilename ':: The nb_ts object given to the ''dummy'' input must has as many variables as the first input.'])
+        if size(data,1) ~= size(dummy,1)
+            error(['The nb_ts object given to the ''dummy'' input must ',...
+                   'has as many observations as the first input.'])
         end
     end
     

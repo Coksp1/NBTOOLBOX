@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen       
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimators
     %------------------------------------------------------
@@ -30,6 +30,7 @@ function outOpt = getEstimationOptions(obj)
 
         % Model settings
         tempOpt.dependent = obj.dependent.name;
+        tempOpt.exogenous = obj.exogenous.name;
 
         % Data, dates, variables and types
         dataObj = tempOpt.data;
@@ -64,8 +65,8 @@ function outOpt = getEstimationOptions(obj)
 
         % Assign estimation method (to make it possible to prevent 
         % looping over objects)
-        tempOpt.class        = class(obj);
-        outOpt               = {tempOpt};
+        tempOpt.class = class(obj);
+        outOpt        = {tempOpt};
         
     end
     

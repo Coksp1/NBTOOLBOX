@@ -9,7 +9,7 @@ function createDefaultPlotter(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     plotters(4) = nb_graph_ts;
     for ii = 1:4

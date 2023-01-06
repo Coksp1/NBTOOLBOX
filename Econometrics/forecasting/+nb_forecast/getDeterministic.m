@@ -9,7 +9,7 @@ function [X,exo] = getDeterministic(options,inputs,nSteps,exo,constant)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     X = nan(nSteps,0,inputs.nPeriods);
     if isfield(options,'constant') 

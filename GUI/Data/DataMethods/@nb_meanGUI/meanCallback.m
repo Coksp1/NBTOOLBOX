@@ -9,7 +9,7 @@ function meanCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the inputs
     dim    = nb_getUIControlValue(gui.popupmenu1,'numeric');

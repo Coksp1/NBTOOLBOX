@@ -23,7 +23,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -79,6 +79,9 @@ function [results,options] = estimate(options)
                 exoFuncs = cell(1,nDep);
                 vars     = cell(1,nDep);
                 for ii = 1:nDep
+                    if ischar(options.exogenous{ii})
+                        options.exogenous{ii} = options.exogenous(ii);
+                    end
                     nExoOne     = length(options.exogenous{ii});
                     exoFuncsOne = cell(1,nExoOne);
                     varsOne     = cell(1,nExoOne);
@@ -241,7 +244,7 @@ function [results,options] = estimate(options)
             if options.removeZeroRegressors
                 nCoeff             = nExo(ii) + options.constant + options.time_trend;
                 numEq              = size(y,2);
-                indA               = [true(1,nCoeff - size(XRest,2)), ind];
+                indA               = [true(1,nCoeff - size(X,2)), ind];
                 betaT              = zeros(nCoeff,numEq);
                 betaT(indA,:)      = beta;
                 beta               = betaT;

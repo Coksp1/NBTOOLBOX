@@ -20,7 +20,7 @@ function test = eq(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isa(obj,'nb_base') || ~isa(another,'nb_base')
        test = false;

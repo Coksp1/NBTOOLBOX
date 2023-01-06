@@ -24,35 +24,12 @@ function obj = sumOAF(obj,sumFreq)
 % 
 % Examples:
 % 
-% obj = 
-% 
-%     'Time'      'Var1'
-%     '2012Q1'    [   1]
-%     '2012Q2'    [   1]
-%     '2012Q3'    [   1]
-%     '2012Q4'    [   1]
-%     '2013Q1'    [   1]
-%     '2013Q2'    [   1]
-%     '2013Q3'    [   1]
-%     '2013Q4'    [   1]
-% 
+% obj = nb_ts.ones('2012Q1',8,1);
 % obj = obj.sumOAF(1)
-% 
-% obj = 
-% 
-%     'Time'      'Var1'
-%     '2012Q1'    [   4]
-%     '2012Q2'    [   4]
-%     '2012Q3'    [   4]
-%     '2012Q4'    [   4]
-%     '2013Q1'    [   4]
-%     '2013Q2'    [   4]
-%     '2013Q3'    [   4]
-%     '2013Q4'    [   4]
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     freq = obj.frequency;
 

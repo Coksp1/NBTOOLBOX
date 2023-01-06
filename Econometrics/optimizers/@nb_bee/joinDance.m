@@ -32,7 +32,7 @@ function obj = joinDance(obj,employed,lowerBound,upperBound,hasConstraints)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nEmployed = size(employed,1);
     if any(nEmployed == [0,1])

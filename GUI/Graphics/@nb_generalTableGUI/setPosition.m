@@ -9,7 +9,7 @@ function setPosition(gui,hObject,~,index)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the value selected
     strs    = get(hObject,'string');

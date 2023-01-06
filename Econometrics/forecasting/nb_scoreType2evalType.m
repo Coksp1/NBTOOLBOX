@@ -20,7 +20,7 @@ function [evalType,type] = nb_scoreType2evalType(type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     type = regexp(type,'_','split');
     if size(type,2) == 1

@@ -1,7 +1,7 @@
 function handles = createCellGraphics(obj)
 % Create graphic objects needed for a single cell
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Increase performance by hiding
     % objects until all properties are set

@@ -134,7 +134,7 @@ function obj = merge(obj,DB,interpolateDate,method,rename,append,type)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         type = '';
@@ -380,6 +380,15 @@ function dataOut = resolveConflictOfData(data1,data2,variableName,append,type)
         case 'levelgrowth'
             start = data1;
             data1 = growth(data1);
+        case 'levelegrowth'
+            start = data1;
+            data1 = egrowth(data1);   
+        case 'levelpcn'
+            start = data1;
+            data1 = pcn(data1);  
+        case 'levelepcn'
+            start = data1;
+            data1 = epcn(data1);      
         case 'growthlevel'
             data2 = growth(data2);
         case 'levellevel'
@@ -399,6 +408,12 @@ function dataOut = resolveConflictOfData(data1,data2,variableName,append,type)
     switch lower(type)
         case {'levelgrowth','levellevel'}
             dataOut = igrowthnan(dataOut,start);
+        case 'levelegrowth'
+            dataOut = iegrowthnan(dataOut,start);   
+        case 'levelpcn'
+            dataOut = ipcnnan(dataOut,start); 
+        case 'levelepcn'
+            dataOut = iepcnnan(dataOut,start);    
     end
 
 end

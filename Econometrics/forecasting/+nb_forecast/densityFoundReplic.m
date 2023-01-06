@@ -10,7 +10,7 @@ function [Y,XE,states,PAI] = densityFoundReplic(y0,restrictions,model,options,re
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if strcmpi(model.type,'rise')
@@ -115,15 +115,15 @@ function [Y,XE,states,PAI] = densityFoundReplic(y0,restrictions,model,options,re
         for kk = 1:parameterDraws
             
             % Calculate density forecast
-            [A,B,C,vcv,Qfunc] = nb_forecast.getModelMatrices(modelDraws(kk),'end');
+            modelDraw = nb_forecast.getModelMatrices(modelDraws(kk),'end',false,options,nSteps);
 
             % Make draws from the distributions of the exogenous and the shocks
             mm  = regimeDraws*draws*(kk-1);
             ind = 1+mm:regimeDraws*draws+mm;
             if regimeDraws == 1
-                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nSteps,actualDraws,restrictions,struct(),inputs);
+                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawShocksAndExogenous(y0,modelDraw,ss,nSteps,actualDraws,restrictions,struct(),inputs,options);
             else
-                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawRegimes(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,struct(),inputs,options);
+                [E(:,:,ind),X(:,:,ind),states(:,:,ind)] = nb_forecast.drawRegimes(y0,modelDraw,ss,nSteps,draws,restrictions,struct(),inputs,options);
             end
             
             % If we are dealing with missing observation we need to draw
@@ -144,7 +144,9 @@ function [Y,XE,states,PAI] = densityFoundReplic(y0,restrictions,model,options,re
             % conditional on those residuals
             hh = 1;
             for qq = ind
-                [Y(:,:,qq),states(:,:,qq),PAI(:,:,qq)] = nb_forecast.condShockForecastEngine(Y0(:,:,hh),A,B,C,ss,Qfunc,X(:,:,qq),E(:,:,qq),states(:,:,qq),restrictions.PAI0,nSteps,inp);
+                [Y(:,:,qq),states(:,:,qq),PAI(:,:,qq)] = nb_forecast.condShockForecastEngine(...
+                    Y0(:,:,hh),modelDraw.A,modelDraw.B,modelDraw.C,ss,modelDraw.Qfunc,...
+                    X(:,:,qq),E(:,:,qq),states(:,:,qq),restrictions.PAI0,nSteps,inp);
                 hh = hh + 1;
             end
             

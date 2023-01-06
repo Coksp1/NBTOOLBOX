@@ -17,7 +17,7 @@ function nb_breakText(textObj, fitTo)
 % 
 % Written by Kenneth Sæterhagen Paulsen and Henrik Halvorsen Hortemo
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     string  = get(textObj,'string');
     convert = false;

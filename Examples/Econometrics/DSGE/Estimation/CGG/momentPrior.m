@@ -18,7 +18,7 @@ function logSystemPrior = momentPrior(parser,solution)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Options 
     vars = {'y'};

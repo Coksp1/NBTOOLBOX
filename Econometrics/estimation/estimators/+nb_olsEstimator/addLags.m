@@ -9,7 +9,7 @@ function options = addLags(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fixed        = options.modelSelectionFixed;
     [testX,indX] = ismember(options.exogenous,options.dataVariables);

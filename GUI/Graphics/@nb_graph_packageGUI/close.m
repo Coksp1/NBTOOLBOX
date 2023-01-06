@@ -9,7 +9,7 @@ function close(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if gui.changed
         nb_confirmWindow('Do you want to save changes?',{@notSaveCurrent,gui},{@saveCurrent,gui},[gui.parent.guiName ': Save Package'])

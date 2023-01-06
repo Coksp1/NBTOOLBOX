@@ -12,7 +12,7 @@ function [YDRAW,X] = makeArtificial(model,options,results,method,draws,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     resid    = results.residual(:,:,iter); 
     indN     = ~isnan(resid(:,1));

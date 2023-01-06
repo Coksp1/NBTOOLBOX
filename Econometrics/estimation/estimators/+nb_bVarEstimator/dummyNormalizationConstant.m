@@ -1,8 +1,8 @@
-function norm = dummyNormalizationConstant(yd,xd,d,priorBeta,PSI,Omega,OmageInv)
+function norm = dummyNormalizationConstant(yd,xd,d,priorBeta,PSI,Omega)
 % Syntax:
 %
 % norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,priorBeta,...
-%           PSI,Omega,OmageInv)
+%           PSI,Omega)
 %
 % Description:
 %
@@ -24,17 +24,13 @@ function norm = dummyNormalizationConstant(yd,xd,d,priorBeta,PSI,Omega,OmageInv)
 %
 % - Omega     : Scale matrix of the prior of beta.
 %
-% - OmegaInv  : Invers of the scale matrix of the prior of beta.
-%
-% - SigmaPost : Posterior of Sigma.
-%
 % Output:
 %
 % - norm : Normalization constant.
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [Td,n] = size(yd);
 
@@ -45,30 +41,25 @@ function norm = dummyNormalizationConstant(yd,xd,d,priorBeta,PSI,Omega,OmageInv)
         ldPSI = sum(det(PSI));
     end
     
-    % Log determinant of prior on Omega
-    if isvector(Omega)
-        ldOmega = sum(log(Omega));
-    else
-        ldOmega = log(det(Omega));
-    end
-    
-    % Log determinant of xd'*xd + OmageInv
-    ldXXOmageInv = log(det(xd'*xd + OmageInv));
-    
     % VAR residuals at the prior mode
     eps = yd - xd*priorBeta;
+       
+    aaa                  = diag(sqrt(Omega))*(xd'*xd)*diag(sqrt(Omega)); 
+    eigaaa               = real(eig(aaa)); 
+    eigaaa(eigaaa<1e-12) = 0; 
+    eigaaa               = eigaaa + 1;
     
-    % log determinant of psi + eps'*eps
-    if isvector(PSI)
-        PSI = diag(PSI);
-    end
-    ldPsiEps2 = log(det(PSI + eps'*eps));
-    
+    bbb                  = diag(1./sqrt(PSI))*(eps'*eps)*diag(1./sqrt(PSI));  
+    eigbbb               = real(eig(bbb)); 
+    eigbbb(eigbbb<1e-12) = 0; 
+    eigbbb               = eigbbb + 1;
+        
     % Normalizing constant
     norm = - 0.5*n*Td*log(pi) ...
            + sum(gammaln(0.5*(Td + d - (0:n-1))) - gammaln(0.5*(d - (0:n-1)))) ...
-           - 0.5*n*ldOmega + 0.5*d*ldPSI ...
-           - 0.5*n*ldXXOmageInv ...
-           - 0.5*(Td + d)*ldPsiEps2;
+           - 0.5*Td*ldPSI ...
+           - 0.5*n*sum(log(eigaaa)) ...
+           - 0.5*(Td + d)*sum(log(eigbbb));
+       
 
 end

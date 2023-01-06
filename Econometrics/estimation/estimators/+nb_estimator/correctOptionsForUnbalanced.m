@@ -8,13 +8,13 @@ function options = correctOptionsForUnbalanced(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if iscell(options.nLags)
         error([mfilename ':: The unbalanced option cannot be set to true at the same time as the nLags option is a cell.'])
     end
 
-    options.uniqueDependent = unique(regexprep(options.dependent,'_lead\d',''));
+    options.uniqueDependent = unique(regexprep(options.dependent,'_lead\d+',''));
     if length(options.uniqueDependent) > 1
         error([mfilename ':: You can only declare one dependent variable if you use set the unbalanced option to true.'])
     end

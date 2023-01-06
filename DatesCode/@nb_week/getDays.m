@@ -22,7 +22,7 @@ function days = getDays(obj)
 % 
 % Written by Kenneth S. Paulsen
        
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     days = cell(1,7);
     for ii = 1:6 

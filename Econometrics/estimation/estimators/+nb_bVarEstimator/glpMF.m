@@ -1,9 +1,9 @@
-function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,constant,timeTrend,prior,restrictions,waitbar,empirical,freq,H,mixing)
+function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTrend,prior,restrictions,waitbar,freq,H,mixing)
 % Syntax:
 %
 % [beta,sigma,R,yM,X,posterior,prior] = nb_bVarEstimator.glpMF(draws,y,x,...
 %    nLags,constant,constantAR,timeTrend,prior,restrictions,waitbar,...
-%    empirical,freq,H,mixing)
+%    freq,H,mixing)
 %
 % Description:
 %
@@ -46,7 +46,7 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
 %                  of the MF-VAR. Is empty if VAR with missing
 %                  observations.
 %
-% - H            : Mapping of the measurment equation of the state-space
+% - H            : Mapping of the measurement equation of the state-space
 %                  representation of the missing observation VAR or MF-VAR
 %                  model.
 %
@@ -86,17 +86,7 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
-    
-    if ~isempty(empirical)
-        if empirical
-            [prior,fVal] = doEmpiricalBayesian(empirical,y,x,nLags);
-        else
-            fVal = 0;
-        end
-    else
-        fVal = 0;
-    end
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -134,7 +124,7 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
     end
     
     % Are we dealing with all zero regressors?
-    [x,indZR]     = nb_bVarEstimator.removeZR(x,constant,timeTrend,numDep,nLags);
+    [x,indZR]     = nb_bVarEstimator.removeZR(x,false,false,numDep,nLags);
     nExo          = size(x,2);
     numCoeff      = nExo + nLags*numDep;
     
@@ -142,8 +132,6 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
     lambda  = prior.lambda;
     Vc      = prior.Vc;
     ARcoeff = prior.ARcoeff;
-    
-    
     
     % Prior mean on VAR regression coefficients
     %------------------------------------------
@@ -198,9 +186,9 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
         error([mfilename ':: The prior must provide a stationary process. Reset the ARcoeff or coeff prior options.'])
     end
     
-    % Set up prior on measurment error covariance matrix. Here using a
+    % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(~indObservedOnly) && ~isempty(mixing)
+    if any(indObservedOnly) && ~isempty(mixing)
         % Even if all observation of the series are nan, this is not a
         % problem as the nan elements of R will never be used!
         if isscalar(prior.R_scale)
@@ -211,10 +199,13 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
         end
     end
     
+    % Collect dummy prior options
+    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
+    
     % Gibbs sampler
-    R               = R_prior; 
-    [beta,sigma,yD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R,A_prior,S_prior,...
-        a_prior,V_prior_inv,S_prior,v_post,restrictions,thin,burn,waitbar,maxTries);
+    R                  = R_prior; 
+    [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R,A_prior,S_prior,...
+        a_prior,V_prior_inv,S_prior,v_post,restrictions,thin,burn,waitbar,maxTries,dummyPriorOptions);
 
     % Expand to include all zero regressors
     if any(~indZR)
@@ -224,7 +215,7 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
     % Return the mean estimates of unobservables
     yM    = mean(yD,3);
     yMLag = yM(:,numDep+1:numDep*(nLags+1),:);
-    X     = [x,yMLag]; % Exogenous and lags
+    X     = [x(nLags+1:end,:),yMLag]; % Exogenous and lags
     X     = kron(eye(numDep),X);
     if ~isempty(restrictions)
         X = X(:,restr);
@@ -232,50 +223,12 @@ function [beta,sigma,R,yM,X,posterior,fVal,prior] = glpMF(draws,y,x,nLags,consta
 
     % Return all needed information to do posterior draws
     if nargout > 3
-        posterior = struct('type','glpMF','betaD',beta,'sigmaD',sigma,'dependent',y,'yD',yD,...
+        posterior = struct('type','glpMF','betaD',beta,'sigmaD',sigma,'dependent',y,'yD',yD,'pD',pD,...
                            'regressors',x,'H',H,'a_prior',a_prior,'S_prior',S_prior,'v_post',v_post,...
                            'V_prior_inv',V_prior_inv,'restrictions',{restrictions},'R_prior',R,...
-                           'maxTries',maxTries,'thin',thin,'burn',burn);               
+                           'maxTries',maxTries,'thin',thin,'burn',burn,'dummyPriorOptions',dummyPriorOptions);               
     end
     
 end
 
-%==========================================================================
-function [prior,fVal] = doEmpiricalBayesian(options,y,x,nLags)
 
-    prior              = options.prior;
-    options.prior.type = 'glp';
-    
-    % Create needed data matrices
-    ind   = ~any(isnan(y),2);
-    s     = find(ind,1);
-    e     = find(ind,1,'last');
-    if any(~ind(s:e))
-        error([mfilename ':: Cannot to empirical bayesian with missing observations in the middle of the sample for the GLP prior.'])
-    end
-    yFull    = y(ind,:);
-    XFull    = x(ind,:);
-    yFullLag = nb_mlag(yFull,nLags,'varFast');
-    XFull    = [XFull,yFullLag];
-    y        = yFull(nLags+1:end,:);
-    X        = XFull(nLags+1:end,:);
-    
-    % Get hyperparameters, inital values and bounds
-    [hyperParam,nCoeff,init,lb,ub] = nb_bVarEstimator.getInitAndHyperParam(options);
-
-    % Optimize over hyperparameters
-    opt           = nb_getDefaultOptimset(options.optimset,'fmincon');
-    fh            = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
-    [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,'Error occured during optimization of hyperparameters.');
-    fVal          = -fVal;
-    
-    % Assign the optimized value of the hyperparameters
-    N  = length(hyperParam);
-    kk = 1;
-    for ii = 1:N
-        ind                    = kk:kk + nCoeff(ii) - 1;
-        prior.(hyperParam{ii}) = estPar(ind);
-        kk                     = kk + nCoeff(ii);
-    end
-
-end

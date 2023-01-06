@@ -13,7 +13,7 @@ function [fData,evalFcst] = evaluateDensityForecast(Y,actual,dep,model,options,i
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the mean forecast
     if strcmpi(options(end).estim_method,'quantile')

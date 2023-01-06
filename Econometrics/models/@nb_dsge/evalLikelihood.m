@@ -17,7 +17,7 @@ function lik = evalLikelihood(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options       = getEstimationOptions(obj);
     [~,estStruct] = nb_dsge.getObjectiveForEstimation(options{1},false);

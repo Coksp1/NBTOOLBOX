@@ -32,7 +32,7 @@ function x = meanshift_std(dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = sqrt(nb_distribution.meanshift_variance(dist,param,lb,ub,ms));
 

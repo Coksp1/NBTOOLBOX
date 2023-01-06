@@ -56,7 +56,7 @@ function results = nb_automaticModelSelection(y,X,varargin)
 % Original code by Junior Maih (autmatic_model_selection method of the
 % ts class of the RISE toolbox.). Modified by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Parse optional inputs
     %--------------------------------------------------------------

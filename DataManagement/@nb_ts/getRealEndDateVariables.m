@@ -1,14 +1,14 @@
 function realEndDate = getRealEndDateVariables(obj,format,type,pages)
 % Syntax:
 %
-% realEndDate = getRealEndDatePages(obj)
-% realEndDate = getRealEndDatePages(obj,format)
-% realEndDate = getRealEndDatePages(obj,format,type,pages)
+% realEndDate = getRealEndDateVariables(obj)
+% realEndDate = getRealEndDateVariables(obj,format)
+% realEndDate = getRealEndDateVariables(obj,format,type,pages)
 %
 % Description:
 %
-% Get the real end date of each page of the nb_ts object. I.e the last 
-% observation which is not nan or infinite for each page. 
+% Get the real end date of each variable of the nb_ts object. I.e the last 
+% observation which is not nan or infinite for each variable. 
 % 
 % Input:
 % 
@@ -45,7 +45,7 @@ function realEndDate = getRealEndDateVariables(obj,format,type,pages)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         pages = [];

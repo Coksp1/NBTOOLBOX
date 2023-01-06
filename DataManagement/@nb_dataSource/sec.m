@@ -5,15 +5,15 @@ function obj =  sec(obj)
 %
 % Description:
 %
-% Take sec of the data stored in the nb_cs object
+% Secant of argument in radians.
 % 
 % Input:
 % 
-% - obj           : An object of class nb_ts, nb_cs or nb_data
+% - obj : An object of class nb_ts, nb_cs or nb_data
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts, nb_cs or nb_data
+% - obj : An object of class nb_ts, nb_cs or nb_data
 % 
 % Examples:
 % 
@@ -21,7 +21,7 @@ function obj =  sec(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = sec(obj.data);
     

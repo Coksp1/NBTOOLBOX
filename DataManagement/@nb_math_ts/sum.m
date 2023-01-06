@@ -9,19 +9,19 @@ function obj = sum(obj,dim)
 % 
 % Input:
 % 
-% obj : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
-% dim : The dimension to sum over, returns:
+% - dim : The dimension to sum over, returns:
 % 
-%       - dim = 1 : An nb_math_ts object with all the variables set
-%                   to their cross observation sum
+%         - dim = 1 : An nb_math_ts object with all the variables set
+%                     to their cross observation sum
 % 
-%       - dim = 2: An nb_math_ts object with all variables set to 
-%                  their cross variable sum (Take the sum over the 
-%                  varibales)
+%         - dim = 2: An nb_math_ts object with all variables set to 
+%                    their cross variable sum (Take the sum over the 
+%                    variables)
 % 
-%       - dim = 3: An nb_math_ts with only on page, representing 
-%                  the sum over all pages.
+%         - dim = 3: An nb_math_ts with only on page, representing 
+%                    the sum over all pages.
 % 
 % Caution : All sums ignore nan values. (If all values is not nan.)
 % 
@@ -38,7 +38,7 @@ function obj = sum(obj,dim)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         dim = 2;

@@ -22,7 +22,7 @@ function [beta,sigma] = minnesotaMCI(draws,y,X,initBeta,initSigma,a_prior,V_prio
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [numCoeff,nEq] = size(initBeta);
     N              = size(a_prior,1);
@@ -46,8 +46,12 @@ function [beta,sigma] = minnesotaMCI(draws,y,X,initBeta,initSigma,a_prior,V_prio
     V_post      = eye(N)/(V_prior_inv + SXTX);
     a_post      = V_post*(V_prior_inv*a_prior + SXTy);
     chol_V_post = chol(V_post)';
-    for ii = 1:draws
-        alpha(:,ii) = a_post + chol_V_post*randn(N,1); 
+    if draws == 1
+        alpha(:,1) = a_post;
+    else
+        for ii = 1:draws
+            alpha(:,ii) = a_post + chol_V_post*randn(N,1); 
+        end
     end
     
     % Expand to include zero restrictions

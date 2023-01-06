@@ -21,7 +21,7 @@ function X = nb_arRebalance(X)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [~,N] = size(X);
     if N > 1

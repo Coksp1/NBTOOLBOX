@@ -30,7 +30,7 @@ function dataOut = scaledata(dataIn,minValNew,maxValNew,minValOld,maxValOld)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [numOfPeriods,numVar] = size(dataIn);
 

@@ -18,7 +18,7 @@ function x = median(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nobj1 = size(obj,1); 
     nobj  = size(obj,2);

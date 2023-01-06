@@ -35,7 +35,7 @@ function [irfData,paused] = nb_irfEngine(solution,options,results,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     options = nb_defaultField(options,'class','');
     inputs  = nb_defaultField(inputs,'normalizeTo','draws');

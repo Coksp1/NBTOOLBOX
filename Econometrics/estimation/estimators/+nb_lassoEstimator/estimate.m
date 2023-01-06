@@ -25,7 +25,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -46,6 +46,33 @@ function [results,options] = estimate(options)
     end
     if ~isempty(options.modelSelection)
         error('The modelSelection options is not supported for LASSO estimation. Set it to ''''.')
+    end
+    if isfield(options,'block_exogenous')
+        if ~isempty(options.block_exogenous)
+            error('Block exogenous variables are not supported by the lasso estimator.')
+        end
+    end
+    
+    % Check optimset
+    if ~isfield(options,'optimset')
+        options.optimset = nb_lasso.optimset();
+    else
+        defaultOptimset  = nb_lasso.optimset();
+        fields           = fieldnames(options.optimset);
+        defaultFields    = fieldnames(defaultOptimset);
+        test             = ismember(defaultFields,fields);
+        if any(~test)
+            error(['The fields ' toString(defaultFields(~test)) ' are ',...
+                'missing from the optimset option. See nb_lasso.optimset.'])
+        end
+    end
+    
+    % Are we dealing with a VAR?
+    %-------------------------------------------------------
+    if isfield(options,'class')
+        if strcmpi(options.class,'nb_var')
+            options = nb_olsEstimator.varModifications(options); 
+        end
     end
     
     % Get the estimation options
@@ -123,9 +150,11 @@ function [results,options] = estimate(options)
     %------------------------------------------------------
 
     % Check for constant regressors, which we do not allow
-    if any(all(diff(X,1) == 0,1))
-        error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                         'Use the constant option instead.'])
+    if ~options.removeZeroRegressors
+        if any(all(diff(X,1) == 0,1))
+            error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
+                             'Use the constant option instead.'])
+        end
     end
 
     if options.recursive_estim
@@ -151,9 +180,9 @@ function [results,options] = estimate(options)
         residual = nan(T,numDep,iter);
         kk       = 1;
         vcv      = nan(numDep,numDep,iter);
-        if isempty(options.optimset.beta0)
-            options.optimset.beta0 = zeros(numCoeff - constant,1);
-        end
+%         if isempty(options.optimset.beta0)
+%             options.optimset.beta0 = zeros(numCoeff - constant,numDep);
+%         end
         for tt = start:T
 
             % Remove zero regressors
@@ -164,7 +193,7 @@ function [results,options] = estimate(options)
                 ind  = true(1,size(X,2));
                 indA = true(1,numCoeff);
             end
-            options.optimset.beta0 = options.optimset.beta0(ind);
+            %options.optimset.beta0 = options.optimset.beta0(ind,:);
             
             % Do estimation
             [beta(indA,:,kk),exitflag,residual(ss(kk):tt,:,kk)] = nb_lasso(y(ss(kk):tt,:),X(ss(kk):tt,ind),options.regularization,constant,options.optimset);
@@ -173,7 +202,7 @@ function [results,options] = estimate(options)
             end
             
             % Set starting values for next iteration
-            options.optimset.beta0 = beta(:,:,kk);
+            %options.optimset.beta0 = beta(:,:,kk);
             kk = kk + 1;
             
         end

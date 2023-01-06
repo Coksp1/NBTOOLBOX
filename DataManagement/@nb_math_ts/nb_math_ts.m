@@ -42,9 +42,7 @@ classdef nb_math_ts
 % 
 %       The start date of the data. Only needed when you give 
 %       numerical data as one element of the input datasets (also  
-%       when numerical data is given through a struct) or when you 
-%       fetch data from a FAME database (the start date of the 
-%       fetched data).
+%       when numerical data is given through a struct).
 %         
 %       Must be a string on the date format given below or an 
 %       object which is of a subclass of the nb_date class.
@@ -74,18 +72,18 @@ classdef nb_math_ts
 % 
 % Written by Kenneth Sæterhagen Paulsen   
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true)
 
         % The size of the first dimension of the data property. As a double.
-        dim1      = [];
+        dim1;
         
         % The size of the second dimension of the data property. As a double.
-        dim2      = [];
+        dim2;
         
         % The size of the third dimension of the data property. As a double.
-        dim3      = [];         
+        dim3;         
         
     end
         
@@ -121,9 +119,9 @@ classdef nb_math_ts
                 elseif isa(data,'tseries')
                     
                     obj.data      = double(data);
-                    startD        = dat2str(get(dataset,'start'));
+                    startD        = dat2str(get(data,'start'));
                     obj.startDate = startD{1};
-                    endD          = dat2str(get(dataset,'end'));
+                    endD          = dat2str(get(data,'end'));
                     obj.endDate   = endD{1};
                     
                 else

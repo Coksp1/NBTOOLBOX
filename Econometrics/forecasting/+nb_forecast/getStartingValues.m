@@ -13,7 +13,7 @@ function Y0 = getStartingValues(startingValues,options,solution,results,last)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(last)
         if isfield(options,'estim_end_ind')
@@ -81,6 +81,9 @@ function Y0 = getStartingValues(startingValues,options,solution,results,last)
                 Y0        = nan(T,size(results.ys0,2));
                 ind       = options(end).recursive_estim_start_ind - options(end).estim_start_ind + 1:T;
                 Y0(ind,:) = permute(results.ys0,[3,2,1]);
+                if size(Y0,2) > length(solution.endo)
+                    Y0 = Y0(:,1:length(solution.endo));
+                end
             else
                 [~,indY] = ismember(endo,results.smoothed.variables.variables);
                 YReg     = results.smoothed.variables.data(:,indY,:);
@@ -94,6 +97,15 @@ function Y0 = getStartingValues(startingValues,options,solution,results,last)
                 else
                     Y0 = YReg;
                 end
+                
+                % Filter start date may be different than the estimation
+                % start date, so make robust to this case here!
+                dataStart = nb_date.date2freq(options.dataStartDate);
+                estStart  = dataStart + (options.estim_start_ind - 1);
+                filtStart = nb_date.toDate(results.filterStartDate,dataStart.frequency);
+                filtLag   = filtStart - estStart;
+                Y0        = [nan(filtLag,size(Y0,2));Y0];
+                
             end
             
         else

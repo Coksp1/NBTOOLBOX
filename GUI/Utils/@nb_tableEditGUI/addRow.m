@@ -9,7 +9,7 @@ function addRow(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     current = get(gui.table,'data');
     nCol    = size(current,2);

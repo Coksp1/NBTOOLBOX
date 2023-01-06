@@ -10,7 +10,7 @@ function Y = normalSolutionStochInitVal(obj,Y,inputs,funcs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     silentOld          = obj.options.silent;
     obj.options.silent = true;

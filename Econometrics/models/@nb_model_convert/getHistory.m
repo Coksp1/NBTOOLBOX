@@ -1,7 +1,8 @@
-function histData = getHistory(obj,vars,date)
+function histData = getHistory(obj,vars,~,~,~)
 % Syntax:
 %
-% histData = getHistory(obj,vars,date)
+% histData = getHistory(obj,vars)
+%  histData = getHistory(obj,vars,date,notSmoothed,type)
 %
 % Description:
 %
@@ -9,17 +10,17 @@ function histData = getHistory(obj,vars,date)
 % 
 % Input:
 % 
-% - obj  : A scalar nb_model_convert object.
+% - obj         : A scalar nb_model_convert object.
 %
-% - vars : A cellstr with the variables to get. May include
-%          shocks/residuals. Only the variables found is returned, 
-%          i.e. no error is provided if not all variables is found.
+% - vars        : A cellstr with the variables to get. May include
+%                 shocks/residuals. Only the variables found is returned, 
+%                 i.e. no error is provided if not all variables is found.
 %
-% - date : For recursivly estimated models, the residual vary with the
-%          date of recursion, so by this option you can get the residual
-%          of a given recursion.
+% - date        : Ignored
 %
-%          The same apply for real-time data.
+% - notSmoothed : Ignored
+%
+% - type        : Ignored
 % 
 % Output:
 % 
@@ -27,13 +28,10 @@ function histData = getHistory(obj,vars,date)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if nargin < 3
-        date = '';
-        if nargin < 2
-            vars = obj.forecastOutput.variables;
-        end
+    if nargin < 2
+        vars = obj.forecastOutput.variables;
     end
     
     % Get history of all the forecasted variables or the variables asked

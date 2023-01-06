@@ -31,7 +31,7 @@ function setPropPage(obj,propertyName,propertyValue)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if propertyValue < 1 || propertyValue > obj.DB.numberOfDatasets
         error([mfilename ':: The input after the ''page'' property is not a page of the data object.'])

@@ -33,7 +33,7 @@ function draws = meanshift_rand(nrow,ncol,dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(ub) && isempty(lb)
         func  = str2func(['nb_distribution.' dist '_icdf']);

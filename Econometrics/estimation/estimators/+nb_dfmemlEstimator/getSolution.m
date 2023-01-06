@@ -20,13 +20,13 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
 
     N = size(H,1);
     if options.mixedFrequency
         if 5 < options.nLags
            % We have more lags in the factor VAR than in the original
-           % measurment equation induced by mixed frequency mapping.
+           % measurement equation induced by mixed frequency mapping.
            M = (options.nLags-5)*options.nFactors;
            H = [H,zeros(N,M)];
         end
@@ -36,7 +36,7 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
     end
     
     if options.nLagsIdiosyncratic
-        % Add loading on idiosyncratic components in the measurment 
+        % Add loading on idiosyncratic components in the measurement 
         % equation
         if options.mixedFrequency
             nHigh     = options.nHigh;
@@ -65,7 +65,7 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
     AF = AF';
     if options.mixedFrequency
         if 5 > options.nLags
-            % More lags in measurment equation than in the VAR, so appen zeros
+            % More lags in measurement equation than in the VAR, so appen zeros
             M  = (5 - options.nLags)*options.nFactors;
             AF = [AF,zeros(options.nFactors,M)];
         end
@@ -108,7 +108,7 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
     if options.nLagsIdiosyncratic || options.mixedFrequency
         results.Q = blkdiag(QF,diag(QI));
     else
-        % All variances is put in the measurment error in this case
+        % All variances is put in the measurement error in this case
         results.Q = QF;
     end
     
@@ -157,7 +157,7 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
     % matrix
     results = nb_dfmemlEstimator.getBQ(results);
     
-    % Measurment error
+    % Measurement error
     results.R = R;
 
 end

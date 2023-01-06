@@ -29,7 +29,7 @@ function [lbo,ubo] = getBounds(prior,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nParam = size(lb,1);
     lbo    = lb;

@@ -23,7 +23,7 @@ function message = nb_createErrorMessage(message,Err)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if isempty(message)
         message = getReport(Err,'extended','hyperLinks','off');

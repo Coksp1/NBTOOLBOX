@@ -9,20 +9,19 @@ function obj = log10(obj)
 % 
 % Input:
 % 
-% - obj           : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_ts where the data are on 
-%                   (base 10) logs.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = log(obj);
+% obj = log10(obj);
 %
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = log10(obj.data);
 

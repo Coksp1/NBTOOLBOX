@@ -18,7 +18,7 @@ function obj = nb_struct2nb_dataSource(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fields = fieldnames(s);
     first  = s.(fields{1}); 

@@ -10,7 +10,7 @@ function createVariableCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the expression to evaluate and the the variable name
     expression = get(gui.editbox1,'string');

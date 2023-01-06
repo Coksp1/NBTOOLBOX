@@ -1,4 +1,4 @@
-function obj = sumOAF(obj,sumFreq) % sum over another frequency
+function obj = sumOAF(obj,sumFreq)
 % Syntax:
 %
 % obj = sumOAF(obj,sumFreq)
@@ -24,33 +24,12 @@ function obj = sumOAF(obj,sumFreq) % sum over another frequency
 % 
 % Examples:
 % 
-% obj = 
-% 
-%     '2012Q1'    [   1]
-%     '2012Q2'    [   1]
-%     '2012Q3'    [   1]
-%     '2012Q4'    [   1]
-%     '2013Q1'    [   1]
-%     '2013Q2'    [   1]
-%     '2013Q3'    [   1]
-%     '2013Q4'    [   1]
-% 
+% obj = nb_math_ts.rand('2012Q1',8);
 % obj = obj.sumOAF(1)
-% 
-% obj = 
-% 
-%     '2012Q1'    [   4]
-%     '2012Q2'    [   4]
-%     '2012Q3'    [   4]
-%     '2012Q4'    [   4]
-%     '2013Q1'    [   4]
-%     '2013Q2'    [   4]
-%     '2013Q3'    [   4]
-%     '2013Q4'    [   4]
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 
     freq = obj.startDate.frequency;
@@ -79,10 +58,6 @@ function obj = sumOAF(obj,sumFreq) % sum over another frequency
                 end
 
             else
-                if mm == length(locations)
-                   s = 2; 
-                end
-
                 for jj = 1:obj.dim2
 
                     for zz = 1:obj.dim3

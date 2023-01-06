@@ -1,0 +1,28 @@
+endogenous
+k
+
+exogenous
+u
+
+unitrootvars
+A
+N
+
+parameters
+a
+alpha
+delta
+s
+
+model
+
+    % Optimality condition
+    k/N = (1-delta)*k(-1)/N + s*A^(1 - alpha)*(k(-1)/N)^alpha;
+
+    % Stocatstic technology process
+    A = (1 - a)*A(-1)*exp(u);
+
+    % Determinstic population process
+    N = (1 - a)*N(-1);
+
+

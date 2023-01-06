@@ -17,7 +17,7 @@ classdef nb_editTextGUI < handle
 %
 % Written by Per Bjarne Bye
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -40,6 +40,12 @@ classdef nb_editTextGUI < handle
         
         % The property storing the loaded objects name.
         name         = '';
+        
+        % Cellstr with default ordering of graphNames
+        defaultNames = {};
+        
+        % Cellstr with alphabetically ordered graphNames
+        sortedNames  = {};
         
     end
     
@@ -72,7 +78,9 @@ classdef nb_editTextGUI < handle
         uiText6      = [];
         
         % Handle to the popupmenu to select the graphs from.
-        popup = [];
+        popup  = [];
+        % Handle to the popupmenu to select what to sort by.
+        sortby = [];
         
     end
     
@@ -124,6 +132,8 @@ classdef nb_editTextGUI < handle
         varargout = addUpdateButtonGUI(varargin)
         
         varargout = changeGraph(varargin)
+        
+        varargout = updateSortBy(varargin)
         
         varargout = helpEditTextGUICallback(varargin)
         

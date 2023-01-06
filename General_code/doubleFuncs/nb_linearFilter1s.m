@@ -17,7 +17,7 @@ function y = nb_linearFilter1s(x)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     [r,c,p] = size(x);
     y       = nan(r,c,p);

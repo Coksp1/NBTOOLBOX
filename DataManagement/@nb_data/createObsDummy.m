@@ -44,7 +44,7 @@ function obj = createObsDummy(obj,nameOfDummy,obs,condition)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isnumeric(obs) && mod(obs,1) ~= 0
         error([mfilename ':: The input obs must be an integer.'])

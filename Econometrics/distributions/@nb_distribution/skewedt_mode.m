@@ -27,7 +27,7 @@ function x = skewedt_mode(a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     v    = 1/(d^0.5*sqrt((3*c^2 + 1)*(1/(2*d-2)) - (4*c^2/pi)*((gamma(d-0.5)/gamma(d))^2)));
     g05  = gamma(d - 0.5);

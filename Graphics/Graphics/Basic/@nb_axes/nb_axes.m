@@ -125,7 +125,7 @@ classdef nb_axes < handle
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % The properties of the class
@@ -2519,9 +2519,15 @@ classdef nb_axes < handle
             %----------------------------------------------------------
             % Update the annotations if it is not empty 
             %----------------------------------------------------------
+            valid = true(1,size(obj.annotations,2));
             for ii = 1:size(obj.annotations,2)
+                if ~isvalid(obj.annotations{ii})
+                    valid(ii) = false;
+                    continue
+                end
                 obj.annotations{ii}.update();
             end
+            obj.annotations = obj.annotations(valid);
             
             % Add listener to the nb_figure object
             %--------------------------------------------------------------

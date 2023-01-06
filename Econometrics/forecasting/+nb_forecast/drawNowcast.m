@@ -9,7 +9,7 @@ function y0 = drawNowcast(y0,options,results,model,inputs,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     switch lower(options.missingMethod)        
         case 'forecast'
@@ -53,7 +53,7 @@ function y0 = forecastMethod(y0,options,model,inputs,iter)
         end
 
         % Which observations are missing
-        [noMissing,nSteps,allVars,missing,missingT,lastM] = getMissing(options);
+        [noMissing,nSteps,allVars,missing,missingT,~] = getMissing(options);
         if noMissing
             % No missing observation to produce nowcast on
             y0 = y0(:,:,ones(1,inputs.draws));
@@ -76,7 +76,11 @@ function y0 = forecastMethod(y0,options,model,inputs,iter)
 
             % Build covariance matrix between the forecasted, conditional and
             % historical variables
-            [A,B,C,vcv,~] = nb_forecast.getModelMatrices(model,iter);
+            model = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
+            A     = model.A;
+            B     = model.B;
+            C     = model.C;
+            vcv   = model.vcv;
             if isfield(model,'Q')
                 [A,B,C,vcv] = ms.integrateOverRegime(model.Q,A,B,C,vcv);
             end
@@ -135,24 +139,42 @@ end
 %==========================================================================
 function y0 = kalmanMethod(y0,options,results,model,inputs,iter)
 % Only handle point forecast case.
-
-    if inputs.draws == 1
-        
-        % Add more missing periods
+  
+    % Add more missing periods
+    if strcmpi(options.class,'nb_fmdyn')   
+        dep = options.observables;
+    else
         dep = options.dependent;
         if isfield(options,'block_exogenous')
             dep = [dep,options.block_exogenous];
         end
-        nSteps = nb_forecast.checkForMissing(options,inputs,dep);
-        if nSteps == 0
-            return
-        end
-        [~,locV] = ismember(model.endo,results.smoothed.variables.variables);
-        T        = options.recursive_estim_start_ind - options.estim_start_ind + iter;
-        y0       = results.smoothed.variables.data(T-nSteps+1:T,locV,iter)';
-
+    end
+    nSteps = nb_forecast.checkForMissing(options,inputs,dep);
+    if nSteps == 0
+        return
+    end
+    [~,locV]  = ismember(model.endo,results.smoothed.variables.variables);
+    dataStart = nb_date.date2freq(options.dataStartDate);
+    if isfield(results,'filterStartDate')
+        estStart  = dataStart + (options.estim_start_ind - 1);
+        filtStart = nb_date.toDate(results.filterStartDate,dataStart.frequency);
+        filtLag   = filtStart - estStart;
     else
-        error([mfilename ':: Cannot handle draw from the distribution from the smoothed variables yet!'])
+        filtLag = 0;
+    end
+    if options.recursive_estim
+        T = options.recursive_estim_start_ind - options.estim_start_ind + iter - filtLag;
+    else
+        T = options.estim_end_ind - options.estim_start_ind + 1 - filtLag;
+    end
+    y0 = results.smoothed.variables.data(T-nSteps+1:T,locV,iter)';
+        
+    if inputs.draws > 1
+        y0 = y0(:,:,ones(1,inputs.draws));
+        warning([mfilename ':: Cannot handle draw from the distribution ',...
+            'from the smoothed variables yet, no nowcast uncertainty assumed. ',...
+            'Set parameterDraws > 1 to sample from the nowcast distribution. ',...
+            'Using point estimate for nowcast!'])
     end
     
 end
@@ -181,7 +203,7 @@ function y0 = kalmanFilterMethod(y0,options,results,model,inputs,iter)
         
         % In this case we need to get a smoothed estimate of the std/var of
         % the nowcast during filtering. This is not yet finished...
-        error('Setting missingMethod to ''kalmanFilter'' is not yet supported.')
+        error('Setting missingMethod to ''kalmanFilter'' is not yet supported when draws > 1.')
         
     end
      
@@ -276,11 +298,12 @@ function [noMissing,nSteps,allVars,missing,missingT,lastMout] = getMissing(optio
         if ~isscalar(lastMissing)
             for ii = length(lastMissing)-1:-1:1
                 if lastM - lastMissing(ii) > 1
+                    ii = ii + 1; %#ok<FXSET>
                     break
                 end
                 lastM = lastMissing(ii);
             end
-            lastMissing = lastMissing(ii+1:end);
+            lastMissing = lastMissing(ii:end);
         end
     end
     missing  = missing(lastMissing,:);

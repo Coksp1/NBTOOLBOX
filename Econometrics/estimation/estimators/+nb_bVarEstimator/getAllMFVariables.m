@@ -1,8 +1,8 @@
-function [ys,allEndo,exo] = getAllMFVariables(options,ys,H,tempDep)
+function [ys,allEndo,exo] = getAllMFVariables(options,ys,H,tempDep,mfvar)
 % Syntax:
 %
 % [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariables(options,...
-%                       ys,H,tempDep)
+%                       ys,H,tempDep,mfvar)
 %
 % Description:
 %
@@ -13,8 +13,12 @@ function [ys,allEndo,exo] = getAllMFVariables(options,ys,H,tempDep)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
+    if ~mfvar
+        % Remove dependent variables from measurement equation! 
+        H = H(options.indObservedOnly,:,:);
+    end
     if size(H,3) > 1
         N   = size(H,1);
         T   = size(ys,1);
@@ -26,13 +30,23 @@ function [ys,allEndo,exo] = getAllMFVariables(options,ys,H,tempDep)
     else
         ysl = H*ys';
     end
-    tempObs = tempDep;
+    if mfvar
+        tempObs = tempDep;
+    else
+        tempObs = {};
+    end
     tempDep = tempDep(~options.indObservedOnly);
     nStates = size(H,2)/length(tempDep);
     allEndo = [tempDep,nb_cellstrlag(tempDep,nStates-1,'varFast')];
     ys      = [ys,ysl'];
-    allEndo = strcat('AUX_',allEndo);
+    if mfvar
+        allEndo = strcat('AUX_',allEndo);
+    end
     allEndo = [allEndo,tempObs];
     exo     = strcat('E_',tempDep);
-
+    if ~nb_isempty(options.measurementEqRestriction)
+        obsRest = {options.measurementEqRestriction.restricted};
+        allEndo = [allEndo,obsRest];
+    end
+    
 end

@@ -133,7 +133,7 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set some default values
     options = nb_defaultField(options,'real_time_estim',false);
@@ -144,6 +144,7 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
         inputs.fcstEval = cellstr(inputs.fcstEval);
     end
     inputs = nb_defaultField(inputs,'condDBStart',1);
+    inputs = nb_defaultField(inputs,'condDBType','soft');
     inputs = nb_defaultField(inputs,'density',false);
     inputs = nb_defaultField(inputs,'kalmanFilter',false);
     
@@ -185,7 +186,11 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
         end
     else
         if isempty(inputs.method)
-            inputs.method = 'bootstrap';
+            if strcmpi(options(1).estimator,'nb_mlEstimator')
+                inputs.method = 'asymptotic';
+            else
+                inputs.method = 'bootstrap';
+            end
         elseif strcmpi(inputs.method,'posterior')
             error([mfilename ':: Density forecast method ''posterior'' is only supported for bayesian methods.']) 
         end
@@ -250,6 +255,7 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
     else
         inputs.initPeriods = 0;
     end
+    
     nSteps = max(nSteps,size(condDB,1) + inputs.condDBStart - 1 - inputs.initPeriods);
     
     % We need the start and end index of forecast inside 
@@ -257,7 +263,7 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
     inputsT          = inputs;
     inputsT.startInd = start;
     inputsT.endInd   = endInd;
-    restrictions     = nb_forecast.prepareRestrictions(model,options(end),nSteps,condDB,condDBVars,inputsT,shockProps);
+    restrictions     = nb_forecast.prepareRestrictions(model,options(end),results,nSteps,condDB,condDBVars,inputsT,shockProps);
     
     % Get the number of anticipated steps
     %-----------------------------------------------------------------
@@ -437,7 +443,7 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
     if isfield(options(end),'missingMethod')
         if ~isempty(options(end).missingMethod)
             [nowcast,inputs.missing] = nb_forecast.checkForMissing(options(end),inputs,dep);
-        end 
+        end
     end
     
     % Preallocation
@@ -483,8 +489,9 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
     end
     numVar = length(fcstVar);
     
-    if strcmpi(model.class,'nb_fmdyn')
-        [nowcast,inputs.missing] = nb_forecast.checkForMissing(options(end),inputs,allVars);
+    % Does conditional info introduce ragged-edge?
+    if strcmpi(inputs.condDBType,'hard')
+        [nowcastCond,missingCond] = nb_forecast.getMissingFromCondInfo(options(end),inputs,restrictions,allVars);
     end
     
     %===============================================================================================
@@ -495,8 +502,15 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
         [start,finish,start_est,startFcst] = nb_forecast.getStartAndEnd(inputs,model,options,start,finish);
 
         % Get the actual data to evaluate against
-        actual = nb_forecast.getActual(options,inputs,model,nSteps+nowcast,dep,startFcst-nowcast);
-          
+        if startFcst(1) - nowcast <= 0
+            ind             = startFcst - nowcast > 0;
+            actualTemp      = nb_forecast.getActual(options,inputs,model,nSteps+nowcast,dep,startFcst(ind)-nowcast);
+            actual          = nan(nSteps+nowcast,size(actualTemp,2),length(startFcst));
+            actual(:,:,ind) = actualTemp;
+        else
+            actual = nb_forecast.getActual(options,inputs,model,nSteps+nowcast,dep,startFcst-nowcast);
+        end
+        
         % Create waiting bar window
         [h,iter,closeWaitbar] = nb_forecast.createWaitbar(inputs,start,finish);
         inputs.waitbar        = h;
@@ -647,13 +661,53 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
         [evalFcst,saveToFile] = nb_forecast.saveToFile(evalFcst,inputs);
     end
     
+    % When conditioning on dependent variables we must append missing info
+    if strcmpi(inputs.condDBType,'hard')
+        if ~isempty(missingCond)
+            
+            nowcast = nowcast + nowcastCond;
+            if isempty(inputs.missing)
+                inputs.missing = missingCond;
+            else
+                inputs.missing = [inputs.missing;missingCond];
+            end
+            
+            % Split nowcast and forecast!
+            nSteps = nSteps - nowcastCond; 
+            if nSteps < 0
+                % This should not happend??
+                error('You have conditional information that is longer than the forecast.')
+            end
+            
+            % Indicate where FORECAST starts!
+            startFcst = startFcst + nowcastCond; 
+        end
+    end
+    
     % Which of the reported variables are missing?
     missing = inputs.missing;
     if ~isempty(missing)
-        [~,ind]  = ismember(fcstVar,allVars);
-        missing  = missing(:,ind);
+        [~,ind] = ismember(fcstVar,allVars);
+        missing = missing(:,ind);
+        lastNM  = find(~any(missing,2));
+        if ~isempty(lastNM) && ~strcmpi(inputs.condDBType,'hard')
+            lastNMFound = lastNM(1);
+            for ii = 2:size(lastNM,1)
+                if lastNM(ii) - lastNMFound > 1
+                    % For a MF-VAR we may end up with a case that we have a
+                    % non-missing observation in the middle here! So need
+                    % to stop if the step > 1!
+                    break
+                else
+                    lastNMFound = lastNM(ii);
+                end
+            end
+            missing      = missing(lastNMFound+1:end,:);
+            nowcast      = nowcast - lastNMFound;
+            forecastData = forecastData(lastNMFound+1:end,:,:,:);
+        end
         aMissing = any(missing,1);
-        if all(~aMissing) % None of the chosen variables have nowcast
+        if all(~aMissing) && nSteps ~= 0 % None of the chosen variables have nowcast
             forecastData  = forecastData(1+nowcast:end,:,:,:);
             missing       = [];
             fields        = fieldnames(evalFcst);
@@ -667,6 +721,7 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
                 end
             end
             nowcast = 0;
+            nSteps  = size(forecastData,1);
         end
     end
         

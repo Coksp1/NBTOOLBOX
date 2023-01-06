@@ -28,7 +28,7 @@ function x = truncated_std(dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     x = sqrt(nb_distribution.truncated_variance(dist,param,lb,ub));
 

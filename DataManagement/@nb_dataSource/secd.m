@@ -5,15 +5,15 @@ function obj = secd(obj)
 %
 % Description:
 %
-% secd(obj) is the secant of the elements of obj, expressed in degrees.
+% Secant of argument in degrees.
 % 
 % Input:
 % 
-% - obj       : An object of class nb_ts, nb_cs or nb_data
+% - obj : An object of class nb_ts, nb_cs or nb_data
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_ts, nb_cs or nb_data
+% - obj : An object of class nb_ts, nb_cs or nb_data
 % 
 % Examples:
 %
@@ -21,7 +21,7 @@ function obj = secd(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = secd(obj.data);
 

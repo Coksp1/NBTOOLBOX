@@ -17,7 +17,7 @@ function [Emean,Xmean,states,solution] = boundedConditionalProjectionEngine(y0,A
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if strcmpi(restrictions.condAssumption,'before')
         error([mfilename ':: The condAssumption cannot be set to ''after'' when using the bounds input.'])

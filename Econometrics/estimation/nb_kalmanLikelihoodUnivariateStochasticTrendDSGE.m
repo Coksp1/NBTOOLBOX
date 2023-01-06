@@ -54,7 +54,7 @@ function lik = nb_kalmanLikelihoodUnivariateStochasticTrendDSGE(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     y     = estStruct.y;
     m     = ~isnan(y);

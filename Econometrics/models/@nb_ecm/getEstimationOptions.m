@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Set up the estimator
     %------------------------------------------------------
@@ -20,51 +20,39 @@ function outOpt = getEstimationOptions(obj)
         
     elseif nobj == 1
     
+        tempOpt      = obj.options;
         estim_method = obj.options.estim_method;
         switch lower(estim_method)
 
             case 'ols'
 
+                default = nb_ecmEstimator.template();
+                tempOpt = nb_structcat(tempOpt,default,'first');
+                
                 % Get estimation options
                 %-----------------------
-                tempOpt      = nb_ecmEstimator.template();
                 tempOpt.name = obj.name;
                 options      = obj.options;
 
                 % Model settings
-                if ~isempty(options.nLags)
-                
-                    if ~(isnumeric(options.nLags) || iscell(options.nLags))
+                if ~isempty(tempOpt.nLags)
+                    if ~(isnumeric(tempOpt.nLags) || iscell(tempOpt.nLags))
                         error([mfilename ':: The nLags input must be a numeric or cell vector.'])
                     end
-
-                    if ~isscalar(options.nLags)
-                        if length(options.nLags) ~= obj.dependent.number + obj.endogenous.number
+                    if ~isscalar(tempOpt.nLags)
+                        if length(tempOpt.nLags) ~= obj.dependent.number + obj.endogenous.number
                             error([mfilename ':: If the nLags input is not scalar it has to have length equal to '...
                                    int2str(obj.dependent.number + obj.endogenous.number) ', i.e. the number of dependent ',...
                                    'plus endogenous variables of the model.'])
                         end
                     end
-                    tempOpt.nLags = options.nLags;
-                    
                 end
-
-                tempOpt.dependent            = obj.dependent.name;
-                tempOpt.endogenous           = obj.endogenous.name;
-                tempOpt.exogenous            = obj.exogenous.name;
-                tempOpt.constant             = options.constant;
-                tempOpt.criterion            = options.criterion;
-                tempOpt.maxLagLength         = options.maxLagLength;
-                tempOpt.modelSelection       = options.modelSelection;
-                tempOpt.modelSelectionAlpha  = options.modelSelectionAlpha;
-                tempOpt.nLagsTests           = options.nLagsTests;
-                tempOpt.stdType              = options.stdType;
-                tempOpt.time_trend           = options.time_trend;
-                tempOpt.method               = options.method;
-                tempOpt.exoLags              = options.exoLags;
+                tempOpt.dependent  = obj.dependent.name;
+                tempOpt.endogenous = obj.endogenous.name;
+                tempOpt.exogenous  = obj.exogenous.name;
 
                 % Data, dates, variables and types
-                dataObj      = options.data;
+                dataObj = options.data;
                 if ~options.real_time_estim
                    if dataObj.numberOfDatasets > 1
                        if isempty(options.page)
@@ -97,6 +85,7 @@ function outOpt = getEstimationOptions(obj)
                     error([mfilename ':: The data must be time-series when estimating a ECM model.'])
                 end
                 tempOpt.dataVariables = dataObj.variables; 
+                tempOpt               = rmfield(tempOpt,{'estim_end_date','estim_start_date','recursive_estim_start_date'});
 
             otherwise
 

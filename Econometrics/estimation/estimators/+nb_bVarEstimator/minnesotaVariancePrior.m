@@ -14,30 +14,36 @@ function sigma_sq = minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mix
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    nLags = nLagsAR;
-    if ~isempty(freq) % MF-VAR
+    if ~isempty(freq) || ~isempty(mixing) % MF-VAR
         
         numDep        = size(y,2) - sum(indObservedOnly);
         priorVarIndex = indObservedOnly;
-        if isfield(prior,'mixing')
-           if strcmpi(prior.mixing,'low')
-               % Switch from using
-               priorVarIndex(mixing.locLow) = false;
-               priorVarIndex(mixing.loc)    = true;
-               freq(mixing.locIn)           = mixing.frequency;
-           end
+        if isempty(freq)
+            % We end up here when dealing with a normal VAR with
+            % measurement restrictions!
+            freq = mixing.frequency(1);
+            freq = freq(1,ones(1,size(y,2)));
+        else
+            if isfield(prior,'mixing')
+               if strcmpi(prior.mixing,'low')
+                   % Switch from using
+                   priorVarIndex(mixing.locLow) = false;
+                   priorVarIndex(mixing.loc)    = true;
+                   freq(mixing.locIn)           = mixing.frequency;
+               end
+            end
         end
         
-        % Remove mixing variables from measurment equation used for 
+        % Remove mixing variables from measurement equation used for 
         % setting up the prior
         yPrior = y(:,~priorVarIndex);
         Hprior = H(~priorVarIndex,:,:);
         
         % Here we use a AR(1) specification on the highest frequency. For
         % variables on the highest frequency we use OLS, otherwise we
-        % use maximum likelihood using the measurment equation of the
+        % use maximum likelihood using the measurement equation of the
         % variable of interest an a AR(1) spesification of the state
         % equation (high frequency observations)
         sigma_sq = zeros(1,numDep);

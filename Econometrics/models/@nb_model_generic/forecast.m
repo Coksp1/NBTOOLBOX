@@ -94,7 +94,14 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
 %                      I.e. 1/10 of the parameterDraws input. 
 %
 % - 'perc'           : Error band percentiles. As a 1 x numErrorBand 
-%                      double. E.g. [0.3,0.5,0.7,0.9]. Default is 0.9.
+%                      double. The input must be given as the coverage, and
+%                      not the percentiles itself. E.g. [0.3,0.5,0.7,0.9]. 
+%                      0.3 means to return the two percentiles 35 and 65, 
+%                      which will cover 30% of the distribution around the 
+%                      median. So [0.3,0.5,0.7,0.9] will get the 
+%                      percentiles [5,15,25,35,65,75,85,95], i.e. this 
+%                      will restrict the percentiles to be symmetric.
+%                      Default is 0.9.
 %
 %                      If set to empty, all simulations will be returned.
 %
@@ -229,6 +236,14 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
 %
 %                      Caution : If empty unconditional forecast will be 
 %                                produced.
+%
+% - 'condDBType'     : 'hard' or 'soft'. When 'hard' is choosen it is 
+%                      assumed that all conditional information should be
+%                      interpreted with no uncertainty, i.e. actual data.
+%                      When 'soft' the conditional data is interpret with
+%                      uncertainty and the distribution is either taken
+%                      from the 'condDB' input or simulated from the model.
+%                      Default is 'soft'.
 %
 % - 'condDBVars'     : A cellstr with the variables to condition on. Can 
 %                      include both endogenous, exogenous and shock 
@@ -528,7 +543,7 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         nSteps = 8;
@@ -541,12 +556,17 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
     end
     
     % Get needed information on the models
-    opt = cell(1,nobj);
+    opt   = cell(1,nobj);
+    names = getModelNames(obj);
     for ii = 1:nobj
         if isa(obj(ii),'nb_dsge')
             % Secure that all the options are stored in the opt{ii}
             % struct passed to the nb_forecast function
             opt{ii} = createEstOptionsStruct(obj(ii));
+            if ~isFiltered(obj(ii))
+                error(['The model with name ' names{ii} ' is not filtered. ',...
+                    'Not possible to forecast this model.']);
+            end
         else
             opt{ii} = obj(ii).estOptions;
         end
@@ -594,8 +614,9 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
         if any(strcmpi(cl,{'nb_var','nb_favar','nb_pitvar'}))
             condDBVarsM = condDBVars{ii};
             if any(ismember(condDBVarsM,sol{ii}.endo))
-                if nb_isempty(sol{ii}.identification) && ~isempty(condDB{ii})
-                    error([mfilename ':: ' names{ii} ':: VAR models must be identified to do conditional forecasting!'])
+                if nb_isempty(sol{ii}.identification) && ~isempty(condDB{ii}) && ~inputsW(ii).kalmanFilter
+                    error([mfilename ':: ' names{ii} ':: VAR models must be ',...
+                        'identified to do conditional forecasting! Set ''kalmanFilter'' to true.'])
                 end
             end
         end
@@ -908,6 +929,9 @@ function [inputsW,startInd,endInd,condDB,condDBVars,shockProps,cores,opt] = pars
         inputs(ii).nObj      = nobj;
         inputs(ii).index     = ii;
         inputs(ii).reporting = {};
+        if isempty(inputs(ii).kalmanFilter)
+            inputs(ii).kalmanFilter = false;
+        end
         
     end
      

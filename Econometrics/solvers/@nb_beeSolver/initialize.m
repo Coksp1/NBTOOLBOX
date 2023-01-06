@@ -26,7 +26,7 @@ function [obj,funEvals] = initialize(obj,F,meritFunction,initialXValue,...
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nBees  = size(obj,1);
     numPar = size(initialXValue,1);

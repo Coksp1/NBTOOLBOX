@@ -11,7 +11,7 @@ function helpFileCallback(gui,~,~) %#ok<INUSD>
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 arrow = char(hex2dec('2192'));
 

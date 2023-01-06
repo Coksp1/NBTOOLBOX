@@ -21,7 +21,7 @@ function f = nb_tAbsMoment(x,r)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     f1 = sqrt((x.^r)./pi).*gamma(r/2 + 0.5).*gamma((x - r)./2);
     f2 = gamma(x./2);

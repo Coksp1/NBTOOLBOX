@@ -5,15 +5,15 @@ function obj = tanh(obj)
 %
 % Description:
 %
-% tanh(obj) is the hyperbolic tangent of the elements of obj.
+% Hyperbolic tangent.
 % 
 % Input:
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Output: 
 % 
-% - obj       : An object of class nb_math_ts
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 %
@@ -21,9 +21,8 @@ function obj = tanh(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = tanh(obj.data);
-
-    
+  
 end

@@ -50,7 +50,7 @@ function x = nb_pasteFromClipboard(dec,hSep,vSep,convert)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         convert = true;

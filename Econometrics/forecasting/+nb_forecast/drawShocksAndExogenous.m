@@ -1,8 +1,8 @@
-function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nSteps,draws,restrictions,solution,inputs,options)   
+function [E,X,states,solution] = drawShocksAndExogenous(y0,model,ss,nSteps,draws,restrictions,solution,inputs,options)   
 % Syntax:
 %
-% [E,X,solution] = nb_forecast.drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,
-%                       nSteps,draws,restrictions,solution,inputs,options)   
+% [E,X,solution] = nb_forecast.drawShocksAndExogenous(y0,model,ss,nSteps,
+%                       draws,restrictions,solution,inputs,options)   
 %
 % Description:
 %
@@ -15,10 +15,10 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    if iscell(vcv)
-        vcv = vcv{1}; % For Markov switching and DSGE models we have assumed this to be the identity matrix!
+    if iscell(model.vcv)
+        model.vcv = model.vcv{1}; % For Markov switching and DSGE models we have assumed this to be the identity matrix!
     end
 
     % Are we doing conditional forecasting?
@@ -29,7 +29,7 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
             error([mfilename ':: Conditional density forecast on endogenous variables is not supported when a missing observation estimator is used.'])
         end
         try
-            [~,X,states,solution] = dsge.softConditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
+            [~,X,states,solution] = dsge.softConditionalProjectionEngine(y0,model.A,model.B,model.C,ss,model.Qfunc,nSteps,restrictions,solution);
         catch
             error([mfilename ':: This version of NB toolbox does not support soft conditioning.'])
         end
@@ -40,10 +40,15 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
 
         if restrictions.type == 3 
             
+            if strcmpi(inputs.condDBType,'hard')
+                error(['Cannot set condDBType to ''hard'' when the input condDB ',...
+                       'is set to a nb_distribution object. Instead set distribution ',...
+                       'to constant!'])
+            end
             if ~isempty(inputs.missing)
                 error([mfilename ':: Conditional density forecast on endogenous variables is not supported when a missing observation estimator is used.'])
             end
-            [E,X,states,solution] = nb_forecast.conditionalOnDistributionEngine(y0,A,B,C,ss,Qfunc,nSteps,draws,restrictions,solution,inputs);
+            [E,X,states,solution] = nb_forecast.conditionalOnDistributionEngine(y0,model,ss,nSteps,draws,restrictions,solution,inputs);
             
         else % Only restrictions on exogenous and shocks
 
@@ -70,15 +75,42 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
         end
             
         % Uses the mean of the distributions to make a point forecast
-        [Et,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
-        states                 = states(:,:,ones(1,draws));
-        shockHorizon           = solution.numberOfAnticipatedPeriods - 1 + solution.nMax; 
-        
-        % Draw normally distributed errors around the identified mean
-        if simResidual
-            E = Et(:,:,ones(1,draws)) + nb_forecast.multvnrnd(vcv,shockHorizon,draws);
+        svd = nb_forecast.checkSVDPrior(options);
+        if (strcmpi(inputs.condDBType,'hard') && restrictions.kalmanFilter)
+            if svd
+                s = nb_forecast.getSVProcess(options,restrictions.start,nSteps,false);
+            else
+                s = [];
+            end
+            [E,X,solution] = nb_forecast.kalmanConditionalProjectionEngine(draws,model,s,nSteps,restrictions,solution);
+            states         = restrictions.states(:,:,ones(1,draws));
         else
-            E = Et;
+            if svd
+                error(['If you have estimated a B-VAR model with the stocastic volatility ',...
+                       'prior you need to set ''condDBType'' input to ''hard'' and the ',...
+                       '''kalmanFilter'' input to true.'])
+            end
+            [Et,X,states,solution] = nb_forecast.conditionalProjectionEngine(y0,model,ss,nSteps,restrictions,solution);
+            states                 = states(:,:,ones(1,draws));
+            shockHorizon           = solution.numberOfAnticipatedPeriods - 1 + solution.nMax; 
+
+            % Draw normally distributed errors around the identified mean
+            if simResidual
+                if strcmpi(inputs.condDBType,'hard')
+                    % In this case the conditional information is assumed
+                    % without uncertainty, so we should not draw from the
+                    % distribution of the indentified shocks!
+                    noUnc                        = isnan(restrictions.E');
+                    ER                           = nb_forecast.multvnrnd(model.vcv,shockHorizon,draws);
+                    ER(noUnc(:,:,ones(1,draws))) = 0;
+                    E                            = Et(:,:,ones(1,draws)) + ER;
+                else
+                    E = Et(:,:,ones(1,draws)) + nb_forecast.multvnrnd(model.vcv,shockHorizon,draws);
+                end
+            else
+                E = Et;
+            end
+            
         end
         
         % No uncertainty in exogenous variables
@@ -104,17 +136,35 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,A,B,C,ss,Qfunc,vcv,nS
             end
         end
         E = restrictions.E(:,:,index)';
-        try
-            E = E(:,:,ones(1,draws)) + nb_forecast.multvnrnd(vcv,nSteps,draws);
-        catch Err
-            vcvCorr = nb_covrepair(vcv);
-            E       = E(:,:,ones(1,draws)) + nb_forecast.multvnrnd(vcvCorr,nSteps,draws);
-            if sum(vcvCorr(:)-vcv(:)) > eps^(1/4)
-                rethrow(Err)
+        if nb_forecast.checkSVDPrior(options)
+            s = nb_forecast.getSVProcess(options,restrictions.start,nSteps,true);
+            E = E(:,:,ones(1,draws));
+            for tt = 1:nSteps
+                E(:,tt,:) = E(:,tt,:) + drawE(s(tt)*model.vcv,1,draws);
             end
+        else
+            E = E(:,:,ones(1,draws)) + drawE(model.vcv,nSteps,draws);
         end
         states = restrictions.states(:,:,ones(1,draws));
         
     end
     
+end
+
+%==========================================================================
+function ED = drawE(vcv,nSteps,draws)
+    try
+        ED = nb_forecast.multvnrnd(vcv,nSteps,draws);
+    catch Err
+        vcvCorr = nb_covrepair(vcv);
+        if sum(vcvCorr(:)-vcv(:)) > eps^(1/4)
+            rethrow(Err)
+        end
+        try 
+            ED = nb_forecast.multvnrnd(vcvCorr,nSteps,draws);
+        catch
+            rethrow(Err)
+        end
+    end
+
 end

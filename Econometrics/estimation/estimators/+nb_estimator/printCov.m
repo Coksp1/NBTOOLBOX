@@ -23,7 +23,7 @@ function res = printCov(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -32,7 +32,7 @@ function res = printCov(results,options,precision)
     switch lower(options(end).estimator)
         case {'nb_olsestimator','nb_bvarestimator','nb_ecmestimator',...
               'nb_arimaestimator','nb_mlestimator','nb_pitestimator',...
-              'nb_exprestimator'}
+              'nb_exprestimator','nb_ridgeestimator','nb_lassoestimator'}
             res = standardCovPrint(results,options,precision);
         otherwise
             res = '';
@@ -59,13 +59,17 @@ function res = resursivePrint(results,options,precision)
     if isfield(options,'block_exogenous')
         dep = [dep,options.block_exogenous];
     end
-    nDep = length(dep);
     if isfield(options,'nstep')
         if ~isempty(options.nStep)
             dep = [dep,nb_cellstrlead(dep,options.nStep-1)];
         end
     end
-
+    if isfield(options,'indObservedOnly') && isfield(options,'frequency')
+        indObservedOnly = options.indObservedOnly(1:size(options.frequency,2));
+        dep             = dep(indObservedOnly);
+    end
+    nDep = length(dep);
+    
     % Get sample
     dataStart = options.dataStartDate;
     dataStart = nb_date.date2freq(dataStart);

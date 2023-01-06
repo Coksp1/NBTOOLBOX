@@ -45,7 +45,7 @@ function writeSeparate(obj,folder,language,format,index,gui,template,includeFigu
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 10
         skipConfirmation = false;

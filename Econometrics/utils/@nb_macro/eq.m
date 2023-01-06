@@ -37,7 +37,7 @@ function obj = eq(obj1,obj2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Check if we are going to loop the operator
     [looped,obj] = loopOperator(obj1,obj2,@eq);

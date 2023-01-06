@@ -51,7 +51,7 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         groupIndex = [];
@@ -254,7 +254,7 @@ function [obj,valid] = update(obj,type,warningOn,inGUI,groupIndex,varargin)
     
     if strcmpi(inGUI,'on')
         h.status = 4;
-        if write
+        if inputs.write
             if all(valid)
                 nb_infoWindow(['Data is updated and the ' string ' re-estimated, re-solved and re-forecasted'])
             else

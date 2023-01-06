@@ -9,7 +9,7 @@ function addPatch(obj,page)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
             
     if any(strcmpi(obj.plotType,{'radar','pie','image'}))
         return

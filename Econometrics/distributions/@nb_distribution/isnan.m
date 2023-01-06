@@ -1,26 +1,35 @@
-function ret = isnan(obj)
+function ind = isnan(obj)
 % Syntax:
 %
-% ret = isnan(obj)
+%
 %
 % Description:
 %
-% Test if the elements of a N x M x P nb_distribution object is 
-% of type 'constant(NaN)', i.e. is NaN.
+% 
 % 
 % Input:
 % 
-% - obj : A N x M x P nb_distribution object.
+% 
 % 
 % Output:
 % 
-% - ret : A N x M x P logical. 
+% 
+%
+% Examples:
+%
+% See also:
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    names = reshape({obj.name},size(obj));
-    ret   = cellfun(@(x)strcmpi(x,'constant(NaN)'),names);
+    siz = size(obj);
+    obj = obj(:);
+    n   = prod(siz);
+    ind = false(n,1);
+    for ii = 1:n
+        ind(ii) = strcmpi(obj(ii).type,'constant') && isnan(obj(ii).parameters{1});
+    end
+    ind = reshape(ind,siz);
 
 end

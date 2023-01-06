@@ -11,7 +11,7 @@ function sourceListCallback(gui,~,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get the source index (I.e. each page can consist of more sources)
     sources              = get(gui.sourceSelect, 'String');

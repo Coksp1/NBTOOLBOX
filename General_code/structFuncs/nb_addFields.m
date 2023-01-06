@@ -19,7 +19,7 @@ function s = nb_addFields(s, fields)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     fields = cellstr(fields);
     for ii = 1:length(fields)

@@ -9,7 +9,7 @@ function options = interpretMeasurementError(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if ~isfield(options,'measurementError')
         options.measurementErrorInd = [];
@@ -31,7 +31,7 @@ function options = interpretMeasurementError(options)
     end
     [test,indC] = ismember(options.measurementError,depNames);
     if any(~test)
-        error([mfilename ':: The following names cannot be associated with a measurment error, ',...
+        error([mfilename ':: The following names cannot be associated with a measurement error, ',...
                          'as they are not a dependent or block exogenous variables of the model; ' toString(pCoeffN(~test)) '.'])
     end
     options.measurementErrorInd = indC;

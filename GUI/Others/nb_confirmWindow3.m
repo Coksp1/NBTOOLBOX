@@ -11,7 +11,7 @@ function nb_confirmWindow3(message,callbackfunc1,callbackfunc2,callbackfunc3,...
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
 
     % Create the window

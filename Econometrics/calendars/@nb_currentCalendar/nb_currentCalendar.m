@@ -28,7 +28,7 @@ classdef nb_currentCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
     
     properties
         
@@ -50,7 +50,11 @@ classdef nb_currentCalendar < nb_calendar
         end
          
         function s = struct(obj)
-           s = struct('class',class(obj),'frequency',obj.frequency); 
+            s = struct('class',class(obj),'frequency',obj.frequency); 
+        end
+        
+        function name = getName(obj)
+            name = ['Current - ' nb_date.getFrequencyAsString(obj.frequency)]; 
         end
         
     end

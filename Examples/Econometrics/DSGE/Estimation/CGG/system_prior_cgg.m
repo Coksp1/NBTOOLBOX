@@ -143,7 +143,7 @@ mes = solve(me);
 %% NB Toolbox; Mode estimation
 % With system prior
 
-mspe = estimate(ms);
+mspe = estimate(msp);
 mspe.print
 
 % Solve the estimated version (This is not done in the estimate method!!)
@@ -158,8 +158,9 @@ samplingDraws = 2000;
 
 % This are the number of draws that is kept for IRFs, 
 % posterior plots, density forecast etc... They are randomly selected
-% from the sampled draws from chain 1.
-usedDraws = 1000; 
+% from the sampled draws from chain 1. If set to the same number as 
+% the mcmc draws then you keep all!
+usedDraws = 2000; 
 
 opt = nb_mcmc.optimset('log',true,'waitbar',true,'thin',2,...
        'draws',samplingDraws,'qFunction','arw','adaptive','recTarget',...

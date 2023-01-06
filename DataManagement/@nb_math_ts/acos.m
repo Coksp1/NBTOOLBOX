@@ -1,28 +1,27 @@
-function obj =   acos(obj)
+function obj = acos(obj)
 % Syntax:
 %
-% obj = cos(obj)
+% obj = acos(obj)
 %
 % Description:
 %
-% Take cos of the data stored in the nb_cs object
+% Inverse cosine, expressed in radians
 % 
 % Input:
 % 
-% - obj           : An object of class nb_cs
+% - obj : An object of class nb_math_ts
 % 
 % Output:
 % 
-% - obj           : An object of class nb_cs where the data are on 
-%                   cos.
+% - obj : An object of class nb_math_ts
 % 
 % Examples:
 % 
-% obj = cos(obj);
+% obj = acos(obj);
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     obj.data = acos(obj.data);
     

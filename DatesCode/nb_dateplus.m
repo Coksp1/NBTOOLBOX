@@ -35,7 +35,7 @@ function date = nb_dateplus(datein,added)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     datein = nb_date.date2freq(datein);
     date   = toString(datein + added);

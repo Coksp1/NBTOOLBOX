@@ -9,7 +9,7 @@ function irfData = irfPointStochTrend(modelObj,options,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Get inputs
     periods        = inputs.periods;

@@ -12,7 +12,7 @@ function [sInd,eInd,indM] = getDates(opt,inputs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     nobj    = size(opt,2);
     indM    = true(1,nobj); % The models that will be decomposed, sometimes the dates are outside the model samples

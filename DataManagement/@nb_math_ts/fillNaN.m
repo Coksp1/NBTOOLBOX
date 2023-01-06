@@ -23,7 +23,7 @@ function obj = fillNaN(obj,date)
 % 
 % Output:
 % 
-% - obj : An object of class nb_ts.
+% - obj : An object of class nb_math_ts.
 %
 % Examples:
 % 
@@ -34,7 +34,7 @@ function obj = fillNaN(obj,date)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2021, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         date = '';
