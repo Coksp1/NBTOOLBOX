@@ -23,11 +23,14 @@ function artificial = nb_blockBootstrap(y,draws,method,blockLength)
 %            > 'nonoverlapping' : Non-overlapping block bootstrap
 %
 %            > 'random'         : Random length overlapping block
-%                                 bootstrap. Can in some case avoid
-%                                 the bootstrapped samle to be
+%                                 bootstrap. Can in some cases avoid
+%                                 the bootstrapped sample to be
 %                                 non-stationary.
 %
-%           > 
+%           > 'wildrandom'      : Random length wild overlapping block
+%                                 bootstrap. Can in some cases avoid
+%                                 the bootstrapped sample to be
+%                                 non-stationary. 
 %
 % - blockLength : Length of each blocks. Only for the method 'overlapping'
 %                 and 'nonoverlapping'. Default is nobs^(1/3).

@@ -54,7 +54,7 @@ function obj = set(obj,varargin)
         if isstruct(varargin{1})
             varargin = nb_struct2cellarray(varargin{1});
         else
-            error([mfilename ':: Inputs must come in pairs.'])
+            error('Inputs must come in pairs.')
         end
     end
 
@@ -84,16 +84,20 @@ function obj = set(obj,varargin)
                         if isa(obj(ii),'nb_fmdyn')
                             obj(ii) = setBlocks(obj(ii),inputValue);
                         else
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            if isa(obj(ii),'nb_manualModel')
+                                obj(ii).options.(inputName) = inputValue;
+                            else
+                                error(['Bad field name of the options property found; ' inputName])
+                            end
                         end
                         
                     case 'constraints'
 
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName ' for an object of class ' class(obj) '.'])
+                            error(['Bad field name of the options property found; ' inputName ' for an object of class ' class(obj) '.'])
                         end
                         if ~iscellstr(inputValue)
-                            error([mfilename ':: The constraints option must be set to a N x 1 cellstr.'])
+                            error('The constraints option must be set to a N x 1 cellstr.')
                         end
                         obj(ii).parser.constraints  = inputValue(:);
                         obj(ii).options.constraints = inputValue(:);
@@ -102,34 +106,44 @@ function obj = set(obj,varargin)
                     case 'data'
 
                         if ~isa(inputValue,'nb_dataSource')
-                            error([mfilename ':: The ''data'' option must be set to a nb_dataSource object.'])
+                            error('The ''data'' option must be set to a nb_dataSource object.')
                         end
                         obj(ii).dataOrig = inputValue;
 
                     case 'equations'
 
-                        if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName ' for an object of class ' class(obj) '.'])
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                        else
+                            if ~any(strcmpi(inputName,fields))
+                                error(['Bad field name of the options property found; ',...
+                                    inputName ' for an object of class ' class(obj) '.'])
+                            end
+                            if ~iscellstr(inputValue)
+                                error('The equations option must be set to a N x 1 cellstr.')
+                            end
+                            obj(ii).options.equations = inputValue(:);
+                            obj(ii).parser.equations  = inputValue(:);
+                            obj(ii).parser            = nb_nonLinearEq.eq2func(obj(ii).parser);    
                         end
-                        if ~iscellstr(inputValue)
-                            error([mfilename ':: The equations option must be set to a N x 1 cellstr.'])
-                        end
-                        obj(ii).options.equations = inputValue(:);
-                        obj(ii).parser.equations  = inputValue(:);
-                        obj(ii).parser            = nb_nonLinearEq.eq2func(obj(ii).parser);    
-
+                        
                     case {'exogenous','endogenous','dependent','block_exogenous','factors','observables','observablesfast'}
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue;
+                        end
+                        
                         if isa(obj(ii),'nb_dsge')
                             if ~(isNB(obj(ii)) && any(strcmpi(inputName,{'observables'})))
                                 if any(strcmpi(inputName,{'observables'}))
-                                    error([mfilename ':: The model (nr. ' int2str(ii) ') is a nb_dsge object (solved with RISE or Dynare), and you can not set the ' inputName ' option in this case.'])
+                                    error(['The model (nr. ' int2str(ii) ') is a nb_dsge object (solved with RISE or Dynare), and you can not set the ' inputName ' option in this case.'])
                                 else
-                                    error([mfilename ':: The model (nr. ' int2str(ii) ') is a nb_dsge object, and you can not set the ' inputName ' option in this case.'])
+                                    error(['The model (nr. ' int2str(ii) ') is a nb_dsge object, and you can not set the ' inputName ' option in this case.'])
                                 end
                             end
                         elseif isa(obj(ii),'nb_judgemental_forecast')
-                            error([mfilename ':: Bad field name of the options property found; ' inputName '. (For the nb_judgemental_forecast class).'])
+                            error(['Bad field name of the options property found; ' inputName '. (For the nb_judgemental_forecast class).'])
                         end
                         obj(ii) = setNames(obj(ii),inputValue,inputName);
                         if ~(isa(obj(ii),'nb_dsge') || (isa(obj(ii),'nb_fmdyn') && strcmpi(inputName,'factors')) || isa(obj(ii),'nb_calculate_only'))
@@ -152,9 +166,9 @@ function obj = set(obj,varargin)
                     case 'fcsthorizon'
 
                         if ~nb_isScalarInteger(inputValue)
-                            error([mfilename ':: The ''fcstHorizon'' property must be set to a positive integer.'])
+                            error('The ''fcstHorizon'' property must be set to a positive integer.')
                         elseif inputValue < 0
-                            error([mfilename ':: The ''fcstHorizon'' property must be set to a positive integer.'])
+                            error('The ''fcstHorizon'' property must be set to a positive integer.')
                         end
                         obj(ii).fcstHorizon = inputValue;    
 
@@ -163,13 +177,17 @@ function obj = set(obj,varargin)
                         if isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn') || isa(obj(ii),'nb_midas')
                             obj(ii) = setFrequency(obj(ii),inputValue);
                         else
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            if isa(obj(ii),'nb_manualModel')
+                                obj(ii).options.(inputName) = inputValue;
+                            else
+                                error(['Bad field name of the options property found; ' inputName])
+                            end
                         end
 
                     case 'macrovars'
 
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         try
                             obj(ii).options.macroVars = nb_macro.interpret(inputValue);
@@ -177,7 +195,7 @@ function obj = set(obj,varargin)
 
                             if strcmpi(Err.identifier,'nb_macro:interpret')
                                 [s1,s2,s3] = size(inputValue);
-                                error([mfilename ':: The macroVars input cannot be assign an object of class ' class(inputValue)...
+                                error(['The macroVars input cannot be assign an object of class ' class(inputValue)...
                                     ' of size ' int2str(s1) 'x' int2str(s2) 'x' int2str(s3)])
                             else
                                 rethrow(Err)
@@ -198,22 +216,24 @@ function obj = set(obj,varargin)
                         try
                             obj(ii).name = inputValue{ii};
                         catch %#ok<CTCH>
-                            error([mfilename ':: The value given to the property ''name'' must be a cellstr with size 1x' int2str(nobj) ' '...
+                            error(['The value given to the property ''name'' must be a cellstr with size 1x' int2str(nobj) ' '...
                                 'when setting multiple nb_model_generic objects.'])
                         end
 
                     case 'needtobesolved'
 
                         if ~isa(obj(ii),'nb_dsge')
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         obj(ii).needToBeSolved = inputValue;
                         
                     case 'nfactors'
                         
-                        if isa(obj(ii),'nb_factor_model_generic')
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                        elseif isa(obj(ii),'nb_factor_model_generic')
                             if ~nb_isScalarInteger(inputValue,0)
-                                error([mfilename ':: The ' inputName ' must be set to a positive integer.'])
+                                error(['The ' inputName ' must be set to a positive integer.'])
                             end
                             if obj(ii).options.nFactors == inputValue
                                 continue
@@ -229,17 +249,22 @@ function obj = set(obj,varargin)
                             obj(ii).options.nFactors = inputValue;
                         elseif isa(obj(ii),'nb_calculate_factors')
                             if ~(nb_isScalarInteger(inputValue,0) || isempty(inputValue))
-                                error([mfilename ':: The ' inputName ' must be set to a positive integer or empty.'])
+                                error(['The ' inputName ' must be set to a positive integer or empty.'])
                             end
                             obj(ii).options.nFactors = inputValue;
                         else
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
 
                     case 'prior'
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue
+                        end
+                        
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         obj(ii) = setPrior(obj(ii),inputValue);
 
@@ -248,27 +273,41 @@ function obj = set(obj,varargin)
                         if or(iscell(inputValue) && size(inputValue,2) == 3, isempty(inputValue))
                             obj(ii) = setReporting(obj(ii),inputValue);
                         else
-                            error([mfilename ':: The property reporting must be assign a Nx3 cell matrix.'])
+                            error('The property reporting must be assign a Nx3 cell matrix.')
                         end
 
                     case 'mapping'
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue
+                        end
+                        
                         if not(isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn'))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         obj(ii) = setMapping(obj(ii),inputValue);
                         
                     case 'mixing'
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue
+                        end
+                        
                         if ~isa(obj(ii),'nb_mfvar')
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         obj(ii) = setMixing(obj(ii),inputValue);      
                         
                     case 'measurementeqrestriction'
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue
+                        end
                         if ~isa(obj(ii),'nb_var')
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         if ~nb_isempty(inputValue)
                             obj(ii) = setMeasurementEqRestriction(obj(ii),inputValue);    
@@ -277,37 +316,41 @@ function obj = set(obj,varargin)
                     case 'steady_state_change'
 
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         if isNB(obj(ii))
                             % Here we also trigger that the staticFunction
                             % must be re-created.
                             [obj(ii).options.steady_state_change,obj(ii).parser] = nb_dsge.interpretSteadyStateChange(obj(ii).parser,inputValue);
                         else
-                            error([mfilename ':: The ''steady_state_change'' option is not supported if the DSGE model is not solved with the NB toolbox.'])
+                            error('The ''steady_state_change'' option is not supported if the DSGE model is not solved with the NB toolbox.')
                         end
 
                     case {'steady_state_init','steady_state_fixed'}
 
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         if isNB(obj(ii))
                             obj(ii).options.(lower(inputName)) = nb_dsge.interpretSteadyStateInput(obj(ii).parser,inputValue,false,lower(inputName));
                         else
-                            error([mfilename ':: The ''' inputName ''' option is not supported if the DSGE model is not solved with the NB toolbox.'])
+                            error(['The ''' inputName ''' option is not supported if the DSGE model is not solved with the NB toolbox.'])
                         end
 
                     case 'systemprior'
 
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                            continue
+                        end
                         if ~any(strcmpi(inputName,fields))
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                            error(['Bad field name of the options property found; ' inputName])
                         end
                         if isempty(inputValue)
                             obj(ii).options.systemPrior = inputValue;
                         else
                             if ~isa(inputValue,'function_handle')
-                                error([mfilename ':: The option ' inputName ' must be set to a function_handle. See setSystemPrior '...
+                                error(['The option ' inputName ' must be set to a function_handle. See setSystemPrior '...
                                     'for other alternatives.'])
                             end
                             obj(ii).options.systemPrior = inputValue;
@@ -320,7 +363,7 @@ function obj = set(obj,varargin)
                         elseif isempty(inputValue)
                             obj(ii) = setTransformations(obj(ii),{});
                         else
-                            error([mfilename ':: The property transformations must be assign a Nx4 cell matrix or a empty cell.'])
+                            error('The property transformations must be assign a Nx4 cell matrix or a empty cell.')
                         end
 
                     case 'userdata'
@@ -337,17 +380,21 @@ function obj = set(obj,varargin)
                         try
                             obj(ii).userData = inputValue{ii};
                         catch %#ok<CTCH>
-                            error([mfilename ':: The value given to the property ''userData'' must be a cellstr with size 1x' int2str(nobj) ' '...
+                            error(['The value given to the property ''userData'' must be a cellstr with size 1x' int2str(nobj) ' '...
                                 'when setting multiple nb_model_generic objects.'])
                         end
 
                     otherwise
 
-                        ind = find(strcmpi(inputName,fields),1);
-                        if isempty(ind)
-                            error([mfilename ':: Bad field name of the options property found; ' inputName])
+                        if isa(obj(ii),'nb_manualModel')
+                            obj(ii).options.(inputName) = inputValue;
+                        else
+                            ind = find(strcmpi(inputName,fields),1);
+                            if isempty(ind)
+                                error(['Bad field name of the options property found; ' inputName])
+                            end
+                            obj(ii).options.(fields{ind}) = inputValue;
                         end
-                        obj(ii).options.(fields{ind}) = inputValue;
 
                 end
 

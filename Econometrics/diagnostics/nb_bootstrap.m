@@ -23,9 +23,13 @@ function E = nb_bootstrap(resid,replic,method)
 %
 %     > 'blockBootstrap'         : Create artificial data by 
 %                                  non-overlapping block bootstrap.
+%                                  Give 'blockBootstrap(10)' to set 
+%                                  the block length.
 %
 %     > 'mBlockBootstrap'        : Create artificial data by 
 %                                  overlapping block bootstrap.
+%                                  Give 'mBlockBootstrap(10)' to set 
+%                                  the block length.
 %
 %     > 'rBlockBootstrap'        : Create artificial data by 
 %                                  overlapping random block length  
@@ -148,12 +152,12 @@ function blockLength = findBlockLength(method)
     else
         indPar2 = strfind(method,')');
         if isempty(indPar2)
-            error([mfilename ':: Undifined bootstrap method ' method])
+            error([mfilename ':: Undefined bootstrap method ' method])
         end
 
         blockLength = ceil(str2double(method(indPar1 + 1:indPar2 - 1)));
         if isnan(blockLength)
-            error([mfilename ':: Undifined bootstrap method ' method])
+            error([mfilename ':: Undefined bootstrap method ' method])
         end
 
     end

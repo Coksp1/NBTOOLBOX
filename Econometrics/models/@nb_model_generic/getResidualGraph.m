@@ -22,7 +22,8 @@ function plotter = getResidualGraph(obj)
 % 
 % Output:
 % 
-% - plotter : An object of class nb_graph.
+% - plotter : An object of class nb_graph. Use the graphInfoStruct method
+%             or the nb_graphInfoStructGUI class.
 %
 % Examples:
 %

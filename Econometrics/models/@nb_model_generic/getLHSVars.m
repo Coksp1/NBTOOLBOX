@@ -47,6 +47,14 @@ function vars = getLHSVars(obj,varsIn)
             [~,~,varsOne{jj}] = nb_exprEstimator.eqs2funcSub(varsIn,varFuncs{jj},true);
         end
         vars = unique([varsOne{:}]);
+    elseif isa(obj,'nb_manualModel')
+        if ~isfield(obj.options,'LHSVariables')
+            error(['You need to provide the LHSVariables field of the ',...
+                'options property of a model of class nb_manualModel. It ',...
+                'must be set to a cellstr with all the endogenous/left-hand ',...
+                'side variables that the model uses.'])
+        end
+        vars = obj.options.LHSVariables;    
     else
         vars = {};
         if isprop(obj,'dependent')

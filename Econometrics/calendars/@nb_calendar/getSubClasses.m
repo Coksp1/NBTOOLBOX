@@ -12,9 +12,9 @@ function classes = getSubClasses()
 % 
 % - classes : A cellstr with the subclasses.
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth SÃ¦terhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2023, Kenneth SÃ¦terhagen Paulsen
 
     classes = {'nb_allCalendar';'nb_currentCalendar';'nb_lastCalendar';...
                'nb_manualCalendar';'nb_numDaysCalendar'};

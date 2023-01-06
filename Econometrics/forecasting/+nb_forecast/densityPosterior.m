@@ -226,7 +226,7 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             extra = 0;
         else
             if ~isfield(options,'pathToSave')
-                error([mfilename ':: No estimation is done, so can''t draw from the posterior.'])
+                error([mfilename ':: No bayesian estimation is done, so can''t draw from the posterior.'])
             end
             try
                 coeffDraws = nb_loadDraws(options.pathToSave);

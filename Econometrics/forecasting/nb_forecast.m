@@ -153,6 +153,9 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
         inputs.condDBVars = condDBVars;
         fcst              = nb_forecast.exprModel(model,options,results,startInd,endInd,nSteps,inputs);
         return
+    elseif isfield(results,'forecast')
+        fcst = nb_forecast.fetchForecastFromResults(results,options,startInd,endInd,nSteps,inputs);
+        return
     end
     
     % Early test

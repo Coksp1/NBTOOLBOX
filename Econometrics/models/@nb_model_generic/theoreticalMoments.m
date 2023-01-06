@@ -132,21 +132,21 @@ function varargout = theoreticalMoments(obj,varargin)
     end
     
     if numel(obj) > 1
-        error([mfilename ':: This method only handles scalar nb_model_generic object.'])
+        error('This method only handles scalar nb_model_generic object.')
     end
     
     model   = obj.solution;
     options = obj.estOptions(end);
     options = nb_defaultField(options,'recursive_estim',false);
-    
-    if isfield(model,'G')
-        error([mfilename ':: To calculate theoretical moments of this model is not yet supported. Use simulated moments instead.'])
+    if ~issolved(obj)
+        error('The model is not solved')
     end
-    
-    try
-        model.A;
-    catch %#ok<CTCH>
-        error([mfilename ':: The model is not solved.'])
+    if ~isStateSpaceModel(obj)
+        error('The model is not a state-space model')
+    end
+    if isfield(model,'G')
+        error(['To calculate theoretical moments of this model is not ',...
+            'yet supported. Use simulated moments instead.'])
     end
     
     % Make draws of the model if wanted

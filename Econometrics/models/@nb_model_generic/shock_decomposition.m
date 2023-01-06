@@ -120,8 +120,14 @@ function [decomp,decompBand,plotter] = shock_decomposition(obj,varargin)
 
 % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
+    obj   = obj(:);
+    names = getModelNames(obj);
     if any(~issolved(obj))
-        error([mfilename ':: All the models must be solved to do shock decomposition'])
+        error(['The following models are not solved; ' toString(names(~issolved(obj)))])
+    end
+    isSS = isStateSpaceModel(obj);
+    if any(~isSS)
+        error(['The following models are not a state-space model; ' toString(names(~isSS))])
     end
 
     % Parse the arguments
@@ -162,12 +168,11 @@ function [decomp,decompBand,plotter] = shock_decomposition(obj,varargin)
     
     % Produce the shock decomp
     %--------------------------------------------------------------
-    obj     = obj(:);
-    nobj    = size(obj,1);
-    decomp  = cell(1,nobj);
-    models  = {obj.solution};
-    opt     = {obj.estOptions};
-    res     = {obj.results};
+    nobj   = size(obj,1);
+    decomp = cell(1,nobj);
+    models = {obj.solution};
+    opt    = {obj.estOptions};
+    res    = {obj.results};
     
     % Get start and end indicies of each model
     [sInd,eInd,indM] = nb_model_generic.getDates(opt,inputs);

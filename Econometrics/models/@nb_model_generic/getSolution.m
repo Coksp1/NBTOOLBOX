@@ -1,11 +1,11 @@
 function value = getSolution(obj,type)
 % Syntax:
 %
-% [obj,out,data_nb_ts] = callNBFilter(obj,inputs)
+% value = getSolution(obj,type)
 %
 % Description:
 %
-% Return the shock impact matrix with row and column names
+% Get different objects of the solution.
 % 
 % Input:
 %
@@ -15,9 +15,6 @@ function value = getSolution(obj,type)
 %          > 'A' : Transition matrix.
 %          > 'B' : Impact of exogenous matrix.
 %          > 'C' : Impact of shocks matrix.
-%
-% See also:
-% nb_dsge.filter
 %
 % Written by Kenneth Sæterhagen Paulsen
 
@@ -49,7 +46,7 @@ function value = getSolution(obj,type)
                 value = [];
             end
         otherwise
-            error([mfilename ':: Cannot return the solution for matrix of type ' type '.'])
+            error(['Cannot return the solution for matrix of type ' type '.'])
     end
     
 end

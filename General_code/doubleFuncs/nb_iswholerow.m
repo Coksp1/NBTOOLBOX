@@ -23,6 +23,10 @@ function ret = nb_iswholerow(X)
 
 % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
+    if isempty(X)
+        ret = false;
+        return
+    end
     if ~isnumeric(X)
         ret = false(size(X));
     else

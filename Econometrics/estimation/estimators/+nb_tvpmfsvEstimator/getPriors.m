@@ -85,7 +85,7 @@ function priors = getPriors(options)
     if any(options.indObservedOnly) && ~isempty(options.mixing)
         [~,indY] = ismember(options.observables,options.dataVariables);
         y        = options.data(:,indY);
-        V_0      = options.prior.V0VarScale.*ones(options.n,1);     
+        V_0      = options.prior.V0VarScale.*ones(options.n,1);      
         if isscalar(options.prior.R_scale)
             V_0(options.mixingSettings.loc) = nanvar(y(:,options.mixingSettings.loc))/options.prior.R_scale;
         else

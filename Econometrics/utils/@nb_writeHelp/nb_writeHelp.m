@@ -269,6 +269,10 @@ classdef nb_writeHelp
                     ['Indicate if you want to estimate the AR specification of the MIDAS model. If the ',...
                      'algorithm is not set to ''unrestricted'', a correction will be made on the coefficients of ',...
                      'the other regressors to prevent seasonal pattern in the estimates. true or false.'];
+            elseif strcmpi(obj.nameOfPOrC,'nb_rfModel') || strcmpi(obj.nameOfPOrC,'nb_rfEstimator')
+                obj.helpStruct.ar = ...
+                    ['Lets you manually set the number of lagged terms of the dependent variable you want to add. ',...
+                     'Defualt is 0.'];
             else
                 obj = notDocumented(obj,'ar'); 
             end
@@ -370,6 +374,13 @@ classdef nb_writeHelp
             obj.helpStruct.comparetorev = ...
                 ['Which revision to compare to. Default is first release, i.e. 1. Give 5 to get fifth release. ',...
                  'Must be an integer. 0 means you compare to the final vintage, instead of any release series.'];
+        end
+        
+        function obj = conddb(obj)
+            obj.helpStruct.conddb = ...
+                ['A nb_data object with sizes nFcstSteps x nVars x iter, where iter is the number of recursive ',...
+                 'estimation periods. This input can be provided to produce conditional forecasts during the ',...
+                 'of random-forest and manually programmed models.'];
         end
         
         function obj = condhorizon(obj)
@@ -576,6 +587,8 @@ classdef nb_writeHelp
                     extra = ' Can also be supplied by a model file, see nb_nonLinearEq.parse.';
                 case 'nb_var'
                     extra = ' Each dependent variable will result in a seperate equation.';
+                case {'nb_rfestimator','nb_rfmodel'}
+                    extra = ' Can only contain (one) left hand-side variable.';
                 otherwise
                     extra = '';
             end
@@ -611,6 +624,12 @@ classdef nb_writeHelp
         function obj = dotests(obj)
             obj.helpStruct.dotests = ...
                 'Either 1 (true) to do the automatic tests, or 0 (false) to skip them.';
+        end
+        
+        function obj = drawparamfunc(obj)
+            obj.helpStruct.drawparamfunc = ...
+                ['This option can be provided with the name of the function used to draw parameters from their distribution. ',...
+                 'For more one this option see the nb_manualEstimator.drawParameters function.'];
         end
         
         function obj = draws(obj)
@@ -759,6 +778,12 @@ classdef nb_writeHelp
             obj.helpStruct.estim_start_ind = ...
                 ['The estim_start_ind option is the first observation that will be included in the estimation. ',...
                  'As an integer. Must be less than estim_end_ind and greater than 0.'];
+        end
+        
+        function obj = estimfunc(obj)
+            obj.helpStruct.estimfunc = ...
+                ['This option must be provided with the name of the function used to estimate/forecast your ',...
+                 'model. For more one this option see the nb_manualEstimator.estimate function.'];
         end
         
         function obj = estim_method(obj)
@@ -1056,11 +1081,24 @@ classdef nb_writeHelp
                  'the estimated parameters in beta.)'];
         end
         
+        function obj = handlecondinfo(obj)
+            obj.helpStruct.handlecondinfo = ...
+                ['If you produce forecast during estimation and supports conditional ',...
+                 'info you should set this option to true. Defualt is false. See the condDB ',...
+                 'option for more on how to supply conditional information.'];
+        end
+        
         function obj = handlemissing(obj)
-            obj.helpStruct.handlemissing = ...
-                ['If set to true, the estim_start_date options is set to the date of the first observation of ANY variable, ',...
-                 'instead of the the date for where ALL variables has valid observations. The same applies to estim_end_date, ',...
-                 'but in this case we are doing it for the the last observation.'];
+            if strcmpi(obj.nameOfPOrC,'nb_arima') || strcmpi(obj.nameOfPOrC,'nb_arimaEstimator')
+                obj.helpStruct.handlemissing = ...
+                    ['If your estimation method supports missing observations you ',...
+                     'need to set this to true. Defualt is false'];
+            else
+                obj.helpStruct.handlemissing = ...
+                    ['If set to true, the estim_start_date options is set to the date of the first observation of ANY variable, ',...
+                     'instead of the the date for where ALL variables has valid observations. The same applies to estim_end_date, ',...
+                     'but in this case we are doing it for the the last observation.'];
+            end
         end
         
         function obj = homotopyalgorithm(obj)
@@ -1577,6 +1615,16 @@ classdef nb_writeHelp
             end 
         end
         
+        function obj = nfcststeps(obj)
+            obj.helpStruct.nfcststeps = ...
+                'A scalar integer with the number of steps to forecast.';
+            if strcmpi(obj.nameOfPOrC,'nb_rfEstimator') || strcmpi(obj.nameOfPOrC,'nb_rfModel')
+                obj.helpStruct.nfcststeps = [obj.helpStruct.nfcststeps, ' If the nStep option is provided ',...
+                    'this option is ignored.'];
+            end
+            
+        end
+        
         function obj = nhor(obj)
             
             if strcmpi(obj.nameOfPOrC,'nb_judgemental_forecast')
@@ -1612,6 +1660,10 @@ classdef nb_writeHelp
                     ['Setting nLags will set the amount of lags used in the regression. ',...
                      'Note that this will only be read if the option ''modelSelection'' is set to ''''. '];
                 switch lower(obj.nameOfPOrC)
+                    case {'nb_rfmodel','nb_rfestimator'}
+                        extra = ['A cell array with the same length as the ''exogenous'' option, ',...
+                                 'where each element is a scalar or vector of integers with the lag ',...
+                                 'structure of each exogenous variable.'];
                     case {'nb_ecm','nb_ecmestimator'}
                         extra = ['Either a scalar integer, which will act on all differenced endogneous ',...
                                  'and dependent variables, a vector of integers with the same length as ',...
@@ -1666,7 +1718,7 @@ classdef nb_writeHelp
         
         function obj = nstep(obj)
             obj.helpStruct.nstep = ...
-                'Sets the number of steps ahead to include in the forecasting equation. Must be a scalar integer > 0.';
+                'Sets the number of steps ahead to include in the direct forecasting equation. Must be a scalar integer > 0.';
             switch lower(obj.nameOfPOrC)
                 case 'nb_midas'
                     extra = ' (Will lag the high frequency exogenous variables accordingly.)';
@@ -1804,19 +1856,25 @@ classdef nb_writeHelp
         end
         
         function obj = optimset(obj)
-            if strcmp(obj.nameOfPOrC,'nb_lassoEstimator')
-                obj.helpStruct.optimset = ...
-                    ['Sets the optimization options for estimation. See the nb_lasso.optimset or the ',...
-                     'nb_getDefaultOptimset function. If [] is given, default optimization options are applied.'];
-            elseif strcmp(obj.nameOfPOrC,'nb_singleEq')
-                obj.helpStruct.optimset = ...
-                    ['Sets the optimization options for estimation. See the nb_lasso.optimset or the ',...
-                     'nb_getDefaultOptimset function. If [] is given, default optimization options are applied. ',...
-                     'estim_method'' must be set to ''lasso''.'];
-            else
-                obj.helpStruct.optimset = ...
-                    ['Set options for estimation, irf matching and optimal simple rules (nb_dsge). See the optimset or ',...
-                     'the nb_getDefaultOptimset function. Which fields that are important depend on the optimizer option.'];
+            
+            switch obj.nameOfPOrC
+                case {'nb_rfestimator','nb_rfmodel'}
+                    obj.helpStruct.optimset = ...
+                        ['Sets the options for estimation. See the nb_randomForest.optimset or the ',...
+                         'nb_getDefaultOptimset function. If [] is given, default optimization options are applied.'];
+                case 'nb_lassoEstimator'
+                    obj.helpStruct.optimset = ...
+                        ['Sets the optimization options for estimation. See the nb_lasso.optimset or the ',...
+                         'nb_getDefaultOptimset function. If [] is given, default optimization options are applied.'];
+                case 'nb_singleEq'
+                    obj.helpStruct.optimset = ...
+                        ['Sets the optimization options for estimation. See the nb_lasso.optimset or the ',...
+                         'nb_getDefaultOptimset function. If [] is given, default optimization options are applied. ',...
+                         'estim_method'' must be set to ''lasso''.'];
+                otherwise
+                    obj.helpStruct.optimset = ...
+                        ['Set options for estimation, irf matching and optimal simple rules (nb_dsge). See the optimset or ',...
+                         'the nb_getDefaultOptimset function. Which fields that are important depend on the optimizer option.'];
             end
         end
         
@@ -1948,6 +2006,13 @@ classdef nb_writeHelp
                 otherwise
                     obj = notDocumented(obj,'prior'); 
             end
+            
+        end
+        
+        function obj = predict(obj)
+            
+            obj.helpStruct.predict = ...
+                'Set to true to create predictions from estimated model. Default is true.';
             
         end
         
@@ -2212,6 +2277,12 @@ classdef nb_writeHelp
                      'set it to 12.'];
             end
             
+        end
+        
+        function obj = solvefunc(obj)
+            obj.helpStruct.solvefunc = ...
+                ['This option can be provided with the name of the function used to solve the model. ',...
+                 'For more one this option see the nb_manualModel.solve method.'];
         end
         
         function obj = solve_check_stability(obj)

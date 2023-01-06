@@ -32,13 +32,13 @@ function obj = solve(obj)
             try
                 obj(ii) = solve(obj(ii)); 
             catch Err
-                error([mfilename ':: Cannot solve the model '  int2str(ii) '. Error message:: ' Err.message])
+                error(['Cannot solve the model '  int2str(ii) '. Error message:: ' Err.message])
             end
         end
     else
        
         if ~isestimated(obj)
-            error([mfilename ':: Model is not estimated.'])
+            error('Model is not estimated.')
         end
         
         % Solve the model

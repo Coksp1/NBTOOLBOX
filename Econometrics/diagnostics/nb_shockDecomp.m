@@ -87,7 +87,7 @@ function decomp = nb_shockDecomp(model,options,results,startInd,endInd,inputs)
     end
 
     if ~isfield(model,'A')
-        error([mfilename ':: The model ' inputs.index ' is not solved.'])
+        error(['The model nr. ' int2str(inputs.index) ' is not solved or is not dynamic.'])
     end
     perc   = inputs.perc;
     method = inputs.method;

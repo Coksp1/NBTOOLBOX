@@ -391,6 +391,7 @@ classdef (Abstract) nb_model_generic < nb_model_forecast & nb_model_estimate
         varargout = getVariablesList(varargin)
         varargout = irf(varargin)
         varargout = isestimated(varargin)
+        varargout = isStateSpaceModel(varargin)
         varargout = isNB(varargin)
         varargout = issolved(varargin)
         varargout = jointPredictionBands(varargin)

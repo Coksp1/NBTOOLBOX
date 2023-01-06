@@ -155,6 +155,57 @@ classdef (Abstract) nb_model_estimate < matlab.mixin.Heterogeneous & nb_modelDat
             
         end
         
+        function tempOpt = fromDataTS2Options(tempOpt,options)
+            
+            dataObj = options.data;
+            if ~isa(dataObj,'nb_ts')
+                error([mfilename ':: The data option must be set to a nb_ts object.'])
+            end
+            if ~options.real_time_estim
+               if dataObj.numberOfDatasets > 1
+                   if isempty(options.page)
+                       options.page = dataObj.numberOfDatasets;
+                   end
+                   dataObj = window(dataObj,'','','',options.page);
+               end
+            end
+            tempOpt.data          = dataObj.data;
+            tempOpt.dataStartDate = toString(dataObj.startDate);
+            if ~isempty(options.estim_end_date)
+                tempOpt.estim_end_ind = (nb_date.toDate(options.estim_end_date,dataObj.frequency) - dataObj.startDate) + 1;
+            else
+                tempOpt.estim_end_ind = [];    
+            end
+            if ~isempty(options.estim_start_date)
+                tempOpt.estim_start_ind = (nb_date.toDate(options.estim_start_date,dataObj.frequency) - dataObj.startDate) + 1;
+            else
+                tempOpt.estim_start_ind = [];       
+            end
+            if ~isempty(options.recursive_estim_start_date)
+                tempOpt.recursive_estim_start_ind = (nb_date.toDate(options.recursive_estim_start_date,dataObj.frequency) - dataObj.startDate) + 1;
+            else
+                tempOpt.recursive_estim_start_ind = [];       
+            end
+            tempOpt.dataVariables = dataObj.variables; 
+            
+        end
+        
+        function tempOpt = fromCondDB2Options(tempOpt,options)
+            
+            if isempty(options.condDB)
+                tempOpt.condDB          = [];
+                tempOpt.condDBVariables = {};
+                return
+            end
+            condDBObj = options.condDB;
+            if ~isa(condDBObj,'nb_data')
+                error([mfilename ':: The condDB option must be set to a nb_data object.'])
+            end
+            tempOpt.condDB          = condDBObj.data;
+            tempOpt.condDBVariables = condDBObj.variables; 
+            
+        end
+        
     end
     
     methods (Static, Sealed, Access = protected)

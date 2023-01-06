@@ -99,13 +99,13 @@ function [obj,solved] = solve(obj,varargin)
                 if nargout > 1
                     solved(ii) = false;
                 else
-                    error([mfilename ':: Cannot solve the model '  int2str(ii) '. Error message:: ' Err.message])
+                    error(['Cannot solve the model '  int2str(ii) '. Error message:: ' Err.message])
                 end
             end
             
             if update
                 if waitbar.canceling
-                    error([mfilename ':: User terminated'])
+                    error('User terminated')
                 end
                 if rem(ii,note) == 0
                     waitbar.status2 = ii;

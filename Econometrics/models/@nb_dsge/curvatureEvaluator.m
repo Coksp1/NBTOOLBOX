@@ -38,9 +38,15 @@ function [post,lik,prior,sPrior] = curvatureEvaluator(par,estStruct,tol)
 % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     % Calculate minus the log likelihood
-    [lik,sol] = nb_dsge.likelihood(par,estStruct);
-    if lik >= tol || imag(lik) > 0
-        lik = nan;
+    try
+        [lik,sol] = nb_dsge.likelihood(par,estStruct);
+        if lik >= tol || imag(lik) > 0
+            lik = nan;
+        end
+    catch Err
+        lik     = nan;
+        sol.err = 'Could not solve';
+        warning('nb_dsge:curvatureEvaluator',['Could not evaluate likelihood: ' Err.message]);
     end
     
     % Are we doing bayesian?

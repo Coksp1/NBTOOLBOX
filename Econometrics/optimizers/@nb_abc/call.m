@@ -49,8 +49,6 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 % Examples:
 %
 % g  = @(x)-sin(x);
-% x1 = nb_abc.call(g,1)
-% x2 = nb_abc.call(g,-3)
 % x3 = nb_abc.call(g,-3,-4,4)
 %
 % See also:

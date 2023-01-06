@@ -39,11 +39,6 @@ function [data,plotter] = uncertaintyDecomposition(obj,varargin)
 %                                   simulated densities of the 
 %                                   residuals/shocks of models forecast.
 %
-%                 > 'fes'         : Calculate the forecast error skewness
-%                                   contributed by each shock based on the 
-%                                   simulated densities of the 
-%                                   residuals/shocks of models forecast.
-%
 % - 'perc'      : At which percentile you want to decompose. Must
 %                 be scalar double. Default is 0.9. Only an options for
 %                 'method' set to 'percentiles'.
@@ -93,11 +88,13 @@ function [data,plotter] = uncertaintyDecomposition(obj,varargin)
 % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
-        error([mfilename ':: This method only supports scalar nb_model_generic objects as input.'])
+        error('This method only supports scalar nb_model_generic objects as input.')
     end
-
     if ~issolved(obj)
-        error([mfilename ':: The model must be solved to do uncertainty decomposition'])
+        error('The model must be solved to do uncertainty decomposition')
+    end
+    if ~isStateSpaceModel(obj)
+        error('The model is not a state-space model')
     end
 
     % Parse the arguments

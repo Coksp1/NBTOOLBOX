@@ -42,7 +42,7 @@ classdef nb_optimizerDisplayer < handle
         %
         % Caution: Must either be empty or has the same length as the
         %          number of values in x.
-        names                   = {};
+        names
         
     end
 

@@ -78,7 +78,7 @@ modelEMP = set(model,'empirical',true);
 modelEMP = estimate(modelEMP);
 print(modelEMP)
 
-%% Estimate on random data
+%% Estimate on data from a slitly different DSGE model
 
 % Calibration another model
 param.theta = 0.1;
@@ -91,5 +91,20 @@ data2 = dataM.Model1;
 data2 = tonb_ts(data2,'2012Q1');
 
 modelEMPSim = set(modelEMP,'data',data2);
+modelEMPSim = estimate(modelEMPSim);
+print(modelEMPSim)
+
+%% Estimate on random data
+
+rng(1); % Set seed
+
+obs     = 100;
+lambda  = [0.5, 0.1,0.3, 0.2,0.2,-0.1;
+           0.5,-0.1,-0.2,0,  0.1,-0.2;
+           0.6,-0.2,0.1, 0,  0.4,-0.1];
+rho     = [1;1;1];  
+sim     = nb_ts.simulate('2012Q1',obs,{'y','pie','i'},1,lambda,rho);
+
+modelEMPSim = set(modelEMP,'data',sim);
 modelEMPSim = estimate(modelEMPSim);
 print(modelEMPSim)

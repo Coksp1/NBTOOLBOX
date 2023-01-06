@@ -325,7 +325,11 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
     obj   = obj(:);
     names = getModelNames(obj);
     if any(~issolved(obj))
-        error([mfilename ':: The models ' toString(names(~issolved(obj))) ' are not solved.'])
+        error(['The following models are not solved; ' toString(names(~issolved(obj)))])
+    end
+    isSS = isStateSpaceModel(obj) | arrayfun(@(x)or(isa(x,'nb_sa'),isa(x,'nb_fmsa')),obj);
+    if any(~isSS)
+        error(['The following models are not a state-space model; ' toString(names(~isSS))])
     end
 
     % Parse the arguments
@@ -387,7 +391,7 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
     end
     
     if isempty(inputs.shocks)
-        if isa(obj(1),'nb_sa') ||  isa(obj(1),'nb_fmsa')
+        if isa(obj(1),'nb_sa') || isa(obj(1),'nb_fmsa')
             % For steap-ahead models we are interested in shocking the
             % exogenous variables.
             inputs.shocks = obj(1).solution.exo;

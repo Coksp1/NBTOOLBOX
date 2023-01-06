@@ -134,15 +134,15 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
     
     if nargout == 1
         % In this case we report the marginal likelihood p(Y)
-        if prior.lambda < numCoeff/T
+        if prior.lambda < (numCoeff + numDep)/T
             beta = inf;
         else
             beta = logMarginalLikelihood(prior,T,numDep,numCoeff,x,S_prior,S_post,V_prior_inv);
         end
     else
     
-        if prior.lambda < numCoeff/T
-            error(['Improper value of lambda, must at least be; ' num2str(numCoeff/T)])
+        if prior.lambda < (numCoeff + numDep)/T
+            error(['Improper value of lambda, must at least be; ' num2str((numCoeff + numDep)/T)])
         end
         
         % Simulate from posterior using Monte carlo integration

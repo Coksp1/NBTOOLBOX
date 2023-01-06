@@ -119,10 +119,15 @@ function [decomp,decompBands,plotter,plotterBands] = variance_decomposition(obj,
 
 % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
 
-    obj  = obj(:);
-    nobj = numel(obj);
+    obj   = obj(:);
+    nobj  = numel(obj);
+    names = getModelNames(obj);
     if any(~issolved(obj))
-        error([mfilename ':: All the models must be solved to do fevd'])
+        error(['The following models are not solved; ' toString(names(~issolved(obj)))])
+    end
+    isSS = isStateSpaceModel(obj);
+    if any(~isSS)
+        error(['The following models are not a state-space model; ' toString(names(~isSS))])
     end
 
     % Parse the arguments
@@ -146,12 +151,17 @@ function [decomp,decompBands,plotter,plotterBands] = variance_decomposition(obj,
     if ~isempty(message)
         error(message)
     end
-          
+       
+    
+    isSS  = isStateSpaceModel(obj);
+    if any(~isSS)
+        error(['The following models are not a state-space model; ' toString(names(~isSS))])
+    end
     if isempty(inputs.shocks)
        inputs.shocks = obj(1).solution.res; 
     end
     if isempty(inputs.variables)
-        if isa(obj,'nb_mfvar')
+        if isa(obj(1),'nb_mfvar')
             inputs.variables = obj(1).solution.endo(1:length(obj(1).dependent.name));
         else
             inputs.variables = obj(1).dependent.name;

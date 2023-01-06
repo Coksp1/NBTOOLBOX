@@ -36,6 +36,8 @@ function ret = issolved(obj)
                     end 
                 elseif isa(obj(ii,jj,kk),'nb_exprModel')
                     ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'fcstHandle');
+                elseif isa(obj(ii,jj,kk),'nb_rfModel') || isa(obj(ii,jj,kk),'nb_manualModel')
+                    ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'class');
                 else
                     ret(ii,jj,kk) = isfield(obj(ii,jj,kk).solution,'A');
                 end

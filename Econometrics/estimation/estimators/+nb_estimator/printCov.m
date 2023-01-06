@@ -32,7 +32,8 @@ function res = printCov(results,options,precision)
     switch lower(options(end).estimator)
         case {'nb_olsestimator','nb_bvarestimator','nb_ecmestimator',...
               'nb_arimaestimator','nb_mlestimator','nb_pitestimator',...
-              'nb_exprestimator','nb_ridgeestimator','nb_lassoestimator'}
+              'nb_exprestimator','nb_ridgeestimator','nb_lassoestimator',...
+              'nb_manualestimator'}
             res = standardCovPrint(results,options,precision);
         otherwise
             res = '';
@@ -55,20 +56,7 @@ end
 
 function res = resursivePrint(results,options,precision)
 
-    dep = options.dependent;
-    if isfield(options,'block_exogenous')
-        dep = [dep,options.block_exogenous];
-    end
-    if isfield(options,'nstep')
-        if ~isempty(options.nStep)
-            dep = [dep,nb_cellstrlead(dep,options.nStep-1)];
-        end
-    end
-    if isfield(options,'indObservedOnly') && isfield(options,'frequency')
-        indObservedOnly = options.indObservedOnly(1:size(options.frequency,2));
-        dep             = dep(indObservedOnly);
-    end
-    nDep = length(dep);
+    [dep,nDep] = getDependent(options);
     
     % Get sample
     dataStart = options.dataStartDate;
@@ -125,6 +113,20 @@ end
 
 function res = normalPrint(results,options,precision)
     
+    [dep,nDep]         = getDependent(options);
+    table              = repmat({''},nDep+1,nDep+1);
+    table(2:end,2:end) = nb_double2cell(results.sigma,precision);
+    table(1,2:end)     = dep;
+    table(2:end,1)     = dep;
+    res                = cell2charTable(table);
+    
+end
+
+function [dep,nDep] = getDependent(options)
+
+    if ~isfield(options,'dependent')
+        error('Cannot print covariance matrix when dependent is not an options of the model!')
+    end
     dep = options.dependent;
     if isfield(options,'block_exogenous')
         dep = [dep,options.block_exogenous];
@@ -137,12 +139,6 @@ function res = normalPrint(results,options,precision)
             dep = [dep,nb_cellstrlead(dep,options.nStep-1)];
         end
     end
-    
-    nDep               = length(dep);
-    table              = repmat({''},nDep+1,nDep+1);
-    table(2:end,2:end) = nb_double2cell(results.sigma,precision);
-    table(1,2:end)     = dep;
-    table(2:end,1)     = dep;
-    res                = cell2charTable(table);
+    nDep = length(dep);
     
 end

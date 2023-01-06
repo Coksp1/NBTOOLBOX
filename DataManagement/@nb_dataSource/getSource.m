@@ -55,6 +55,8 @@ function sourceType = getSource(obj,type)
                 sourceType = 'mat';
             case {'xls','xlsmp'}
                 sourceType = 'xls';
+            otherwise
+                sourceType = lower(sourceType);
         end
         
     end

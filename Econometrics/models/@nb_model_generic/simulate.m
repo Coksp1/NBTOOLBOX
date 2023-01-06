@@ -227,10 +227,10 @@ function out = simulate(obj,nSteps,varargin)
     
     % Update some properties
     if ~nb_isScalarInteger(nSteps)
-        error([mfilename ':: The nSteps input must be a scalar integer.'])
+        error('The nSteps input must be a scalar integer.')
     end
     if nSteps < 1
-        error([mfilename ':: The nSteps input must be grater than 0.'])
+        error('The nSteps input must be grater than 0.')
     end
     
     burn = inputs.burn;
@@ -244,7 +244,10 @@ function out = simulate(obj,nSteps,varargin)
     obj      = obj(:);
     nobj     = numel(obj);
     parallel = inputs.parallel;
-    
+    names    = getModelNames(obj);
+    if any(~issolved(obj))
+        error(['The following models are not solved; ' toString(names(~issolved(obj)))])
+    end
     if nobj == 0
         error('Cannot simulate an empty vector of nb_model_generic objects.')
     end
@@ -286,11 +289,6 @@ function out = simulate(obj,nSteps,varargin)
     % Check that the models are solved
     %-----------------------------------
     for ii = 1:nobj
-        try 
-            sol{ii}.class; 
-        catch 
-            error([mfilename ':: Model ' int2str(ii) ' is not solved!']); 
-        end
         opt{ii} = opt{ii}(end); % The model may be estimated on real-time data, so here we only allow to simulate based on the full sample estimates
         if ~isfield(opt{ii},'estim_end_ind') % Some model may not be estimated
             opt{ii}.estim_end_ind   = 1;
@@ -306,6 +304,10 @@ function out = simulate(obj,nSteps,varargin)
     shockProps = repmat({struct},[1,nobj]);
     condDBVar  = repmat({{}},1,nobj);
     for ii = 1:nobj
+        if ~isfield(obj(ii).solution,'exo')
+            error(['Cannot simulate an model of class ' class(obj(ii)), ...
+                ', which is the class of the model ' names{ii}])
+        end
         exo = obj(ii).solution.exo;
         if ~isempty(exo)
             ind = ismember(exo,{'Constant','Time-trend'});

@@ -114,7 +114,7 @@ function [betaDraws,sigmaDraws,yD,pD] = drawParameters(results,options,draws,ite
                 paramDraws = [paramDraws;results.R(measErrInd,ones(1,draws))];
             end
             H         = nb_mlEstimator.getMeasurementEqMFVAR(options);
-            yD        = nan(nDep,size(H,2),draws);
+            yD        = nan(size(y,2),size(H,2),draws);
             pD        = nan(nDep,nDep,nNow,draws);
             ii        = 1;
             numFailed = 0;

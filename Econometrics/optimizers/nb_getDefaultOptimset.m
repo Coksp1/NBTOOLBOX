@@ -21,14 +21,16 @@ function opt = nb_getDefaultOptimset(opt,funcName)
 % 
 % - opt      : A struct (with or without fields) or any other empty object.
 % 
-% - funcName : Name of the optimizer/solver to be used.
+% - funcName : Name of the estimator/optimizer/solver to be used.
 %
 % Output:
 % 
-% - opt      : A struct with the options used by the optimizer/solver.
+% - opt      : A struct with the options used by the estimator/optimizer/
+%              solver.
 %
 % See also:
-% optimset, nb_abc.optimset, nb_solve.optimset, nb_abcSolve.optimset
+% optimset, nb_abc.optimset, nb_solve.optimset, nb_abcSolve.optimset,
+% nb_lasso.optimset, nb_randomForest.optimset
 %
 % Written by Kenneth Sæterhagen Paulsen
 
@@ -65,15 +67,20 @@ function opt = nb_getDefaultOptimset(opt,funcName)
         elseif strcmpi(funcName,'csminwel')
             opt = struct('TolFun',1.0000e-06,'MaxIter',inf);
         elseif strcmpi(funcName,'nb_lasso')
-            opt = nb_lasso.optimset;     
+            opt = nb_lasso.optimset;  
+        elseif strcmpi(funcName,'nb_randomForest')
+            opt = nb_randomForest.optimset;    
         end
     end
-    if ~isfield(opt,'OutputFcn')
-        opt.OutputFcn = [];
-    end
-    if ~isfield(opt,'Display')
-        if ~isfield(opt,'display')
-            opt.Display = 'iter';
+    
+    if ~any(strcmpi(funcName,{'nb_lasso','nb_randomForest'}))
+        if ~isfield(opt,'OutputFcn')
+            opt.OutputFcn = [];
+        end
+        if ~isfield(opt,'Display')
+            if ~isfield(opt,'display')
+                opt.Display = 'iter';
+            end
         end
     end
 
