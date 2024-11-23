@@ -5,7 +5,7 @@ function options = varModifications(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Add first lag to right hand side variable. nLags change to
     % refer to number of lags of the already lagged right hand side

@@ -15,7 +15,7 @@ function nb_error(message,Err)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     report = getReport(Err);
     try

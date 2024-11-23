@@ -31,7 +31,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj = obj(:);
@@ -118,6 +118,10 @@ function set(obj,varargin)
                 case 'grid'
 
                     obj.grid = propertyValue;
+                    
+                case 'gridcolor'
+
+                    obj.gridColor = propertyValue;    
 
                 case 'gridlinestyle'
 
@@ -176,7 +180,11 @@ function set(obj,varargin)
                 case 'tickdir'
 
                     obj.tickDir = propertyValue;
+                    
+                case 'ticklength'
 
+                    obj.tickLength = propertyValue;
+    
                 case 'uicontextmenu'  
                     
                     obj.UIContextMenu = propertyValue;
@@ -263,13 +271,17 @@ function set(obj,varargin)
                         obj.xTickLabelSet = 1;
                     end
                     
+                case 'xticklabelinterpreter'
+
+                    obj.xTickLabelInterpreter = propertyValue;      
+                    
                 case 'xticklabelalignment'
 
-                    obj.xTickLabelAlignment    = propertyValue;  
+                    obj.xTickLabelAlignment = propertyValue;  
                     
                 case 'xticklabellocation'
 
-                    obj.xTickLabelLocation    = propertyValue;  
+                    obj.xTickLabelLocation = propertyValue;  
 
                 case 'xticklocation'
                     
@@ -336,6 +348,10 @@ function set(obj,varargin)
                         obj.yTickLabelSet = 1;
                     end
 
+                case 'yticklabelinterpreter'
+
+                    obj.yTickLabelInterpreter = propertyValue;       
+                    
                 case 'yticklabelright'
 
                     obj.yTickLabelRight    = propertyValue;

@@ -143,7 +143,7 @@ function obj = filter(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Parse optional inputs
     opt = obj.options;

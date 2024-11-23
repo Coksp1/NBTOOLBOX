@@ -14,7 +14,7 @@ function [fh,estStruct,lb,ub,opt,options] = getObjectiveForEstimation(options,fo
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         forSystemPrior = false;
@@ -71,7 +71,12 @@ function [fh,estStruct,lb,ub,opt,options] = getObjectiveForEstimation(options,fo
     
     % Location of the rest
     [~,indPar] = ismember(estimated(~isBreakP & ~isTimeOfBreakP),parser.parameters);
-    
+    if any(indPar == 0)
+        estParamNotBreak = estimated(~isBreakP & ~isTimeOfBreakP);
+        error(['The following parameters are not part of the model; ',...
+            toString(estParamNotBreak(indPar == 0))]);
+    end
+
     % Get bounds
     if nargout > 2
         [lb,ub] = nb_statespaceEstimator.getBounds(options);

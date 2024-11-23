@@ -32,7 +32,7 @@ function x = skt_std(a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = sqrt(nb_distribution.skt_variance(a,b,c,d));
 

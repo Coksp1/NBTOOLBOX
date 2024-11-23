@@ -13,7 +13,7 @@ function [results,options] = myEstimAndFcstFunc(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get data
     if length(options.dependent) ~= 1

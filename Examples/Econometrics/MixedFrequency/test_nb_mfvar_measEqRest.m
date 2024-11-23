@@ -28,7 +28,7 @@ dataQMT = convert(dataQ,12,'','interpolateDate','end');
 dataQM  = addPrefix(dataQMT,'Q_');
 data    = [dataM,dataQM];
 
-dataDA = 1/3*dataM + 2/3*lag(dataM,1) + lag(dataM,2) + 2/3*lag(dataM,3) + 1/3*lag(dataM,4);
+dataDA = 1/3*dataM + 2/3*nb_lag(dataM,1) + nb_lag(dataM,2) + 2/3*nb_lag(dataM,3) + 1/3*nb_lag(dataM,4);
 
 % plotter = nb_graph_ts(data);
 % plotter.set('missingValues','interpolate');

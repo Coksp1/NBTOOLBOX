@@ -19,7 +19,7 @@ function results = dynareGetFiltered(results,oo_)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Load the filtered variables from dynare
     if isfield(oo_,'FilteredVariables')

@@ -25,7 +25,7 @@ function x = nb_almonLag(theta,K)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     Q      = size(theta,2);
     qq     = 1:Q;

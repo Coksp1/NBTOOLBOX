@@ -9,7 +9,7 @@ function nextPage(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(gui.data,'nb_modelDataSource')
         temp = fetch(gui.data);

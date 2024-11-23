@@ -29,6 +29,12 @@ function obj = ipcn(obj,initialValues,periods,startAtNaN)
 % - periods           : The number of periods the initial series
 %                       has been taken growth over.
 % 
+% - startAtNaN        : true or false. If true it will start taking the
+%                       inverse growth when the nb_math_ts object with 
+%                       initialValues are nan, instead using the first
+%                       not nan observation in the same input. Default
+%                       is false.
+%
 % Output:
 % 
 % - Output            : An nb_math_ts object with the indicies.
@@ -41,76 +47,24 @@ function obj = ipcn(obj,initialValues,periods,startAtNaN)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         startAtNaN = false;
         if nargin < 3
             periods = 1;
+            if nargin < 2
+                initialValues = [];
+            end
         end
     end
 
-    if nargin < 2
-        if periods == 1
-            initialValues = repmat(100,[1,obj.dim2,obj.dim3]);  
-        else
-            error([mfilename ':: When the periods input is not equal to 1 the initialValues must be provided.'])
-        end 
-    end
-    
-    if isa(initialValues,'nb_math_ts')
-        
-        if isempty(initialValues)
-            error([mfilename ':: The initialValues input cannot be a empty nb_math_ts object.'])
-        end
-        
-        if initialValues.startDate > obj.startDate
-            error([mfilename ':: The initialValues input must have a start date (' toString(initialValues.startDate) ') that is before '...
-                             'the start date of this object (' toString(obj.startDate) ').'])
-        end
-        
-        neededS = getRealStartDate(obj,'nb_date');
-        if startAtNaN
-            initEnd = initialValues.getRealEndDate('nb_date');
-            needed  = initEnd - (periods - 1);
-            if initialValues.startDate > needed
-                error([mfilename ':: The initialValues input must start at ' toString(needed) '.'])
-            end
-            t    = (needed - obj.startDate) + 1;
-            d0   = double(window(initialValues,needed,initEnd));
-            data = double(obj);
-            data = data(t:end,:,:);
-        else
-            needed  = neededS + (periods - 1);
-            if isempty(needed)
-                needed = obj.startDate + (periods - 1);
-            else
-                if initialValues.endDate < needed
-                    error([mfilename ':: The initialValues input must have at least observation until ' toString(needed) '.'])
-                end
-            end
-            d0           = double(window(initialValues,neededS,needed));
-            data         = double(window(obj,neededS,''));
-            nAppendFirst = obj.dim1 - size(data,1);
-            t            = 1;
-        end
-        
+    [d0,t] = checkInverseMethodsInput(obj,initialValues,periods,startAtNaN);
+    if t == 1  
+        obj.data = ipcnnan(obj.data,d0,periods);
     else
-        if startAtNaN
-            error('The startAtNaN is not supported when initialValues is not given as a nb_math_ts object.')
-        end
-        d0           = initialValues;
-        t            = 1;
-        nAppendFirst = 0;
-        data         = obj.data;
-        
-    end
-    
-    if t == 1
-        obj.data = igrowthnan(data./100,d0,periods);
-        obj.data = [nan(nAppendFirst,obj.dim2,obj.dim3); obj.data];
-    else
-        d                   = igrowthnan(data./100,d0,periods);
+        d                   = obj.data(t:end,:,:);
+        d                   = ipcnnan(d,d0,periods);
         obj.data(1:t-1,:,:) = initialValues.data(1:t-1,:,:);
         obj.data(t:end,:,:) = d;
     end

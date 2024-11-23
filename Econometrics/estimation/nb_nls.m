@@ -102,7 +102,7 @@ function [message,beta,stdBeta,tStatBeta,pValBeta,residual,omega] = nb_nls(init,
 %
 % Written by Kenneth S. Paulsen
  
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get linear constraints
     [Aeq,varargin]     = nb_parseOneOptional('Aeq',[],varargin{:});

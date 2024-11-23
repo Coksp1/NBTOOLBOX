@@ -31,7 +31,7 @@ function stdBeta = nb_neweyWestRobustSTD(x,u,xpxi,restr)
 %
 % Written by Kenneth Sæterhagen Paulsen
    
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         restr = '';

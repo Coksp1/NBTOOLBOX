@@ -24,12 +24,12 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
     if isempty(options)
-        error([mfilename ':: The options input cannot be empty!'])
+        error('The options input cannot be empty!')
     end
 
     if ~ismember(options.stdType,{'h','w','nw'})
@@ -38,19 +38,42 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'modelSelection','');
     options = nb_defaultField(options,'polyLags',[]);
     options = nb_defaultField(options,'unbalanced',false);
+    options = nb_defaultField(options,'covidAdj',{});
+    options = nb_defaultField(options,'regularization',[]);
+    options = nb_defaultField(options,'regularizationMode','normal');
+    options = nb_defaultField(options,'regularizationPerc',[]);
+    options = nb_defaultField(options,'restrictConstant',true);
     
     % Get the estimation options
     %------------------------------------------------------
     tempDep = cellstr(options.dependent);
     if isempty(tempDep)
-        error([mfilename ':: No dependent variables selected, please assign the dependent field of the options property.'])
+        error(['No dependent variables selected, please assign the ',...
+            'dependent field of the options property.'])
     end
     options.exogenous = cellstr(options.exogenous);
     
     if isempty(options.data)
-        error([mfilename ':: Cannot estimate without data.'])
+        error('Cannot estimate without data.')
     end
     options.modelSelectionFixed = false(1,length(options.exogenous));
+
+    if ~isempty(options.regularization)
+        if ~nb_isScalarNumber(options.regularization)
+            if not(isvector(options.regularization) && length(options.regularization) == options.nStep)
+                error(['The ''regularization'' option must either be a ',...
+                    'scalar number or a vector with length ' int2str(options.nStep)])
+            end
+        end
+    end
+    if ~isempty(options.regularizationPerc)
+        if ~nb_isScalarNumber(options.regularizationPerc)
+            if not(isvector(options.regularizationPerc) && length(options.regularizationPerc) == options.nStep)
+                error(['The ''regularizationPerc'' option must either be a ',...
+                    'scalar number or a vector with length ' int2str(options.nStep)])
+            end
+        end
+    end
 
     % Get the estimation data
     %------------------------------------------------------
@@ -64,7 +87,7 @@ function [results,options] = estimate(options)
     % Add lags or find best model
     nExo = length(options.exogenous);
     if ~isempty(options.modelSelection)
-        error([mfilename ':: The modelSelection option is not yet supported.'])
+        error('The modelSelection option is not yet supported.')
     else
         [options,freqMapping] = nb_midasEstimator.addLags(options);
         [~,indX]              = ismember(options.exogenous,options.dataVariables);
@@ -107,19 +130,7 @@ function [results,options] = estimate(options)
     % Get estimation start and end dates
     startDateGiven = true;
     if isempty(options.estim_start_ind)
-        ind = cellfun(@(x)x==options.frequency,options.frequencyExo);
-        if any(ind)
-            % We have regressors on the same frequency as the dependent
-            % variable, so lags will need to cut the sample accordingly
-            exo              = options.exogenous(1:nExo);
-            exoSameFreq      = strcat(exo(ind),'_lag',strtrim(cellstr(num2str(options.nLags(ind)')))');
-            [~,indXSameFreq] = ismember(exoSameFreq,options.dataVariables);
-            XSameFreq        = options.data(mappingDep,indXSameFreq);
-            startInMapping   = find(all(~isnan(XSameFreq),2),1,'first');
-        else
-            startInMapping = 1;
-        end
-        options.estim_start_ind = mappingDep(startInMapping);
+        options.estim_start_ind = getDefaultStartEst(options,mappingDep,nExo);
         startDateGiven          = false;
     end
     sDate = sDataDate + (options.estim_start_ind - 1);
@@ -138,18 +149,20 @@ function [results,options] = estimate(options)
     % Get data
     [testY,indY] = ismember(tempDep,options.dataVariables);
     if any(~testY)
-        error([mfilename ':: Some of the dependent variable are not found to be in the dataset; ' toString(tempDep(~testY))])
+        error(['Some of the dependent variable are not found to be in the ',...
+            'dataset; ' toString(tempDep(~testY))])
     end
     y = options.data(mappingDep,indY);
     if isempty(y)
-        error([mfilename ':: The selected sample cannot be empty.'])
+        error('The selected sample cannot be empty.')
     end
     isMissing = isnan(y);
     if any(isMissing)
         locNM = find(~isMissing,1);
         if locNM ~= 1
             if startDateGiven
-                error([mfilename ':: MIDAS models cannot handle missing observation of the dependent variable in the start or in the middle of the sample.'])
+                error(['MIDAS models cannot handle missing observation of ',...
+                    'the dependent variable in the start or in the middle of the sample.'])
             else
                 % Missing observation at the start, so we just remove these
                 % if start date is not given
@@ -166,7 +179,8 @@ function [results,options] = estimate(options)
         locL = size(y,1);
         for ii = length(locM):-1:1
             if locL - locM(ii) > 1
-                error([mfilename ':: MIDAS models cannot handle missing observation of the dependent variable in the start or in the middle of the sample.'])
+                error(['MIDAS models cannot handle missing observation of ',...
+                    'the dependent variable in the start or in the middle of the sample.'])
             end
             locL = locM(ii);
         end
@@ -182,7 +196,7 @@ function [results,options] = estimate(options)
         error(['The estimation start date ' toString(sDate) ' gives no ',...
             'data on the dependent variable to estimate the model on.']);
     end
-    finish     = mappingDep(end);
+    finish = mappingDep(end);
     
     % Get the data on the exogenous
     if options.unbalanced
@@ -218,33 +232,45 @@ function [results,options] = estimate(options)
         exogenousLead         = zeros(1,nExo);
     end
     if size(X,2) == 0
-        error([mfilename ':: You must select some regressors.'])
+        error('You must select some regressors.')
     end
     if any(isnan(X(:)))
-        error([mfilename ':: The MIDAS estimator does not support missing observation on the exogenous variables.'])
+        error(['The MIDAS estimator does not support missing observation ',...
+            'on the exogenous variables.'])
     end
     
     % Check for constant regressors, which we do not allow
     if any(all(diff(X,1) == 0,1))
-        error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                         'Use the constant option instead.'])
+        error(['One or more of the selected exogenous variables is/are constant. '...
+            'Use the constant option instead.'])
+    end
+
+    % Estimation dates in low frequency
+    options.estim_start_date_low = toString(lDate);
+    options.estim_end_date_low   = toString(lDate + (size(y,1) - 1));
+
+    % Ignore some covid dates?
+    options.mappingDep    = mappingDep;
+    options.mappingExo    = mappingExo;
+    options.exogenousLead = exogenousLead;
+    if ~isempty(options.covidAdj)
+        indCovid = nb_estimator.applyCovidFilter(options,y);
+    else
+        indCovid = [];
     end
     
     % Do the estimation
     %------------------------------------------------------
     options.start_low        = start;
     options.end_low          = finish;
-    options.mappingDep       = mappingDep;
-    options.mappingExo       = mappingExo;
     options.nExo             = nExo;
     options.start_low_in_low = (lDate - sDataDateLow) + 1;
     options.end_low_in_low   = size(y,1) - 1 + options.start_low_in_low;
     options.freqMapping      = freqMapping;
-    options.exogenousLead    = exogenousLead;
     if options.recursive_estim    
-        [results,options] = nb_midasEstimator.recursiveEstimation(options,y,X,nExo);
+        [results,options] = nb_midasEstimator.recursiveEstimation(options,y,X,nExo,indCovid);
     else % Not recursive
-        [results,options] = nb_midasEstimator.normalEstimation(options,y,X,nExo); 
+        [results,options] = nb_midasEstimator.normalEstimation(options,y,X,nExo,indCovid); 
     end
     
     % Assign generic results
@@ -255,9 +281,34 @@ function [results,options] = estimate(options)
     options.estimator = 'nb_midasEstimator';
     options.estimType = 'classic';
     
-    % Estimation dates in low frequency
-    options.estim_start_date_low = toString(lDate);
-    options.estim_end_date_low   = toString(lDate + (size(y,1) - 1));
-    
 end
 
+%==========================================================================
+function estStart = getDefaultStartEst(options,mappingDep,nExo)
+
+    % Get first possible estimation start date from the dependent variable
+    estStartLow = mappingDep(1);
+
+    % Get first possible estimation start date from the low frequency
+    % variables
+    highFreqs    = unique([options.frequencyExo{:}]);
+    estStartHigh = nan(1, length(highFreqs));
+    for ii = 1:length(highFreqs)
+        ind           = cellfun(@(x)x==highFreqs(ii),options.frequencyExo);
+        exo           = options.exogenous(1:nExo);
+        exoSameFreq   = exo(ind);
+        nLagsSameFreq = options.nLags(ind);
+        for jj = 1:length(exoSameFreq)
+            if nLagsSameFreq(jj) > 0
+                exoSameFreq{jj} = [exoSameFreq{jj},'_lag' int2str(nLagsSameFreq(jj))];
+            end
+        end
+        [~,indXSameFreq] = ismember(exoSameFreq,options.dataVariables);
+        XSameFreq        = options.data(:,indXSameFreq);
+        startInHigh      = find(all(~isnan(XSameFreq),2),1,'first');
+        startInMapping   = find(mappingDep >= startInHigh,1,'first');
+        estStartHigh(ii) = mappingDep(startInMapping);
+    end
+    estStart = max(estStartLow,max(estStartHigh));
+
+end

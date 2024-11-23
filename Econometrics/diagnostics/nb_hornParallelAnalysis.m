@@ -64,7 +64,7 @@ function [sMEV,ciEV,cumE,resL2,nBasis] = nb_hornParallelAnalysis(data,K)
 % OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     dataSize  = size(data);
     nEntry    = dataSize(1);

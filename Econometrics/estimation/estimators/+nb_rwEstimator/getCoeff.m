@@ -9,7 +9,7 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options(1).constant
         coeff = [{'Constant','AR'},options(1).exogenous{:}];

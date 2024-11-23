@@ -30,7 +30,7 @@ function f = truncated_cdf(x,dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     func = str2func(['nb_distribution.' dist '_cdf']);
     if isempty(lb)

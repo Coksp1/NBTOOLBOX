@@ -12,7 +12,7 @@ function makeGUI(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     plotter = gui.plotter;
     parent  = gui.plotter.parent;

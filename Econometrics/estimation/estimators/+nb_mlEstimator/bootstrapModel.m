@@ -10,7 +10,7 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(model,options,results,me
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: Bootstrap models estimated with maximum likelihood is not possible.'])
 

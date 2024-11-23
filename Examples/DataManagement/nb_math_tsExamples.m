@@ -9,4 +9,4 @@ var3 = var1-var2
 var4 = var3./var1
 var5 = (var4.*var2)./var3
 
-nb_math_ts.help
+help nb_math_ts

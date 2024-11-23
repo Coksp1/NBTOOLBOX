@@ -27,7 +27,7 @@ function acf = nb_autocovMat(y,lags,demean)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         demean = true;
@@ -54,7 +54,7 @@ function acf = nb_autocovMat(y,lags,demean)
     acf  = nan(nVar,nVar,lags+1,size(y,3));
     for pp = 1:size(y,3)
         for ii = 1:lags+1
-            ylag = lag(y(:,:,pp),ii-1);
+            ylag = nb_lag(y(:,:,pp),ii-1);
             ylag = ylag(ii:end,:);
             yt   = y(ii:end,:,pp);
             for jj = 1:nVar

@@ -43,7 +43,7 @@ function obj = callstat(obj,func,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ischar(func)
         strFunc = func;

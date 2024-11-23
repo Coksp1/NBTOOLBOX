@@ -8,7 +8,7 @@ classdef (Abstract) nb_model_estimate < matlab.mixin.Heterogeneous & nb_modelDat
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
 
@@ -142,15 +142,17 @@ classdef (Abstract) nb_model_estimate < matlab.mixin.Heterogeneous & nb_modelDat
                 inp    = varargin{1};
                 others = {};
             else
-                inp                      = struct('inGUI','off');
-                others                   = varargin;
-                [inp.parallel,others]    = nb_parseOneOptionalSingle('parallel',0,1,others{:});
-                [inp.waitbar,others]     = nb_parseOneOptionalSingle('waitbar',0,1,others{:});
-                [inp.write,others]       = nb_parseOneOptionalSingle('write',false,true,others{:});
-                [inp.remove,others]      = nb_parseOneOptionalSingle('remove',false,true,others{:});
-                [inp.cores,others]       = nb_parseOneOptional('cores',[],others{:});
-                [inp.fileToWrite,others] = nb_parseOneOptional('fileToWrite','',others{:});
-                [inp.inputs,others]      = nb_parseOneOptional('inputs',{},others{:});
+                inp                             = struct('inGUI','off');
+                others                          = varargin;
+                [inp.parallel,others]           = nb_parseOneOptionalSingle('parallel',0,1,others{:});
+                [inp.skipIsDiscontinued,others] = nb_parseOneOptionalSingle('skipIsDiscontinued',0,1,others{:});
+                [inp.skipIsUpdated,others]      = nb_parseOneOptionalSingle('skipIsUpdated',0,1,others{:});
+                [inp.waitbar,others]            = nb_parseOneOptionalSingle('waitbar',0,1,others{:});
+                [inp.write,others]              = nb_parseOneOptionalSingle('write',false,true,others{:});
+                [inp.remove,others]             = nb_parseOneOptionalSingle('remove',false,true,others{:});
+                [inp.cores,others]              = nb_parseOneOptional('cores',[],others{:});
+                [inp.fileToWrite,others]        = nb_parseOneOptional('fileToWrite','',others{:});
+                [inp.inputs,others]             = nb_parseOneOptional('inputs',{},others{:});
             end
             
         end

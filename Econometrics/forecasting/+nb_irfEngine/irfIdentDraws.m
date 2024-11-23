@@ -9,7 +9,7 @@ function irfDataD = irfIdentDraws(model,options,results,inputs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(inputs,'parallelL')
         if inputs.parallelL

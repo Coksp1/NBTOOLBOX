@@ -9,7 +9,7 @@ function [Y,dep] = getEvaluatedVariables(Y,dep,model,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Keep only the varOfInterest if it is given
     if ~isempty(inputs.varOfInterest)

@@ -20,7 +20,7 @@ function s = nb_availablePoolSize()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     clusterProfile = getenv('clusterProfile');
     if ~isempty(clusterProfile)

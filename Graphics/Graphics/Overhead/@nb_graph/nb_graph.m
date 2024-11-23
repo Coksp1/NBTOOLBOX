@@ -18,7 +18,7 @@ classdef (Abstract) nb_graph < nb_graph_obj
 %
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -218,10 +218,10 @@ classdef (Abstract) nb_graph < nb_graph_obj
         % 
         code                    = '';
         
-        % Sets the colormap used when plotType is set to 'image' and
-        % fanMethod is set to 'graded'. Must be given as n x 3 double or 
-        % the path to a .mat file that contain the colormap. Default is  
-        % given by nb_axes.defaultColorMap.
+        % Sets the colormap used when plotType is set to 'image' or 
+        % 'heatmap' and/or fanMethod is set to 'graded'. Must be given as 
+        % n x 3 double or the path to a .mat file that contain the 
+        % colormap. Default is given by nb_axes.defaultColorMap.
         %
         % For an example of a supported MAT file see:
         % - ...\Examples\Graphics\colorMapNB.mat
@@ -443,6 +443,31 @@ classdef (Abstract) nb_graph < nb_graph_obj
         % Sets the line style of the grid lines. Either '-', '--', ':' 
         % or '-.'.        
         gridLineStyle           = '--';             
+        
+        % The optioonal inputs given to the call to the MATLAB heatmap
+        % function, when plotType is set to 'heatmap'.
+        %
+        % Additional options are;
+        % - 'direction'             : 'vertical' or 'horizontal'. 
+        %                             'vertical' is default.
+        % - 'xTickLabelInterpreter' : The standard MATLAB values.
+        % - 'yTickLabelInterpreter' : The standard MATLAB values.
+        % - 'xAxisLocation'         : 'top' or 'bottom'. Default is 'top'
+        %                             when 'direction' is set to 'vertical'
+        %                             and 'bottom' otherwise.
+        %
+        % Caution: Do not set these properties; 
+        %   > 'position' : See the 'position' property
+        %   > 'XData'    : Set automatically.
+        %   > 'YData'    : Set automatically.
+        %   > 'colorMap' : See the 'colorMap' property.
+        %   > 'parent'   : Set automatically.
+        %   > 'Title'    : See the 'title' property
+        %   > 'XLabel'   : See the 'xLabel' property
+        %   > 'YLabel'   : See the 'yLabel' property
+        %   > 'FontName' : See the 'FontName' property
+        %   > 'FontSize' : See the 'axesFontSize' property
+        heatmapOptions          = {};
         
         % If you want to include some extra horizontal lines, beside the 
         % base line, you can set this property. Must be set to a scalar 
@@ -952,6 +977,10 @@ classdef (Abstract) nb_graph < nb_graph_obj
         % 'right' | 'leftaxes'.
         xLabelPlacement         = 'center';
         
+        % Set the interpreter of the x-axis tick labels. {'text'}, 'none' 
+        % or 'latex'.
+        xTickLabelInterpreter   = 'tex';
+        
         % Sets the x-axis tick mark labels. To translate the default tick
         % mark label 'Var1' and 'Var2' you can use;
         %
@@ -988,6 +1017,10 @@ classdef (Abstract) nb_graph < nb_graph_obj
         % Must be a string. Takes the same font option as the yLabel 
         % property        
         yLabelRight             = ''; 
+        
+        % Set the interpreter of the y-axis tick labels. {'text'}, 'none' 
+        % or 'latex'.
+        yTickLabelInterpreter   = 'tex';
         
     end
     
@@ -1888,6 +1921,7 @@ classdef (Abstract) nb_graph < nb_graph_obj
         varargout = scaleFontSize(varargin)
         varargout = setDefaultSettings(varargin)
         varargout = setFontSize(varargin)
+        varargout = setHeatmapAxes(varargin)
         varargout = updateLabelIndices(varargin)
              
     end

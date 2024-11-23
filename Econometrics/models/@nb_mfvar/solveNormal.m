@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,opt,ident)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         ident = [];
@@ -13,15 +13,26 @@ function tempSol = solveNormal(results,opt,ident)
 
     % Provide solution
     if strcmpi(opt.estim_method,'tvpmfsv')
-        % Here we must make sure that we order the low frequency variables
-        % last. This is not returned by nb_tvpmfsvEstimator.getStateNames,
-        % as the opt.observables are reorder back to user defined order!
-        % opt.reorderLoc stores the ordering based on frequency!
-        [auxDep,res] = nb_tvpmfsvEstimator.getStateNames(opt);
-        obs          = opt.observables;
-        res          = res(opt.reorderLoc(~opt.indObservedOnly));
-        auxDep       = auxDep(opt.reorderLoc(~opt.indObservedOnly));
-        dep          = regexprep(auxDep,'^AUX\_','');
+        if isfield(opt,'invReorderLoc')
+            % In this case we have a way to order the observables back
+            % to the order during estimation.
+            obs             = opt.observables;
+            opt.observables = opt.observables(opt.invReorderLoc);
+            [auxDep,res]    = nb_tvpmfsvEstimator.getStateNames(opt);
+            auxDep          = auxDep(1:length(res));
+            dep             = regexprep(auxDep,'^AUX\_','');
+        else
+            % Here we must make sure that we order the low frequency variables
+            % last. This is not returned by nb_tvpmfsvEstimator.getStateNames,
+            % as the opt.observables are reorder back to user defined order!
+            % opt.reorderLoc stores the ordering based on frequency!
+            opt.observables = opt.observables(loc(opt.reorderLoc));
+            [auxDep,res]    = nb_tvpmfsvEstimator.getStateNames(opt);
+            obs             = opt.observables;
+            res             = res(opt.reorderLoc(~opt.indObservedOnly));
+            auxDep          = auxDep(opt.reorderLoc(~opt.indObservedOnly));
+            dep             = regexprep(auxDep,'^AUX\_','');
+        end
     else
         dep  = opt.dependent;
         if isfield(opt,'block_exogenous')
@@ -96,7 +107,7 @@ function tempSol = solveNormal(results,opt,ident)
             R(locR,locR)          = tempSol.R;
             R_scale               = [opt.measurementEqRestriction.R_scale];
             locRRest              = numObsBefore+1:numObs;
-            R(locRRest,locRRest)  = diag(nanvar(yRest)./R_scale);
+            R(locRRest,locRRest)  = diag(var(yRest,'omitnan')./R_scale);
             tempSol.R             = R;
             tempSol.observables   = obs;
             
@@ -124,7 +135,9 @@ function tempSol = solveNormal(results,opt,ident)
         end
         tempSol.G = permute(tempSol.G,[1,2,4,3]);
         nStates   = size(tempSol.G,2)/nDep;
-        tempSol.R = results.R; % Measurement error covariance matrix
+        if isfield(results,'R')
+            tempSol.R = results.R; % Measurement error covariance matrix
+        end
         
         % Seperate the coefficients of the 
         % exogenous and the predetermined lags
@@ -229,8 +242,8 @@ function tempSol = calibrateR(tempSol,opt,obs)
     sample   = opt.estim_start_ind:opt.estim_end_ind;
     Y        = opt.data(sample,locY);
     if size(tempSol.RCalib,2) > 1
-        tempSol.RCalib(loc,loc) = diag(nanvar(Y)./R_scale);
+        tempSol.RCalib(loc,loc) = diag(var(Y,'omitnan')./R_scale);
     else
-        tempSol.RCalib(loc) = nanvar(Y)./R_scale;
+        tempSol.RCalib(loc) = var(Y,'omitnan')./R_scale;
     end
 end

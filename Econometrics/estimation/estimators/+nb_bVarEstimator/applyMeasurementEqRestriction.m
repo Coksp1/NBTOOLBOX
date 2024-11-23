@@ -14,7 +14,7 @@ function [H,y,mixing] = applyMeasurementEqRestriction(H,y,options,mixing)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     allDep = [options.dependent,options.block_exogenous];
     if ~isfield(options,'indObservedOnly') || isempty(options.indObservedOnly)
@@ -89,17 +89,17 @@ function [H,y,mixing] = applyMeasurementEqRestriction(H,y,options,mixing)
             
             % Parameters are time-varying
             [test3,locParam] = ismember(measRest(ii).parameters,options.dataVariables);
-            params           = options.data(options.estim_start_ind:options.estim_end_ind,locParam);
+            if any(~test3)
+                error(['The parameters field of the measurementEqRestriction (element ' int2str(ii) ') ',...
+                       'must be found to be in the data of the model. Cannot find ',... 
+                       toString(measRest(ii).parameters(~test3)) ' among the ',...
+                       'variables of the dataset ' toString(options.dataVariables)])
+            end
+            params = options.data(options.estim_start_ind:options.estim_end_ind,locParam);
             if any(isnan(params(:)))
                 error(['The parameters for the measurement equation restrictions ',...
                        'cannot be nan! Some of the variables ' toString(measRest(ii).parameters),...
                        ' have missing observations.'])
-            end
-            if any(~test3)
-                error(['The parameters field of the measurementEqRestriction ',...
-                       'must be found to be in the data of the model. Cannot find ',... 
-                       toString(measRest(ii).parameters(~test2)) ' among the ',...
-                       'variables of the dataset ' toString(options.dataVariables)])
             end
             
             if ~isempty(freqThis)
@@ -143,6 +143,7 @@ function [H,y,mixing] = applyMeasurementEqRestriction(H,y,options,mixing)
             params = measRest(ii).parameters;
             if ~isempty(freqThis)
                 freq(ii)   = freqThis;
+                nVars      = length(measRest(ii).variables);
                 indMapping = ismember(allStates,measRest(ii).variables);
                 if size(H,3) == 1 
                     % Get mapping for this restriction, and expand

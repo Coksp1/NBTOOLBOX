@@ -11,7 +11,7 @@ function [dep,Y] = doMeasurementEq(options,results,inputs,nSteps,model,Y,X,dep,i
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     mSteps = size(Y,2) - nSteps;
     if strcmpi(model.class,'nb_arima')
@@ -107,6 +107,16 @@ function [dep,Y] = doMeasurementEq(options,results,inputs,nSteps,model,Y,X,dep,i
         % In this case we only return the variables from the measurement
         % equation
         Y = Z;
+        if isfield(options,'measurementEqRestriction') && ...
+                    ~nb_isempty(options.measurementEqRestriction)
+            % We may have multiple restrictions on the same variable, so
+            % here we strip those, and return it in the order used in 
+            % the function nb_forecast.
+            depOut  = nb_forecast.getForecastVariables(options,model,inputs,'notAll');
+            [~,loc] = ismember(depOut,dep);
+            Y       = Y(loc,:);
+            dep     = depOut;
+        end
     elseif strcmpi(model.class,'nb_mfvar')
         % In this case we return the variables from the measurement
         % equation first and then the current period state variables
@@ -118,8 +128,20 @@ function [dep,Y] = doMeasurementEq(options,results,inputs,nSteps,model,Y,X,dep,i
         end
         nDep = length(options.dependent) + length(options.block_exogenous) - remove;
         Y    = Y(1:nDep,:);
+        if isfield(options,'measurementEqRestriction') && ...
+                    ~nb_isempty(options.measurementEqRestriction)
+            % We may have multiple restrictions on the same variable, so
+            % here we strip those, and return it in the order used in 
+            % the function nb_forecast.
+            restr      = {options.measurementEqRestriction.restricted};
+            restrU     = unique({options.measurementEqRestriction.restricted}); 
+            [~,loc]    = ismember(restrU,restr);
+            indR       = size(Z,1) - length(restr) + 1:size(Z,1);
+            ZReordered = Z(indR,:);
+            Z          = [Z(1:indR(1)-1,:); ZReordered(loc,:)];
+        end
         Y    = [Z;Y];
-        dep  = nb_forecast.getForecastVariables(options,model,inputs,'notAll');  
+        dep  = nb_forecast.getForecastVariables(options,model,inputs,'notAll');
     else  
         Y   = Y(1:nDep,:);
         Y   = [Y;Z];

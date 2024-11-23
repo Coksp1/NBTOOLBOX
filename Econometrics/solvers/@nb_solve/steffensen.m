@@ -12,7 +12,7 @@ function results = steffensen(opt,fVal)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     exitFlag     = 1;
     x            = opt.initialXValue;

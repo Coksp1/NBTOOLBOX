@@ -31,7 +31,7 @@ function obj = lag(obj,periods,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         periods = 1;
@@ -53,7 +53,7 @@ function obj = lag(obj,periods,varargin)
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@lag,{periods});
+        obj = obj.addOperation(@lag,[{periods},varargin]);
         
     end
 

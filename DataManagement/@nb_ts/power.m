@@ -44,7 +44,7 @@ function obj = power(obj,DBOrNum)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(DBOrNum,'nb_ts') && ~(isnumeric(DBOrNum) && size(DBOrNum,1) == 1 && size(DBOrNum,2) == 1)
         error([mfilename,':: It is not possible to raise an object of class ' class(DBOrNum) ' with an object of class ' class(obj)])

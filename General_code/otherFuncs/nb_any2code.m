@@ -25,7 +25,7 @@ function code = nb_any2code(input,varName,nestedLevel)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 % Write any input variable to it represenative .m code
  

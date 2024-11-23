@@ -12,7 +12,7 @@ function obj = mrdivide(obj1,obj2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = rdivide(obj1,obj2);
     

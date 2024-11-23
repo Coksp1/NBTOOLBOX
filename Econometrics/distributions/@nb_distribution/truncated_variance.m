@@ -30,7 +30,7 @@ function x = truncated_variance(dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     switch lower(dist)
         

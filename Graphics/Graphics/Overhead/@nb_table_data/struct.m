@@ -17,7 +17,7 @@ function s = struct(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     s                       = struct@nb_table_data_source(obj);
     s.manuallySetEndTable   = obj.manuallySetEndTable;

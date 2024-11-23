@@ -14,7 +14,7 @@ function [A,B,C,CE,ss,parser,err] = selectSolveAlgorithm(parser,solution,options
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     B = [];
     if parser.optimal % Find solution under optimal monetary policy 
@@ -47,7 +47,8 @@ function [A,B,C,CE,ss,parser,err] = selectSolveAlgorithm(parser,solution,options
         
     elseif parser.hasExpectedBreakPoints
         
-        [A,B,C,CE,parser,err] = nb_dsge.expectedBreakPointSolver(parser,solution,options,expandedOnly);
+        [A,B,C,CE,solution.ss,parser,err] = nb_dsge.expectedBreakPointSolver(...
+            parser,solution,options,expandedOnly);
         
     elseif parser.optimalSimpleRule
 

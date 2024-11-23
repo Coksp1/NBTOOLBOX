@@ -9,7 +9,7 @@ function updateFakeLegendPanel(gui,fakeLegend,firstTime)
 % 
 % Written by Kenneth Sæterhagen Paulsen     
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.panelHandle4)
         firstTime = 1;

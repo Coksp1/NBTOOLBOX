@@ -9,7 +9,7 @@ function setPercentiles(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     currentMonitor    = nb_getCurrentMonitor();
     defaultBackground = get(0, 'defaultUicontrolBackgroundColor');

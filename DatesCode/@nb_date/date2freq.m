@@ -63,7 +63,7 @@ function [startDate,frequency,type] = date2freq(dates,xls)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         xls = 'notxls';
@@ -88,8 +88,8 @@ function [startDate,frequency,type] = date2freq(dates,xls)
             dates = upper(cellstr(dates));
         end
     elseif isa(dates,'nb_date')
-        startDate = dates;
-        frequency = dates.frequency;
+        startDate = dates(1);
+        frequency = dates(1).frequency;
         type      = 0;
         return
     end

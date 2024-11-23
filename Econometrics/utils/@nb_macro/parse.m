@@ -28,7 +28,7 @@ function [obj,parsed] = parse(obj,statements)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(statements)
         parsed = cell(size(statements));
@@ -115,7 +115,7 @@ function [obj,parsed] = parse(obj,statements)
                 value = '';
             else
                 try
-                    out = eval(obj,exprInt); %#ok<EVLC>
+                    out = eval(obj,exprInt); %#ok<EV2IN>
                 catch
                     error(['Could not interpret the following expression; ' expr '.'])
                 end

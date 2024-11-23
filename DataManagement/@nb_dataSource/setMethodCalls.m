@@ -27,7 +27,7 @@ function obj = setMethodCalls(obj,c)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~obj.updateable
         error([mfilename ':: The object is not updateable'])

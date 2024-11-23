@@ -9,7 +9,7 @@ function placeBetween(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get state
     value = get(hObject,'value');

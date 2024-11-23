@@ -21,7 +21,7 @@ function [betaDraw,output] = randomWalk(output)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     betaDraw = output.phi(output);
 

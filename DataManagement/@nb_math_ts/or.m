@@ -31,7 +31,7 @@ function a = or(a,b)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(a,'nb_math_ts') && isa(b,'nb_math_ts')
 

@@ -27,9 +27,12 @@ function obj = epcn(obj,lag,stripNaN)
 % obj = epcn(obj);   % period-on-period growth
 % obj = epcn(obj,4); % 4-periods growth
 % 
+% See also:
+% nb_math_ts.pcn, , nb_math_ts.egrowth
+%
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         stripNaN = false;
@@ -37,8 +40,6 @@ function obj = epcn(obj,lag,stripNaN)
             lag = 1; 
         end
     end
-
-    obj = egrowth(obj,lag,stripNaN);
-    obj = obj*100;
+    obj.data = epcn(obj.data,lag,stripNaN);
 
 end

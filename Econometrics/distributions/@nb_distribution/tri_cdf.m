@@ -27,7 +27,7 @@ function f = tri_cdf(x,m,k,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x(x>k)  = k; 
     x(x<m)  = m;

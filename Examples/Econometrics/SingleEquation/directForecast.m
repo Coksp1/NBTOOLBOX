@@ -19,8 +19,6 @@ end
 y(2:100,1) = 0.2 + 0.6*x1(1:99) + 0.4*x2(1:99) + randn(99,1);
 y(2:100,2) = 0.3 + 0.1*x1(1:99) + 0.8*x2(1:99) + randn(99,1);
 
-plot([x1,x2,y])
-
 data = nb_ts([y,x1,x2],'','1999Q1',{'y','y2','x1','x2'});
 
 %% Estimate step ahead model
@@ -154,10 +152,10 @@ score.Model1
 
 %% Append data 
 
-data = createVariable(data,{'y_lead1','y_lead3'},{'y','lead(y,2)'});
+data = createVariable(data,{'y_lead1','y_lead3'},{'lead(y,1)','lead(y,3)'});
 
 %% Estimate step ahead model (Using nb_singleEq)
-% Not recommended!
+% Not recommended! As one period is removed at the end of the sample!!
 
 t            = nb_singleEq.template;
 t.data       = data;
@@ -176,5 +174,16 @@ model = solve(model);
 % Caution: Horizon2 will be given the forecast 0 in this example!
 
 model   = forecast(model,3);
+plotter = plotForecast(model);
+nb_graphSubPlotGUI(plotter);
+
+%% Density forecasts
+% Caution: Horizon2 will be given the forecast of mean 0 and std 1 in 
+% this example!
+
+model = forecast(model,3,...
+    'draws',            10,...
+    'parameterDraws',   100,...
+    'perc',             [0.3,0.5,0.7,0.9]);
 plotter = plotForecast(model);
 nb_graphSubPlotGUI(plotter);

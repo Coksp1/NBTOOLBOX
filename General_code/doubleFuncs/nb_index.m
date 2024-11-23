@@ -26,7 +26,7 @@ function d = nb_index(d,ind1,ind2,ind3)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         ind3 = ':';

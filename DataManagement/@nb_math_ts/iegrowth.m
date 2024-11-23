@@ -1,7 +1,8 @@
-function obj = iegrowth(obj,initialValues,periods)
+function obj = iegrowth(obj,initialValues,periods,startAtNaN)
 % Syntax:
 %
-% obj = iegrowth(obj,initialValues,periods)
+% obj = iegrowth(obj)
+% obj = iegrowth(obj,initialValues,periods,startAtNaN)
 %
 % Description:
 %
@@ -26,7 +27,13 @@ function obj = iegrowth(obj,initialValues,periods)
 % 
 % - periods           : The number of periods the initial series
 %                       has been taken growth over.
-% 
+%
+% - startAtNaN        : true or false. If true it will start taking the
+%                       inverse growth when the nb_math_ts object with 
+%                       initialValues are nan, instead using the first
+%                       not nan observation in the same input. Default
+%                       is false.
+%
 % Output:
 % 
 % - Output            : An nb_math_ts object with the indicies.
@@ -39,51 +46,26 @@ function obj = iegrowth(obj,initialValues,periods)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin < 3
-        periods = 1;
-    end
-
-    if nargin < 2
-        if periods == 1
-            initialValues = repmat(100,[1,obj.dim2,obj.dim3]);  
-        else
-            error([mfilename ':: When the periods input is not equal to 1 the initialValues must be provided.'])
-        end 
-    end
-    
-    if isa(initialValues,'nb_math_ts')
-        
-        if isempty(initialValues)
-            error([mfilename ':: The initialValues input cannot be a empty nb_math_ts object.'])
-        end
-        
-        if initialValues.startDate > obj.startDate
-            error([mfilename ':: The initialValues input must have a start date (' toString(initialValues.startDate) ') that is before '...
-                             'the start date of this object (' toString(obj.startDate) ').'])
-        end
-        neededS = getRealStartDate(obj,'nb_date');
-        needed  = neededS + (periods - 1);
-        if isempty(needed)
-            needed = obj.startDate + (periods - 1);
-        else
-            if initialValues.endDate < needed
-                error([mfilename ':: The initialValues input must have at least observation until ' toString(needed) '.'])
+    if nargin < 4
+        startAtNaN = false;
+        if nargin < 3
+            periods = 1;
+            if nargin < 2
+                initialValues = [];
             end
         end
-        initialValues = double(window(initialValues,neededS,needed));
-        data          = double(window(obj,neededS,''));
-        nAppendFirst  = obj.dim1 - size(data,1);
-        
-    else
-        
-        nAppendFirst = 0;
-        data         = obj.data;
-        
     end
-    
-    obj.data = iegrowthnan(data,initialValues,periods);
-    obj.data = [nan(nAppendFirst,obj.dim2,obj.dim3); obj.data];
+
+    [d0,t] = checkInverseMethodsInput(obj,initialValues,periods,startAtNaN);
+    if t == 1  
+        obj.data = iegrowthnan(obj.data,d0,periods);
+    else
+        d                   = obj.data(t:end,:,:);
+        d                   = iegrowthnan(d,d0,periods);
+        obj.data(1:t-1,:,:) = initialValues.data(1:t-1,:,:);
+        obj.data(t:end,:,:) = d;
+    end
     
 end

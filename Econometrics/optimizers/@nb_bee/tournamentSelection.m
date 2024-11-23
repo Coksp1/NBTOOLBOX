@@ -33,7 +33,7 @@ function ret = tournamentSelection(obj,currentLeader)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if obj.testedFeasible && currentLeader.currentFeasible
         % Both tested and current point is feasible, so we select the

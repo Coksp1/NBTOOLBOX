@@ -5,7 +5,7 @@ function [options,varargout] = testSample(options,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [handleNaN,varargin] = nb_parseOneOptionalSingle('handleNaN',false,true,varargin{:});
 

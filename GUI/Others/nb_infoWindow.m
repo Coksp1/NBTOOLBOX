@@ -28,7 +28,7 @@ function nb_infoWindow(message,name,scrollbox,resize,pos,windowStyle)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         windowStyle = 'modal';
@@ -63,7 +63,8 @@ function nb_infoWindow(message,name,scrollbox,resize,pos,windowStyle)
                  'Toolbar',     'None',...
                  'resize',      resize,...
                  'windowStyle', windowStyle,...
-                 'dockControls','off');
+                 'dockControls','off',...
+                 'tag','nb_infoWindow');
     nb_moveFigureToMonitor(f,currentMonitor,'center');
     
     % Print the info message

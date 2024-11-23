@@ -9,7 +9,7 @@ function [Y,err] = proSolver(obj,inputs,Y,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     block    = obj.parser.block;
     prologue = block.proEqs;

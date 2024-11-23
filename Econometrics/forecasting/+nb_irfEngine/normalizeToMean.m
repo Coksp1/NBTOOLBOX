@@ -12,7 +12,7 @@ function irfData = normalizeToMean(options,inputs,irfData)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(inputs.variables)
         error('If ''normalizeTo'' is set to ''mean'' the ''variables'' input must be set.')

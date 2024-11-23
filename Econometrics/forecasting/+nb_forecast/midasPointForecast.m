@@ -10,7 +10,7 @@ function [Y,evalFcst] = midasPointForecast(y0,restrictions,model,options,~,nStep
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get model solution
     modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);

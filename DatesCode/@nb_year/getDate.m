@@ -35,7 +35,7 @@ function date = getDate(obj,freq)
 %
 % Written by Kenneth S. Paulsen
         
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: The getDate method is only supported for scalar ' class(obj) ' objects.'])

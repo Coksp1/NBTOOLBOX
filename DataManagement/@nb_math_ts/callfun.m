@@ -69,7 +69,7 @@ function varargout = callfun(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % When the object is updateable, we need to tell it to return
     % a spesific element of the given update, i.e. this is done

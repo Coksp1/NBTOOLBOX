@@ -13,7 +13,7 @@ function eqs = substituteSS(eqs,endo)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     matches = regexp(eqs,'steady_state\(\w+\)','match');
     for ii = 1:length(eqs)

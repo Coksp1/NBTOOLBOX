@@ -9,7 +9,7 @@ function options = fillInForMissing(options,check)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     data = options.missingData(options.missingStartInd:options.missingEndInd,:);
     if any(data(:)) % If missing data

@@ -1,7 +1,7 @@
-function obj = cumsum(obj,dim)
+function obj = cumsum(obj,varargin)
 % Syntax:
 %
-% obj = cumsum(obj,dim)
+% obj = cumsum(obj,varargin)
 %
 % Description:
 %
@@ -11,8 +11,9 @@ function obj = cumsum(obj,dim)
 % 
 % - obj : An object of class nb_ts, nb_cs or nb_data
 % 
-% - dim : In which dimension the cumulativ sum should be 
-%         calculated. Default is the first dimension.
+% Optional input:
+% 
+% - Same as for the cumsum function made by MathWorks.
 % 
 % Output:
 % 
@@ -22,25 +23,23 @@ function obj = cumsum(obj,dim)
 % 
 % Examples:
 %
-% obj = cumsum(obj);
-% obj = cumsum(obj,2);
+% obj = cumsum(obj,1);
+% obj = cumsum(obj,1,'reverse');
+% obj = cumsum(obj,'omitnan');
+% obj = cumsum(obj,1,'reverse','omitnan');
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin < 2
-        dim = 1;
-    end
-
-    obj.data = cumsum(obj.data,dim);
+    obj.data = cumsum(obj.data,varargin{:});
 
     if obj.isUpdateable()
         
         % Add operation to the link property, so when the object 
         % is updated the operation will be done on the updated 
         % object
-        obj = obj.addOperation(@cumsum,{dim});
+        obj = obj.addOperation(@cumsum,varargin);
         
     end
     

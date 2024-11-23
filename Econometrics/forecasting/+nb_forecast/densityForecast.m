@@ -9,9 +9,11 @@ function [fData,evalFcst,solution] = densityForecast(y0,restrictions,model,optio
 %
 % Produce density forecast with wanted method
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
+
+    try options = options(iter); catch; end %#ok<CTCH>
 
     % Get the variables to forecast
     dep = nb_forecast.getForecastVariables(options,model,inputs,'densityForecast');
@@ -57,6 +59,24 @@ function [fData,evalFcst,solution] = densityForecast(y0,restrictions,model,optio
             end
         end
         
+        % Special stuff for models with measurement equation
+        modelIter = nb_forecast.getModelMatrices(model,iter,false,options,nSteps);
+        if isfield(modelIter,'H') && ~any(strcmpi(model.class,{'nb_arima','nb_fmsa'}))
+            % Dealing with a model with a measurement equation!
+            if ~isempty(inputs.observables)
+                X          = XE(:,1:size(modelIter.B,2),:);
+                [depN,YT]  = nb_forecast.doMeasurementEq(options,results,inputs,nSteps,modelIter,Y(:,:,1),X(:,:,1)',dep,iter);
+                YN         = nan(size(YT,1),size(YT,2),size(Y,3));
+                YN(:,:,1)  = YT;
+                for ii = 2:size(Y,3)
+                    [~,YT]     = nb_forecast.doMeasurementEq(options,results,inputs,nSteps,modelIter,Y(:,:,ii),X(:,:,ii)',dep,iter);
+                    YN(:,:,ii) = YT;
+                end
+                Y   = YN;
+                dep = depN;
+            end
+        end
+        
         % Here we transpose all single forecast, so dim1 is nSteps and 2 is 
         % nVars
         numDep = length(dep);
@@ -69,17 +89,10 @@ function [fData,evalFcst,solution] = densityForecast(y0,restrictions,model,optio
         
     end
     
-    try options = options(iter); catch; end %#ok<CTCH>
-    
     % Undiff ARIMA model
     if strcmpi(options.estimator,'nb_arimaEstimator')
         Y   = nb_forecast.undiffARIMA(options,restrictions.start,Y); 
         dep = regexprep(dep,'diff\d_','');
-    end
-    
-    % Special stuff for MF-VAR models
-    if strcmpi(model.class,'nb_mfvar')
-        [Y,dep] = nb_forecast.mapToObservablesMFVAR(Y,options,model,inputs);
     end
     
     % Merge the states if we are dealing with a MArkov switching model

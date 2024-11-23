@@ -116,3 +116,36 @@ plotter = plotForecast(model);
 nb_graphSubPlotGUI(plotter);
 plotter = plotForecast(model,'hairyplot');
 nb_graphSubPlotGUI(plotter);
+
+%% Estimate step ahead model
+% Covid adjustment and unbalanced
+
+q              = [0.05,0.15,0.25,0.35,0.5,0.65,0.75,0.85,0.95];
+t              = nb_sa.template;
+t.data         = data;
+t.dependent    = {'y'};
+t.estim_method = 'quantile';
+t.exogenous    = {'x1','x2'};
+t.constant     = 1;
+t.nStep        = 4;
+t.quantile     = q;
+t.covidAdj     = nb_covidDates(4);
+t.unbalanced   = true;
+
+model = nb_sa(t);
+model = estimate(model);
+print(model)
+
+% Solve
+model = solve(model);
+
+%% Estimate step ahead model
+% Recursive, covid adjustment
+
+modelRec = set(model,'recursive_estim',1,...
+    'recursive_estim_start_date','2010Q1');
+modelRec = estimate(modelRec);
+print(modelRec)
+
+plotter = getRecursiveEstimationGraph(modelRec);
+nb_graphSubPlotGUI(plotter);

@@ -9,9 +9,10 @@ function residual = getResidual(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     dep = options.dependent;
+    dep = nb_cellstrlead(dep,options.nStep);
     if ~isfield(results,'residual')
         residual = nb_ts();
     else

@@ -19,7 +19,7 @@ function [x,fval,exitflag,hessian] = testParallel()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options                   = nb_abc.optimset('useParallel',true);
     [x,fval,exitflag,hessian] = nb_abc.call(@(x)rosenbrockVally(x),zeros(2,1),ones(2,1)*-2.048,ones(2,1)*2.048,options);

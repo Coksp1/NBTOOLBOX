@@ -50,7 +50,7 @@ function [obj,valid] = estimate(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [inputs,others] = nb_model_estimate.parseOptional(varargin{:});
      
@@ -66,7 +66,7 @@ function [obj,valid] = estimate(obj,varargin)
     names  = getModelNamesLocal(obj);
     estOpt = cell(1,nobj);
     for ii = 1:nobj
-        if isempty(obj(ii).options.data)
+        if isfield(obj(ii).options,'data') && isempty(obj(ii).options.data) && ~isa(obj,'nb_manualCalculator')
             error([mfilename ':: You must assign some data to the model ' names{ii} ' to be able to estimate it!'])
         end
         estOpt(ii) = getEstimationOptions(obj(ii));

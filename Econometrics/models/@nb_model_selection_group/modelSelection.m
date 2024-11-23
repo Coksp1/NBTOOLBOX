@@ -42,7 +42,7 @@ function [modelGroup,plotter,errorReport] = modelSelection(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method is only supported for scalar nb_model_selection_group objects.'])
@@ -419,7 +419,7 @@ function [modelGroup,plotter,errorReport] = modelSelection(obj)
     
     if strcmpi(inputs.scoreHor,'mean')
     
-        [~,ind] = sort(nanmean(score(inputs.nHor,:),1),'descend');
+        [~,ind] = sort(mean(score(inputs.nHor,:),1,'omitnan'),'descend');
         ind     = ind(1:crit);
         
         % Create a model group object

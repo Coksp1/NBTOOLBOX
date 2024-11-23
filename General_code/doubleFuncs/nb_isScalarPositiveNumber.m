@@ -17,7 +17,7 @@ function ret = nb_isScalarPositiveNumber(x)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(x)
         ret = false;

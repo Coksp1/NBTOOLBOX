@@ -9,7 +9,7 @@ function selectDataset(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get selected dataset
     index   = get(gui.listBox,'Value');

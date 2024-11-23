@@ -26,7 +26,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen and Maximilian Schröder
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % set the lower bounds for the forgetting factors. This section is
     % eventually to be moved to the prior template later
@@ -49,6 +49,17 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'set2nan',struct());
     options = nb_defaultField(options,'mixing',{});
     options = nb_defaultField(options,'indObservedOnly',false(1,0));
+    options = nb_defaultField(options,'covidAdj',[]);
+
+    if ~isempty(options.covidAdj)
+        if ~nb_isempty(options.set2nan)
+            error('You cannot provide both set2nan and covidAdj at the same time.')
+        end
+        if isa(options.covidAdj,'nb_date')
+            dates = toString(options.covidAdj);
+        end
+        options.set2nan = struct('all',{dates});
+    end
     
     % Get the estimation options
     %------------------------------------------------------
@@ -178,8 +189,9 @@ end
 %==========================================================================
 function options = reorderObservables(options)
 
-    options.observables = options.observablesOrig;
-    options             = rmfield(options,'observablesOrig');
+    [~,options.invReorderLoc] = ismember(options.observables,options.observablesOrig);
+    options.observables       = options.observablesOrig;
+    options                   = rmfield(options,'observablesOrig');
     
 end
 

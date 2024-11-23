@@ -25,7 +25,7 @@ classdef nb_logger < handle
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen 
 
     properties (Constant)
         ALL     = 0;
@@ -146,7 +146,7 @@ classdef nb_logger < handle
         % 
         % Written by Kenneth Sæterhagen Paulsen
 
-        % Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
+        % Copyright (c) 2024, Kenneth Sæterhagen Paulsen 
         
             level = getenv('LOGGERLEVEL');
             if isempty(level)

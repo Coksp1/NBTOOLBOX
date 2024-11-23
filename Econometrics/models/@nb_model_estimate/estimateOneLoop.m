@@ -9,7 +9,7 @@ function [res,estOpt] = estimateOneLoop(estOpt)
 % 
 % Written by Kenneth Sæterhagen Paulsen
   
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     real_time_estim = false;
     if isfield(estOpt,'real_time_estim')

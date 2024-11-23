@@ -51,7 +51,7 @@ function dist = estimateDist(obj,type,estimator,dim,output,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         output = 'nb_distribution';

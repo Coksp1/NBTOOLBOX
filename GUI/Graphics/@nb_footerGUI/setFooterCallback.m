@@ -9,7 +9,7 @@ function setFooterCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     plotterA = gui.plotter;
     if strcmpi(gui.type,'excel') 

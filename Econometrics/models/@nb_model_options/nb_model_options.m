@@ -8,7 +8,7 @@ classdef (Abstract) nb_model_options
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
 
@@ -55,6 +55,13 @@ classdef (Abstract) nb_model_options
                                      'obj = set(obj,''data'',value) instead.'])
                 end
                 
+            end
+            
+            if isfield(value,'estim_start_date') && isstruct(value.estim_start_date)
+                value.estim_start_date = nb_date.unstruct(value.estim_start_date);
+            end
+            if isfield(value,'estim_end_date') && isstruct(value.estim_end_date)
+                value.estim_end_date = nb_date.unstruct(value.estim_end_date);
             end
             
             obj.options = value;

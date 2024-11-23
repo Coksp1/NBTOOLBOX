@@ -16,7 +16,7 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,model,ss,nSt
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Make waitbar or append already made waitbar
     if isfield(inputs,'waitbar')
@@ -78,10 +78,10 @@ function [E,X,states,solution] = conditionalOnDistributionEngine(y0,model,ss,nSt
         count   = sum(ind(:));
         ET      = E;
         ET(ind) = randn(count,1);
-        if iscell(C)
-            Ct = C{1};
+        if iscell(model.C)
+            Ct = model.C{1};
         else
-            Ct = C;
+            Ct = model.C;
         end
         
         % Simulate the observations on the restricted endogenous 

@@ -32,7 +32,7 @@ function s = nb_structdepcat(t,r)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nb_isempty(t)
         s = r;

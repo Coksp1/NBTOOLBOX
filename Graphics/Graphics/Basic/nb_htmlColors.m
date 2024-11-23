@@ -17,7 +17,7 @@ function colors = nb_htmlColors(endc)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     colors = cell(size(endc,1),1);
     for a = 1:size(endc,1)

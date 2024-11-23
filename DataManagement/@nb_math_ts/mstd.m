@@ -1,7 +1,8 @@
-function obj = mstd(obj,backward,forward)
+function obj = mstd(obj,backward,forward,flag)
 % Syntax:
 %
 % obj = mstd(obj,backward,forward)
+% obj = mstd(obj,backward,forward,flag)
 %
 % Description:
 %
@@ -18,6 +19,10 @@ function obj = mstd(obj,backward,forward)
 % - forward  : Number of periods forward in time to calculate the 
 %              moving std
 % 
+% - flag     : If set to true the periods that does not have enough
+%              observations forward or backward should be set to nan.
+%              Default is true.
+%
 % Output:
 % 
 % - obj      : An nb_math_ts object storing the calculated moving 
@@ -26,20 +31,21 @@ function obj = mstd(obj,backward,forward)
 % Examples: 
 % 
 % data   = nb_math_ts(rand(50,2)*3,'2011Q1');
-% mstd10 = mstd(data,9,0); % (10 year moving std)
+% mstd10 = mstd(data,9,0); % (10 quarters moving std)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    d = obj.data;
-    n = nan(size(d));
-    for ii = 1 + backward: size(d,1) - forward
-        
-        n(ii,:,:) = nanstd(d(ii - backward:ii + forward),0);
-        
+    if nargin < 4
+        flag = true;
     end
-    
-    obj.data = n;
+
+    isNaN = isnan(obj.data);
+    if any(isNaN(:))
+        obj.data = nb_nanmstd(obj.data,backward,forward,flag);
+    else
+        obj.data = nb_mstd(obj.data,backward,forward,flag);
+    end
     
 end

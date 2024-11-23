@@ -40,7 +40,7 @@ function varargout = callfun(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [func,varargin] = nb_parseOneOptional('func',@(x)x,varargin{:});
     [~,varargin]    = nb_parseOneOptional('frequency',[],varargin{:});

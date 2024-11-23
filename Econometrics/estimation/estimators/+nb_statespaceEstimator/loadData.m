@@ -9,7 +9,7 @@ function [y,options] = loadData(options,parser)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Missing observations is not problem here, so just use the size of the
     % data field as default

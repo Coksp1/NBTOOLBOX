@@ -20,7 +20,7 @@ function obj = unstruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj    = nb_table_ts();
     fields = fieldnames(s);

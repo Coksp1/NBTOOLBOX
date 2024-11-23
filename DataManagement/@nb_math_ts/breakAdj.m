@@ -35,7 +35,7 @@ function obj = breakAdj(obj,method,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     indexes  = nb_ts.findIndexesOfDates(obj.startDate,obj.endDate,varargin);
     obj.data = nb_breakAdj(obj.data,method,indexes);  

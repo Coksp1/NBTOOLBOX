@@ -47,7 +47,7 @@ function obj = minus(obj,DBOrNum)
 %
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(DBOrNum,'nb_cs') && ~isscalar(DBOrNum)
         error([mfilename,':: It is not possible to substract an object of class ' class(DBOrNum) ' from an object of class ' class(obj)])

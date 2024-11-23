@@ -9,7 +9,7 @@ function [results,options] = recursiveEstimation(options)
 %
 % Written by Kenneth S. Paulsen and Maximilian Schröder
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options.smoothParam
         warning('nb_tvpmfsvEstimator:smoothParamNotSupported',...
@@ -21,7 +21,7 @@ function [results,options] = recursiveEstimation(options)
 
     % When do we start?
     Tobs                    = options.estim_end_ind - options.estim_start_ind + 1; 
-    numCoeff                = 40 - options.requiredDegreeOfFreedom; % This is the min number of periods accepted 
+    numCoeff                = 40 - (6 - options.requiredDegreeOfFreedom); % This is the min number of periods accepted 
     [start,iter,ss,options] = nb_estimator.checkDOFRecursive(options,numCoeff,Tobs);
 
     % Create waiting bar window

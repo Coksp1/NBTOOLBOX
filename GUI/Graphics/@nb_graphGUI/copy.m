@@ -9,7 +9,7 @@ function copy(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(gui.type,'advanced')
         if size(gui.plotterAdv.plotter,2) > 1

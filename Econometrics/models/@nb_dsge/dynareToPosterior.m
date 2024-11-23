@@ -19,7 +19,7 @@ function posterior = dynareToPosterior(dynare_file_short)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     posterior     = struct('betaD',[],'sigmaD',[],'type','dynare');
     posteriorPath = [dynare_file_short '\\metropolis\\' dynare_file_short '_mh%d_blck%d.mat'];

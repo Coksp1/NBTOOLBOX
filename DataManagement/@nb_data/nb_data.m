@@ -204,7 +204,7 @@ classdef nb_data < nb_dataSource
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
@@ -267,9 +267,9 @@ classdef nb_data < nb_dataSource
                             rethrow(Err);
                         end
                         
-                        if size(datasets,3) == size(NameOfDatasets,2)
+                        if size(datasets,3) == length(NameOfDatasets)
                             obj           = addDataset(obj,datasets,'',startObs,variables);
-                            obj.dataNames = NameOfDatasets;
+                            obj.dataNames = nb_rowVector(NameOfDatasets);
                         else
                             rethrow(Err);
                         end
@@ -291,9 +291,15 @@ classdef nb_data < nb_dataSource
                     obj = addDatasets(obj,datasets,{},startObs,variables);
                     
                 elseif isa(datasets,'DataPackage.Data')
-                    
-                    obj = nb_data(datasets.getData(),cell(datasets.getDataNames())',char(datasets.getStartObsAsString()),cell(datasets.getVariables())',sorted);
-                    
+                    try
+                        obj = nb_javaData2nb_data(datasets,sorted);
+                    catch Err
+                        if ~exist('nb_javaData2nb_data','file')
+                            error('You need to have access to SMART.')
+                        else
+                            rethrow(Err)
+                        end
+                    end 
                 else
                     try
                         obj = addDatasets(obj,datasets,NameOfDatasets,startObs,variables);

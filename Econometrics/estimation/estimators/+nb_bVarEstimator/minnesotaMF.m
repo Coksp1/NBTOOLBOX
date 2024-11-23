@@ -1,4 +1,5 @@
-function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,timeTrend,prior,restrictions,waitbar,freq,H,mixing)
+function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,...
+    timeTrend,prior,restrictions,waitbar,freq,H,mixing)
 % Syntax:
 %
 % [beta,sigma,R,yM,X,posterior] = nb_bVarEstimator.minnesotaMF(draws,y,x,...
@@ -74,7 +75,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -104,8 +105,7 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     
     % Initialize priors
     %-----------------------
-    [Traw,numDep] = size(y);
-    R_prior       = zeros(numDep,1); % Prior on measurement error variance 
+    [Traw,numDep] = size(y); 
     if ~isempty(mixing)
         indObservedOnly = mixing.indObservedOnly;
         numDep          = numDep - sum(indObservedOnly);
@@ -123,6 +123,9 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     a_bar_2 = prior.a_bar_2;
     a_bar_3 = prior.a_bar_3;
     ARcoeff = prior.ARcoeff;
+    if isnan(ARcoeff)
+        error('Cannot set ARcoeff prior to nan for the prior minnesotaMF')
+    end
     
     % Prior mean on VAR regression coefficients
     %------------------------------------------
@@ -136,7 +139,8 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     
     % Minnesota Variance on VAR regression coefficients
     %--------------------------------------------------
-    sigma_sq = nb_bVarEstimator.minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mixing,indObservedOnly,nLags);
+    sigma_sq = nb_bVarEstimator.minnesotaVariancePrior(prior,y,constant,...
+        timeTrend,H,freq,mixing,indObservedOnly,nLags);
     
     % Now define prior hyperparameters. See Koop and Korobilis (2009) page
     % 6
@@ -188,27 +192,21 @@ function [beta,sigma,R,yM,X,posterior] = minnesotaMF(draws,y,x,nLags,constant,ti
     
     % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(indObservedOnly) && ~isempty(mixing)
-        % Even if all observation of the series are nan, this is not a
-        % problem as the nan elements of R will never be used!
-        if isscalar(prior.R_scale)
-            R_prior(mixing.loc) = nanvar(y(:,mixing.loc))/prior.R_scale;
-        else
-            varDep                      = nanvar(y(:,prior.R_scale(:,1)))';
-            R_prior(prior.R_scale(:,1)) = varDep./prior.R_scale(:,2);
-        end
-    end
+    R_prior = nb_bVarEstimator.setUpPriorMeasEqCovMat(y,...
+        indObservedOnly,mixing,prior);
     
     % Check that the prior gives as stationary model
     numRows = (nLags - 1)*numDep;
     A       = [initBeta(nExo+1:end,:)'; eye(numRows),zeros(numRows,numDep)];
     [~,~,m] = nb_calcRoots(A);
     if any(m > 1)
-        error([mfilename ':: The prior must provide a stationary process. Reset the ARcoeff or coeff prior options.'])
+        error(['The prior must provide a stationary process. Reset the ',...
+            'ARcoeff or coeff prior options.'])
     end
     
     % Collect dummy prior options
-    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
+    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,...
+        prior,constant,timeTrend);
     
     % Gibbs sampling
     R = R_prior;

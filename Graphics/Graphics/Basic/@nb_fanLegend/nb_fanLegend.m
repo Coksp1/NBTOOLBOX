@@ -39,7 +39,7 @@ classdef nb_fanLegend < handle
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess=protected)
 
@@ -306,7 +306,7 @@ classdef nb_fanLegend < handle
         function createLegend(obj)
             
             % Delete all children
-            for ii = 1:size(obj.children)
+            for ii = 1:size(obj.children,2)
                 if ishandle(obj.children(ii))
                     delete(obj.children(ii));
                 end

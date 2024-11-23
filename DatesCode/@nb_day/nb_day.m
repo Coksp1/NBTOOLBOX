@@ -23,6 +23,8 @@ classdef nb_day < nb_date
 %             > 'ddmonyyyy', e.g. '10jan2012' 
 %
 %             > 'yyyymmdd', e.g. '20121231'
+%
+%             > 'yyyy-mm-dd', e.g. '2012-12-31'
 % 
 %             Or an intger with the day. (Must be combined 
 %             with the month and year arguments)
@@ -45,7 +47,7 @@ classdef nb_day < nb_date
 % 
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         

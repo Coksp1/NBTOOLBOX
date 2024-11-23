@@ -133,7 +133,7 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Set some default values
     options = nb_defaultField(options,'real_time_estim',false);
@@ -162,8 +162,10 @@ function fcst = nb_forecast(model,options,results,startInd,endInd,nSteps,inputs,
     try
         if any(strcmpi(model.class,{'nb_fmsa','nb_sa','nb_midas'}))
             if nSteps > length(model.endo)
-                error('nb_forecast:ToHighNStep',[mfilename ':: The model type nb_fmsa/nb_sa/nb_midas cannot forecast longer than its option nStep (' int2str(length(model.endo)) '). '...
-                                 'Attempts to forecast ' int2str(nSteps) ' periods.'])
+                error('nb_forecast:ToHighNStep',['The model type nb_fmsa/',...
+                    'nb_sa/nb_midas cannot forecast longer than its option ',...
+                    'nStep (' int2str(length(model.endo)) '). '...
+                    'Attempts to forecast ' int2str(nSteps) ' periods.'])
             end
         end
     catch Err
@@ -693,7 +695,11 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
         [~,ind] = ismember(fcstVar,allVars);
         missing = missing(:,ind);
         lastNM  = find(~any(missing,2));
-        if ~isempty(lastNM) && ~strcmpi(inputs.condDBType,'hard')
+        if strcmpi(inputs.condDBType,'hard')
+            % In this case we cannot strip away the conditional data!!
+            lastNM(lastNM > nowcast - nowcastCond) = [];
+        end
+        if ~isempty(lastNM)
             lastNMFound = lastNM(1);
             for ii = 2:size(lastNM,1)
                 if lastNM(ii) - lastNMFound > 1
@@ -711,20 +717,34 @@ function forecast = generalForecast(model,options,results,start,finish,nSteps,in
         end
         aMissing = any(missing,1);
         if all(~aMissing) && nSteps ~= 0 % None of the chosen variables have nowcast
-            forecastData  = forecastData(1+nowcast:end,:,:,:);
-            missing       = [];
-            fields        = fieldnames(evalFcst);
-            indNot        = ismember(fields,{'int','density'});
-            fields        = fields(~indNot);
-            for ii = 1:length(fields)
-                fcstEvalT = {evalFcst.(fields{ii})};
-                if ~isempty(fcstEvalT)
-                    evalFcstTemp            = cellfun(@(x)x(1+nowcast:end,:),fcstEvalT,'UniformOutput',false);
-                    [evalFcst.(fields{ii})] = deal(evalFcstTemp{:});
+            if strcmpi(inputs.condDBType,'hard')
+                % In this case we cannot strip away the conditional data!!
+                remNowcast = nowcast - nowcastCond;
+            else
+                remNowcast = nowcast;
+            end
+            if remNowcast > 0
+                forecastData = forecastData(1+remNowcast:end,:,:,:);
+                missing      = [];
+                fields       = fieldnames(evalFcst);
+                indNot       = ismember(fields,{'int','density'});
+                fields       = fields(~indNot);
+                for ii = 1:length(fields)
+                    fcstEvalT = {evalFcst.(fields{ii})};
+                    if ~isempty(fcstEvalT)
+                        evalFcstTemp            = cellfun(@(x)x(1+remNowcast:end,:),fcstEvalT,'UniformOutput',false);
+                        [evalFcst.(fields{ii})] = deal(evalFcstTemp{:});
+                    end
+                end
+                if strcmpi(inputs.condDBType,'hard')
+                    % In this case we cannot strip away the conditional data!!
+                    nowcast = nowcastCond;
+                    nSteps  = size(forecastData,1) - nowcastCond;
+                else
+                    nowcast = 0;
+                    nSteps  = size(forecastData,1);
                 end
             end
-            nowcast = 0;
-            nSteps  = size(forecastData,1);
         end
     end
         

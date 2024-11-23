@@ -10,7 +10,7 @@ function differentObjectsMerge(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(gui.data1,'nb_ts') || isa(gui.data2,'nb_ts')
         text = 'time-series';

@@ -33,7 +33,7 @@ function obj = derivative(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = set(obj,varargin{:});
     nobj = numel(obj);

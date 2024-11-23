@@ -9,7 +9,7 @@ function ret = isTrending(obj)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ret = abs(obj.trend) > obj.tolerance;
 

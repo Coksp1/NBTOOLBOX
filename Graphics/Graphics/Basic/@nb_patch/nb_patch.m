@@ -81,7 +81,7 @@ classdef nb_patch < nb_plotHandle
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess = protected)
                 
@@ -784,7 +784,7 @@ classdef nb_patch < nb_plotHandle
                 case 'south'
                     
                     xv  = repmat(xData,1,256);
-                    xv  = flipdim(xv,2);
+                    xv  = flip(xv,2);
                     
                 case 'west'
                     
@@ -794,7 +794,7 @@ classdef nb_patch < nb_plotHandle
                     x4    = x3(2:end);
                     x3    = x3(1:end-1);
                     xv    = [x3;x3;x4;x4];
-                    xv    = flipdim(xv,2);
+                    xv    = flip(xv,2);
                     
                 case 'east'
                     
@@ -852,12 +852,12 @@ classdef nb_patch < nb_plotHandle
                     y4    = y3(2:end);
                     y3    = y3(1:end-1);
                     yv    = [y3;y4;y4;y3];
-                    yv    = flipdim(yv,2);
+                    yv    = flip(yv,2);
                  
                 case 'west'
                     
                     yv = repmat(yData,1,256);
-                    yv = flipdim(yv,2);
+                    yv = flip(yv,2);
                      
                 case 'east'
                     

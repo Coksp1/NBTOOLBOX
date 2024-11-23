@@ -9,7 +9,7 @@ function addBaseLine(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen          
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen          
 
     if any(strcmpi(obj.plotType,{'radar','image'}))
         return

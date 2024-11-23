@@ -20,7 +20,7 @@ function varargout = nb_ismemberi(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     for ii = 1:length(varargin)
         if iscellstr(varargin{ii}) || ischar(varargin{ii})

@@ -21,7 +21,7 @@ function nb_ts_obj = tonb_ts(obj)
 % 
 % Written by Per Bjarne Bye      
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     dataC      = asCell(obj);
     dataC{1,1} = 'time';

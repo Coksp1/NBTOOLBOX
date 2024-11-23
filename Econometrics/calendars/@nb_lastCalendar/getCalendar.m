@@ -2,6 +2,18 @@ function calendar = getCalendar(~,start,finish,modelGroup,doRecursive,fromResult
 
     if nargin < 6
         fromResults = false;
+        if nargin < 5
+            doRecursive = false;
+            if nargin < 4
+                modelGroup = [];
+                if nargin < 3
+                    finish = '';
+                    if nargin < 2
+                        start = '';
+                    end
+                end
+            end
+        end
     end
 
     if isscalar(modelGroup) && isa(modelGroup,'nb_model_group_vintages') && doRecursive
@@ -35,7 +47,8 @@ function calendar = getCalendar(~,start,finish,modelGroup,doRecursive,fromResult
     elseif iscellstr(modelGroup)
         calendar = {modelGroup(end)};    
     else
-        error([mfilename ':: The modelGroup input cannot be of class ' class(modelGroup) '.'])
+        calendar = [];
+        return
     end
     for ii = 1:size(calendar,2)
         % Secure the date format 'yyyymmdd'

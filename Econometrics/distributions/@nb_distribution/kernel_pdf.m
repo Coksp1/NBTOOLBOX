@@ -26,7 +26,7 @@ function f = kernel_pdf(x,domain,density)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Then we linear interpolate the wanted point and the two closest point
     % in the domain

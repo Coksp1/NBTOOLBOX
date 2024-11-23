@@ -86,7 +86,7 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -95,7 +95,8 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
     end
 
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the Giannone, Lenza and Primiceri (2014) prior.'])
+        error(['Block exogenous variables cannot be declared with the ',...
+            'Giannone, Lenza and Primiceri (2014) prior.'])
     end
     
     S_scale = 1;
@@ -107,8 +108,7 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
     %-----------------------
     
     % Prior on measurement error variance
-    [Traw,numDep] = size(y);
-    R_prior = zeros(numDep,1);  
+    [Traw,numDep] = size(y); 
     if ~isempty(mixing)
         indObservedOnly = mixing.indObservedOnly;
         numDep          = numDep - sum(indObservedOnly);
@@ -132,6 +132,9 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
     lambda  = prior.lambda;
     Vc      = prior.Vc;
     ARcoeff = prior.ARcoeff;
+    if isnan(ARcoeff)
+        error('Cannot set ARcoeff prior to nan for the prior minnesotaMF')
+    end
     
     % Prior mean on VAR regression coefficients
     %------------------------------------------
@@ -146,7 +149,8 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
     % Minnesota Variance on VAR regression coefficients
     %--------------------------------------------------
     nLagsAR = 1;
-    s_prior = nb_bVarEstimator.minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mixing,indObservedOnly,nLagsAR);
+    s_prior = nb_bVarEstimator.minnesotaVariancePrior(prior,y,constant,...
+        timeTrend,H,freq,mixing,indObservedOnly,nLagsAR);
     
     % Setting up the priors (See appendix B of GLP (2017))
     %----------------------------------------------------------------------
@@ -183,29 +187,23 @@ function [beta,sigma,R,yM,X,posterior] = glpMF(draws,y,x,nLags,constant,timeTren
     A       = [A_prior(nExo+1:end,:)'; eye(numRows),zeros(numRows,numDep)];
     [~,~,m] = nb_calcRoots(A);
     if any(m > 1)
-        error([mfilename ':: The prior must provide a stationary process. Reset the ARcoeff or coeff prior options.'])
+        error(['The prior must provide a stationary process. Reset ',...
+            'the ARcoeff or coeff prior options.'])
     end
     
     % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(indObservedOnly) && ~isempty(mixing)
-        % Even if all observation of the series are nan, this is not a
-        % problem as the nan elements of R will never be used!
-        if isscalar(prior.R_scale)
-            R_prior(mixing.loc) = nanvar(y(:,mixing.loc))/prior.R_scale;
-        else
-            varDep                      = nanvar(y(:,prior.R_scale(:,1)))';
-            R_prior(prior.R_scale(:,1)) = varDep./prior.R_scale(:,2);
-        end
-    end
+    R_prior = nb_bVarEstimator.setUpPriorMeasEqCovMat(y,...
+        indObservedOnly,mixing,prior);
     
     % Collect dummy prior options
     dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
     
     % Gibbs sampler
     R                  = R_prior; 
-    [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R,A_prior,S_prior,...
-        a_prior,V_prior_inv,S_prior,v_post,restrictions,thin,burn,waitbar,maxTries,dummyPriorOptions);
+    [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,x,H,R,...
+        A_prior,S_prior,a_prior,V_prior_inv,S_prior,v_post,restrictions,...
+        thin,burn,waitbar,maxTries,dummyPriorOptions);
 
     % Expand to include all zero regressors
     if any(~indZR)

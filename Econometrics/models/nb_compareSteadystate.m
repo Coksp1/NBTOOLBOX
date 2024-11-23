@@ -28,7 +28,7 @@ function out = nb_compareSteadystate(model1,model2,sort)
 %
 % Written by Erling M. Kravik
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         sort = false;

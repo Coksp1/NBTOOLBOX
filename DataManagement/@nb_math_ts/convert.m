@@ -111,8 +111,8 @@ function obj = convert(obj,freq,method,varargin)
 %                                 frequency.
 %
 %                       Caution : For weekly data, the 'dayOfWeek' options
-%                                 is added. See nb_ts.setDayOfWeek for more
-%                                 on this.
+%                                 is added. See nb_math_ts.setDayOfWeek 
+%                                 for more on this.
 % 
 %                       E.g: obj = obj.convert(365,'linear',...
 %                       'interpolateDate','end');
@@ -130,7 +130,7 @@ function obj = convert(obj,freq,method,varargin)
 %
 % Written by Kenneth S. Paulsen                                   
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = '';

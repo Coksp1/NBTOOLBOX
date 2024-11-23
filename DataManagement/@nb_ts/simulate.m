@@ -63,7 +63,7 @@ function [obj,res] = simulate(start,obs,vars,pages,lambda,rho,dist,burn,varargin
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         burn = 10;

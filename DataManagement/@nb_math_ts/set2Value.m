@@ -28,7 +28,7 @@ function obj = set2Value(obj,func,value)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(func,'function_handle')
         error('The func input must be a function handle.')

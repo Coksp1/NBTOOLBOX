@@ -9,7 +9,7 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Construct the coeff names
     numAR = options.AR;

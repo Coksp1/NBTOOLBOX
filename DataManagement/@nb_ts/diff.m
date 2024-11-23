@@ -32,11 +32,11 @@ function obj = diff(obj,lags,skipNaN)
 % obj = diff(obj,4);
 %
 % See also:
-% nb_ts
+% nb_ts.undiff
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         skipNaN = 0;
@@ -45,28 +45,7 @@ function obj = diff(obj,lags,skipNaN)
         end
     end
 
-    if skipNaN
-    
-        numPages = obj.numberOfDatasets;
-        numVars  = obj.numberOfVariables;
-        dataT    = obj.data;
-        for ii = 1:numPages
-            
-            for jj = 1:numVars
-                
-                dataTT              = dataT(:,jj,ii);
-                isNaN               = isnan(dataTT);
-                y                   = dataTT(~isNaN);
-                dataT(~isNaN,jj,ii) = y - lag(y,lags);
-                
-            end
-            
-        end
-        obj.data = dataT;
-        
-    else
-        obj.data = obj.data - lag(obj.data,lags);  
-    end
+    obj.data = nb_diff(obj.data,lags,skipNaN);
     
     if obj.isUpdateable()
         

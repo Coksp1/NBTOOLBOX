@@ -17,7 +17,7 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options                           = struct();
     options.data                      = [];
@@ -28,13 +28,10 @@ function options = template()
     options.estim_start_ind           = [];
     options.func                      = [];
     options.handleMissing             = false;
-    options.lambda                    = 1600;
-    options.oneSided                  = false;
     options.outVariables              = {};
     options.recursive_estim           = 0;
     options.recursive_estim_start_ind = [];
     options.requiredDegreeOfFreedom   = 3;
     options.rollingWindow             = [];
-    options.type                      = 'gap';
 
 end

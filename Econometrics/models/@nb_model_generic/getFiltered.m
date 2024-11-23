@@ -43,7 +43,7 @@ function data = getFiltered(obj,type,normalize,econometricians,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         econometricians = false;
@@ -218,6 +218,20 @@ function data = getFiltered(obj,type,normalize,econometricians,varargin)
         inputs.reporting = obj.reporting;
     end
     if ~isempty(inputs.reporting)
+        if ~isempty(obj.options.shift)
+            dataWithShift = keepVariables(data,obj.options.shift.variables);
+            dataShift     = window(obj.options.shift,'',dataWithShift.endDate,dataWithShift.variables);
+            indM          = cellfun(@isempty,regexp(obj.options.shift.variables,'_multshift$'));
+            if ~any(~indM)
+                dataWithShift = dataWithShift + dataShift;
+            else
+                dataShiftMult = window(obj.options.shift,'',dataWithShift.endDate,strcat(dataWithShift.variables,'_multshift'));
+                dataShiftMult = renameMore(dataShiftMult,'variables',strcat(dataWithShift.variables,'_multshift'),dataWithShift.variables);
+                dataWithShift = dataWithShift.*dataShiftMult + dataShift;
+            end
+            dataWithoutShift = deleteVariables(data,obj.options.shift.variables);
+            data             = reorder([dataWithShift,dataWithoutShift],data.variables);
+        end
         data = append(data,obj.options.data);
         data = createVariable(data,inputs.reporting(:,1)',inputs.reporting(:,2)',[],'overwrite',true);
     end

@@ -24,7 +24,7 @@ function [explained,plotter] = explainFactors(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: This method only handle scalar nb_fmdyn objects.'])

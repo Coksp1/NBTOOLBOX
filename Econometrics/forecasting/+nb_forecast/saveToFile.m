@@ -9,7 +9,7 @@ function [evalFcst,saveToFile] = saveToFile(evalFcst,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     saveToFile = true;
     density    = {evalFcst.density}; %#ok<NASGU>

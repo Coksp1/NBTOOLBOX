@@ -31,7 +31,7 @@ function [obj,loss] = calculateLoss(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isfield(obj.parser,'lossFunction')
         error([mfilename ':: The loss function must be specified. See the setLossFunction method.'])

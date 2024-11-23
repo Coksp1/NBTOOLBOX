@@ -10,7 +10,7 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     restrictions = struct();
     if inputs.condDBStart == 0
@@ -109,6 +109,14 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
                 restrictions.states = inputs.states;
             end
         end
+        if strcmpi(model.type,'nb')
+            if isfield(inputs,'condAssumption')
+                restrictions.condAssumption = inputs.condAssumption;
+            else
+                restrictions.condAssumption = 'before';
+            end
+        end
+
     end
     
     % Get model properties
@@ -132,9 +140,16 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
     % Get endo restrictions
     ind           = ismember(condDBVars,endo);
     endoCondVars  = condDBVars(ind);
+    if strcmpi(model.class,'nb_ecm')
+        endoL = unique(regexprep(model.endo,'^diff_',''));
+        if ~all(ismember(endoCondVars,endoL))
+           error(['For nb_ecm models you need to condition on the level ',...
+               'data of the endogenous. Not in differences!']) 
+        end
+    end
     [~,endo_d_id] = ismember(endoCondVars,condDBVars);
     endoData      = condDB(:,endo_d_id,:); % Pages represent mean
-    nEndoVars     = size(endoData,2);
+    nEndoVars = size(endoData,2);
     if isempty(endoData)
        endo_id      = [];
        endoCondVars = {};
@@ -157,7 +172,6 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
     if n > 0
         endoData = [endoData;nan(n,size(endoData,2),inputs.nPeriods)];
     end
-    
     restrictions.Y        = endoData;
     restrictions.indY     = endo_id;
     restrictions.endo     = endo;
@@ -357,7 +371,7 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
             if ~isempty(shock_id)
                 error([mfilename ':: Cannot condition on shocks when the kalmanFilter input is set to true.'])
             end
-        else
+        elseif ~strcmpi(model.class,'nb_ecm')
             if ~isfield(shockProps,'Name')
                 error([mfilename ':: When adding endogenous restrictions the input shockProps must be given as a struct with fields Name and Periods.'])
             end
@@ -396,6 +410,9 @@ function restrictions = prepareRestrictions(model,options,results,nSteps,condDB,
 
             end
             
+        else % nb_ecm!
+            % Activate shocks to match endogenous restrictions.
+            shockData(~isnan(restrictions.Y)) = nan;
         end
         
     end

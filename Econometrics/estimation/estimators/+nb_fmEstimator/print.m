@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -496,7 +496,7 @@ function res = printNormalStepAhead(res,results,options,precision)
             results.normalityTest];
 
         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-        tests = nb_addStars(tests,15,[],13,14);
+        tests = nb_addStars(tests,15,[],13,14,round(options.nLagsTests));
         
         % Test results
         testTable = {
@@ -587,7 +587,7 @@ function res = printNormalSingleEq(res,results,options,precision)
             results.normalityTest];
 
         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-        tests = nb_addStars(tests,15,[],13,14);
+        tests = nb_addStars(tests,15,[],13,14,round(options.nLagsTests));
 
         % Test results
         testTable = {
@@ -726,7 +726,7 @@ function res = printNormalDynamic(res,results,options,precision)
             end
 
             tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-            tests = nb_addStars(tests,15,[],13,14);
+            tests = nb_addStars(tests,15,[],13,14,round(options.nLagsTests));
             
             % Test results
             testTable = {
@@ -823,7 +823,7 @@ function res = printNormalFAVAR(res,results,options,precision)
             results.normalityTest];
 
         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-        tests = nb_addStars(tests,15,[],13,14);
+        tests = nb_addStars(tests,15,[],13,14,round(options.nLagsTests));
         
         % Test results
         testTable = {

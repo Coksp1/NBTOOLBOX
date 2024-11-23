@@ -12,7 +12,7 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 % 
 %   - How to demean the data or detrend data.
 % 
-%   - How to get the trend given a calculate the gap. See the FGTS 
+%   - How to get the trend given a calculated gap. See the FGTS 
 %     option below. 
 % 
 %   Functionalities:
@@ -23,16 +23,35 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 %     constant over the whole timespan. This will also be the projection  
 %     going forward. (Could also be a mathematical expression)
 % 
-%     Optional inputs: 'cmavg'. These inputs work the same as is the
-%                       case for the 'hpfilter'.
+%     Optional inputs: 
+%
+%     - 'cmavg'  : This input work the same as is the case for the 
+%                 'hpfilter'. Cannot be used together with 'stdise'!
+%
+%     - 'adjout' : Using nb_adjout to to outlier replacement. Applied
+%                  before 'cmavg' or 'stdise'. It is possible to add 3
+%                  inputs to this option as well using the syntax;
+%                  'adjout(threshold,tFlag,W)'. See the same inputs to the
+%                  nb_ts.adjout method. Default is the same as for that 
+%                  method for these inputs.
+%
+%     - 'stdise' : Standardise the series. Cannot be used together with
+%                  'cmavg'!
 %
 %   - {'avg'} or {'avg',...} : 
 % 
-%     Subtract the mean from the dataseries. Including short term
-%     forecast. This will also be the projection going forward.
+%     Subtract the mean from the dataseries. This will also be the 
+%     projection going forward.
 % 
 %     Optional inputs: 'wfcst', 'whist' and 'cmavg'. These inputs work the 
 %                      same as is the case for the 'hpfilter'. 
+%
+%   - {'mavg'} or {'mavg',backward,forward,...}:
+%
+%     Subtract the moving mean from the dataseries.
+% 
+%     Optional inputs: 'wfcst', 'whist' and 'cmavg'. These inputs work the 
+%                      same as is the case for the 'hpfilter'.
 %
 %   - {'exponentialSmoother',weight} or {'exponentialSmoother',weight,...}:
 %
@@ -138,6 +157,30 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 %    this function. Where expression must be a string with the   
 %    expression to evalute. I.e. the expression of data input which 
 %    the gap was cumputed of. E.g. 'log(Var1)'.
+%
+% - {function_handle} or {function_handle,'whist','wfcst'}
+%
+%    Any function handle on the form; @(x,s)funcHandle(x,s), where x is the
+%    time-series of a sub-period to detrend and s is the start date of x, 
+%    as a nb_date object. The function_handle must return either one or 
+%    two outputs. Both must be returned as double vectors with same size 
+%    as the input x! The first output is the additive trend, while the 
+%    second output is the multiplicative trend.
+%
+%    When adding trends back to forecasts in the function 
+%    nb_forecast.createReportedVariables it is done in the order;
+%    1. Mulitiply by multiplicative trend
+%    2. Add the additive trend
+% 
+%    If the optional input 'whist' is given, than the full history before 
+%    the current sub-period of the time-series is appended to x before the
+%    function_handle is called, and if 'wfcst' is provided all observations
+%    after the current sub-period is appended. In theses cases still only
+%    the calculations of the trends inside the window of the sub-period 
+%    is used!
+%
+%    Both 'wfcst' and 'whist' does nothing if the function_handle is not
+%    combined with other functions in a cell!
 % 
 % - A cell where you give different ways to detrend data for 
 %   different sub-periods. The cell must be given in the following way: 
@@ -165,6 +208,8 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 %   - {'M2T','ar',trend,arCoeff}  : as above
 % 
 %   - {'FGTS','expression'}       : as above
+%
+%   - {function_handle,...}       : as above
 %
 %   Options for the last sub-period (last cell element):
 %
@@ -218,10 +263,13 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 %
 % obj = obj.createShift({'var1','var2',...},...
 %       {{{'avg'},'2012Q1',{'end'}},{{'constant',2}},...});
+%
+% obj = obj.createShift({'var1','var2',...},...
+%       {{{@(x)nanmean(x)},'2012Q1',{'end'}},{{'constant',2}},...});
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         output = 'normal';
@@ -236,7 +284,8 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
     end
 
     if length(variables) ~= length(expression)
-        error([mfilename ':: You must provide as many variable names as the number of expressions you give'])
+        error(['You must provide as many variable names as the ',...
+            'number of expressions you give'])
     end
 
     % Evaluate expressions
@@ -244,20 +293,29 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
     vars      = obj.variables;
     level     = obj.data;
     shift     = [zeros(size(obj.data));zeros(nSteps,obj.numberOfVariables,obj.numberOfDatasets)];
+    outliers  = [zeros(size(obj.data));zeros(nSteps,obj.numberOfVariables,obj.numberOfDatasets)];
+    shiftMult = [ones(size(obj.data));ones(nSteps,obj.numberOfVariables,obj.numberOfDatasets)];
     for ii = 1:length(expression)
         ind = find(strcmp(variables{ii},vars));
         try
-            [shift(:,ind,:),FGTS] = interpretShift(level(:,ind,:),shift(:,ind,:),expression{ii},startDate,obj,nSteps);
+            [shift(:,ind,:),shiftMult(:,ind,:),outliers(:,ind,:),FGTS] = ...
+                interpretShift(level(:,ind,:),shift(:,ind,:),...
+                shiftMult(:,ind,:),outliers(:,ind,:),expression{ii},...
+                startDate,obj,nSteps);
         catch Err
-            nb_error([mfilename ':: Error while interpreting the shift expression for the variables ' variables{ii} '.'],Err)
+            nb_error(['Error while interpreting the shift expression for ',...
+                'the variables ' variables{ii} '.'],Err)
         end
         if FGTS
             level(:,ind,:) = level(:,ind,:) + shift(1:size(level,1),ind,:);
         end
         
     end
+    shift    = shift + outliers;
     obj.data = level - shift(1:size(level,1),:,:);
-    shift    = nb_ts(shift,'',obj.startDate,obj.variables,obj.sorted);
+    obj.data = obj.data ./ shiftMult(1:size(level,1),:,:);
+    shift    = nb_ts([shift,shiftMult],'',obj.startDate,...
+        [obj.variables,strcat(obj.variables,'_multshift')],obj.sorted);
 
     if obj.isUpdateable()
         
@@ -265,9 +323,11 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
         % is updated the operation will be done on the updated 
         % object
         shift.links      = obj.links;
-        obj              = obj.addOperation(@createShift,{nSteps,variables,expression});
+        obj              = obj.addOperation(@createShift,{nSteps,...
+            variables,expression});
         shift.updateable = 1;
-        shift            = shift.addOperation(@createShift,{nSteps,variables,expression,'shift'});
+        shift            = shift.addOperation(@createShift,{nSteps,...
+            variables,expression,'shift'});
         
     end
     
@@ -286,7 +346,9 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
         trend  = addPostfix(shiftT,'_trend');
         if isRealTime(obj)
             numP  = gap.numberOfDatasets;
-            fullD = [window(breakLink(gap),'','','',numP),window(breakLink(level),'','','',numP),window(breakLink(trend),'','','',numP)];
+            fullD = [window(breakLink(gap),'','','',numP),...
+                window(breakLink(level),'','','',numP),...
+                window(breakLink(trend),'','','',numP)];
         else
             fullD = [gap,level,trend];
         end
@@ -311,8 +373,10 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
             field = strrep(field,'Æ','Ae');
             field = strrep(field,'Ø','Oe');
             field = strrep(field,'Å','Aa');
-            GraphStruct.(field) = {plottedVar{ii*2 - 1},  {'title', vars{ii}, 'colorOrder',{'black','red'},'legends',{'Raw Data','Trend'}};
-                                   plottedVar{ii*2},{'title', vars{ii}, 'colorOrder',{'blue'},'legends',{'Gap'}}};
+            GraphStruct.(field) = {plottedVar{ii*2 - 1},  ...
+                {'title', vars{ii}, 'colorOrder',{'black','red'},...
+                 'legends',{'Raw Data','Trend'}}; plottedVar{ii*2},...
+                {'title', vars{ii}, 'colorOrder',{'blue'},'legends',{'Gap'}}};
         end
         
         % Initilize nb_graph_ts object
@@ -325,19 +389,25 @@ function [obj,shift,plotter] = createShift(obj,nSteps,variables,expression,outpu
 end
 
 %==========================================================================
-function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSteps)
+function [shift,shiftMult,outliers,FGTS] = interpretShift(level,shift,...
+    shiftMult,outliers,expression,startDate,obj,nSteps)
 
     if isempty(expression)
         FGTS     = false;
         return
     end
-    shift(:) = nan; % Set to nan to not return trend of zeros.
+    shift(:)     = nan; % Set to nan to not return trend of zeros.
+    shiftMult(:) = nan; % Set to nan to not return multiplikative trend of ones.
+    outliers(:)  = nan; % Set to nan to not return outliers of zeros.
 
     if ~iscell(expression)
         if ischar(expression)
             expression = cellstr(expression);
+        elseif isa(expression,'function_handle')
+            expression = {expression};
         else
-            error('Each element of the shift expressions input must be a cell or a one line char!')
+            error(['Each element of the shift expressions input must be a ',...
+                'cell, a one line char or a function_handle!'])
         end
     end
     
@@ -372,8 +442,13 @@ function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSte
             end
             
             expr = expression{ii};
-            if ~iscell(expr)
-                error('Each sub-element of the expressions input must be a cell!')
+            if ischar(expr)
+                expr = cellstr(expr);
+            elseif isa(expr,'function_handle')
+                expr = {expr};
+            elseif ~iscell(expr)
+                error(['Each sub-element of the expressions input must be a ',...
+                    'cell, a one line char or a function_handle!'])
             end
             inputs = expr(2:end);
             expr   = expr{1};
@@ -383,7 +458,8 @@ function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSte
                 if indE < indS + 1
                     continue
                 end
-                [shift,FGTST] = interpretSub(indS,indE,level,shift,expr,inputs,obj);
+                [shift,shiftMult,outliers,FGTST] = interpretSub(indS,indE,level,...
+                    shift,shiftMult,outliers,expr,inputs,obj);
                 if indE == size(shift,1)
                     break
                 end
@@ -396,7 +472,9 @@ function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSte
                     if indE(pp) < indS(pp) + 1
                         continue
                     end
-                    [shift(:,:,pp),FGTST] = interpretSub(indS(pp),indE(pp),level(:,:,pp),shift(:,:,pp),expr,inputs,window(obj,'','','',pp));
+                    [shift(:,:,pp),shiftMult(:,:,pp),outliers(:,:,pp),FGTST] = interpretSub(indS(pp),...
+                        indE(pp),level(:,:,pp),shift(:,:,pp),shiftMult(:,:,pp),outliers(:,:,pp),...
+                        expr,inputs,window(obj,'','','',pp));
                 end
                 
             end
@@ -407,26 +485,36 @@ function [shift,FGTS] = interpretShift(level,shift,expression,startDate,obj,nSte
     else
 
         expr = expression{1};
-        if nb_isOneLineChar(expr)
+        if nb_isOneLineChar(expr) || isa(expr,'function_handle')
             expr = {expr};
-        else
-            if ~iscell(expr)
-                error('Each sub-element of the expressions input must be a cell or a one line char!')
-            end
+        elseif ~iscell(expr)
+            error(['Each sub-element of the expressions input must be a ',...
+                'cell, a one line char or a function_handle!'])
         end
-        inputs       = expr(2:end);
-        indS         = 1;
-        indE         = size(shift,1);
-        [shift,FGTS] = interpretSub(indS,indE,level,shift,expr{1},inputs,obj);
+        inputs                          = expr(2:end);
+        indS                            = 1;
+        indE                            = size(shift,1);
+        [shift,shiftMult,outliers,FGTS] = interpretSub(indS,indE,level,...
+            shift,shiftMult,outliers,expr{1},inputs,obj);
         
     end
 
 end
 
 %==========================================================================
-function [shift,FGTS] = interpretSub(indS,indE,level,shift,expression,inputs,obj)
+function [shift,shiftMult,outliers,FGTS] = interpretSub(indS,indE,level,...
+    shift,shiftMult,outliers,expression,inputs,obj)
 
-    FGTS = false;
+    shiftMult(indS:indE,:,:) = 1;
+    outliers(indS:indE,:,:)  = 0;
+    shift(indS:indE,:,:)     = 0;
+    FGTS                     = false;
+    if isa(expression,'function_handle')
+        [shift,shiftMult] = interpretFunctionHandle(indS,indE,level,...
+            shift,shiftMult,expression,inputs,obj.startDate);
+        return
+    end
+
     switch lower(expression)      
         case 'avg'     
             shift = interpretAVG(indS,indE,level,shift,inputs);
@@ -436,40 +524,94 @@ function [shift,FGTS] = interpretSub(indS,indE,level,shift,expression,inputs,obj
             shift = interpretFilter(indS,indE,level,shift,'bkfilter1s',inputs);      
         case {'constant','c'}
             
+            cmavg  = false;
+            stdise = false;
+            adjout = false;
             if numel(inputs) == 1
                 input = inputs{1};
-                cmavg = false;
-            elseif numel(inputs) == 2
+            elseif numel(inputs) == 2 || numel(inputs) == 3
                 input = inputs{1};
-                cmavg = true;
+                for ii = 2:numel(inputs)
+                    inputII = inputs{ii};
+                    if strcmp(inputII,'cmavg')
+                        cmavg = true;
+                    elseif strcmp(inputII,'stdise')
+                        stdise = true;
+                    elseif strncmp(inputII,'adjout',6)    
+                        adjout    = true;
+                        threshold = 5;
+                        tFlag     = 4;
+                        W         = 5;
+                        inpAdjout = inputII(7:end);
+                        if ~isempty(inpAdjout)
+                            inpAdjout = strrep(inpAdjout,'(','');
+                            inpAdjout = strrep(inpAdjout,')','');
+                            inpAdjout = strsplit(inpAdjout,',');
+                            if size(inpAdjout,2) ~= 3
+                                error('If you provide some optional inputs to the adjout option, you need to provide 3 of them! ''adjout(5,4,5)''');
+                            end
+                            threshold = str2double(inpAdjout{1});
+                            tFlag     = str2double(inpAdjout{2});
+                            W         = str2double(inpAdjout{3});
+                        end
+                    else
+                        error(['Unsupported extra input to the shift ',...
+                            'identifier ''constant''.'])
+                    end
+                end
             else
-                error([mfilename ':: When the the shift identifier is ''constant'' it must be given as {''constant'',input} or {''constant'',input,''cmavg''}, where input is a double.'])
+                error(['When the the shift identifier is ''constant'' it ',...
+                    'must be given as {''constant'',input} or {''constant''',...
+                    ',input,''cmavg''}, where input is a double.'])
             end
             
             if ~isnumeric(input) || ~isscalar(input)
-                error([mfilename ':: When the the shift identifier is constant it must be given as {''constant'',input}, where input is a double.'])
+                error(['When the the shift identifier is constant it ',...
+                    'must be given as {''constant'',input}, where input is a double.'])
             end
+            indEC     = min(size(level,1),indE);
+            levelTemp = level(indS:indEC,:,:);
+            if adjout
+                levelTemp                = nb_adjout(level(indS:indEC,:,:),threshold,tFlag,W);
+                outliers(indS:indEC,:,:) = level(indS:indEC,:,:) - levelTemp;
+            end
+            if cmavg && stdise
+                error(['Cannot give ''stdise'' and ''cmavg'' at the same ',...
+                    'time to the shift identifier ''constant''.'])
+            end
+            
             if cmavg
-                gapTemp              = level(indS:indE,:,:) - input;
-                gapTemp              = nb_mavg(gapTemp,1,1);
-                shift(indS:indE,:,:) = level(indS:indE,:,:) - gapTemp;
+                gapTemp               = levelTemp - input;
+                gapTemp               = nb_mavg(gapTemp,1,1);
+                shift(indS:indEC,:,:) = shift(indS:indEC,:,:) + (levelTemp - gapTemp);
+            elseif stdise
+                if input ~= 0
+                    error(['If you use the ''stdise'' option, you must set ',...
+                        'the constant term to 0 (The input after ''constant'').'])
+                end
+                shift(indS:indE,:,:)     = shift(indS:indE,:,:) + mean(levelTemp,'omitnan');
+                shiftMult(indS:indE,:,:) = shiftMult(indS:indE,:,:) * std(levelTemp,'omitnan');
             else
-                shift(indS:indE,:,:) = input; 
+                shift(indS:indE,:,:) = shift(indS:indE,:,:) + input; 
             end
             
         case 'end'
             
             if indS == 1
-                errror([mfilename ':: When the the shift identifier is ''end'' it cannot be used for the first subperiod.'])
+                errror(['When the the shift identifier is ''end'' it ',...
+                    'cannot be used for the first subperiod.'])
             end
-            periods              = indE - indS + 1;
-            constant             = shift(indS-1,:,:);
-            shift(indS:indE,:,:) = constant(ones(1,periods),:,:);
+            periods                  = indE - indS + 1;
+            constant                 = shift(indS-1,:,:);
+            constantMult             = shiftMult(indS-1,:,:);
+            shift(indS:indE,:,:)     = constant(ones(1,periods),:,:);
+            shiftMult(indS:indE,:,:) = constantMult(ones(1,periods),:,:);
             
         case 'endgrowth'
             
             if indS == 1
-                errror([mfilename ':: When the the shift identifier is ''endGrowth'' it cannot be used for the first subperiod.'])
+                errror(['When the the shift identifier is ''endGrowth'' it',...
+                    ' cannot be used for the first subperiod.'])
             end
             periods              = indE - indS + 1;
             constant             = diff(shift(indS-2:indS-1,:,:),1,1);
@@ -483,7 +625,9 @@ function [shift,FGTS] = interpretSub(indS,indE,level,shift,expression,inputs,obj
             if numel(inputs) == 1
                 expr = inputs{1};
             else
-                error([mfilename ':: When the the shift identifier is ''FGTS'' it must be given as {''FGTS'',expression}, where expression is a one line char array.'])
+                error(['When the the shift identifier is ''FGTS'' it must ',...
+                    'be given as {''FGTS'',expression}, where expression ',...
+                    'is a one line char array.'])
             end
             gap                  = level;
             obj                  = createVariable(obj,'level',expr);
@@ -496,7 +640,9 @@ function [shift,FGTS] = interpretSub(indS,indE,level,shift,expression,inputs,obj
                 start  = inputs{1};
                 finish = inputs{2};
             else
-                errror([mfilename ':: When the the shift identifier is ''int'' it must be given as {''int'',start,finish}, where start and finish are doubles.'])
+                errror(['When the the shift identifier is ''int'' it must ',...
+                    'be given as {''int'',start,finish}, where start and ',...
+                    'finish are doubles.'])
             end
             periods              = indE - indS + 1;
             d                    = (finish - start)/periods;
@@ -517,7 +663,7 @@ function [shift,FGTS] = interpretSub(indS,indE,level,shift,expression,inputs,obj
         case {'merge2trend','m2t'}
             shift = M2T(indS,indE,level,shift,inputs);
         otherwise
-            error([mfilename ':: Unsupported shift expression ' expression])
+            error(['Unsupported shift expression ' expression])
     end
 
 end
@@ -537,17 +683,19 @@ function shift = interpretAVG(indS,indE,level,shift,inputs)
             case 'cmavg'
                 cmavg = true;
             otherwise
-                errror(['When the the shift identifier is ''avg'' it must be given as {''avg'',''wfcst'',''whist'',''cmavg''}, '...
+                errror(['When the the shift identifier is ''avg'' it must ',...
+                    'be given as {''avg'',''wfcst'',''whist'',''cmavg''}, '...
                     'where the three last inputs are optional.'])
         end
     end
 
     if numel(inputs) > 3 
-        errror(['When the the shift identifier is ''avg'' it must be given as {''avg'',''wfcst'',''whist'',''cmavg''}, '...
-                    'where the three last inputs are optional.'])
+        errror(['When the the shift identifier is ''avg'' it must be given ',...
+            'as {''avg'',''wfcst'',''whist'',''cmavg''}, '...
+            'where the three last inputs are optional.'])
     end
     level = level(indSC:indEC,:,:);
-    mData = nanmean(level,1);
+    mData = mean(level,1,'omitnan');
     mData = mData(ones(1,indE - indS + 1),:,:);
     if cmavg
         gapTemp              = level(indS:indE,:,:) - mData;
@@ -573,8 +721,9 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
             try
                 weight = inputs{1};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',weight,...}, '...
-                        'where weight must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',weight,...}, '...
+                    'where weight must be given. For more see the documentation.'])
             end
             maxInputs = 4;
             startOpt  = 2;
@@ -585,8 +734,9 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
             try
                 lambda = inputs{1};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',lambda,...}, '...
-                        'where lambda must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',lambda,...}, '...
+                    'where lambda must be given. For more see the documentation.'])
             end
             maxInputs = 4;
             startOpt  = 2;
@@ -597,14 +747,18 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
             try
                 lowestFreq = inputs{1};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',lowestFreq,highestFreq,...}, '...
-                        'where lowestFreq and highestFreq must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',lowestFreq,highestFreq,...}, '...
+                    'where lowestFreq and highestFreq must be given. For ',...
+                    'more see the documentation.'])
             end
             try
                 highestFreq = inputs{2};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',lowestFreq,highestFreq,...}, '...
-                        'where lowestFreq and highestFreq must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',lowestFreq,highestFreq,...}, '...
+                    'where lowestFreq and highestFreq must be given. For ',...
+                    'more see the documentation.'])
             end
             maxInputs = 5;
             startOpt  = 3;
@@ -621,14 +775,18 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
             try
                 backward = inputs{1};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',backward,forward,...}, '...
-                        'where backward and forward must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',backward,forward,...}, '...
+                    'where backward and forward must be given. For more ',...
+                    'see the documentation.'])
             end
             try
                 forward = inputs{2};
             catch %#ok<CTCH>
-                errror(['When the the shift identifier is ''' filter ''' it must be given as {''' filter ''',backward,forward,...}, '...
-                        'where backward and forward must be given. For more see the documentation.'])
+                errror(['When the the shift identifier is ''' filter ''' ',...
+                    'it must be given as {''' filter ''',backward,forward,...}, '...
+                    'where backward and forward must be given. For more ',...
+                    'see the documentation.'])
             end
             maxInputs = 5;
             startOpt  = 3;
@@ -638,18 +796,21 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
     
     % Interpret optional inputs to the filters
     options = {0,indE,indS,false};
-    options = interpretFilterOptions(options,inputs,startOpt,filter);
-    options = interpretFilterOptions(options,inputs,startOpt+1,filter);
-    options = interpretFilterOptions(options,inputs,startOpt+2,filter);
+    options = interpretFilterOptions(options,inputs,startOpt,filter,level);
+    options = interpretFilterOptions(options,inputs,startOpt+1,filter,level);
+    options = interpretFilterOptions(options,inputs,startOpt+2,filter,level);
     fcst    = options{1};
     indEC   = options{2};
     indSC   = options{3};
     func    = options{4};
     if numel(inputs) > maxInputs 
-        errror(['When the the shift identifier is ''' filter ''' it must be given as ' errorExpr '. For more see the documentation.'])
+        errror(['When the the shift identifier is ''' filter ''' it must ',...
+            'be given as ' errorExpr '. For more see the documentation.'])
     end
     if and(fcst > 0, indE ~= indEC) 
-        error(['The optional inputs to the ''' filter ''' command cannot include ''wfcst'' and ''ar'', ''argrowth'', ''randomWalk'' or ''randomWalkGrowth'' at the same time.'])
+        error(['The optional inputs to the ''' filter ''' command cannot ',...
+            'include ''wfcst'' and ''ar'', ''argrowth'', ''randomWalk'' ',...
+            'or ''randomWalkGrowth'' at the same time.'])
     end
     
     % Do forecasting if wanted
@@ -660,11 +821,11 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
     % These function handle nan values!
     data = level(indSC:indEC,:,:);
     if all(isnan(data))
-        error([mfilename ':: The series only consists of NaN values.'])
+        error('The series only consists of NaN values.')
     end
     switch lower(filter)
         case 'exponentialsmoother'
-            gap = data - lag(exptrend(data,weight));
+            gap = data - nb_lag(exptrend(data,weight));
         case 'hpfilter'
             gap = hpfilter(data,lambda);
         case 'hpfilter1s'
@@ -684,7 +845,8 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
         try
             gap = func(gap);
         catch Err
-            nb_error(['The function handle given to the shift identifier ''' filter ''' failed with error:'],Err);
+            nb_error(['The function handle given to the shift ',...
+                'identifier ''' filter ''' failed with error:'],Err);
         end
     elseif func % cmavg option is used.
         gap = nb_mavg(gap,1,1);
@@ -695,7 +857,7 @@ function shift = interpretFilter(indS,indE,level,shift,filter,inputs)
 end
 
 %==========================================================================
-function options = interpretFilterOptions(options,inputs,startOpt,filter)
+function options = interpretFilterOptions(options,inputs,startOpt,filter,level)
 
     if numel(inputs) > startOpt - 1
         if strcmpi(inputs{startOpt},'wfcst')
@@ -703,34 +865,57 @@ function options = interpretFilterOptions(options,inputs,startOpt,filter)
         elseif strcmpi(inputs{startOpt},'whist')
             options{3} = 1;
         elseif strcmpi(inputs{startOpt},'randomwalk')
-            checkInput(options);
+            checkInput(options,filter);
             options{1} = 1;
         elseif strcmpi(inputs{startOpt},'randomwalkgrowth')
-            checkInput(options);
+            checkInput(options,filter);
             options{1} = 2;
         elseif strcmpi(inputs{startOpt},'ar')
-            checkInput(options);
+            checkInput(options,filter);
             options{1} = 3;   
         elseif strcmpi(inputs{startOpt},'argrowth')
-            checkInput(options);
+            checkInput(options,filter);
             options{1} = 4;      
         elseif strcmpi(inputs{startOpt},'cmavg')
             options{4} = true; 
+            if isa(filter,'function_handle')
+                error(['The ''cmavg'' input is not supported as an ',...
+                    'additional input to the function_handle; ' func2str(filter)])
+            end
         elseif isa(inputs{startOpt},'function_handle') 
             options{4} = inputs{startOpt};
+            if isa(filter,'function_handle')
+                error(['A function_handle input is not supported as an ',...
+                    'additional input to the function_handle; ' func2str(filter)])
+            end
         else
-            errror(['When the the shift identifier is ''' filter ''' the optional inputs are ''wfcst'', '...
-                    '''whist'', ''ar'', ''argrowth'', ''randomWalk'', ''randomWalkGrowth'' and ''cmavg''.'])
+            if isa(filter,'function_handle')
+                error(['When the the shift identifier is a function_handle (',...
+                    func2str(filter) ') optional inputs are ''wfcst'', ',...
+                    '''whist'', ''ar'', ''argrowth'', ''randomWalk'', ',...
+                    'and ''randomWalkGrowth''.'])
+            else
+                error(['When the the shift identifier is ''' filter ''' the ',...
+                    'optional inputs are ''wfcst'', ''whist'', ''ar'', ',...
+                    '''argrowth'', ''randomWalk'', ''randomWalkGrowth'' ',...
+                    'and ''cmavg''.'])
+            end
         end
     end
 
 end
 
 %==========================================================================
-function checkInput(options)
+function checkInput(options,filter)
 
+    if isa(filter,'function_handle')
+        extra = ['function_handle ' func2str(filter)];
+    else
+        extra = ['''' filter ''' command'];
+    end
     if options{1} ~= 0
-        error(['The optional inputs to the ''' filter ''' command cannot include ''randomWalk'' and ''randomWalkGrowth'' at the same time.'])
+        error(['The optional inputs to the ' extra '  cannot ',...
+            'include ''randomWalk'' and ''randomWalkGrowth'' at the same time.'])
     end
 
 end
@@ -789,9 +974,11 @@ Jump to trend function. This uses the actual data as the starting
 %}
 
     if startInd < 3 
-        error('The method jump2trend needs two observations before the date given to calculate the trends growth rate')
+        error(['The method jump2trend needs two observations before the ',...
+            'date given to calculate the trends growth rate'])
     elseif startInd == endInd
-        error('You are trying to set the trend outside the horizon of your data. Which is not possible.')
+        error(['You are trying to set the trend outside the horizon ',...
+            'of your data. Which is not possible.'])
     end
 
     try
@@ -801,7 +988,7 @@ Jump to trend function. This uses the actual data as the starting
     end
     
     if strcmpi(trendGrowth,'avg')
-        trendGrowth = nanmean(growth(level(1:indS-1,:,:),1),1);
+        trendGrowth = mean(growth(level(1:indS-1,:,:),1),1,'omitnan');
     end    
 
     % Now we use the end point of the actual series and project the
@@ -834,9 +1021,11 @@ Merge to trend function: syntax;
     try lambda     = inputs{5}; catch; end %#ok<CTCH>
 
     if indS < 3 
-        error('The method ''merge2trend'' needs two observations before the date given to calculate the growth rate of the trend')
+        error(['The method ''merge2trend'' needs two observations before ',...
+            'the date given to calculate the growth rate of the trend'])
     elseif indS == indE
-        error('You ar trying to set the trend outside the horizon of your data. Which is not possible.')
+        error(['You ar trying to set the trend outside the horizon ',...
+            'of your data. Which is not possible.'])
     end
     
     if strcmpi(growthCoeff,'avg')
@@ -853,7 +1042,8 @@ Merge to trend function: syntax;
         case 'ar'
 
             if isempty(arCoeff)
-                error('The arCoeff (input 3) input must be given to the ''merge2trend'' method.')
+                error(['The arCoeff (input 3) input must be given to ',...
+                    'the ''merge2trend'' method.'])
             end
             
             % if type 'ar', merging to the growth rate given by 
@@ -875,7 +1065,8 @@ Merge to trend function: syntax;
             shift(indS:indE,:,:) = shift(indS-1,:,:) + cumsum(gr_shift(2:end,:,:),1); % The gr_shift(1) is the same as the last observation in history, and doesn't want that. 
 
         otherwise
-            error(['The first input to M2T could not be evaluated. The expression is: ' type])
+            error(['The first input to M2T could not be evaluated. ',...
+                'The expression is: ' type])
     end
 
 end
@@ -920,5 +1111,90 @@ over a period given by diff.
     for jj = 1:diff 
         shift(jj,:,:) = startValue + shiftGrowthRate*(jj-1); % due to log approximated growth
     end
+    
+end
+
+%==========================================================================
+function [shift,shiftMult] = interpretFunctionHandle(indS,indE,level,...
+                    shift,shiftMult,funcHandle,inputs,startDate)
+
+    if indE > size(level,1)
+        level = [level;nan(indE - size(level,1),1,size(level,3))];
+    end
+
+    maxInputs = 3;
+    startOpt  = 1;
+    errorExpr = ['{''' func2str(funcHandle) ''',...}'];
+
+    % Interpret optional inputs to the filters
+    options = {0,indE,indS,false};
+    options = interpretFilterOptions(options,inputs,startOpt,funcHandle,level);
+    options = interpretFilterOptions(options,inputs,startOpt+1,funcHandle,level);
+    options = interpretFilterOptions(options,inputs,startOpt+2,funcHandle,level);
+    fcst    = options{1};
+    indEC   = options{2};
+    indSC   = options{3};
+    if numel(inputs) > maxInputs 
+        errror(['When providing a function_handle it must be given as ',...
+            errorExpr '. For more see the documentation.'])
+    end
+    if and(fcst > 0, indE ~= indEC) 
+        error(['The optional inputs when providing a function_handle cannot ',...
+            'include ''wfcst'' and ''ar'', ''argrowth'', ''randomWalk'' ',...
+            'or ''randomWalkGrowth'' at the same time.'])
+    end
+    
+    % Do forecasting if wanted
+    if fcst > 0
+        [level,indEC] = extrapolate(fcst,level,indS,indE);
+    end
+    
+    % These function handle nan values!
+    data = level(indSC:indEC,:,:);
+    if all(isnan(data))
+        error('The series only consists of NaN values.')
+    end
+    
+    % Call function handle
+    try 
+        [shiftTemp,shiftMultTemp] = funcHandle(data,startDate + (indSC - 1));
+    catch 
+        try
+            shiftTemp     = funcHandle(data,startDate + (indSC - 1));
+            shiftMultTemp = ones(size(data));
+        catch
+            error(['Could not call the function_handle; ',...
+                func2str(funcHandle), ' on a double vector.'])
+        end
+    end
+
+    % Check shift output
+    if ~(isnumeric(shiftTemp) && isvector(shiftTemp))
+        error(['The first output of the function_handle; ',...
+            func2str(funcHandle), ' is not a double vector.'])
+    end
+    shiftTemp = shiftTemp(:);
+    if size(shiftTemp,1) ~= size(data,1)
+        error(['The first output of the function_handle; ',...
+            func2str(funcHandle), ' is not a double vector with the ',...
+            'same length as the input (' int2str(size(shiftTemp,1)) ' vs ',...
+            int2str(size(data,1)) ').'])
+    end
+
+    % Check shift multiplier output
+    if ~(isnumeric(shiftMultTemp) && isvector(shiftMultTemp))
+        error(['The second output of the function_handle; ',...
+            func2str(funcHandle), ' is not a double vector.'])
+    end
+    shiftMultTemp = shiftMultTemp(:);
+    if size(shiftMultTemp,1) ~= size(data,1)
+        error(['The second output of the function_handle; ',...
+            func2str(funcHandle), ' is not a double vector with the ',...
+            'same length as the input (' int2str(size(shiftMultTemp,1)) ' vs ',...
+            int2str(size(data,1)) ').'])
+    end
+
+    shift(indS:indE,:,:)     = shiftTemp(indS:indE,:,:);
+    shiftMult(indS:indE,:,:) = shiftMultTemp(indS:indE,:,:);
     
 end

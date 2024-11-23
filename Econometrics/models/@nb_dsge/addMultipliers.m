@@ -13,7 +13,7 @@ function parser = addMultipliers(parser)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_contains(parser.endogenous{end},'mult_')
         % Not yet added, so we add them know

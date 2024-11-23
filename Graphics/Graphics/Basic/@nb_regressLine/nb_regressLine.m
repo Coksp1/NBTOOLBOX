@@ -29,7 +29,7 @@ classdef nb_regressLine < nb_textAnnotation & nb_lineAnnotation
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 

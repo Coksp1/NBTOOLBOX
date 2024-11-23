@@ -20,7 +20,7 @@ function varargout = size(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [varargout{1:nargout}] = size(obj.s,varargin{:});
 

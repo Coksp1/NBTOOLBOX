@@ -54,7 +54,7 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDSGE(H,A,B,obs,x0,P0,y,kalmanTol)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

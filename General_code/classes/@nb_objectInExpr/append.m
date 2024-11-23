@@ -24,7 +24,7 @@ function obj = append(obj,aObj,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % In this case we take max!
     obj = compareMax(obj,aObj);

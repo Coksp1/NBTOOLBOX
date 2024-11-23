@@ -9,7 +9,7 @@ function add2Colors(gui,color)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Assign it to the default colors
     ret = ismember(color,gui.colors,'rows');

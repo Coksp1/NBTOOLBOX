@@ -9,7 +9,7 @@ function secureTemplate(gui,plotter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(plotter(1).template,plotter(1).currentTemplate)
         return

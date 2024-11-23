@@ -22,6 +22,7 @@ function [results,options] = estimate(options)
 %                 the Normal-Wishart type prior.  (Gibbs sampler)
 % - 'dsge'      : Normal-Wishart type prior with dummy observations from
 %                 another model (often dsge, therefor the name).
+% - 'laplace'   : Laplace-Diffuse type prior. (Gibbs sampler)
 % 
 % The code is also extended to handle missing observations and
 % mixed-frequency VAR models. Then the following priors are supported:
@@ -47,7 +48,7 @@ function [results,options] = estimate(options)
 % - result : A struct with the estimation results.
 %
 % - options : The return model options, can change when for example using
-%             the 'modelSelection' otpions.
+%             the 'nLags' otpions.
 %
 % See also:
 % nb_bVarEstimator.print, nb_bVarEstimator.help, nb_bVarEstimator.template
@@ -55,7 +56,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -71,6 +72,8 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'hyperLearning',false);
     options = nb_defaultField(options,'saveDraws',true);
     options = nb_defaultField(options,'measurementEqRestriction',struct());
+    options = nb_defaultField(options,'covidAdj',[]);
+    options = nb_defaultField(options,'nStep',0);
     
     % Default prior settings (No dummy observation priors by default)
     options.prior = nb_defaultField(options.prior,'LR',false);
@@ -120,10 +123,11 @@ function [results,options] = estimate(options)
     end
     
     if isempty(tempDep)
-        error([mfilename ':: You must add the left side variable of the equation to dependent field of the options property.'])
+        error(['You must add the left side variable of the equation to ',...
+            'dependent field of the options property.'])
     end
     if isempty(options.data)
-        error([mfilename ':: Cannot estimate without data.'])
+        error('Cannot estimate without data.')
     end
 
     if isempty(options.modelSelectionFixed)
@@ -137,7 +141,8 @@ function [results,options] = estimate(options)
     options.modelSelectionFixed = fixed;
     
     if strcmpi(options.modelSelection,'autometrics')
-        error([mfilename ':: Unsupported option modelSelection (' options.modelSelection ') selected for bayesian VAR estimation'])
+        error(['Unsupported option modelSelection (' options.modelSelection,...
+            ') selected for bayesian VAR estimation'])
     end
 
     % Get the estimation data
@@ -151,7 +156,8 @@ function [results,options] = estimate(options)
     if ~isempty(options.modelSelection)
 
         if missing || mfvar
-            error([mfilename ':: Model selection is not supported by mixed frequency B-VAR or missing observations B-VAR models.'])
+            error(['Model selection is not supported by mixed frequency ',...
+                'B-VAR or missing observations B-VAR models.'])
         end
         
         minLags = [];
@@ -169,48 +175,52 @@ function [results,options] = estimate(options)
     end
 
     % Get data
-    tempData    = options.data;
     [test,indY] = ismember(tempDep,options.dataVariables);
     if any(~test)
-        error([mfilename ':: Some of the selected dependent variables are not found in the data; ' toString(tempDep(~test))])
+        error(['Some of the selected dependent variables are not found ',...
+            'in the data; ' toString(tempDep(~test))])
     end
-    y           = tempData(:,indY);
+    y           = options.data(:,indY);
     [test,indX] = ismember(options.exogenous,options.dataVariables);
     if any(~test)
-        error([mfilename ':: Some of the selected exogenous variables are not found in the data; ' toString(options.exogenous(~test))])
+        error(['Some of the selected exogenous variables are not found ',...
+            'in the data; ' toString(options.exogenous(~test))])
     end
-    X = tempData(:,indX);
+    X = options.data(:,indX);
     if isempty(y)
-        error([mfilename ':: The selected sample cannot be empty.'])
+        error('The selected sample cannot be empty.')
     end
          
     % Do the estimation
     %------------------------------------------------------
     if size(X,2) == 0 && ~options.constant && ~options.time_trend
         if ~(missing || mfvar)
-            error([mfilename ':: You must select some regressors.'])
+            error('You must select some regressors.')
         end
     end
 
     % Check for constant regressors, which we do not allow
     if ~options.removeZeroRegressors
         if any(all(diff(X,1) == 0,1))
-            error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                             'Use the constant option instead.'])
+            error(['One or more of the selected exogenous variables ',...
+                'is/are constant. Use the constant option instead.'])
         end
     end
     
-    % Get prior restriction of spesific parameters (only for some priors)
+    % Get prior restriction of specific parameters (only for some priors)
+    if ismember(lower(options.prior.type),{'horseshoe'})
+        options.requiredDegreeOfFreedom = -Inf;
+    end
     if ismember(lower(options.prior.type),{'glp','minnesota','minnesotamf'})
         options = nb_estimator.getSpecificPriors(options);
     end
     
     % Get measurement error prior scale
-    if ismember(lower(options.prior.type),{'minnesotamf','nwishartMF','inwishartMF','glpMF'})
+    if ismember(lower(options.prior.type),{'minnesotamf','nwishartmf','inwishartmf','glpmf'})
         options = nb_bVarEstimator.interpretRScale(options);
     end
     if options.recursive_estim    
-        if options.recursive_estim_start_ind == options.estim_end_ind % options.empirical &&
+        if options.recursive_estim_start_ind == options.estim_end_ind
             switch2Normal = true;
         else
             switch2Normal = false;
@@ -223,7 +233,8 @@ function [results,options] = estimate(options)
     if options.recursive_estim && ~switch2Normal
     %========================= 
     
-        [res,options] = nb_bVarEstimator.recursiveEstimation(options,y,X,mfvar,missing);
+        [results,options] = nb_bVarEstimator.recursiveEstimation(options,y,X,...
+            mfvar,missing);
         
     %======================
     else % Not recursive
@@ -250,12 +261,25 @@ function [results,options] = estimate(options)
                 error([mfilename ':: The estimation data on some of the exogenous variables are ',...
                        'missing for the selected sample; ' toString(options.exogenous(test))])
             end
-            nLags  = options.nLags;
-            nDep   = size(y,2);
+            nLags = options.nLags;
+            nDep  = size(y,2);
             if mfvar
                 nDep = nDep - sum(options.indObservedOnly);
             end
             numCoeff = nLags*nDep + size(X,2) + options.constant + options.time_trend;
+
+            % Set covid observations to nan
+            if ~isempty(options.covidAdj)
+                if isa(options.covidAdj,'nb_date')
+                    dates = toString(options.covidAdj);
+                else
+                    dates = options.covidAdj;    
+                end
+                set2nan = struct('all',{dates});
+                startD  = nb_date.date2freq(options.dataStartDate) + (options.estim_start_ind - 1);
+                y       = nb_estimator.set2nan(y,startD,options.dependent,set2nan);
+            end
+
         else
             yFull         = y;
             XFull         = X;
@@ -302,41 +326,47 @@ function [results,options] = estimate(options)
         
         % Estimate the model using Bayesian methods
         %--------------------------------------------------
+        nDep = length(tempDep);
         if mfvar || missing
             
             if mfvar
                 if options.prior.LR
-                    error([mfilename ':: Prior for the long run is not supported for Mixed frequency ',...
-                                     'VARs.'])
+                    error(['Prior for the long run (LR) is not supported for ',...
+                        'Mixed frequency VARs.'])
                 end
                 if options.prior.SC
-                    error([mfilename ':: sum-of-coefficients prior is not supported for Mixed frequency ',...
-                                     'VARs.'])
+                    error(['sum-of-coefficients (SC) prior is not supported for ',...
+                        'Mixed frequency VARs.'])
                 end
                 if options.prior.DIO
-                    error([mfilename ':: dummy-initial-observation prior is not supported for Mixed frequency ',...
-                                     'VARs.'])
+                    error(['dummy-initial-observation (DIO) prior is not ',...
+                        'supported for Mixed frequency VARs.'])
                 end
                 if options.prior.SVD
-                    error([mfilename ':: stochastic-volatility-dummy prior is not supported for Mixed frequency ',...
-                                     'VARs.'])
+                    error(['stochastic-volatility-dummy (SVD) prior is not ',...
+                        'supported for Mixed frequency VARs.'])
                 end
             end
             
-            nDep = length(tempDep);
             if mfvar
                 % Add one extra set of lagged state variables here, if 
                 % only 'end' mapping is used
                 [H,freq,extra] = nb_mlEstimator.getMeasurementEqMFVAR(options,1);
+                if size(H,2) <= nDep*options.nLags
+                    e = nDep*(options.nLags + 1) - size(H,2);
+                    H = [H,zeros(size(H,1),e,size(H,3))];
+                end
                 
                 % Store the mixing options in the prior
                 mixing = nb_bVarEstimator.getMixing(options);
                 nDep   = nDep - sum(options.indObservedOnly);
                 if options.empirical 
-                    error([mfilename ':: Setting empirical to true is not supported for the nb_mfvar class.'])
+                    error(['Setting empirical to true is not supported for ',...
+                        'the nb_mfvar class.'])
                 end
                 if options.hyperLearning 
-                    error([mfilename ':: Setting hyperLearning to true is not supported for the nb_mfvar class.'])
+                    error(['Setting hyperLearning to true is not supported ',...
+                        'for the nb_mfvar class.'])
                 end
             else
                 % Add one extra set of lagged state variables here
@@ -352,15 +382,22 @@ function [results,options] = estimate(options)
             end
             
             if options.empirical
-                [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = nb_bVarEstimator.doEmpiricalBayesianMF(options,h,nLags,restrictions,y,X,freq,H,mixing);
+                [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = ...
+                    nb_bVarEstimator.doEmpiricalBayesianMF(options,h,nLags,...
+                    restrictions,y,X,freq,H,mixing);
             elseif options.hyperLearning
-                [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = nb_bVarEstimator.doEmpiricalBayesianMF(options,h,nLags,restrictions,y,X,freq,H,mixing,'calculateRMSE');
+                [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = ...
+                    nb_bVarEstimator.doEmpiricalBayesianMF(options,h,nLags,...
+                    restrictions,y,X,freq,H,mixing,'calculateRMSE');
             else
-                [betaD,sigmaD,R,ys,XX,posterior] = nb_bVarEstimator.doBayesianMF(options,h,nLags,restrictions,y,X,freq,H,mixing);
-                pY                               = [];
+                [betaD,sigmaD,R,ys,XX,posterior] = nb_bVarEstimator.doBayesianMF(...
+                    options,h,nLags,restrictions,y,X,freq,H,mixing);
+                pY = [];
             end
             
-            yObs = ys(:,1:nDep);  
+            yObs        = ys(:,1:nDep);
+            [~,indZR,~] = nb_bVarEstimator.removeZR(X,options.constant,...
+                options.time_trend,nDep,nLags,restrictions);
             
         else
             
@@ -370,12 +407,19 @@ function [results,options] = estimate(options)
             
             % Estimate
             if options.empirical
-                [betaD,sigmaD,XX,posterior,options,fVal,pY] = nb_bVarEstimator.doEmpiricalBayesian(options,h,nLags,restrictions,y,X,yFull,XFull);
+                [betaD,sigmaD,XX,posterior,options,fVal,pY] = ...
+                    nb_bVarEstimator.doEmpiricalBayesian(options,h,nLags,...
+                    restrictions,y,X,yFull,XFull);
             elseif options.hyperLearning
-                [betaD,sigmaD,XX,posterior,options,fVal,pY] = nb_bVarEstimator.doEmpiricalBayesian(options,h,nLags,restrictions,y,X,yFull,XFull,'calculateRMSE');
+                [betaD,sigmaD,XX,posterior,options,fVal,pY] = ...
+                    nb_bVarEstimator.doEmpiricalBayesian(options,h,nLags,...
+                    restrictions,y,X,yFull,XFull,'calculateRMSE');
             else
-                [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(options,h,nLags,restrictions,y,X,yFull,XFull);
+                [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(...
+                    options,h,nLags,restrictions,y,X,yFull,XFull);
             end
+            [~,indZR,~] = nb_bVarEstimator.removeZR(X,options.constant,...
+                options.time_trend,nDep,0,restrictions);
             
         end
         
@@ -383,8 +427,34 @@ function [results,options] = estimate(options)
         stdBeta  = std(betaD,0,3);
         sigma    = mean(sigmaD,3);
         stdSigma = std(sigmaD,0,3);
-        T        = size(yObs,1);
-        residual = yObs - XX(1:T,1:numCoeff)*beta;
+
+        if strcmpi(options.prior.type,'laplace')
+            lambda    = beta(end,:);
+            beta      = beta(1:end-1,:);
+            stdLambda = stdBeta(end,:);
+            stdBeta   = stdBeta(1:end-1,:);
+        end
+
+        % Estimate residual
+        numCoeffZR = sum(indZR);
+        if ~isempty(options.covidAdj)
+            if mfvar || missing
+                XCovid = XX(1:size(yObs,1),1:numCoeffZR);
+                if options.constant
+                    XCovid = XCovid(:,2:end);
+                end
+                if options.time_trend
+                    XCovid = XCovid(:,2:end);
+                end
+            else
+                XCovid = X;
+            end
+            [residual,residualStripped] = nb_bVarEstimator.estimateCovidAdjResidual(...
+                options,yObs,XCovid,beta);
+        else
+            residual         = yObs - XX(1:size(yObs,1),1:numCoeffZR)*beta(indZR,:);
+            residualStripped = residual;
+        end
         
         % Delete the waitbar
         if waitbar 
@@ -399,31 +469,35 @@ function [results,options] = estimate(options)
         end
         % Get estimation results
         %--------------------------------------------------
-        res            = struct();
-        res.beta       = beta;
-        res.stdBeta    = stdBeta;
-        res.sigma      = sigma;
-        res.stdSigma   = stdSigma;
-        res.R          = R;
+        results          = struct();
+        results.beta     = beta;
+        results.stdBeta  = stdBeta;
+        results.sigma    = sigma;
+        results.stdSigma = stdSigma;
+        results.R        = R;
+        if strcmpi(options.prior.type,'laplace')
+            results.lambda    = lambda;
+            results.stdLambda = stdLambda;
+        end
         if ~switch2Normal
-            res.residual   = residual;
-            res.sigma      = sigma;
-            res.predicted  = yObs - residual;
-            res.regressors = XX;
+            results.residual   = residual;
+            results.sigma      = sigma;
+            results.predicted  = yObs - residual;
+            results.regressors = XX;
             if options.empirical
                 if options.hyperprior
-                    res.logPosterior          = fVal;
-                    res.logMarginalLikelihood = pY;
+                    results.logPosterior          = fVal;
+                    results.logMarginalLikelihood = pY;
                 else
-                    res.logMarginalLikelihood = fVal;
+                    results.logMarginalLikelihood = fVal;
                 end
             elseif options.hyperLearning
-                res.forecastScore         = fVal;
-                res.logMarginalLikelihood = pY;
+                results.forecastScore         = fVal;
+                results.logMarginalLikelihood = pY;
             else
                 switch lower(options.prior.type)
                     case {'glp','dsge'}
-                        res.logMarginalLikelihood = pY;
+                        results.logMarginalLikelihood = pY;
                 end
             end
         end
@@ -432,37 +506,38 @@ function [results,options] = estimate(options)
         %--------------------------------------------------
         if options.doTests
             
-            [numCoeff,numEq]  = size(beta);
-            logLikelihood     = nb_olsLikelihood(residual);
-            res.fTest         = nan(1,numEq);
-            res.fProb         = nan(1,numEq);          
-            res.rSquared      = nan;
-            res.adjRSquared   = nan;
-            res.logLikelihood = logLikelihood;
-            res.aic           = nb_infoCriterion('aic',logLikelihood,T,numCoeff);
-            res.sic           = nb_infoCriterion('sic',logLikelihood,T,numCoeff);
-            res.hqc           = nb_infoCriterion('hqc',logLikelihood,T,numCoeff);
-            res.dwtest        = nb_durbinWatson(residual);
-            res.archTest      = nb_archTest(residual,round(options.nLagsTests));
-            res.autocorrTest  = nb_autocorrTest(residual,round(options.nLagsTests));
-            res.normalityTest = nb_normalityTest(residual,numCoeff);
-            [res.SERegression,res.sumOfSqRes]  = nb_SERegression(residual,numCoeff);
+            Ttest                 = size(residualStripped,1);
+            [~,numEq]             = size(beta);
+            logLikelihood         = nb_olsLikelihood(residualStripped);
+            results.fTest         = nan(1,numEq);
+            results.fProb         = nan(1,numEq);          
+            results.rSquared      = nan;
+            results.adjRSquared   = nan;
+            results.logLikelihood = logLikelihood;
+            results.aic           = nb_infoCriterion('aic',logLikelihood,Ttest,numCoeffZR);
+            results.sic           = nb_infoCriterion('sic',logLikelihood,Ttest,numCoeffZR);
+            results.hqc           = nb_infoCriterion('hqc',logLikelihood,Ttest,numCoeffZR);
+            results.dwtest        = nb_durbinWatson(residualStripped);
+            results.archTest      = nb_archTest(residualStripped,round(options.nLagsTests));
+            results.autocorrTest  = nb_autocorrTest(residualStripped,round(options.nLagsTests));
+            results.normalityTest = nb_normalityTest(residualStripped,numCoeffZR);
+            [results.SERegression,results.sumOfSqRes]  = nb_SERegression(residualStripped,numCoeffZR);
 
             % Full system 
-            res.fullLogLikelihood = nb_olsLikelihood(residual,'full');
-            res.aicFull           = nb_infoCriterion('aic',res.fullLogLikelihood,T,numCoeff);
-            res.sicFull           = nb_infoCriterion('sic',res.fullLogLikelihood,T,numCoeff);
-            res.hqcFull           = nb_infoCriterion('hqc',res.fullLogLikelihood,T,numCoeff);
+            results.fullLogLikelihood = nb_olsLikelihood(residualStripped,'full');
+            results.aicFull           = nb_infoCriterion('aic',results.fullLogLikelihood,Ttest,numCoeffZR);
+            results.sicFull           = nb_infoCriterion('sic',results.fullLogLikelihood,Ttest,numCoeffZR);
+            results.hqcFull           = nb_infoCriterion('hqc',results.fullLogLikelihood,Ttest,numCoeffZR);
             
         end
         
         % Report filtering/estimation dates
         if mfvar || missing
         
-            dataStart           = nb_date.date2freq(options.dataStartDate);
-            res.filterStartDate = toString(dataStart + options.estim_start_ind + options.nLags - 1);
-            res.filterEndDate   = toString(dataStart + options.estim_end_ind - 1);
-            res.realTime        = false;
+            dataStart               = nb_date.date2freq(options.dataStartDate);
+            results.filterStartDate = toString(dataStart + options.estim_start_ind + options.nLags - 1);
+            results.filterEndDate   = toString(dataStart + options.estim_end_ind - 1);
+            results.realTime        = false;
             
             if extra
                 H  = H(:,1:nDep*nLags,:);
@@ -475,10 +550,12 @@ function [results,options] = estimate(options)
                 allEndo = [tempDep,nb_cellstrlag(tempDep,options.nLags-1)];
                 exo     = strcat('E_',tempDep);
             end
-            res.smoothed.variables = struct('data',ys,'startDate',res.filterStartDate,'variables',{allEndo});
-            res.smoothed.shocks    = struct('data',residual,'startDate',res.filterStartDate,'variables',{exo});
+            results.smoothed.variables = struct('data',ys,'startDate',...
+                results.filterStartDate,'variables',{allEndo});
+            results.smoothed.shocks    = struct('data',residual,'startDate',...
+                results.filterStartDate,'variables',{exo});
             if switch2Normal
-               res.ys0 = ys(end,:); 
+               results.ys0 = ys(end,:); 
             end
         
         end
@@ -486,11 +563,10 @@ function [results,options] = estimate(options)
     end
 
     % Assign generic results
-    res.includedObservations = size(y,1);
-    res.elapsedTime          = toc(tStart);
+    results.includedObservations = size(y,1);
+    results.elapsedTime          = toc(tStart);
     
     % Assign results
-    results           = res;
     options.estimator = 'nb_bVarEstimator';
     options.estimType = 'bayesian';
     
@@ -521,15 +597,16 @@ function check(prior,mfvar,missing)
             case 'horseshoe'
                 giveErr = true;
             case 'laplace'
-                giveErr = true;  
+                giveErr = false;  
             otherwise
                 giveErr = false;
         end
     end
 
     if giveErr
-        error([mfilename ':: The posterior does not have a analytical solution, so you need to draw from ',...
-                         'the posterior to estimate the model. Set draws to a number > 500 (at least!).'])
+        error(['The posterior does not have a analytical solution, so you ',...
+            'need to draw from the posterior to estimate the model. Set ',...
+            'draws to a number > 500 (at least!).'])
     end
     
 end
@@ -540,7 +617,9 @@ function results = assignHyperpriorEstimates(results,options)
     options.prior.optParam = {};
     hyperpriorNames        = nb_bVarEstimator.getInitAndHyperParam(options,false);
     for ii = 1:length(hyperpriorNames)
-        results.(hyperpriorNames{ii}) = options.prior.(hyperpriorNames{ii});
+        if ~isfield(results,hyperpriorNames{ii})
+            results.(hyperpriorNames{ii}) = options.prior.(hyperpriorNames{ii});
+        end
     end
     
 end

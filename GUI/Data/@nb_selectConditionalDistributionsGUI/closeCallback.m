@@ -9,7 +9,7 @@ function closeCallback(gui,~,~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     message = 'Do you want to export the densities to a .mat file?';
     nb_confirmWindow(message,@gui.finishUp,{@gui.exportCallback,true},'Export?')

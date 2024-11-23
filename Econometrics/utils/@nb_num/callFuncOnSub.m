@@ -8,7 +8,7 @@ function obj = callFuncOnSub(obj,func,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     all = vertcat(obj,varargin{:});
     if isa(all,'nb_num')

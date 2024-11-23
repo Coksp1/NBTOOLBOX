@@ -9,7 +9,7 @@ function calculateCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the selected options
     string  = get(gui.pop1,'string');

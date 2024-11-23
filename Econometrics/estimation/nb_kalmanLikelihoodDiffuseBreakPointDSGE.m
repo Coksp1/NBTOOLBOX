@@ -79,7 +79,7 @@ function lik = nb_kalmanLikelihoodDiffuseBreakPointDSGE(par,model,y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)
@@ -110,7 +110,10 @@ function lik = nb_kalmanLikelihoodDiffuseBreakPointDSGE(par,model,y,varargin)
     for tt = 1:T
         
         At  = A{states(tt+1)};
-        CCt = C{states(tt+1)}*C{states(tt+1)}';
+        Ct  = C{states(tt+1)};
+        ind = ~all(abs(Ct) < kalmanTol,1);
+        Ct  = Ct(:,ind);
+        CCt = Ct*Ct';
         mt  = m(:,tt);
         if all(~mt)
             x    = ss{states(tt+1)} + At*(x - ss{states(tt+1)});

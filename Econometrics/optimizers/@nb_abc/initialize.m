@@ -5,7 +5,7 @@ function initialize(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
             
     % Initialize the bees. I.e. here all bees will be scouting
     % for a new location to feed

@@ -1,4 +1,4 @@
-function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restrictions,waitbar)
+function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,prior,restrictions,waitbar)
 % Syntax:
 %
 % [beta,sigma,x] = nb_bVarEstimator.jeffrey(draws,y,x,constant,...
@@ -29,6 +29,9 @@ function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restric
 %                  variables. (First if constant is not given, else 
 %                  second) 
 %
+% - prior        : A struct with the prior options. See
+%                  nb_bVarEstimator.priorTemplate for more on this input
+%
 % - restrictions : Index of parameters that are restricted to zero.
 %
 % - waitbar      : true, false or an object of class nb_waitbar5.
@@ -51,16 +54,19 @@ function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restric
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin < 7
+    if nargin < 8
         waitbar = true;
-        if nargin < 6
+        if nargin < 7
             restrictions = [];
-            if nargin < 5
-                timeTrend = 0;
-                if nargin < 4
-                    constant = 0;
+            if nargin < 6
+                prior = struct('indCovid',[]);
+                if nargin < 5
+                    timeTrend = 0;
+                    if nargin < 4
+                        constant = 0;
+                    end
                 end
             end
         end
@@ -70,6 +76,9 @@ function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restric
     [~,numDep]             = size(y);
     [x,indZR,restrictions] = nb_bVarEstimator.removeZR(x,constant,timeTrend,numDep,0,restrictions);
     
+    % Strip observations
+    [y,x] = nb_bVarEstimator.stripObservations(prior,y,x);
+
     % Initialize priors
     %-----------------------
     if isempty(restrictions)
@@ -89,7 +98,8 @@ function [beta,sigma,X,posterior] = jeffrey(draws,y,x,constant,timeTrend,restric
         if ~isempty(restrictions)
             a_ols = a_ols([restrictions{:}]); % Remove zero restricted params
         end
-        [beta,sigma] = nb_bVarEstimator.jeffreyMCI(draws,X,T,numCoeff,nEq,S_post,SSE,a_ols,restrictions,waitbar);
+        [beta,sigma] = nb_bVarEstimator.jeffreyMCI(draws,X,T,numCoeff,nEq,...
+            S_post,SSE,a_ols,restrictions,waitbar);
     else
         % This is the posterior mode!
         beta  = reshape(a_ols,[numCoeff,nEq]);

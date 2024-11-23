@@ -9,7 +9,7 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options.constant && options.time_trend
         coeff = [{'Constant','Time Trend'},options.exogenous{:}];

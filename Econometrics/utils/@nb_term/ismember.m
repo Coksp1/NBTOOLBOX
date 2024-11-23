@@ -24,7 +24,7 @@ function [ind,loc] = ismember(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [ind,loc] = ismember(cellstr(obj),cellstr(another));
     

@@ -19,7 +19,7 @@ function dependentNames = getDependentNames(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj            = obj(:);
     dependent      = {obj.dependent};

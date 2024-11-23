@@ -23,7 +23,7 @@ function loc = nb_findColor(color,colors)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ischar(color)
         loc = find(strcmpi(color,colors),1);

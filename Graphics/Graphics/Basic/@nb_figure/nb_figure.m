@@ -50,7 +50,7 @@ classdef nb_figure < handle
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess=protected)
            
@@ -223,7 +223,7 @@ classdef nb_figure < handle
         % 
         % Written by Kenneth Sæterhagen Paulsen
 
-        % Copyright (c) 2023, Kenneth Sæterhagen Paulsen    
+        % Copyright (c) 2024, Kenneth Sæterhagen Paulsen    
             
             if nargin < 2
                 units = get(obj.figureHandle,'units');

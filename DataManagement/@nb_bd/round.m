@@ -45,7 +45,7 @@ function obj = round(obj,value,startDate,endDate,variables,pages)
 %
 % Written by Per Bjarne Bye
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         pages = [];

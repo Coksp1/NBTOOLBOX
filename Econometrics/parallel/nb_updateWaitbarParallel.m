@@ -24,7 +24,7 @@ function nb_updateWaitbarParallel(note,h)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     h.status = h.status + note;  
     

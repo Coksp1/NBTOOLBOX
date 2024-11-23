@@ -10,7 +10,7 @@ function funcs = updateStackedSystemFunctionOnePeriod(obj,funcs,inputs,init,iter
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the parameter values and the end conditions
     parVal = obj.parameters.value;

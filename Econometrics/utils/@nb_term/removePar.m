@@ -9,7 +9,7 @@ function expr = removePar(expr)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     match = nb_getMatchingParentheses(expr);
     if match(1) == 1 && match(2) == size(expr,2)

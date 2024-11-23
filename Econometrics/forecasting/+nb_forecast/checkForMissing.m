@@ -10,7 +10,7 @@ function [nowcast,missing] = checkForMissing(options,inputs,dep)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nowcast = 0;
     missing = [];

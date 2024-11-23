@@ -20,7 +20,7 @@ function out = parseTempParameters(eqs,verbose)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nEqs         = length(eqs);
     tempParamInd = false(nEqs,1);

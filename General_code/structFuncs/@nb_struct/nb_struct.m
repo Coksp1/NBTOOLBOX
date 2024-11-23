@@ -51,7 +51,7 @@ classdef nb_struct < matlab.mixin.Copyable
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -148,10 +148,11 @@ classdef nb_struct < matlab.mixin.Copyable
                     if size(sub,2) > 1
                         out = subsref(out,sub(2:end));
                     end
-                        
-                case '{}'
-                    
-                    error([mfilename ':: Undefined subscript type {} for an object of class nb_struct.'])
+                           
+                otherwise
+
+                        error(['Undefined subscript type ' sub(1).type,...
+                            ' for an object of class nb_struct.'])
                      
             end
                         
@@ -159,30 +160,13 @@ classdef nb_struct < matlab.mixin.Copyable
         
         function obj = subsasgn(obj,sub,b)
             
-%             sSub = size(sub,2);
-%             if sSub > 1
-%                 switch sub(1).type
-%                     case '.'
-%                         for ii = 1:size(obj.s,1)
-%                             for jj = 1:size(obj.s,2)
-%                                 obj.s(ii,jj).(sub(1).subs) = subsasgn(obj.s(ii,jj).(sub(1).subs),sub(2:end),b);
-%                             end
-%                         end
-%                     case '()'
-%                         obj.s(sub(1).subs) = subsasgn(obj.s(sub(1).subs),sub(2:end),b);
-%                     otherwise
-%                         error([mfilename ':: Unsupported indexing ' sub(1).type])
-%                 end
-%                 
-%             end
-            
             if iscell(b) && ~isempty(b)
             
                 switch sub(1).type
 
                     case '()'
 
-                        if strcmpi(sub(2).type,'.')
+                        if ~isscalar(sub) && strcmpi(sub(2).type,'.') && size(sub,2) == 2
                         
                             value = sub(1).subs;
                             if numel(value) == 1
@@ -192,21 +176,34 @@ classdef nb_struct < matlab.mixin.Copyable
                                 elseif siz(2) == 1
                                     value = [value,{1}];
                                 else
-                                    error([mfilename ':: The struct is consisting of 2 dimensions, but only one index value is used for assignment.'])
+                                    error(['The struct is consisting of 2 ',...
+                                        'dimensions, but only one index value ',...
+                                        'is used for assignment.'])
                                 end
                             end
-                            if ~all([size(value{1},2), size(value{2},2)] == size(b))
-                                error([mfilename ':: The value assign to the struct must match. Size of assign struct is ' int2str(size(value,1)) 'x' ...
-                                    int2str(size(value,2)) ' while the cell you try to assign to the struct is of size ' int2str(size(b,1)) 'x' ...
-                                    int2str(size(b,2)) '.'])
-                            end
-
-                            field  = sub(2).subs;
-                            index1 = value{1};
-                            index2 = value{2};
-                            for ii = 1:size(index1,2)
-                                for jj = 1:size(index2,2)
-                                    obj.s(index1(ii),index2(jj)).(field) = b{ii,jj};
+                            if isscalar(value{1}) && isscalar(value{2})
+                                field                            = sub(2).subs;
+                                obj.s(value{1},value{2}).(field) = b;
+                            else
+                                value{1} = nb_rowVector(value{1});
+                                value{2} = nb_rowVector(value{2});
+                                if ~all([size(value{1},2), size(value{2},2)] == size(b))
+                                    error(['The value assign to the struct ',...
+                                        'must match. Size of assign struct is ',...
+                                        int2str(size(value{1},2)) 'x' ...
+                                        int2str(size(value{2},2)) ' while the ',...
+                                        'cell you try to assign to the struct ',...
+                                        'is of size ' int2str(size(b,1)) 'x' ...
+                                        int2str(size(b,2)) '.'])
+                                end
+    
+                                field  = sub(2).subs;
+                                index1 = value{1};
+                                index2 = value{2};
+                                for ii = 1:size(index1,2)
+                                    for jj = 1:size(index2,2)
+                                        obj.s(index1(ii),index2(jj)).(field) = b{ii,jj};
+                                    end
                                 end
                             end
                             
@@ -216,42 +213,97 @@ classdef nb_struct < matlab.mixin.Copyable
                         
                     case '.'
 
-                        if numel(b) == 1 && iscell(b{1}) 
-                            field = sub(1).subs;
-                            for ii = 1:size(obj.s,1)
-                                for jj = 1:size(obj.s,2)
-                                    obj.s(ii,jj).(field) = b{1};
+                        if isscalar(sub)
+
+                            if numel(b) == 1 && iscell(b{1}) 
+                                field = sub(1).subs;
+                                for ii = 1:size(obj.s,1)
+                                    for jj = 1:size(obj.s,2)
+                                        obj.s(ii,jj).(field) = b{1};
+                                    end
+                                end
+                            elseif ~all(size(obj.s) == size(b))
+                                field = sub(1).subs;
+                                for ii = 1:size(obj.s,1)
+                                    for jj = 1:size(obj.s,2)
+                                        obj.s(ii,jj).(field) = b;
+                                    end
+                                end
+                            else
+                                field = sub(1).subs;
+                                for ii = 1:size(obj.s,1)
+                                    for jj = 1:size(obj.s,2)
+                                        obj.s(ii,jj).(field) = b{ii,jj};
+                                    end
                                 end
                             end
-                        elseif ~all(size(obj.s) == size(b))
-                            field = sub(1).subs;
-                            for ii = 1:size(obj.s,1)
-                                for jj = 1:size(obj.s,2)
-                                    obj.s(ii,jj).(field) = b;
-                                end
-                            end
+
                         else
-                            field = sub(1).subs;
-                            for ii = 1:size(obj.s,1)
-                                for jj = 1:size(obj.s,2)
-                                    obj.s(ii,jj).(field) = b{ii,jj};
-                                end
-                            end
+                            obj.s = subsasgn(obj.s,sub,b);
                         end
                         
-                    case '{}'
+                    otherwise
 
-                        error([mfilename ':: Undefined subscript type {} for an object of class nb_struct.'])
+                        error(['Undefined subscript type ' sub(1).type,...
+                            ' for an object of class nb_struct.'])
 
                 end
                 
-            elseif sum(size(obj.s)) > 2
+            elseif sum(size(obj.s)) > 2 && size(obj.s,3) == 1
                 
-                field = sub(1).subs;
-                for ii = 1:size(obj.s,1)
-                    for jj = 1:size(obj.s,2)
-                        obj.s(ii,jj).(field) = b;
-                    end
+                switch sub(1).type
+
+                    case '()'
+
+                        value = sub(1).subs;
+                        if numel(value) == 1
+                            siz = size(obj);
+                            if siz(1) == 1
+                                value = [{1},value];
+                            elseif siz(2) == 1
+                                value = [value,{1}];
+                            else
+                                error(['The struct is consisting of 2 ',...
+                                    'dimensions, but only one index value ',...
+                                    'is used for assignment.'])
+                            end
+                        end
+
+                        for ii = value{1}
+                            for jj = value{2}
+                                % We do not allow adding an extra field
+                                % here, so the standard error is thrown in
+                                % this case
+                                obj.s(ii,jj) = subsasgn(obj.s(ii,jj),sub(2:end),b);
+                            end
+                        end
+
+                    case '.'
+
+                        first = false;
+                        for ii = 1:size(obj.s,1)
+                            for jj = 1:size(obj.s,2)
+                                % We must do it in this way to make it robust to 
+                                % adding new fields
+                                if not(first)
+                                    t         = subsasgn(obj.s(ii,jj),sub,b);
+                                    fieldsNew = fieldnames(t);
+                                    fieldsOld = fieldnames(obj.s);
+                                    if length(fieldsNew) ~= length(fieldsOld)
+                                        new              = setdiff(fieldsNew,fieldsOld);
+                                        [obj.s.(new{1})] = deal([]);
+                                    end
+                                    obj.s(ii,jj) = t;
+                                    first        = false;
+                                else
+                                    obj.s(ii,jj) = subsasgn(obj.s(ii,jj),sub,b);
+                                end
+                            end
+                        end
+
+                    otherwise
+                        error(['Undefined subscript type ' sub(1).type,...
+                            ' for an object of class nb_struct.'])
                 end
                 
             else
@@ -262,8 +314,29 @@ classdef nb_struct < matlab.mixin.Copyable
         
         function disp(obj)
            
-            disp(obj.s)
+            disp([nb_createLinkToClass(obj,'nb_struct'), ' with <a href="',...
+                'matlab: nb_struct.dispMethods()">methods</a>:']);
+            disp(' ')
+            if isscalar(obj)
+                disp(obj.s)   
+            else
+                fields = fieldnames(obj.s);
+                for ii = 1:length(fields)
+                    disp(['    ' fields{ii}])
+                end
+            end
             
+        end
+
+    end
+
+    methods (Static=true,Hidden=true)
+
+        function dispMethods()
+            
+            groups = {'Methods:',methods('nb_struct')};
+            disp(nb_createDispTable(nb_struct(),groups,{},'methods'))
+
         end
         
     end

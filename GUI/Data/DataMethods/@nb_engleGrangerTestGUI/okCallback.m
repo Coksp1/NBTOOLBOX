@@ -9,7 +9,7 @@ function okCallback(gui,~,~)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get test type
     %--------------------------------------------------------------

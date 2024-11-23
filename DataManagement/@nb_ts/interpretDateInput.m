@@ -9,7 +9,7 @@ function date = interpretDateInput(obj,date)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nb_isempty(obj.localVariables)
         date = nb_date.toDate(date,obj.frequency);

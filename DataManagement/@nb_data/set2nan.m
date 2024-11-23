@@ -35,7 +35,7 @@ function obj = set2nan(obj,testedVariable,settedVariable)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(obj.data,3) > 1
         error([mfilename ':: This method does not support data with more pages'])

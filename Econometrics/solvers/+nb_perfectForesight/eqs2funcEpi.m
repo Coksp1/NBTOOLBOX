@@ -10,7 +10,7 @@ function [eqs,funcs] = eqs2funcEpi(inputs,allEndo,epiVars,vars,varsExo,pars,eqs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     all = [epiVars,vars,pars];
     if any(ismember({'vars','pars'},all))

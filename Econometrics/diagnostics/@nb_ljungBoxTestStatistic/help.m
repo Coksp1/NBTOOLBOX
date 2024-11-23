@@ -1,29 +1,41 @@
-function help = help(~,~)
+function helpText = help(option,maxChars)
 % Syntax:
 %
-% help = help(~,option)
+% helpText = nb_ljungBoxTestStatistic.help(option,maxChars)
 %
 % Description:
 %
-% A method to give some basic instructions regarding input to
+% A method to give some basic instructions regarding options to
 % nb_ljungBoxTestStatistic
 % 
 % Input:
 % 
-% - obj    : A nb_ljungBoxTestStatistic object
-%
-% - option : A string with the property to look up.
+% - option   : Either 'all' or the name of the option you want to get the
+%              help on.
+% 
+% - maxChars : The max number of chars in the printout of (approx). This
+%              applies to the second column of the printout. Default is
+%              40.
 % 
 % Output:
 % 
-% - help : A string with the help text.
+% - helpText : A char with the help.
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
+    if nargin < 2
+        maxChars = [];
+        if nargin < 1
+            option = 'all';
+        end
+    end
+    
     % Genereate help for the different options
-    help = 'No options';
+    helper   = nb_writeHelp('nb_ljungBoxTestStatistic',option,'class','timeSeries');
+    helper   = set(helper,'max',maxChars);
+    helpText = help(helper);
     
 end
 

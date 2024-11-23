@@ -36,7 +36,7 @@ function Excel = nb_xlswrite(filename,c,sheet,del,Excel)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         Excel = [];

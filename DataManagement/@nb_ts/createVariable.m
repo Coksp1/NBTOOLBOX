@@ -63,7 +63,7 @@ function obj = createVariable(obj,nameOfNewVariable,expression,parameters,vararg
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         parameters = [];
@@ -131,11 +131,11 @@ function obj = createVariable(obj,nameOfNewVariable,expression,parameters,vararg
             if objSize(newData,2) > 1
                 error([mfilename ':: The evaluation of the given expression resulted in non column vector. Rember you are ',...
                     'working with vectors. Expression; ', exp])
-            elseif objSize(newData,1) ~= obj.numberOfObservations
+            elseif objSize(newData,1) ~= size(dat,1)
                 if newData.startDate == obj.startDate
                     % In this case we allow for expantion of the dataset
                     per = newData.endDate - obj.endDate;
-                    dat = [dat; nan(per,obj.numberOfVariables,obj.numberOfDatasets)]; %#ok<AGROW>
+                    dat = [dat; nan(per,size(dat,2),size(dat,3))]; %#ok<AGROW>
                     if ~inputs.overwrite
                         obj = expand(obj,'',newData.endDate,'nan');
                     end

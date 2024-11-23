@@ -25,7 +25,7 @@ function x = nb_bkfilter1s(y,low,high)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if high <= low
         error([mfilename ':: the lowest frequency cannot be be higher than the highest frequency.'])
@@ -43,12 +43,13 @@ function x = nb_bkfilter1s(y,low,high)
             % Find first finite observation 
             isFin = isfinite(y(:,cc,pp));
             f     = find(isFin,1);
+            rt    = find(isFin,1,'last');
 
             % Need at least 5 observation 
             l = f + 4;
 
             % Do the one sided filter
-            while l <= r
+            while l <= rt
                 tempData   = y(f:l,cc,pp);
                 isF        = isFin(f:l);
                 tempData   = tempData(isF);

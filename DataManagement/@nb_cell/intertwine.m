@@ -22,7 +22,7 @@ function obj = intertwine(varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [header,varargin] = nb_parseOneOptionalSingle('header',false,true,varargin{:});
 

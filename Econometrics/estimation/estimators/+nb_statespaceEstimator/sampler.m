@@ -13,7 +13,7 @@ function [betaD,sigmaD,posterior] = sampler(posterior,draws)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         draws = [];
@@ -47,38 +47,44 @@ function [betaD,sigmaD,posterior] = sampler(posterior,draws)
         cont          = true;
     end
     output = samplerFunc(posterior.objective,posterior.betaD(:,:,end)',omega,opt); 
-         
-    if cont || size(output(1).beta,1) == draws
-        % In this case we keep all
-        betaD = permute(output(1).beta,[2,3,1]); % nParam x 1 x draws
+      
+    if isempty(output(1).beta)
+        % Output stored to files
+        betaD  = [];
+        sigmaD = [];
     else
-        % Randomly select ammong the sampled draws from chain 1.
-        randInd  = randperm(size(output(1).beta,1));
-        randInd  = randInd(1:draws);
-        if isempty(output(1).files)  
-            betaD   = permute(output(1).beta(randInd,:),[2,3,1]); % nParam x 1 x draws
+        if cont || size(output(1).beta,1) == draws
+            % In this case we keep all
+            betaD = permute(output(1).beta,[2,3,1]); % nParam x 1 x draws
         else
-            % Draws are stored to files, so we load them up in a loop to
-            % pick some draws at random
-            files  = output(1).files;
-            ub     = unique([output(1).storeAt:output(1).storeAt:output(1).draws,output(1).draws]);
-            lb     = [0, ub(1:end-1)];
-            ub     = ub + 1;
-            nParam = size(omega,1);
-            betaD  = nan(nParam,1,draws);
-            for ii = 1:length(files)
-               loaded         = load(files{ii},'beta');
-               ind            = randInd > lb(ii) & randInd < ub(ii);
-               betaD(:,:,ind) = permute(loaded.beta(randInd(ind) - lb(ii),:),[2,3,1]);
+            % Randomly select ammong the sampled draws from chain 1.
+            randInd  = randperm(size(output(1).beta,1));
+            randInd  = randInd(1:draws);
+            if ~isfield(output,'files') || isempty(output(1).files)  
+                betaD   = permute(output(1).beta(randInd,:),[2,3,1]); % nParam x 1 x draws
+            else
+                % Draws are stored to files, so we load them up in a loop to
+                % pick some draws at random
+                files  = output(1).files;
+                ub     = unique([output(1).storeAt:output(1).storeAt:output(1).draws,output(1).draws]);
+                lb     = [0, ub(1:end-1)];
+                ub     = ub + 1;
+                nParam = size(omega,1);
+                betaD  = nan(nParam,1,draws);
+                for ii = 1:length(files)
+                   loaded         = load(files{ii},'beta');
+                   ind            = randInd > lb(ii) & randInd < ub(ii);
+                   betaD(:,:,ind) = permute(loaded.beta(randInd(ind) - lb(ii),:),[2,3,1]);
+                end
             end
         end
+        sigmaD = nan(0,1,draws); 
     end
-    sigmaD = nan(0,1,draws);               
+                  
                    
     % Return all needed information to do posterior draws
     %----------------------------------------------------
-    if nargout > 2
-        
+    if nargout > 2  
         output = rmfield(output,{'betaBurn','acceptRatioBurn'});
         for ii = 1:length(output)
             output(ii).acceptRatio = output(ii).acceptRatio(end);
@@ -86,9 +92,10 @@ function [betaD,sigmaD,posterior] = sampler(posterior,draws)
         if nb_isempty(posterior.output)
             posterior.output = output;
         end
-        posterior.betaD  = betaD;
-        posterior.sigmaD = sigmaD;
-        
+        if ~isempty(betaD)
+            posterior.betaD  = betaD;
+            posterior.sigmaD = sigmaD;
+        end
     end
     
 end

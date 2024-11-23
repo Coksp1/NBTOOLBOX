@@ -23,7 +23,7 @@ function t = nb_clock(format)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         format = 'vintage';
@@ -33,29 +33,56 @@ function t = nb_clock(format)
         
         case 'vintagelong'
             
-            t = datestr(now,'yyyymmddHHMMSS');
+            try
+                t = char(datetime('now'),'yyyyMMddHHmmss');
+            catch
+                t = datestr(now,'yyyymmddHHMMSS');
+            end
         
         case 'vintage'
     
-            t = datestr(now,'yyyymmddHHMM');
+            try
+                t = char(datetime('now'),'yyyyMMddHHmm');
+            catch
+                t = datestr(now,'yyyymmddHHMM');
+            end
             
         case 'vintagemilliseconds'
             
-            t = datestr(now,'yyyymmddHHMMSSFFF');
+            try
+                t = char(datetime('now'),'yyyyMMddHHmmssSSS');
+            catch
+                t = datestr(now,'yyyymmddHHMMSSFFF');
+            end
             
         case 'vintageshort'
     
-            t = datestr(now,'yyyymmdd');    
-            
+            try
+                t = char(datetime('now'),'yyyyMMdd');    
+            catch
+                t = datestr(now,'yyyymmdd'); %#ok<*TNOW1,*DATST>
+            end
+
         case 'gui'
             
-            c = clock;
-            y = sprintf('%.0f',c(1));
-            m = sprintf('%.0f',c(2)+100);
-            d = sprintf('%.0f',c(3)+100);
-            h = sprintf('%.0f',c(4)+100);
-            n = sprintf('%.0f',c(5)+100);
-            t = ['Date: ' d(2:3) '/' m(2:3) '/' y '  Time: ' h(2:3) ':' n(2:3)];
+            try
+                c    = datetime('now');
+                date = char(c,'dd/MM/yyyy');
+                time = char(c,'HH:mm');
+                t    = ['Date: ' date '  Time: ' time];
+            catch
+                c = clock; %#ok<CLOCK>
+                y = sprintf('%.0f',c(1));
+                m = sprintf('%.0f',c(2)+100);
+                m = m(2:3);
+                d = sprintf('%.0f',c(3)+100);
+                d = d(2:3);
+                h = sprintf('%.0f',c(4)+100);
+                h = h(2:3);
+                n = sprintf('%.0f',c(5)+100);
+                n = n(2:3);
+                t = ['Date: ' d '/' m '/' y '  Time: ' h ':' n];
+            end
             
         otherwise
             

@@ -17,7 +17,7 @@ function y = nb_quadraticSpectralKernel(x)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     d1 = 6*pi*x/5;
     d2 = sin(d1);

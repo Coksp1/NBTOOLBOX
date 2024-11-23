@@ -27,7 +27,7 @@ function [newValue,message,obj] = nb_interpretDateObsTypeInputDataGUI(DB,string)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     message  = '';
     obj      = [];

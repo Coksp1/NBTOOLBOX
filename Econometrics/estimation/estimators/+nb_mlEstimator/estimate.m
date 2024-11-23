@@ -17,26 +17,35 @@ function [results,options] = estimate(options)
 % - result  : A struct with the estimation results.
 %
 % - options : The return model options, can change when for example using
-%             the 'modelSelection' otpions.
+%             the 'modelSelection' otpion.
 %
 % See also:
 % nb_mlEstimator.print, nb_mlEstimator.help, nb_mlEstimator.template
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
     if isempty(options)
-        error([mfilename ':: The options input cannot be empty!'])
+        error('The options input cannot be empty!')
     end
     options = nb_defaultField(options,'covrepair',false);
     options = nb_defaultField(options,'class','nb_var');
     options = nb_defaultField(options,'modelSelection','');
     options = nb_defaultField(options,'modelSelectionFixed',[]);
     options = nb_defaultField(options,'seasonalDummy',[]);
-    
+    options = nb_defaultField(options,'covidAdj',[]);
+    options = nb_defaultField(options,'nStep',0);
+    options = nb_defaultField(options,'estim_types',{});
+
+    if ~isempty(options.covidAdj)
+        error(['The covidAdj option is not yet supported for estim_method ',...
+            'set to ''ml'', please use another estimator or set the ',...
+            'covidAdj option to empty'])
+    end
+
     % Are we dealing with a VAR?
     %-------------------------------------------------------
     options.exogenous = cellstr(options.exogenous);
@@ -58,11 +67,12 @@ function [results,options] = estimate(options)
     %------------------------------------------------------
     tempDep = cellstr(options.dependent);
     if isempty(tempDep)
-        error([mfilename ':: No dependent variables selected, please assign the dependent field of the options property.'])
+        error(['No dependent variables selected, please assign the ',...
+            'dependent field of the options property.'])
     end
     
     if isempty(options.data)
-        error([mfilename ':: Cannot estimate without data.'])
+        error('Cannot estimate without data.')
     end
 
     if isempty(options.modelSelectionFixed)
@@ -78,7 +88,7 @@ function [results,options] = estimate(options)
     % Get the estimation data
     %------------------------------------------------------
     if ~isempty(options.estim_types) 
-        error([mfilename ':: Only time-series is supported for the nb_mlEstimator'])
+        error('Only time-series is supported for the nb_mlEstimator')
     end
 
     % Add seasonal dummies
@@ -93,7 +103,7 @@ function [results,options] = estimate(options)
             options.class = '';
         end
         if strcmpi(options.class,'nb_mfvar')
-            error([mfilename ':: Model selection is not supported for MF-VAR models'])
+            error('Model selection is not supported for MF-VAR models')
         else
             minLags = [];
             if strcmpi(options.class,'nb_var')
@@ -120,11 +130,11 @@ function [results,options] = estimate(options)
     % Get data
     [test,indY] = ismember(tempDep,options.dataVariables);
     if any(~test)
-        error([mfilename ':: The variables ' toString(tempDep(~test)) ' is not found to be in the data.'])
+        error(['The variables ' toString(tempDep(~test)) ' is not found to be in the data.'])
     end
     y = options.data(:,indY);
     if isempty(y)
-        error([mfilename ':: The selected sample cannot be empty.'])
+        error('The selected sample cannot be empty.')
     end
     if ~isfield(options,'indObservedOnly')
         options.indObservedOnly = false(1,size(y,2));
@@ -132,20 +142,21 @@ function [results,options] = estimate(options)
     
     [test,indX] = ismember(options.exogenous,options.dataVariables);
     if any(~test)
-        error([mfilename ':: The exogenous variables ' toString(options.exogenous(~test)) ' is not found to be in the data.'])
+        error(['The exogenous variables ' toString(options.exogenous(~test)),...
+            ' is not found to be in the data.'])
     end
     X = options.data(:,indX);
     
     if ~VAR
         if size(X,2) == 0 && ~options.constant && ~options.time_trend
-            error([mfilename ':: You must select some regressors.'])
+            error('You must select some regressors.')
         end
     end
 
     % Check for constant regressors, which we do not allow
     if any(all(diff(X,1) == 0,1))
-        error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                         'Use the constant option instead.'])
+        error(['One or more of the selected exogenous variables is/are '...
+            'constant. Use the constant option instead.'])
     end
     
     % Get estimation sample
@@ -165,7 +176,7 @@ function [results,options] = estimate(options)
     if options.recursive_estim
 
         if ~isempty(options.estim_types)
-            error([mfilename ':: Recursive estimation is only supported for time-series.'])
+            error('Recursive estimation is only supported for time-series.')
         end
         
         % Check the sample
@@ -222,7 +233,8 @@ function [results,options] = estimate(options)
                 
                 if options.parallel
                     
-                    [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missingPer);
+                    [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(...
+                        options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missingPer);
                     
                 else
                 
@@ -237,7 +249,8 @@ function [results,options] = estimate(options)
                         end
                         yOne = nb_estimator.correctForMissing(y(ss(kk):tt,:),missingPer);
                         [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resid(ss(kk):tt,:,kk),...
-                            ys(ss(kk):tt,:,kk),~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.mfvarEstimator(yOne,X(ss(kk):tt,:),options,HT,init);
+                            ys(ss(kk):tt,:,kk),~,omega(:,:,kk),pD(:,:,:,kk)] = ...
+                            nb_mlEstimator.mfvarEstimator(yOne,X(ss(kk):tt,:),options,HT,init);
 
                         % Get initial values for next iteration
                         ys0(:,:,kk) = ys(tt,:,kk);
@@ -291,19 +304,20 @@ function [results,options] = estimate(options)
                 end
                 
             otherwise
-                error([mfilename 'Cannot set ''estim_method'' to ''ml'' for the class ' option.class ' class.'])
+                error(['Cannot set ''estim_method'' to ''ml'' for the ',...
+                    'class ' option.class ' class.'])
         end 
         
         % Get estimation results
         %--------------------------------------------------
-        res          = struct();
-        res.beta     = beta;
-        res.stdBeta  = stdBeta;
-        res.sigma    = sigma;
-        res.omega    = omega;
-        res.residual = resid;
-        res.ys0      = ys0; 
-        res.pD       = pD;
+        results          = struct();
+        results.beta     = beta;
+        results.stdBeta  = stdBeta;
+        results.sigma    = sigma;
+        results.omega    = omega;
+        results.residual = resid;
+        results.ys0      = ys0; 
+        results.pD       = pD;
         
     %======================
     else % Not recursive
@@ -319,27 +333,30 @@ function [results,options] = estimate(options)
         switch lower(options.class)
             case 'nb_mfvar'
                 H     = nb_mlEstimator.getMeasurementEqMFVAR(options);
-                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] = nb_mlEstimator.mfvarEstimator(y,X,options,H,[]);
+                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] =...
+                    nb_mlEstimator.mfvarEstimator(y,X,options,H,[]);
             case 'nb_var'
-                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] = nb_mlEstimator.varEstimator(y,X,options,[]);
+                [beta,stdBeta,tStatBeta,pValBeta,sigma,resid,ys,lik,omega,pD] =...
+                    nb_mlEstimator.varEstimator(y,X,options,[]);
             otherwise
-                error([mfilename 'Cannot set ''estim_method'' to ''ml'' for the class ' option.class ' class.'])
+                error(['Cannot set ''estim_method'' to ''ml'' for the class ',...
+                    option.class ' class.'])
         end 
      
         % Get estimation results
         %--------------------------------------------------
-        res            = struct();
-        res.beta       = beta;
-        res.stdBeta    = stdBeta;
-        res.tStatBeta  = tStatBeta;
-        res.pValBeta   = pValBeta;
-        res.residual   = resid;
-        res.sigma      = sigma;
-        res.omega      = omega;
-        res.pD         = pD;
-        nDep           = size(y,2);
-        yObs           = ys(:,1:nDep);
-        res.predicted  = yObs(:,~options.indObservedOnly) - resid;
+        results            = struct();
+        results.beta       = beta;
+        results.stdBeta    = stdBeta;
+        results.tStatBeta  = tStatBeta;
+        results.pValBeta   = pValBeta;
+        results.residual   = resid;
+        results.sigma      = sigma;
+        results.omega      = omega;
+        results.pD         = pD;
+        nDep               = size(y,2);
+        yObs               = ys(:,1:nDep);
+        results.predicted  = yObs(:,~options.indObservedOnly) - resid;
         
         % Get aditional test results
         %--------------------------------------------------
@@ -352,74 +369,76 @@ function [results,options] = estimate(options)
             logLikelihood          = nb_olsLikelihood(resid);
 
             if (numCoeff == 1 && options.constant) || ~options.constant || any(rSquared < 0)
-                res.fTest = nan(1,numEq);
-                res.fProb = nan(1,numEq);   
+                results.fTest = nan(1,numEq);
+                results.fProb = nan(1,numEq);   
             else
-                res.fTest = (rSquared/(numCoeff - 1))./((1 - rSquared)/(T - numCoeff));
-                res.fProb = nb_fStatPValue(res.fTest', numCoeff - 1, T - numCoeff);
+                results.fTest = (rSquared/(numCoeff - 1))./((1 - rSquared)/(T - numCoeff));
+                results.fProb = nb_fStatPValue(results.fTest', numCoeff - 1, T - numCoeff);
             end
 
-            res.rSquared      = rSquared;
-            res.adjRSquared   = adjRSquared;
-            res.logLikelihood = logLikelihood;
-            res.aic           = nb_infoCriterion('aic',logLikelihood,T,numCoeff);
-            res.sic           = nb_infoCriterion('sic',logLikelihood,T,numCoeff);
-            res.hqc           = nb_infoCriterion('hqc',logLikelihood,T,numCoeff);
-            res.dwtest        = nb_durbinWatson(resid);
-            res.archTest      = nb_archTest(resid,round(options.nLagsTests));
-            res.autocorrTest  = nb_autocorrTest(resid,round(options.nLagsTests));
-            res.normalityTest = nb_normalityTest(resid,numCoeff);
-            [res.SERegression,res.sumOfSqRes]  = nb_SERegression(resid,numCoeff);
+            results.rSquared      = rSquared;
+            results.adjRSquared   = adjRSquared;
+            results.logLikelihood = logLikelihood;
+            results.aic           = nb_infoCriterion('aic',logLikelihood,T,numCoeff);
+            results.sic           = nb_infoCriterion('sic',logLikelihood,T,numCoeff);
+            results.hqc           = nb_infoCriterion('hqc',logLikelihood,T,numCoeff);
+            results.dwtest        = nb_durbinWatson(resid);
+            results.archTest      = nb_archTest(resid,round(options.nLagsTests));
+            results.autocorrTest  = nb_autocorrTest(resid,round(options.nLagsTests));
+            results.normalityTest = nb_normalityTest(resid,numCoeff);
+            [results.SERegression,results.sumOfSqRes]  = nb_SERegression(resid,numCoeff);
 
             % White test on each equation (also the block exogenous)
-            nEq           = size(beta,2);
-            res.whiteTest = nan(1,nEq);
-            res.whiteProb = nan(1,nEq);
+            nEq               = size(beta,2);
+            results.whiteTest = nan(1,nEq);
+            results.whiteProb = nan(1,nEq);
 
             % Full system 
-            res.fullLogLikelihood = -lik;
-            res.aicFull           = nb_infoCriterion('aic',res.fullLogLikelihood,T,numCoeff);
-            res.sicFull           = nb_infoCriterion('sic',res.fullLogLikelihood,T,numCoeff);
-            res.hqcFull           = nb_infoCriterion('hqc',res.fullLogLikelihood,T,numCoeff);
+            results.fullLogLikelihood = -lik;
+            results.aicFull           = nb_infoCriterion('aic',results.fullLogLikelihood,T,numCoeff);
+            results.sicFull           = nb_infoCriterion('sic',results.fullLogLikelihood,T,numCoeff);
+            results.hqcFull           = nb_infoCriterion('hqc',results.fullLogLikelihood,T,numCoeff);
             
         end
         
     end
 
     % Report filtering/estimation dates
-    dataStart           = nb_date.date2freq(options.dataStartDate);
-    res.filterStartDate = toString(dataStart + options.estim_start_ind - 1);
-    res.filterEndDate   = toString(dataStart + options.estim_end_ind - 1);
-    res.realTime        = false;
+    dataStart               = nb_date.date2freq(options.dataStartDate);
+    results.filterStartDate = toString(dataStart + options.estim_start_ind - 1);
+    results.filterEndDate   = toString(dataStart + options.estim_end_ind - 1);
+    results.realTime        = false;
     
     if strcmpi(options.class,'nb_mfvar')
         if options.recursive_estim
             [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariablesRec(options,ys,H,tempDep,ss,start);
         else
-            [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariables(options,ys,H,tempDep);
+            [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariables(options,ys,H,tempDep,true);
         end
     else
         allEndo = [tempDep,nb_cellstrlag(tempDep,options.nLags-1)];
         exo     = strcat('E_',tempDep);
     end
-    res.smoothed.variables = struct('data',ys,'startDate',res.filterStartDate,'variables',{allEndo});
-    res.smoothed.shocks    = struct('data',resid,'startDate',res.filterStartDate,'variables',{exo});
+    results.smoothed.variables = struct('data',ys,'startDate',...
+        results.filterStartDate,'variables',{allEndo});
+    results.smoothed.shocks    = struct('data',resid,'startDate',...
+        results.filterStartDate,'variables',{exo});
     
     % Assign generic results
-    res.includedObservations = size(y,1);
-    res.elapsedTime          = toc(tStart);
-    res.y                    = y;
-    res.X                    = X;
+    results.includedObservations = size(y,1);
+    results.elapsedTime          = toc(tStart);
+    results.y                    = y;
+    results.X                    = X;
     
     % Assign results
-    results = res;
     options.estimator = 'nb_mlEstimator';
     options.estimType = 'classic';
 
 end
 
 %==========================================================================
-function [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missing)
+function [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(...
+    options,y,X,waitbar,H,beta,stdBeta,sigma,omega,pD,ss,start,missing)
 
     % Do we want a waitbar?
     iter = size(beta,3);
@@ -479,7 +498,8 @@ function [beta,stdBeta,resid,sigma,omega,ys,ys0,pD] = mfvarInParallel(options,y,
         XOne = X;
         
         [beta(:,:,kk),stdBeta(:,:,kk),~,~,sigma(:,:,kk),resC{kk},...
-            ysC{kk},~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.mfvarEstimator(yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),options,HT,init);
+            ysC{kk},~,omega(:,:,kk),pD(:,:,:,kk)] = nb_mlEstimator.mfvarEstimator(...
+            yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),options,HT,init);
 
         % Notify waitbar
         if waitbar 

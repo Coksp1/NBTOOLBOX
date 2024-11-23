@@ -9,7 +9,7 @@ function [endo,exo] = getVariables(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     endo = options.dependent;
     if isfield(options,'block_exogenous')

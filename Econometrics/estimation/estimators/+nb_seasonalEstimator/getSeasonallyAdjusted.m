@@ -9,7 +9,7 @@ function seasonal = getSeasonallyAdjusted(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isfield(results,'F')
         seasonal = nb_ts();

@@ -9,7 +9,7 @@ function options = interpretRScale(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isfield(options.prior,'R_scale') && nb_isempty(options.measurementEqRestriction)
         return
@@ -27,7 +27,11 @@ function options = interpretRScale(options)
     end
     
     if isempty(R_scale) 
-        R_scale = 10;
+        if strcmpi(options.class,'nb_var') && nb_isempty(options.measurementEqRestriction)
+            return
+        else
+            R_scale = 10;
+        end
     end 
         
     if nb_isScalarNumber(R_scale)  
@@ -40,7 +44,16 @@ function options = interpretRScale(options)
                 R_scale = cell(0,2);
             end
         else 
-            options.prior.R_scale = R_scale;
+            if strcmpi(options.class,'nb_mfvar')
+                if any(options.indObservedOnly)
+                    options.prior.R_scale = R_scale;
+                else
+                    % Due to default old behavior a scalar is converted to 
+                    % no measurement error. Not great solution, but couldn't
+                    % do anything else...
+                    options.prior.R_scale = [];
+                end
+            end
             return
         end
     end

@@ -41,7 +41,7 @@ function U = nb_mvtncondrand(M,P,mu,sigma,l,u,indC,a,tol)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         tol = [];

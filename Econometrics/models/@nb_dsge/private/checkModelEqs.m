@@ -12,7 +12,7 @@ function obj = checkModelEqs(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     numEndo = size(obj.parser.endogenous,2);
     if isfield(obj.parser,'equationsParsed')

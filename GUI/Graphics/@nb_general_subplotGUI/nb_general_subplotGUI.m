@@ -22,7 +22,7 @@ classdef nb_general_subplotGUI < handle
 %
 % Written by Kenneth Sæterhagen Paulsen   
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         

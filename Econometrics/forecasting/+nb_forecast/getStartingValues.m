@@ -13,7 +13,7 @@ function Y0 = getStartingValues(startingValues,options,solution,results,last)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(last)
         if isfield(options,'estim_end_ind')
@@ -172,7 +172,7 @@ function Y0 = getStartingValues(startingValues,options,solution,results,last)
                     end
                     [~,indY] = ismember(endo,options.dataVariables);
                     data     = options.data(options.estim_start_ind:options.estim_end_ind,indY);
-                    Y0       = nanmean(data,1);
+                    Y0       = mean(data,1,'omitnan');
                     Y0       = Y0(ones(1,periods),:);
                     
                 case 'zero'

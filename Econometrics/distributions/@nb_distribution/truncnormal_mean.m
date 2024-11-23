@@ -26,7 +26,7 @@ function x = truncnormal_mean(m,k,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     beta  = (ub - m)/k;
     alpha = (lb - m)/k;

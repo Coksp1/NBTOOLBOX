@@ -17,7 +17,7 @@ function obj = doTest(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
             
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the estimation results
     if isa(obj.model,'nb_model_generic')
@@ -29,12 +29,18 @@ function obj = doTest(obj)
     
     % Get statistics
     residual        = mResults.residual;
-    k               = mOpt.nLags + 1; % The number of lags of the VAR
-    [lbTest,lbProb] = nb_ljungBoxTest(residual,k);
+    p               = mOpt.nLags + 1; % The number of lags of the VAR
+    [lbTest,lbProb] = nb_ljungBoxTest(residual,p,obj.options.nLags,...
+        obj.options.type);
     
     % Report results
+    dep = mOpt.dependent;
+    if isfield(mOpt,'block_exogenous')
+        dep = [dep,mOpt.block_exogenous];
+    end
     res = struct('ljungBoxTest', lbTest,...
-                 'ljungBoxProb', lbProb);
+                 'ljungBoxProb', lbProb,...
+                 'dependent',    {dep});
     obj.results = res;
 
 end

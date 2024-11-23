@@ -82,7 +82,7 @@ function [xf,xs,us,vs,xu,uu,Ps] = nb_kalmansmoother_missing(model,y,z,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(z)
         z = zeros(0,size(y,2));
@@ -132,8 +132,12 @@ function [xf,xs,us,vs,xu,uu,Ps] = nb_kalmansmoother_missing(model,y,z,varargin)
         
         mt = m(:,tt);
         if all(~mt)
-            xf(:,tt+1)  = A*xf(:,tt) + G*z(:,tt) + c;
-            xu(:,tt)    = xf(:,tt);
+            xf(:,tt+1) = A*xf(:,tt) + G*z(:,tt) + c;
+            if tt == 1
+                xu(:,tt) = xf(:,tt+1);
+            else
+                xu(:,tt) = A*xu(:,tt-1) + G*z(:,tt) + c;
+            end
             P(:,:,tt+1) = A*P(:,:,tt)*AT + BQB;
             invF{tt}    = 0;
             AK{tt}      = 0;
@@ -194,18 +198,24 @@ function [xf,xs,us,vs,xu,uu,Ps] = nb_kalmansmoother_missing(model,y,z,varargin)
     
     % Then we do the smoothing
     %-------------------------------------------------------------
-    us  = nan(size(B,2),n);
-    xs  = nan(nEndo,n);          
-    r   = zeros(nEndo,n + 1);
-    t   = n + 1;
+    us        = nan(size(B,2),n);
+    xs        = nan(nEndo,n);          
+    r         = zeros(nEndo,n + 1);
+    t         = n + 1;
+    stillMiss = true;
     while t > 1
         t      = t - 1;
         mt     = m(:,t);
         r(:,t) = AT*r(:,t+1);
         if any(mt) && ~singular(t)
-            r(:,t) = r(:,t) + HT(:,mt,t)*(invF{t}*vf(mt,t) - AK{t}'*r(:,t+1)); 
+            stillMiss = false;
+            r(:,t)    = r(:,t) + HT(:,mt,t)*(invF{t}*vf(mt,t) - AK{t}'*r(:,t+1));     
         end
-        xs(:,t) = xf(:,t) + P(:,:,t)*r(:,t);
+        if stillMiss
+            xs(:,t) = xu(:,t);
+        else
+            xs(:,t) = xf(:,t) + P(:,:,t)*r(:,t);
+        end
         %us(:,t) = QBt*r(:,t);
     end
     

@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -87,9 +87,13 @@ function res = resursivePrint(results,options,precision)
     dates   = start:finish;
     dates   = dates(startRecursive:end)';
     numObs  = size(beta,3);
-    dep     = options.dependent;
-    if isfield(options,'block_exogenous')
-        dep = [dep,options.block_exogenous];
+    if options.nStep > 0
+        dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+    else
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
     end
     numDep  = length(dep);
     for ii = 1:numDep
@@ -161,12 +165,16 @@ function res = normalPrint(results,options,precision)
     [exo,numExo] = nb_olsEstimator.getCoeff(options);
 
     % Fill table
-    firstRow = options.dependent;
-    if isfield(options,'block_exogenous')
-        firstRow = [firstRow,options.block_exogenous];
+    if options.nStep > 0
+        dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+    else
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
     end
     table{1,1}           = 'Variable';
-    table(1,2:end)       = firstRow;
+    table(1,2:end)       = dep;
     table(2:4:end,1)     = exo;
     table(3:4:end,1)     = repmat({'(Std. Error)'},numExo,1);
     table(4:4:end,1)     = repmat({'(t-Statistics)'},numExo,1);
@@ -207,7 +215,7 @@ function res = normalPrint(results,options,precision)
             results.normalityTest];
 
         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-        tests = nb_addStars(tests,16,13,14,15);
+        tests = nb_addStars(tests,16,13,14,15,round(options.nLagsTests));
         
         % Test results
         testTable = {

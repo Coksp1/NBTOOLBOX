@@ -31,7 +31,7 @@ function letter = nb_num2letter(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_isScalarInteger(num)
         error([mfilename ':: The num input must be a scalar integer'])

@@ -9,7 +9,7 @@ function importCallback(gui,~,~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the file name
     [filename,pathname] = uigetfile({'*.mat','MAT (*.mat)'},'',nb_getLastFolder(gui));

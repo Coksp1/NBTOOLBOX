@@ -27,7 +27,7 @@ function U = nb_mvnrandChol(M,P,mu,T)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     RN = randn(M,size(T,1),P);
     U  = nan(M,size(T,2),P);

@@ -21,7 +21,7 @@ function disp(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     disp(nb_createLinkToClass(obj));
     disp(' ')

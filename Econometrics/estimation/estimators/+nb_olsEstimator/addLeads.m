@@ -10,11 +10,12 @@ function options = addLeads(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [testX,indX] = ismember(options.uniqueExogenous,options.dataVariables);
     if any(~testX)
-        error([mfilename ':: Some of the exogenous variable are not found to be in the dataset; ' toString(options.uniqueExogenous(~testX))])
+        error(['Some of the exogenous variable are not found to be in ',...
+            'the dataset; ' toString(options.uniqueExogenous(~testX))])
     end
     X            = options.data(:,indX);
     Xlead        = nb_mlead(X,1,'varFast');
@@ -27,21 +28,21 @@ function options = addLeads(options)
 
     % Add lead to exognous and reorder lags, current and leads.
     exoLags = nb_cellstrlag(options.uniqueExogenous,options.nLags,'varFast');
-    if options.exogenousLead
-        if options.current
-            options.exogenous = [exoLags,options.uniqueExogenous,exoLead];
-        else
-            options.exogenous = exoLead;
-        end
-        
-        % Add expanded lags to data
-        Xlag                  = lag(X,options.nLags + 1);
-        options.data          = [options.data,Xlag];
-        exoLag                = strcat(options.uniqueExogenous,'_lag',int2str(options.nLags + 1));
-        options.dataVariables = [options.dataVariables, exoLag];
-        
-    else
-        options.exogenous = [exoLags,options.uniqueExogenous];
+    if any(options.exogenousLead > 0)
+        options.exogenous = [options.uniqueExogenous(options.current == 1),...
+            exoLead(options.exogenousLead > 0)];
     end
+    options.exogenous = [exoLags,options.exogenous];
+
+    extra       = options.current == 1 & options.exogenousLead > 0;
+    exoLagsData = nb_cellstrlag(options.uniqueExogenous,options.nLags + extra,'varFast');
+    if ~isempty(exoLagsData)
+        % Add expanded lags to data
+        Xlag                  = nb_mlag(X,options.nLags + extra,'varFast');
+        options.data          = [options.data,Xlag];
+        options.dataVariables = [options.dataVariables, exoLagsData];
+    end
+
+    options.addLags = false;
     
 end

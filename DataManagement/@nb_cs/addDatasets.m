@@ -23,7 +23,7 @@ function obj = addDatasets(datasets,NameOfDatasets,types,variables)
 %
 % Written by Kenneth S. Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
    % obj = addDatasets(datasets,NameOfDatasets,types,variables)
 

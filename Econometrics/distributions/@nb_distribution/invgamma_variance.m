@@ -23,7 +23,7 @@ function x = invgamma_variance(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if m > 2
         x = k^2/((m-1)^2*(m-2));

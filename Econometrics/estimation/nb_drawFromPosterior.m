@@ -60,7 +60,7 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         waitbar = true;
@@ -85,7 +85,8 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
                 beta  = beta(:,:,1:draws);
                 sigma = sigma(:,:,1:draws);
             catch %#ok<CTCH>
-                error([mfilename ':: It is not possible to do more posterior draws than already assign. Max is: ' int2str(size(posterior.betaD,3))])
+                error(['It is not possible to do more posterior draws than ',...
+                    'already assign. Max is: ' int2str(size(posterior.betaD,3))])
             end
               
         case 'minnesota'
@@ -104,10 +105,14 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             X            = posterior.regressors;
             restrictions = posterior.restrictions;
             if strcmpi(method,'default')
-                [beta,sigma] = nb_bVarEstimator.minnesotaMCI(draws,y,X,initBeta,initSigma,posterior.a_prior,posterior.V_prior,restrictions,waitbar);
+                [beta,sigma] = nb_bVarEstimator.minnesotaMCI(draws,y,X,...
+                    initBeta,initSigma,posterior.a_prior,posterior.V_prior,...
+                    restrictions,waitbar);
             else
-                [beta,sigma] = nb_bVarEstimator.minnesotaGibbs(draws,y,X,initBeta,initSigma,posterior.a_prior,posterior.V_prior,posterior.S_prior,...
-                                    posterior.v_post,restrictions,burn,posterior.thin,waitbar);
+                [beta,sigma] = nb_bVarEstimator.minnesotaGibbs(draws,y,X,...
+                    initBeta,initSigma,posterior.a_prior,posterior.V_prior,...
+                    posterior.S_prior,posterior.v_post,restrictions,burn,...
+                    posterior.thin,waitbar);
             end
             
         case 'minnesotamf'
@@ -132,13 +137,16 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             H            = posterior.H;
             restrictions = posterior.restrictions;
             if ~strcmpi(method,'default')
-                [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs(draws,y,X,H,posterior.R_prior,initBeta,initSigma,...
-                                        posterior.a_prior,posterior.V_prior,posterior.S_prior,posterior.v_post,...
-                                        restrictions,burn,posterior.thin,waitbar,maxTries,dummyPriorOptions);
+                [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs(draws,...
+                    y,X,H,posterior.R_prior,initBeta,initSigma,posterior.a_prior,...
+                    posterior.V_prior,posterior.S_prior,posterior.v_post,...
+                    restrictions,burn,posterior.thin,waitbar,maxTries,...
+                    dummyPriorOptions);
             else
-                [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs2(draws,y,X,H,posterior.R_prior,initBeta,initSigma,...
-                                        posterior.a_prior,posterior.V_prior,restrictions,burn,posterior.thin,...
-                                        waitbar,maxTries,dummyPriorOptions);
+                [beta,sigma,yD,pD] = nb_bVarEstimator.minnesotaMFGibbs2(...
+                    draws,y,X,H,posterior.R_prior,initBeta,initSigma,...
+                    posterior.a_prior,posterior.V_prior,restrictions,burn,...
+                    posterior.thin,waitbar,maxTries,dummyPriorOptions);
             end    
             
         case 'jeffrey'
@@ -148,35 +156,39 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             X              = posterior.regressors;
             T              = posterior.T;
             restrictions   = posterior.restrictions;
-            [beta,sigma]   = nb_bVarEstimator.jeffreyMCI(draws,X,T,numCoeff,nEq,initSigma,posterior.SSE,posterior.a_ols,restrictions,waitbar);
+            [beta,sigma]   = nb_bVarEstimator.jeffreyMCI(draws,X,T,numCoeff,...
+                nEq,initSigma,posterior.SSE,posterior.a_ols,restrictions,waitbar);
             
         case 'laplace'
             
-            initBeta       = posterior.betaD(:,:,end);
-            initSigma      = posterior.sigmaD(:,:,end); 
-            X              = posterior.regressors;
-            y              = posterior.dependent;
-            [beta,sigma]   = nb_bVarEstimator.laplaceDensity(y,X,initBeta,initSigma,posterior.lam2Prior,...
-                posterior.lam2,draws,burn,posterior.thin,waitbar);
+            initBeta        = posterior.betaD(:,:,end);
+            initSigma       = posterior.sigmaD(:,:,end); 
+            X               = posterior.regressors;
+            y               = posterior.dependent;
+            posterior.draws = draws;
+            posterior.burn  = burn;
+            [beta,sigma]    = nb_laplace(y,X,posterior,posterior.constant,0,...
+                'waitbar',waitbar,'initBeta',initBeta,'initSigma',initSigma);
             
         case 'horseshoe'
             
             initBeta     = posterior.betaD(:,:,end);
-            initSigma    = posterior.sigmaD(:,:,end); 
             XX           = posterior.regressors;
             y            = posterior.dependent;
-            [beta,sigma] = nb_bVarEstimator.horseshoeGibbs(draws,y,XX,initBeta,initSigma,...
-                posterior.a_prior,posterior.S_prior,posterior.v_post,...
-                posterior.restrictions,posterior.thin,burn,waitbar);
+            prior        = posterior.prior;
+            prior.burn   = burn;
+            [beta,sigma] = nb_bVarEstimator.horseshoeGibbs(draws,y,XX,initBeta,...
+                posterior.a_prior,posterior.restrictions,prior,waitbar);
             
         case {'nwishart','glp','dsge'}
             
             initBeta     = posterior.betaD(:,:,end);
             initSigma    = posterior.sigmaD(:,:,end); 
             restrictions = posterior.restrictions;
-            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,initBeta,initSigma,posterior.a_post,...
-                                posterior.V_post,posterior.S_post,posterior.v_post,restrictions,waitbar);
-          
+            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,initBeta,...
+                initSigma,posterior.a_post,posterior.V_post,posterior.S_post,...
+                posterior.v_post,restrictions,waitbar);
+                             
         case {'nwishartmf','glpmf'}
             
             initBeta        = posterior.betaD(:,:,end);
@@ -190,9 +202,11 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             else
                 dummyPriorOptions = []; 
             end
-            [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,X,H,posterior.R_prior,initBeta,initSigma,posterior.a_prior,...
-                                    posterior.V_prior_inv,posterior.S_prior,posterior.v_post,restrictions,posterior.thin,burn,waitbar,maxTries,...
-                                    dummyPriorOptions);
+            [beta,sigma,yD,pD] = nb_bVarEstimator.nwishartMFGibbs(draws,y,X,...
+                H,posterior.R_prior,initBeta,initSigma,posterior.a_prior,...
+                posterior.V_prior_inv,posterior.S_prior,posterior.v_post,...
+                restrictions,posterior.thin,burn,waitbar,maxTries,...
+                dummyPriorOptions);
                             
         case 'inwishart'
             
@@ -201,8 +215,10 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             y            = posterior.dependent;
             X            = posterior.regressors;
             restrictions = posterior.restrictions;
-            [beta,sigma] = nb_bVarEstimator.inwishartGibbs(draws,y,X,initBeta,initSigma,posterior.a_prior,...
-                                posterior.V_prior,posterior.S_prior,posterior.v_post,restrictions,posterior.thin,burn,waitbar);                    
+            [beta,sigma] = nb_bVarEstimator.inwishartGibbs(draws,y,X,...
+                initBeta,initSigma,posterior.a_prior,posterior.V_prior,...
+                posterior.S_prior,posterior.v_post,restrictions,posterior.thin,...
+                burn,waitbar);                    
                  
         case 'inwishartmf'
             
@@ -212,8 +228,10 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             X                  = posterior.regressors;
             H                  = posterior.H;
             restrictions       = posterior.restrictions;
-            [beta,sigma,yD,pD] = nb_bVarEstimator.inwishartMFGibbs(draws,y,X,H,posterior.R_prior,initBeta,initSigma,posterior.a_prior,...
-                                    posterior.V_prior,posterior.S_prior,posterior.v_post,restrictions,posterior.thin,burn,waitbar,maxTries); 
+            [beta,sigma,yD,pD] = nb_bVarEstimator.inwishartMFGibbs(draws,y,...
+                X,H,posterior.R_prior,initBeta,initSigma,posterior.a_prior,...
+                posterior.V_prior,posterior.S_prior,posterior.v_post,...
+                restrictions,posterior.thin,burn,waitbar,maxTries); 
             
         case 'priorpredictive'
             
@@ -227,8 +245,9 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
         case 'statespace'
             
             if nb_isempty(posterior.output)
-                error([mfilename ':: The M-H has not converged. Either set the ''draws'' to an integer larger than 0 before ',...
-                                 'calling estimate, or use the sample() method.'])
+                error(['The M-H has not converged. Either set the ''draws'' ',...
+                    'to an integer larger than 0 before calling estimate, ',...
+                    'or use the sample() method.'])
             else
                 % The M-H has converged, so we only need to continue from
                 % where we are
@@ -239,10 +258,11 @@ function [beta,sigma,yD,pD] = nb_drawFromPosterior(posterior,draws,waitbar)
             
             initBeta       = posterior.betaD(:,:,end); 
             prior          = posterior.prior;
-            [beta,~,sigma] = nb_stochvolEstimator.usvGibbs(draws,posterior.y,posterior.Z,initBeta,posterior.AR,prior,prior.thin,burn,waitbar); 
+            [beta,~,sigma] = nb_stochvolEstimator.usvGibbs(draws,posterior.y,...
+                posterior.Z,initBeta,posterior.AR,prior,prior.thin,burn,waitbar); 
                             
         otherwise
-            error([mfilename ':: The posterior type '  posterior.type ' can not be drawn from.'])
+            error(['The posterior type '  posterior.type ' can not be drawn from.'])
     end
     
 end

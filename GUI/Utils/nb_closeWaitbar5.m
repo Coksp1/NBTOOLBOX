@@ -9,7 +9,7 @@ function nb_closeWaitbar5()
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fig = findobj('type','figure','tag','nb_waitbar5');
     gui = get(fig,'userData');

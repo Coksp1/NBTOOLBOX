@@ -41,7 +41,7 @@ function [chowTest,chowProb] = nb_chowTest(y,X,constant,timeTrend,breakpoint)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     T = size(y,1);
     if breakpoint < 5

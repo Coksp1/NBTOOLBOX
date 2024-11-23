@@ -24,7 +24,7 @@ function obj = delete(obj,graphObj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     for ii = 1:size(obj.graphObjects,2)
        

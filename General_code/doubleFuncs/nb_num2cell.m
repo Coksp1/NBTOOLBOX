@@ -17,7 +17,7 @@ function c = nb_num2cell(d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     c = cell(size(d,1),1);
     for ii = 1:size(d,1)

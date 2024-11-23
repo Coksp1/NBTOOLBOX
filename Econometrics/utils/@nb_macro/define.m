@@ -24,7 +24,7 @@ function obj = define(obj,name,statement)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isrow(obj)
         obj = nb_rowVector(obj);
@@ -33,7 +33,7 @@ function obj = define(obj,name,statement)
         error('nb_macro:define:alreadyDefined',['The macro variable ''' name ''' is already defined.'])
     end
     statement = strrep(statement,';','');
-    new       = eval(obj,statement); %#ok<EVLC>
+    new       = eval(obj,statement); %#ok<EV2IN>
     new.name  = name;
     obj       = [obj,new];
 

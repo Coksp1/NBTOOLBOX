@@ -29,7 +29,7 @@ function x = ast_mean(a,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = centered_mean(c,d,e);
     x = x.*b + a;

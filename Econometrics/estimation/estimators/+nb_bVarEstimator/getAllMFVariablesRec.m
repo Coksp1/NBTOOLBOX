@@ -13,7 +13,7 @@ function [ys,allEndo,exo] = getAllMFVariablesRec(options,ys,H,tempDep,ss,start)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     N   = size(H,1);
     T   = size(ys,1);

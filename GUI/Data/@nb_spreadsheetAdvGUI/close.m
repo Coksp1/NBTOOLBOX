@@ -10,7 +10,7 @@ function close(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if gui.changed && ~gui.openElsewhere
         if isa(gui.parent,'nb_GUI')

@@ -29,7 +29,7 @@ function x = ast_variance(~,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if d > 2 && e > 2
         x = centered_variance(c,d,e);

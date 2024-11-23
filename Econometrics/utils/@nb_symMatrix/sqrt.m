@@ -20,7 +20,7 @@ function obj = sqrt(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     siz          = size(obj);
     obj.symbols  = sqrt(obj.symbols);

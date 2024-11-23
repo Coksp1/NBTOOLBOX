@@ -32,7 +32,7 @@ function draws = t_rand(nrow,ncol,m,a,b)
 %
 % Written by Kenneth S. Paulsen
       
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         b = 1;

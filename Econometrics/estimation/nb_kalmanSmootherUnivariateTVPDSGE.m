@@ -56,7 +56,7 @@ function [xf,xs,us] = nb_kalmanSmootherUnivariateTVPDSGE(H,A,C,~,x0,P0,P0INF,y,k
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------
@@ -114,6 +114,10 @@ function [xf,xs,us] = nb_kalmanSmootherUnivariateTVPDSGE(H,A,C,~,x0,P0,P0INF,y,k
             elseif FS(ii,tt) > kalmanTol
                 xt  = xt + KS(:,ii,tt)*vf(ii,tt)/FS(ii,tt); 
                 PSU = PSU - KS(:,ii,tt)*KS(:,ii,tt)'/FS(ii,tt);
+            elseif FS(ii,tt) < 0 || FINF(ii,tt) < 0
+                error(['Numerical problem with negative forecast errors ',...
+                    'during iteration ' int2str(tt) ' and variable at id ',...
+                    int2str(ii) ' of the univariate Kalman filter.'])    
             end
 
         end

@@ -1,4 +1,4 @@
-function [calendar,ind] = shrinkCalendar(calendar,start,finish)
+function [calendar,ind] = shrinkCalendar(calendar,start,finish,closed)
 % Syntax:
 %
 % [calendar,ind] = nb_calendar.shrinkCalendar(calendar,start,finish)
@@ -14,6 +14,9 @@ function [calendar,ind] = shrinkCalendar(calendar,start,finish)
 % - start    : A nb_day object, or empty.
 %
 % - finish   : A nb_day object, or empty.
+%
+% - closed   : Closed or open ended. See the doc of the nb_calendar.closed
+%              property.
 % 
 % Output:
 % 
@@ -23,7 +26,11 @@ function [calendar,ind] = shrinkCalendar(calendar,start,finish)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
+
+    if nargin < 4
+        closed = false;
+    end
 
     indS = [];
     if ~isempty(start)
@@ -38,17 +45,22 @@ function [calendar,ind] = shrinkCalendar(calendar,start,finish)
         finish = nb_date.format2string(finish,'yyyymmdd');
         finish = char(finish);
         finish = str2double(finish);
-        indEL  = find(finish < calendar,1);
         indE   = false(size(calendar,1),1);
-        if ~isempty(indEL)
-            if indEL < size(calendar,1)
-                indEL    = indEL - 1;
-                calendar = calendar(1:indEL); 
+        if closed
+            indEL    = find(finish > calendar,1,'last');
+            calendar = calendar(1:indEL); 
+        else
+            indEL = find(finish < calendar,1);
+            if ~isempty(indEL)
+                if indEL < size(calendar,1)
+                    indEL    = indEL - 1;
+                    calendar = calendar(1:indEL); 
+                else
+                    indEL = size(calendar,1);
+                end
             else
                 indEL = size(calendar,1);
             end
-        else
-            indEL = size(calendar,1);
         end
         indE(1:indEL) = true;
     end

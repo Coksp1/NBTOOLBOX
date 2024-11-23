@@ -9,7 +9,7 @@ function [endc,value] = nb_addColor(gui,parent,endc,colorTemp)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     endc  = [endc;{colorTemp}];
     value = size(endc,1);

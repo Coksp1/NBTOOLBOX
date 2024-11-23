@@ -22,7 +22,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -35,5 +35,6 @@ function options = template(num)
     options.mapping          = {};
     options.measurementError = {};
     options.mixing           = {};
+    options.renameVariables  = {};
      
 end

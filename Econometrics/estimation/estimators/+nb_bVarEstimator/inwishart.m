@@ -55,7 +55,7 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         waitbar = true;
@@ -64,11 +64,22 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
     if prior.LR || prior.SC || prior.DIO || prior.SVD
         error('Cannot apply dummy priors for the prior inwishart')
     end
+
+    % Add constant if wanted
+    [T,numDep] = size(y);
+    if timeTrend == 1 && constant == 0
+        trend = 1:T;
+        x     = [trend', x];
+    elseif timeTrend == 0 && constant == 1      
+        x = [ones(T,1), x];
+    elseif constant == 1 && timeTrend == 1
+        trend = 1:T;       
+        x = [ones(T,1), trend, x];
+    end
     
     % Are we dealing with all zero regressors?
-    [T,numDep]             = size(y);
-    [x,indZR,restrictions] = nb_bVarEstimator.removeZR(x,constant,timeTrend,numDep,0,restrictions);
-    numCoeff               = size(x,2) + constant + timeTrend;
+    [x,indZR,restrictions] = nb_bVarEstimator.removeZR(x,0,0,numDep,0,restrictions);
+    numCoeff               = size(x,2);
 
     % Initial values for Gibbs
     TrawOLS = T;
@@ -86,14 +97,26 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
             TrawOLS = min(TrawOLS,prior.obsSVD - 1);
         end
     end
+
+    yOLS = y(1:TrawOLS,:);
+    xOLS = x(1:TrawOLS,:);
+    if ~isempty(prior.indCovid)
+        yOLS = yOLS(prior.indCovid,:);
+        xOLS = xOLS(prior.indCovid,:);
+    end
+
     if isempty(restrictions)
-        [A_OLS,~,~,~,r,X] = nb_ols(y(1:TrawOLS,:),x(1:TrawOLS,:),constant,timeTrend);
+        [A_OLS,~,~,~,r] = nb_ols(yOLS,xOLS,0,0);
     else
-        [A_OLS,~,~,~,r,X] = nb_olsRestricted(y(1:TrawOLS,:),x(1:TrawOLS,:),restrictions,constant,timeTrend);
+        [A_OLS,~,~,~,r] = nb_olsRestricted(yOLS,xOLS,...
+            restrictions,0,0);
     end
     SSE       = r'*r;
-    initSigma = SSE./(T-numCoeff+1);
+    initSigma = SSE./(size(r,1)-numCoeff+1);
     
+    % Strip observations
+    [y,x,T] = nb_bVarEstimator.stripObservations(prior,y,x);
+
     % Setting up the priors
     a_prior  = zeros(numCoeff*numDep,1);             
     if ~isempty(restrictions)
@@ -118,10 +141,18 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
     else
         thin = 2;
     end
+
+    % Expand regressors and remove the variables 
+    % restricted to be zero
+    X = kron(eye(numDep),x);
+    if ~isempty(restrictions)
+        X = X(:,restr);
+    end
     
     % Gibbs sampler
     %------------------------
-    [beta,sigma] = nb_bVarEstimator.inwishartGibbs(draws,y,X,A_OLS,initSigma,a_prior,V_prior,S_prior,v_post,restrictions,thin,prior.burn,waitbar);
+    [beta,sigma] = nb_bVarEstimator.inwishartGibbs(draws,y,X,A_OLS,...
+        initSigma,a_prior,V_prior,S_prior,v_post,restrictions,thin,prior.burn,waitbar);
     
     % Expand to include all zero regressors
     if any(~indZR)
@@ -131,9 +162,9 @@ function [beta,sigma,X,posterior] = inwishart(draws,y,x,constant,timeTrend,prior
     % Return all needed information to do posterior draws
     %----------------------------------------------------
     if nargout > 3
-        posterior = struct('type','inwishart','betaD',beta,'sigmaD',sigma,'dependent',y,...
-                           'regressors',X,'a_prior',a_prior,'S_prior',S_prior,'v_post',v_post,...
-                           'V_prior',V_prior,'restrictions',{restrictions},'thin',thin);
+        posterior = struct('type','inwishart','betaD',beta,'sigmaD',sigma,...
+            'dependent',y,'regressors',X,'a_prior',a_prior,'S_prior',S_prior,...
+            'v_post',v_post,'V_prior',V_prior,'restrictions',{restrictions},'thin',thin);
     end
     
 end

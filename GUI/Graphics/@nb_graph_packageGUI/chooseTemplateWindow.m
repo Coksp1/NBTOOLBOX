@@ -9,7 +9,7 @@ function chooseTemplateWindow(gui,chooseFunc)
 % 
 % Written by Kenneth Sæterhagen Paulsen and Per Bjarne Bye
         
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create user interface
     fig  = nb_guiFigure(gui.parent,'Choose template',[40, 15, 85.5, 31.5],'modal');

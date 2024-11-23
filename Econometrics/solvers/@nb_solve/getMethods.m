@@ -16,7 +16,7 @@ function methods = getMethods()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     methods = {'newton','steffensen','steffensen2','broyden','sane','dfsane','ypl'};
 

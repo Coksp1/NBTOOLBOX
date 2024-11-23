@@ -9,7 +9,7 @@ function changeSelectedGraph(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get selcted graph
     string   = get(gui.listbox,'string');

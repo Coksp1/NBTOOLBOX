@@ -9,7 +9,7 @@ function y0 = drawNowcast(y0,options,results,model,inputs,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     switch lower(options.missingMethod)        
         case 'forecast'

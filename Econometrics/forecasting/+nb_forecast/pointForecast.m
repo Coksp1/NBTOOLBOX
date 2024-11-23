@@ -11,7 +11,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     inputs = nb_defaultField(inputs,'bounds',[]);
     if strcmpi(model.class,'nb_tvp')
@@ -84,6 +84,26 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
 
         elseif restrictions.type == 3 % Restrictions on endogenous variables
 
+            if isfield(inputs,'exoProj')
+                exoProj = inputs.exoProj;
+            else
+                exoProj = '';
+            end
+            if ~isempty(exoProj)  
+                X = restrictions.X(:,:,index)';
+                if ~isempty(exoProj)
+                    XAR = nb_forecast.estimateAndBootstrapX(options,restrictions,1,restrictions.start,inputs);
+                    if ~isempty(XAR)
+                        indExo  = restrictions.indExo(:,:,restrictions.index);
+                        X       = [X(~indExo,:);XAR];
+                        order   = [restrictions.exo(~indExo),restrictions.exo(indExo)];
+                        [~,loc] = ismember(restrictions.exo,order);
+                        X       = X(loc,:);
+                    end
+                end
+                restrictions.X(:,:,index) = X';
+            end
+            
             if ~nb_isempty(inputs.bounds)
                 inputs.bounds         = nb_forecast.interpretRestrictions(inputs.bounds,model.endo,model.res);
                 restrictions          = nb_forecast.expandRestrictionsForBoundedForecast(restrictions,nSteps);
@@ -114,7 +134,7 @@ function [Y,evalFcst,solution] = pointForecast(y0,restrictions,model,options,res
                     indExo  = restrictions.indExo(:,:,restrictions.index);
                     X       = [X(~indExo,:);XAR];
                     order   = [restrictions.exo(~indExo),restrictions.exo(indExo)];
-                    [~,loc] = ismember(order,restrictions.exo);
+                    [~,loc] = ismember(restrictions.exo,order);
                     X       = X(loc,:);
                 end
             end

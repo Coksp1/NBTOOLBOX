@@ -43,7 +43,7 @@ function weights = nb_defaultWeights(scores,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     default = {'num',    [],   @(x)nb_isScalarInteger(x,0);...
                'perc',   [],   @(x)nb_isScalarNumber(x,0,100);...   
@@ -66,7 +66,7 @@ function weights = nb_defaultWeights(scores,varargin)
                 end
             end
         end
-        sumScores = nansum(scores,4);
+        sumScores = sum(scores,4,'omitnan');
         weights   = bsxfun(@rdivide,scores,sumScores);
     elseif ~isempty(inputs.num)
         [~,ind]   = sort(scores,4,'descend');
@@ -80,7 +80,7 @@ function weights = nb_defaultWeights(scores,varargin)
                 end
             end
         end
-        sumScores = nansum(scores,4);
+        sumScores = sum(scores,4,'omitnan');
         weights   = bsxfun(@rdivide,scores,sumScores);
     elseif ~isempty(inputs.remove)
         [~,ind]   = sort(scores,4,'descend');
@@ -94,10 +94,10 @@ function weights = nb_defaultWeights(scores,varargin)
                 end
             end
         end
-        sumScores = nansum(scores,4);
+        sumScores = sum(scores,4,'omitnan');
         weights   = bsxfun(@rdivide,scores,sumScores);
     else
-        sumScores = nansum(scores,4);
+        sumScores = sum(scores,4,'omitnan');
         weights   = bsxfun(@rdivide,scores,sumScores);
     end
 end

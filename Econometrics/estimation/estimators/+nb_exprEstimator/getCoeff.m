@@ -9,7 +9,7 @@ function [coeff,numCoeff] = getCoeff(options,eqId)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         nEq      = size(options.depFuncs,2);

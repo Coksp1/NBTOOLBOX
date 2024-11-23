@@ -19,7 +19,7 @@ function [distr,paramNames] = getPriorDistributions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: To get prior distributions for B-Var models are not yet supported.'])
 

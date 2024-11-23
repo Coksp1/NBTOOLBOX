@@ -23,7 +23,7 @@ function opt = optimset(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [sampler,varargin] = nb_parseOneOptional('sampler','nb_mcmc.mhSampler',varargin{:});
 

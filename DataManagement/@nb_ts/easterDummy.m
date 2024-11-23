@@ -33,7 +33,7 @@ function obj = easterDummy(obj,greedy)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         greedy = true;

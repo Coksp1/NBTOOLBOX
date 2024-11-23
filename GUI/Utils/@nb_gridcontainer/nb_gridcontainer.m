@@ -27,7 +27,7 @@ classdef nb_gridcontainer < handle
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess = protected)
         % [numOfRows, numOfColumns]
@@ -198,6 +198,10 @@ classdef nb_gridcontainer < handle
         
         function child = uitable(obj, varargin)
             child = obj.addChild(@uitable, varargin{:});
+        end
+        
+        function child = uitree(obj, varargin)
+            child = obj.addChild(@uitree, varargin{:});
         end
         
         function child = nb_uitable(obj, varargin)

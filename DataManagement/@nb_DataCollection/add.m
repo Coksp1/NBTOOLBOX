@@ -33,7 +33,7 @@ function obj = add(obj,dataObject,id)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(dataObject,'nb_ts') || isa(dataObject,'nb_cs') || isa(dataObject,'nb_data')
 

@@ -24,7 +24,7 @@ function moveUp(obj,identifier)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = find(strcmp(identifier,obj.identifiers),1);
     if isempty(ind)

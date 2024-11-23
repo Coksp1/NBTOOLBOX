@@ -12,7 +12,7 @@ function [Y,XE,solution] = densityBootstrap(y0,restrictions,model,options,result
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_sa')
         [Y,XE] = nb_forecast.densityBootstrapStepAheadModel(restrictions,model,options,results,nSteps,iter,inputs);

@@ -46,7 +46,7 @@ function latexTable = getEstimationTable(obj,varargin)
 % Written by Kenneth Sæterhagen Paulsen
 % Inspired by code written by Thor Andreas Aursland
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error('The input obj must be scalar nb_dsge object.')

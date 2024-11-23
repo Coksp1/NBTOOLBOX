@@ -25,7 +25,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -37,6 +37,7 @@ function options = template(num)
     options.calibrateR                  = {};
     options.constant                    = 1;
     options.cores                       = [];
+    options.covidAdj                    = {};
     options.covrepair                   = false;
     options.criterion                   = '';
     options.dependent                   = {};
@@ -61,7 +62,9 @@ function options = template(num)
     options.parallel                    = false;
     options.prior                       = [];
     options.regularization              = [];
+    options.regularizationPerc          = [];
     options.removeZeroRegressors        = false;
+    options.restrictConstant            = true;
     options.seasonalDummy               = '';
     options.saveDraws                   = true;
     options.stabilityTest               = true;

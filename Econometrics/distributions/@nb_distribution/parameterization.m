@@ -56,7 +56,7 @@ function [obj, params] = parameterization(me,v,dist,lb,ub,s,k,mo)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         mo = [];

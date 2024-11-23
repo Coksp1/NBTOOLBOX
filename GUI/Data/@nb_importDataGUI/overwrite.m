@@ -9,7 +9,7 @@ function overwrite(gui,hObject,~)
 % 
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the already stored data
     appData = gui.parent.data;

@@ -9,7 +9,7 @@ function [options,freqMapping] = addLags(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fixed       = options.modelSelectionFixed;
     exoNotFixed = options.exogenous(~fixed);

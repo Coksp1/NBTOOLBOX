@@ -28,7 +28,7 @@ function xlag = nb_slag(xin,lags)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [nObs,nVars,nPages] = size(xin);
     nSize               = size([lags{:}],2);
@@ -36,7 +36,7 @@ function xlag = nb_slag(xin,lags)
     kk                  = 1;
     for ii = 1:nVars
         for lagii = lags{ii}
-            xlag(:,kk,:) = lag(xin(:,ii,:),lagii);
+            xlag(:,kk,:) = nb_lag(xin(:,ii,:),lagii);
             kk           = kk + 1;
         end
     end

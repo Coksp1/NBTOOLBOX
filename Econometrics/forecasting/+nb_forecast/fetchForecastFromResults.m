@@ -11,7 +11,7 @@ function fcst = fetchForecastFromResults(results,options,startInd,endInd,nSteps,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isfield(results,'start')
         error(['The results input must have a field start if the model ',...
@@ -98,7 +98,7 @@ function fcst = fetchForecastFromResults(results,options,startInd,endInd,nSteps,
             end
             if nSim > 1
                 % Calculate mean and append
-                forecastDataRep(:,:,nSim+1,ii) = mean(forecastDataRep(:,:,1:nSim+1,:),3);
+                forecastDataRep(:,:,nSim+1,:) = mean(forecastDataRep(:,:,1:nSim,:),3);
             end
             dep          = depRep;
             forecastData = forecastDataRep;

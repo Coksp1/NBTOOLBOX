@@ -9,7 +9,7 @@ classdef nb_notifiesMouseOverObject < handle
 %     
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
    properties (Access=protected)
        

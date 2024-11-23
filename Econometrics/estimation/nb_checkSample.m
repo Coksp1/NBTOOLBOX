@@ -23,7 +23,7 @@ function [endInd,startInd,varargout] = nb_checkSample(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     X     = [varargin{:}];
     isNaN = any(~isfinite(X),2);

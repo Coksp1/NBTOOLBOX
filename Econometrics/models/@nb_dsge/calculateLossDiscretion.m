@@ -13,7 +13,7 @@ function [L,failed] = calculateLossDiscretion(options,solution,traceOnly)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Options
     tol      = options.fix_point_TolFun;

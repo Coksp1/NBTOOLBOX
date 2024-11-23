@@ -6,7 +6,7 @@ nb_exprModel.help
 
 rng(1); % Set seed
 
-T              = 100;
+T              = 104;
 covid          = zeros(T,2);
 covid(end-3,1) = 1;
 covid(end-2,2) = 1;
@@ -44,11 +44,14 @@ nb_graphPagesGUI(data);
 
 %% Formulate the model
 
+covidDummyNames = nb_covidDummyNames(4);
+covidDummyNames = covidDummyNames(1:4);
+
 t                      = nb_exprModel.template();
 t.constant             = true;
 t.data                 = data;
 t.dependent            = {'growth(y(t))'};
-t.exogenous            = [strcat(nb_covidDummyNames(4),'(t)'), {'growth(y(t-1))','growth(x(t-1))'}];
+t.exogenous            = [strcat(covidDummyNames,'(t)'), {'growth(y(t-1))','growth(x(t-1))'}];
 t.recursive_estim      = true;
 t.removeZeroRegressors = true;
 model                  = nb_exprModel(t);
@@ -116,4 +119,42 @@ model   = forecast(model,2,'fcstEval','SE','exoProj','ar',...
                            'startDate','2005Q1');
 plotter = plotForecast(model,'hairyplot');
 plotter.set('startGraph','2005Q1');
+nb_graphSubPlotGUI(plotter);
+
+%% Formulate the model
+% Ignore covid observations
+
+covidDates = nb_covidDates(4);
+covidDates = covidDates(1:4);
+
+t           = nb_exprModel.template();
+t.constant  = true;
+t.data      = data;
+t.dependent = {'growth(y(t))'};
+t.exogenous = {'growth(y(t-1))','growth(x(t-1))'};
+t.covidAdj  = covidDates;
+model       = nb_exprModel(t);
+
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% Formulate the model
+
+t                 = nb_exprModel.template();
+t.constant        = true;
+t.data            = data;
+t.dependent       = {'growth(y(t))'};
+t.exogenous       = {'growth(y(t-1))','growth(x(t-1))'};
+t.recursive_estim = true;
+t.covidAdj        = covidDates;
+model             = nb_exprModel(t);
+
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% Recursive estimation graph
+
+plotter = getRecursiveEstimationGraph(model);
 nb_graphSubPlotGUI(plotter);

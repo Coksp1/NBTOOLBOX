@@ -26,7 +26,7 @@ function [order,type,ss] = getDerivOrder(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isNB(obj)
         if ~isfield(obj.solution,'ss')

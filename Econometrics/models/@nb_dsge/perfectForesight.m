@@ -136,7 +136,7 @@ function [sim,plotter,distr] = perfectForesight(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     distr = [];
     if numel(obj) > 1

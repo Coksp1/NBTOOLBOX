@@ -23,7 +23,7 @@ function ret = ne(obj,aObj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     try
         ret = [obj.monthNr] ~= [aObj.monthNr];

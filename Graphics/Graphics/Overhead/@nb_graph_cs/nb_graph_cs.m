@@ -38,7 +38,7 @@ classdef nb_graph_cs < nb_graph
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -1006,6 +1006,46 @@ classdef nb_graph_cs < nb_graph
             
         end
         
+        function xTickMarkLabels = interpretXTickLabels(obj,xTickMarkLabels)
+        % Interpret x-tick labels using xTixkLabels, localVariables or 
+        % lookUpMatrix properties    
+            
+            if ~isempty(obj.xTickLabels)
+                
+                try
+                    checked = obj.xTickLabels(1:2:end);
+                    new     = obj.xTickLabels(2:2:end);
+                    xT      = strtrim(xTickMarkLabels);
+                    for ii = 1:length(checked)
+                        ind = find(strcmpi(checked{ii},xT),1,'last');
+                        if ~isempty(ind)
+                            xTickMarkLabels{ind} = new{ii};
+                        end
+                    end
+                catch Err
+                    error([mfilename ':: Wrong input given to the xTickLabels property:: ' Err.message])
+                end
+                
+            end
+
+            if ~isempty(obj.lookUpMatrix)
+                for ii = 1:length(xTickMarkLabels)
+                    xTickMarkLabels{ii} = nb_graph.findVariableName(obj,xTickMarkLabels{ii});
+                end
+            end
+            
+            % Interpret the local variables syntax
+            if ~isempty(obj.localVariables)
+                for ii = 1:length(xTickMarkLabels)
+                    xTickMarkLabels{ii} = nb_localVariables(obj.localVariables,xTickMarkLabels{ii});
+                end
+            end
+            for ii = 1:length(xTickMarkLabels)
+                xTickMarkLabels{ii} = nb_localFunction(obj,xTickMarkLabels{ii});
+            end
+            
+        end
+        
     end
         
     %======================================================================
@@ -1154,7 +1194,7 @@ classdef nb_graph_cs < nb_graph
                         'ySpacingRight'};
              
             obj.inputs = struct();        
-            for ii = 1:size(fields)
+            for ii = 1:length(fields)
                 
                 obj.inputs.(fields{ii}) = [];
                 
@@ -1517,7 +1557,7 @@ classdef nb_graph_cs < nb_graph
                             xlim = [xlim(1) - 0.5, xlim(2) + 0.5];
                         end
 
-                    elseif xlim(1) == xlim(2)
+                    elseif xlim(1) == xlim(2) || strcmpi(obj.plotType,'heatmap')
 
                         xlim = [xlim(1) - 0.5, xlim(2) + 0.5];
 
@@ -1607,20 +1647,22 @@ classdef nb_graph_cs < nb_graph
                     end
                 end 
 
-                obj.axesHandle.xLim               = ylim;
-                obj.axesHandle.xLimSet            = 1;
-                obj.axesHandle.xScale             = obj.yScale;
-                obj.axesHandle.yLim               = xlim;
-                obj.axesHandle.yLimSet            = 1;
-                obj.axesHandle.yOffset            = obj.yOffset;
-                obj.axesHandle.yTick              = xTick;
-                obj.axesHandle.yTickRight         = xTickR;
-                obj.axesHandle.yTickRightSet      = 1;
-                obj.axesHandle.yTickLabelRight    = xTickMarkLabelsR;
-                obj.axesHandle.yTickLabelRightSet = 1;
-                obj.axesHandle.yTickSet           = 1;
-                obj.axesHandle.yTickLabel         = xTickMarkLabels;
-                obj.axesHandle.yTickLabelSet      = 1;
+                obj.axesHandle.xLim                  = ylim;
+                obj.axesHandle.xLimSet               = 1;
+                obj.axesHandle.xScale                = obj.yScale;
+                obj.axesHandle.xTickLabelInterpreter = obj.xTickLabelInterpreter;
+                obj.axesHandle.yLim                  = xlim;
+                obj.axesHandle.yLimSet               = 1;
+                obj.axesHandle.yOffset               = obj.yOffset;
+                obj.axesHandle.yTick                 = xTick;
+                obj.axesHandle.yTickRight            = xTickR;
+                obj.axesHandle.yTickRightSet         = 1;
+                obj.axesHandle.yTickLabelRight       = xTickMarkLabelsR;
+                obj.axesHandle.yTickLabelRightSet    = 1;
+                obj.axesHandle.yTickSet              = 1;
+                obj.axesHandle.yTickLabel            = xTickMarkLabels;
+                obj.axesHandle.yTickLabelSet         = 1;
+                obj.axesHandle.yTickLabelInterpreter = obj.yTickLabelInterpreter;
                 
                 if ~isempty(ylim)
                     obj.axesHandle.xLimSet = 1;
@@ -1649,16 +1691,18 @@ classdef nb_graph_cs < nb_graph
                     end
                 end
                 
-                obj.axesHandle.xLim                 = xlim;
-                obj.axesHandle.xLimSet              = 1;
-                obj.axesHandle.xTick                = xTick;
-                obj.axesHandle.xTickSet             = 1;
-                obj.axesHandle.xTickLabel           = xTickMarkLabels;
-                obj.axesHandle.xTickLabelSet        = 1;
-                obj.axesHandle.xTickLabelLocation   = obj.xTickLabelLocation;         
-                obj.axesHandle.xTickLabelAlignment  = obj.xTickLabelAlignment;
-                obj.axesHandle.xTickLocation        = obj.xTickLocation; 
-                obj.axesHandle.xTickRotation        = obj.xTickRotation;
+                obj.axesHandle.xLim                  = xlim;
+                obj.axesHandle.xLimSet               = 1;
+                obj.axesHandle.xTick                 = xTick;
+                obj.axesHandle.xTickSet              = 1;
+                obj.axesHandle.xTickLabel            = xTickMarkLabels;
+                obj.axesHandle.xTickLabelSet         = 1;
+                obj.axesHandle.xTickLabelLocation    = obj.xTickLabelLocation;         
+                obj.axesHandle.xTickLabelAlignment   = obj.xTickLabelAlignment;
+                obj.axesHandle.xTickLabelInterpreter = obj.xTickLabelInterpreter;
+                obj.axesHandle.xTickLocation         = obj.xTickLocation; 
+                obj.axesHandle.xTickRotation         = obj.xTickRotation;
+                obj.axesHandle.yTickLabelInterpreter = obj.yTickLabelInterpreter;
                 
                 if strcmpi(obj.plotType,'image')
                     
@@ -1780,6 +1824,12 @@ classdef nb_graph_cs < nb_graph
             end
             
             applyNotTickOptions(obj);
+            
+            % Special stuff for heatmap
+            %--------------------------------------------------------------
+            if strcmpi(obj.plotType,'heatmap')
+                setHeatmapAxes(obj)
+            end
             
             % Then update and plot the axes
             %--------------------------------------------------------------
@@ -3561,46 +3611,6 @@ classdef nb_graph_cs < nb_graph
             end
             if ~isempty(copyObj.footerObjectNor)
                 copyObj.footerObjectNor = copy(copyObj.footerObjectNor);
-            end
-            
-        end
-        
-        function xTickMarkLabels = interpretXTickLabels(obj,xTickMarkLabels)
-        % Interpret x-tick labels using xTixkLabels, localVariables or 
-        % lookUpMatrix properties    
-            
-            if ~isempty(obj.xTickLabels)
-                
-                try
-                    checked = obj.xTickLabels(1:2:end);
-                    new     = obj.xTickLabels(2:2:end);
-                    xT      = strtrim(xTickMarkLabels);
-                    for ii = 1:length(checked)
-                        ind = find(strcmpi(checked{ii},xT),1,'last');
-                        if ~isempty(ind)
-                            xTickMarkLabels{ind} = new{ii};
-                        end
-                    end
-                catch Err
-                    error([mfilename ':: Wrong input given to the xTickLabels property:: ' Err.message])
-                end
-                
-            end
-
-            if ~isempty(obj.lookUpMatrix)
-                for ii = 1:length(xTickMarkLabels)
-                    xTickMarkLabels{ii} = nb_graph.findVariableName(obj,xTickMarkLabels{ii});
-                end
-            end
-            
-            % Interpret the local variables syntax
-            if ~isempty(obj.localVariables)
-                for ii = 1:length(xTickMarkLabels)
-                    xTickMarkLabels{ii} = nb_localVariables(obj.localVariables,xTickMarkLabels{ii});
-                end
-            end
-            for ii = 1:length(xTickMarkLabels)
-                xTickMarkLabels{ii} = nb_localFunction(obj,xTickMarkLabels{ii});
             end
             
         end

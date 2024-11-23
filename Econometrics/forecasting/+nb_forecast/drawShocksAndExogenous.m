@@ -15,7 +15,7 @@ function [E,X,states,solution] = drawShocksAndExogenous(y0,model,ss,nSteps,draws
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if iscell(model.vcv)
         model.vcv = model.vcv{1}; % For Markov switching and DSGE models we have assumed this to be the identity matrix!

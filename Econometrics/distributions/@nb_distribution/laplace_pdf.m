@@ -25,7 +25,7 @@ function f = laplace_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f = exp(-abs(x - m)./k)./(2*k);
     

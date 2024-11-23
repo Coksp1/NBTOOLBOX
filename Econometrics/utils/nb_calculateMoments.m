@@ -38,7 +38,7 @@ function [m,c] = nb_calculateMoments(A,B,C,vcv,mX,varX,nLags,type,tol,maxiter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 10
         maxiter = 1000;

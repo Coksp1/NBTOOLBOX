@@ -26,7 +26,7 @@ function [test,obj] = equalToThePower(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(obj,'nb_equation') || ~isa(another,'nb_equation')
        test = false;

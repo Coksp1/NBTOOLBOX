@@ -12,7 +12,7 @@ function [DY,err] = getNewtonUpdate(funcs,JF,Y,inputs,solveIter,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Evaluate the stacked system at the current values
     nVars  = inputs.nVars;

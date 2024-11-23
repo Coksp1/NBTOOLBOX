@@ -27,8 +27,11 @@ function obj = stdise(obj,flag)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    obj = mean(obj)./std(obj,flag);
+    if nargin < 2
+        flag = 0;
+    end
+    obj = (obj - mean(obj))./std(obj,flag);
 
 end

@@ -31,7 +31,7 @@ function obj = filter(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         [waitbar,varargin] = nb_parseOneOptionalSingle('waitbar',false,true,varargin{:});
@@ -160,8 +160,8 @@ function obj = filter(obj,varargin)
     end
     
     % Append the low frequency smoothed variables
-    [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariables(options,ys,H,tempDep);
-    [yu]             = nb_bVarEstimator.getAllMFVariables(options,yu,H,tempDep);
+    [ys,allEndo,exo] = nb_bVarEstimator.getAllMFVariables(options,ys,H,tempDep,true);
+    [yu]             = nb_bVarEstimator.getAllMFVariables(options,yu,H,tempDep,true);
 
     % Store smoothed results
     obj.results.smoothed.variables = struct('data',ys,'startDate',obj.results.filterStartDate,'variables',{allEndo});

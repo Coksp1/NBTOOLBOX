@@ -51,7 +51,7 @@ classdef nb_bar < nb_plotHandle & nb_notifiesMouseOverObject
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties(SetAccess=protected)
 
@@ -1016,7 +1016,7 @@ classdef nb_bar < nb_plotHandle & nb_notifiesMouseOverObject
                         % Find x-pos
                         n     = size(data,2);
                         xTemp = cell(size(data));
-                        for ii = 1:size(data)
+                        for ii = 1:size(data,1)
                             ind   = data(ii,:)~=0 & ~isnan(data(ii,:));
                             tData = data(ii,ind);
                             m     = size(tData,2);

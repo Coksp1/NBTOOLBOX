@@ -10,7 +10,7 @@ function [irfDataD,paused] = irfFactorModelBootstrap(model,options,results,input
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Check if we are going to parallelize
     if isfield(inputs,'parallelL')

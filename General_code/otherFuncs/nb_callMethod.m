@@ -25,7 +25,7 @@ function result = nb_callMethod(obj,meth,classConst,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     siz = size(obj);
     obj = obj(:);

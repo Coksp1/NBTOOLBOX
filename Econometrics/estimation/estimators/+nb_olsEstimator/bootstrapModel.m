@@ -12,10 +12,14 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(model,options,results,me
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         iter = 'end';
+    end
+
+    if ~isempty(options.covidAdj)
+        error('Bootstrapping is not yet supported when using the covidAdj option.')
     end
 
     if strcmpi(iter,'end')

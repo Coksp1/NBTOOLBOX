@@ -9,7 +9,7 @@ function exit(~,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Close parent (I.e. the GUI)
     close(get(hObject,'parent'));

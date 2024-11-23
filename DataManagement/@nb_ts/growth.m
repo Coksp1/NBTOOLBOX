@@ -32,7 +32,7 @@ function obj = growth(obj,lag,stripNaN)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         stripNaN = false;
@@ -41,25 +41,7 @@ function obj = growth(obj,lag,stripNaN)
         end
     end
 
-    if stripNaN
-        % Strip nan values before calculating the growth
-        isNaN = isnan(obj.data);
-        for vv = 1:obj.numberOfVariables
-            for pp = 1:obj.numberOfDatasets
-                din     = obj.data(~isNaN(:,vv,pp),vv,pp);
-                din     = log(din);
-                [~,c,p] = size(din); 
-                dout    = cat(1,nan(lag,c,p),din(lag+1:end,:,:)-din(1:end-lag,:,:));
-                obj.data(~isNaN(:,vv,pp),vv,pp) = dout;
-            end
-        end
-    else
-        din      = obj.data;
-        din      = log(din);
-        [~,c,p]  = size(din); 
-        dout     = cat(1,nan(lag,c,p),din(lag+1:end,:,:)-din(1:end-lag,:,:));
-        obj.data = dout;
-    end
+    obj.data = growth(obj.data,lag,stripNaN);
     
     if obj.isUpdateable()
         

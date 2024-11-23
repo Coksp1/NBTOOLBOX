@@ -9,7 +9,7 @@ function appendCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     value = get(gui.appendType,'value');
     switch value

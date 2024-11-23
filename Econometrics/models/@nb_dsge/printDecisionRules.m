@@ -36,7 +36,7 @@ function str = printDecisionRules(obj,variables,precision,asCell)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         asCell = false;

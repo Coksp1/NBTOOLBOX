@@ -36,7 +36,7 @@ classdef nb_graph_ts < nb_graph
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -392,6 +392,14 @@ classdef nb_graph_ts < nb_graph
         % > 'candle'      : If candle plot(s) is wanted.
         % 
         % > 'scatter'     : If scatter plot(s) is wanted.
+        %
+        % > 'heatmap'     : If a heatmap plot is wanted. 
+        %
+        %                   Caution: The fonts are not scaling when
+        %                            rescaling the size of thw window when 
+        %                            the plotting classes nb_graphPagesGUI,
+        %                            nb_graphSubPlotGUI or 
+        %                            nb_graphInfoStructGUI are used!
         % 
         % > 'simpleRules' : Can be given if you want graph of the 
         %                   interest rate path compared with the 
@@ -1876,7 +1884,7 @@ classdef nb_graph_ts < nb_graph
                         'ySpacingRight'};
              
             obj.inputs = struct();        
-            for ii = 1:size(fields)
+            for ii = 1:length(fields)
                 
                 obj.inputs.(fields{ii}) = [];
                 
@@ -2456,7 +2464,7 @@ classdef nb_graph_ts < nb_graph
                         xlim = [xlim(1) - 0.5, xlim(2) + 0.5];
                     end
                     
-                elseif xlim(1) == xlim(2)
+                elseif xlim(1) == xlim(2) || strcmpi(obj.plotType,'heatmap')
                     
                     xlim = [xlim(1) - 0.5, xlim(2) + 0.5]; 
                     
@@ -2539,38 +2547,40 @@ classdef nb_graph_ts < nb_graph
             % of both the x-axis and y-axis. Also set the font and grid 
             % options.  
             %--------------------------------------------------------------
-            obj.axesHandle.alignAxes            = obj.alignAxes;
-            obj.axesHandle.fontName             = obj.fontName;
-            obj.axesHandle.fontSize             = obj.axesFontSize;
-            obj.axesHandle.fontSizeX            = obj.axesFontSizeX;
-            obj.axesHandle.fontUnits            = obj.fontUnits;
-            obj.axesHandle.fontWeight           = obj.axesFontWeight;
-            obj.axesHandle.grid                 = obj.grid;
-            obj.axesHandle.gridLineStyle        = obj.gridLineStyle;
-            obj.axesHandle.language             = obj.language;
-            obj.axesHandle.lineWidth            = obj.axesLineWidth;
-            obj.axesHandle.normalized           = obj.normalized;
-            obj.axesHandle.precision            = obj.axesPrecision;
-            obj.axesHandle.shading              = obj.shading;
-            obj.axesHandle.UIContextMenu        = obj.UIContextMenu;
-            obj.axesHandle.update               = 'on';
-            obj.axesHandle.xLim                 = xlim;
-            obj.axesHandle.xLimSet              = 1;
-            obj.axesHandle.xTick                = xT;
-            obj.axesHandle.xTickSet             = 1;
-            obj.axesHandle.xTickLabel           = dat;
-            obj.axesHandle.xTickLabelSet        = 1;
-            obj.axesHandle.xTickLabelLocation   = obj.xTickLabelLocation;         
-            obj.axesHandle.xTickLabelAlignment  = obj.xTickLabelAlignment;
-            obj.axesHandle.xTickLocation        = obj.xTickLocation; 
-            obj.axesHandle.xTickRotation        = obj.xTickRotation;
-            obj.axesHandle.yDir                 = obj.yDir;
-            obj.axesHandle.yDirRight            = obj.yDirRight;
-            obj.axesHandle.yLim                 = ylim;
-            obj.axesHandle.yLimRight            = ylimright;
-            obj.axesHandle.yOffset              = obj.yOffset;
-            obj.axesHandle.yScale               = obj.yScale;
-            obj.axesHandle.yScaleRight          = obj.yScaleRight;
+            obj.axesHandle.alignAxes             = obj.alignAxes;
+            obj.axesHandle.fontName              = obj.fontName;
+            obj.axesHandle.fontSize              = obj.axesFontSize;
+            obj.axesHandle.fontSizeX             = obj.axesFontSizeX;
+            obj.axesHandle.fontUnits             = obj.fontUnits;
+            obj.axesHandle.fontWeight            = obj.axesFontWeight;
+            obj.axesHandle.grid                  = obj.grid;
+            obj.axesHandle.gridLineStyle         = obj.gridLineStyle;
+            obj.axesHandle.language              = obj.language;
+            obj.axesHandle.lineWidth             = obj.axesLineWidth;
+            obj.axesHandle.normalized            = obj.normalized;
+            obj.axesHandle.precision             = obj.axesPrecision;
+            obj.axesHandle.shading               = obj.shading;
+            obj.axesHandle.UIContextMenu         = obj.UIContextMenu;
+            obj.axesHandle.update                = 'on';
+            obj.axesHandle.xLim                  = xlim;
+            obj.axesHandle.xLimSet               = 1;
+            obj.axesHandle.xTick                 = xT;
+            obj.axesHandle.xTickSet              = 1;
+            obj.axesHandle.xTickLabel            = dat;
+            obj.axesHandle.xTickLabelSet         = 1;
+            obj.axesHandle.xTickLabelLocation    = obj.xTickLabelLocation;         
+            obj.axesHandle.xTickLabelAlignment   = obj.xTickLabelAlignment;
+            obj.axesHandle.xTickLabelInterpreter = obj.xTickLabelInterpreter;
+            obj.axesHandle.xTickLocation         = obj.xTickLocation; 
+            obj.axesHandle.xTickRotation         = obj.xTickRotation;
+            obj.axesHandle.yDir                  = obj.yDir;
+            obj.axesHandle.yDirRight             = obj.yDirRight;
+            obj.axesHandle.yLim                  = ylim;
+            obj.axesHandle.yLimRight             = ylimright;
+            obj.axesHandle.yOffset               = obj.yOffset;
+            obj.axesHandle.yScale                = obj.yScale;
+            obj.axesHandle.yScaleRight           = obj.yScaleRight;
+            obj.axesHandle.yTickLabelInterpreter = obj.yTickLabelInterpreter;
             
             if ~isempty(ylim)
                 obj.axesHandle.yLimSet = 1;
@@ -2653,6 +2663,12 @@ classdef nb_graph_ts < nb_graph
             
             applyNotTickOptions(obj);
             
+            % Special stuff for heatmap
+            %--------------------------------------------------------------
+            if strcmpi(obj.plotType,'heatmap')
+                setHeatmapAxes(obj)
+            end
+                
             % Then update and plot the axes
             %--------------------------------------------------------------
             obj.axesHandle.updateAxes();

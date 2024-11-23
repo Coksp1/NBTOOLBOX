@@ -47,7 +47,7 @@ function [ci,limInd] = nb_hdi(data,limits,dim,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         dim = 1;

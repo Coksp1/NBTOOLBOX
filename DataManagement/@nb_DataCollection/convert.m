@@ -93,7 +93,7 @@ function obj = convert(obj,freq,method,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     temp = obj.list.getFirst();
     for ii = 1:size(obj.objectsID,2)

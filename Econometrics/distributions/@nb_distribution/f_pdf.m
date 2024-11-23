@@ -27,7 +27,7 @@ function f = f_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x(x<0) = 0;
     m_2    = m/2;

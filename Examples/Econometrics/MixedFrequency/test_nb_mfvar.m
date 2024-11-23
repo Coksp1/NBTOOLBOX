@@ -106,7 +106,7 @@ t.dependent = {'VAR1','A_VAR2'};
 t.frequency = {'A_VAR2',1};
 t.mapping   = {'A_VAR2','diffAverage'}; % Approximation
 t.constant  = true;
-t.nLags     = 2;
+t.nLags     = 8;
 t.prior     = prior;
 t.draws     = 500;
 

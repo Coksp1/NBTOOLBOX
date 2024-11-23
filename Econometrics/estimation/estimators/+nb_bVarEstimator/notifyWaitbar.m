@@ -9,7 +9,7 @@ function notifyWaitbar(h,kk,note)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if rem(kk,note) == 0
         h.status4 = kk;

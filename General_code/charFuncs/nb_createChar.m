@@ -19,7 +19,7 @@ function out = nb_createChar(r,c)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     out = ' ';
     out = out(ones(r,1),ones(1,c));

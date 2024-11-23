@@ -24,7 +24,7 @@ function obj = double2NormalDist(d,sigma)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(d)
         [dim1,dim2] = size(d);

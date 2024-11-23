@@ -27,7 +27,7 @@ function [irfs,irfsBands,plotter] = irf(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: This function only handles one nb_model_group object'])

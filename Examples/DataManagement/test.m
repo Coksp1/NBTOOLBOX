@@ -9,7 +9,7 @@ function [num,data,data2] = test(data)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     num   = numel(data);
     data2 = data - 1;

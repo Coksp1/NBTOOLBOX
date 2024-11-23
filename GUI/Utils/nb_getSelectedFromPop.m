@@ -21,7 +21,7 @@ function [out,ind] = nb_getSelectedFromPop(handle,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         type = '';

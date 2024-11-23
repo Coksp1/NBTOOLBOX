@@ -16,15 +16,15 @@ classdef nb_dataSource
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
         % Number of datasets stored in the object. As a double. 
-        numberOfDatasets        = 0;  
+        numberOfDatasets         
         
         % Number of variables stored in the object. As a double. 
-        numberOfVariables       = 0; 
+        numberOfVariables       
         
     end
 
@@ -168,6 +168,30 @@ classdef nb_dataSource
         
         s   = struct(obj)
         obj = empty(obj)
+        
+        % Syntax:
+        %
+        % [obj,another] = secureSameSpan(obj,another)
+        %
+        % Description:
+        %
+        % Secure same span along the first dimension (time, obs or types)
+        % of the two datasets.
+        % 
+        % Input:
+        % 
+        % - obj     : An object of class nb_dataSource.
+        %
+        % - another : An object of class nb_dataSource.
+        % 
+        % Output:
+        % 
+        % - obj     : An object of class nb_dataSource.
+        %
+        % - another : An object of class nb_dataSource.
+        %
+        % Written by Kenneth Sæterhagen Paulsen
+        [obj,another] = secureSameSpan(obj,another)
         
     end
     

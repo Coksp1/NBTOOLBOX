@@ -30,7 +30,7 @@ function [X,failed] = nb_lyapunovEquation(A,B,tol,maxiter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         maxiter = 1000;

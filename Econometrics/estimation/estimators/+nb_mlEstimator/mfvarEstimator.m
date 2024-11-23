@@ -6,7 +6,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,sigma,residual,ys,lik,Omega,pD] = mfva
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get mixing options
     nObs                   = size(y,2);

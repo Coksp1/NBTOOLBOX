@@ -9,7 +9,7 @@ function selectPageCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     page = get(gui.popupmenu,'value');
     gui.plotter.set('page',page);

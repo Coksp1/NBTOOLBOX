@@ -223,7 +223,9 @@ function [A, err, ex] = read_tif_img(fig, res_str, renderer, tmp_nam)
         % Fix issue #83: use numeric handles in HG1
         if ~using_hg2(fig),  fig = double(fig);  end
         % Print to tiff file
+        warning('off','MATLAB:print:ExcludesUIInFutureRelease')
         print(fig, renderer, res_str, '-dtiff', tmp_nam);
+        warning('on','MATLAB:print:ExcludesUIInFutureRelease')
         % Read in the printed file
         A = imread(tmp_nam);
         % Delete the temporary file

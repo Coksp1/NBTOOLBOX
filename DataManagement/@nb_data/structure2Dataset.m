@@ -49,7 +49,7 @@ function obj = structure2Dataset(obj,givenStruct,NameOfDataset,startObs)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         startObs = '';

@@ -12,7 +12,7 @@ function xout = q2y(xin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     xout = sum([xin,nb_mlag(xin,3)],2);
     

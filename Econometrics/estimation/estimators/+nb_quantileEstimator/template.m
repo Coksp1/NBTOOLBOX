@@ -17,11 +17,12 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options                             = struct();
     options.addLags                     = 0;
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.criterion                   = '';
     options.data                        = [];
     options.dataStartDate               = '';

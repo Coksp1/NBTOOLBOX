@@ -17,7 +17,7 @@ function numberOfWeeks = getNumberOfWeeks(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     startWeek     = getWeek(obj,true);
     lastWeek      = getWeek(obj,false);

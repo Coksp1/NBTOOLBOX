@@ -71,8 +71,7 @@ classdef nb_fmdyn < nb_model_generic & nb_factor_model_generic & nb_calculate_ge
 %    to 'bdfm'. (Not yet finished!)
 %
 % 3. Koop and Korobilis (2014) extended by Schroder and Eraslan (2021) to 
-%    handle mixed frequency. See the nb_tvpmfsvEstimator package. (Not 
-%    part of the open source version yet!)
+%    handle mixed frequency. See the nb_tvpmfsvEstimator package.
 %
 % Caution: Some small alteration to the referenced algorithm may have been 
 %          done in special cases.
@@ -110,7 +109,7 @@ classdef nb_fmdyn < nb_model_generic & nb_factor_model_generic & nb_calculate_ge
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true)
        
@@ -218,6 +217,7 @@ classdef nb_fmdyn < nb_model_generic & nb_factor_model_generic & nb_calculate_ge
         varargout = solveNormal(varargin)
         varargout = solveRecursive(varargin)
         varargout = template(varargin)
+        varargout = priorHelp(varargin)
         varargout = priorTemplate(varargin)
         varargout = help(varargin)
         

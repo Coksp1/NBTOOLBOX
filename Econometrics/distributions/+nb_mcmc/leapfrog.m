@@ -45,7 +45,7 @@ function [thetaprime, rprime, gradprime, logpprime] = leapfrog(theta, r, grad, e
 
 % Copyright (c) 2011, Matthew D. Hoffman
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     rprime     = r + 0.5 * epsilon * grad;
     thetaprime = theta + epsilon * rprime;

@@ -11,7 +11,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         type = 'X';
@@ -44,12 +44,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
             end
             if strcmpi(restr.class,'nb_ecm')
                 % Remove level variables
-                indR = cellfun(@isempty,regexp(exo,'diff_'));
-                indT = ismember(exo,opt.exogenous);
-                indR = ~indT & indR;
-                exo  = exo(~indR); 
-                exoT = unique(regexprep(opt.exogenous,'_lag[0-9]+$','')); % Remove lags to reduce estimation burden 
-                exoT = [exoT,strcat('diff_',opt.endogenous)];
+                [exoT,restr] = ecmCorrections(opt,restr,exo);
             else
                 exoT = unique(regexprep(exo,'_lag[0-9]+$','')); % Remove lags to reduce estimation burden 
             end
@@ -94,9 +89,9 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                     % Do we have any conditional info we got from the
                     % condDB input? See nb_forecast.prepareRestrictions
                     if strcmpi(type,'Z')
-                        XtExtra = restr.Z(:,strcmpi(exo{ii},restr.exoObs));
+                        XtExtra = restr.Z(:,strcmpi(exoT{ii},restr.exoObs));
                     else
-                        XtExtra = restr.X(:,strcmpi(exo{ii},restr.exo));
+                        XtExtra = restr.X(:,strcmpi(exoT{ii},restr.exo));
                     end
                     XtExtra = XtExtra(~isnan(XtExtra));
                     Xt      = [Xt;XtExtra]; %#ok<AGROW>
@@ -107,7 +102,7 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                 % Take differences
                 doUndiff = false;
                 if ~isempty(inputs.exoProjDiff)
-                    loc = find(strcmpi(exo{ii},inputs.exoProjDiff),1,'last');
+                    loc = find(strcmpi(exoT{ii},inputs.exoProjDiff),1,'last');
                     if ~isempty(loc)
                         if inputs.exoProjDiff{loc+1}
                             xHist    = X(end,ii); % Last observation on historical data
@@ -278,18 +273,43 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
 
             end
             
+            % Do we need to add level variables of nb_ecm model?
             exoNames = exoT;
-            if any(~ismember(exo,exoT))
-               
-                % Here we need to construct lagged variables
-                indR  = ismember(exo,exoT);
+            indR     = nb_ismemberi(exoKeep,deterministic);
+            exo      = exoKeep(~indR);
+            if strcmpi(restr.class,'nb_ecm')
+                exoD      = strrep(opt.rhs,'diff_','');
+                exoD      = regexprep(exoD,'_lag\d{1,2}$','');
+                exoD      = unique(exoD);
+                exoD      = exoD(~strcmpi(exoD,strrep(opt.dependent,'diff_','')));
+                XARE      = nan(length(exoD),size(XAR,2),size(XAR,3));
+                endoD     = sort(strcat('diff_',opt.endogenous));
+                [~,indXL] = ismember(exoD,opt.dataVariables);
+                XLhist    = opt.data(eInd-1:eInd,indXL);
+                XLhist    = XLhist(:,:,ones(1,draws));
+                nLag      = 1; 
+                for ii = 1:length(exoD)
+                    indE = find(strcmpi(endoD{ii},exoNames),1);
+                    if ~isempty(indE)
+                        E            = [nan(1,1,draws);permute(XAR(indE,1:end-1,:),[2,1,3])]; % diff
+                        E            = nb_undiff(E,XLhist(end,ii,:),nLag);
+                        XARE(ii,:,:) = permute(E,[2,1,3]);
+                    end
+                end
+                XAR      = [XAR;XARE];
+                exoNames = [exoNames,strcat(exoD,'_lag1')];
+            end
+            
+            % Do we need to construct lagged variables?
+            if any(~ismember(exo,exoNames))
+                indR  = ismember(exo,exoNames);
                 exoD  = exo(~indR);
                 exoDM = regexprep(exoD,'_lag[0-9]+$','');
                 XARE  = nan(length(exoD),size(XAR,2),size(XAR,3));
                 Xhist = X(:,:,ones(1,draws));
                 for ii = 1:length(exoD)
                     nLag = str2double(regexp(exoD{ii},'[0-9]+$','match'));
-                    indE = find(strcmpi(exoDM{ii},exoT),1);
+                    indE = find(strcmpi(exoDM{ii},exoNames),1);
                     if nLag >= nSteps
                         E = Xhist(end-nLag+1:end - (nLag - nSteps),indE,:);
                     else
@@ -300,34 +320,6 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
                 XAR      = [XAR;XARE];
                 exoNames = [exoNames,exoD];
                 
-            end
-            
-            indR = nb_ismemberi(exoKeep,deterministic);
-            exo  = exoKeep(~indR);
-            if strcmpi(restr.class,'nb_ecm')
-                % Add level variables
-                exoD      = strrep(opt.rhs,'diff_','');
-                exoD      = regexprep(exoD,'_lag\d{1,2}$','');
-                exoD      = unique(exoD);
-                exoD      = exoD(~strcmpi(exoD,strrep(opt.dependent,'diff_','')));
-                exoD      = strcat(exoD,'_lag1');
-                XARE      = nan(length(exoD),size(XAR,2),size(XAR,3));
-                endoD     = strcat('diff_',opt.endogenous);
-                [~,indX]  = ismember(endoD,opt.dataVariables);
-                Xhist     = opt.data(sInd:eInd,indX);
-                Xhist     = Xhist(:,:,ones(1,draws));
-                [~,indXL] = ismember(exoD,opt.dataVariables);
-                XLhist    = opt.data(eInd:eInd,indXL);
-                XLhist    = XLhist(:,:,ones(1,draws));
-                nLag      = 1; 
-                for ii = 1:length(exoD)
-                    indE         = find(strcmpi(endoD{ii},exoNames),1);
-                    E            = [Xhist(end-nLag+1:end,ii,:);permute(XAR(indE,1:end-1,:),[2,1,3])]; % Lagged diff
-                    E            = nb_undiff(E,XLhist(:,ii,:),1);
-                    XARE(ii,:,:) = permute(E,[2,1,3]);
-                end
-                XAR      = [XAR;XARE];
-                exoNames = [exoNames,exoD];
             end
             
             % Reorder stuff so it gets correct
@@ -392,4 +384,40 @@ function XAR = estimateAndBootstrapX(opt,restr,draws,index,inputs,type)
         
     end
 
+end
+
+%==========================================================================
+function [exoT,restr] = ecmCorrections(opt,restr,exo)
+
+    % Remove level variables, and only extrapolate one first difference.
+    % Level variables are constructed from these later
+    indR = cellfun(@isempty,regexp(exo,'diff_'));
+    indT = ismember(exo,opt.exogenous);
+    indR = ~indT & indR;
+    exoR = exo(~indR); 
+    exoT = unique(regexprep(exoR,'_lag[0-9]+$','')); % Remove lags to reduce estimation burden 
+
+    % Secure conditional information on non-lagged exogenous
+    test = ~ismember(exoT,restr.exo);
+    if any(test)
+        exoM = exoT(test);
+        for ii = 1:length(exoM)
+            lags = 1;
+            cond = true;
+            maxI = 21;
+            while cond && lags < maxI
+                exoTest = strcat(exoM{ii},'_lag', int2str(lags));
+                indTest = strcmp(exoTest,restr.exo);
+                if any(indTest)
+                    XTest     = lead(restr.X(:,indTest),lags);
+                    restr.X   = [restr.X,XTest];
+                    restr.exo = [restr.exo,exoM(ii)];
+                    cond      = false;
+                else
+                    lags = lags + 1;
+                end
+            end
+        end
+    end
+    
 end

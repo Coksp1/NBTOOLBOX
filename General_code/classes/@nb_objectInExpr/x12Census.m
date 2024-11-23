@@ -31,7 +31,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x          = obj;
     outputfile = '';

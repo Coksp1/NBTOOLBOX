@@ -5,9 +5,20 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    options  = nb_defaultField(options,'requiredDegreeOfFreedom',3);
+    options = nb_defaultField(options,'requiredDegreeOfFreedom',3);
+    
+    % Correct for step ahead models, as they are leaded!
+    options  = nb_defaultField(options,'nStep',0);
+    numCoeff = numCoeff + options.nStep;
+    if isfield(options,'regularizationMode')
+        if strcmpi(options.regularizationMode,'lagrangian')
+            options.requiredDegreeOfFreedom = 20;
+            numCoeff                        = 0;
+        end
+    end
+
     if isempty(options.rollingWindow)
     
         if isempty(options.recursive_estim_start_ind)
@@ -27,10 +38,6 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
                 recStartDate = date + (options.recursive_estim_start_ind - 1);
                 startDate    = date + (options.estim_start_ind - 1);
                 firstStart   = startDate + (options.requiredDegreeOfFreedom + numCoeff - 1);
-                if isfield(options,'nStep')
-                    recStartDate = recStartDate + options.nStep;
-                    firstStart   = firstStart + options.nStep;
-                end
                 if start < 0
                     error([mfilename ':: The start date (' toString(recStartDate) ') of the recursive estimation is '...
                         'less than the start date of the estimation ' toString(startDate)])

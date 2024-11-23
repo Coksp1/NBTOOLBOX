@@ -9,7 +9,7 @@ function Y = blockSolution(obj,Y,inputs)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Solve for the steady-state
     oldSilent          = obj.options.silent;

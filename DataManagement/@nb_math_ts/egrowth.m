@@ -26,9 +26,12 @@ function obj = egrowth(obj,lag,stripNaN)
 % obj = egrowth(obj);
 % obj = egrowth(obj,4);
 % 
+% See also:
+% nb_math_ts.epcn, nb_math_ts.growth
+%
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         stripNaN = false;
@@ -36,24 +39,6 @@ function obj = egrowth(obj,lag,stripNaN)
             lag = 1; 
         end
     end
-
-    if stripNaN
-        % Strip nan values before calculating the growth
-        isNaN = isnan(obj.data);
-        for vv = 1:obj.dim2
-            for pp = 1:obj.dim3
-                din     = obj.data(~isNaN(:,vv,pp),vv,pp);
-                din     = log(din);
-                [~,c,p] = size(din); 
-                dout     = cat(1,nan(lag,c,p),(din(lag + 1:end,:,:)-din(1:end - lag,:,:))./din(1:end - lag,:,:));
-                obj.data(~isNaN(:,vv,pp),vv,pp) = dout;
-            end
-        end
-    else
-        din      = obj.data;
-        [~,c,p]  = size(din); 
-        dout     = cat(1,nan(lag,c,p),(din(lag + 1:end,:,:)-din(1:end - lag,:,:))./din(1:end - lag,:,:));
-        obj.data = dout;
-    end
+    obj.data = egrowth(obj.data,lag,stripNaN);
 
 end

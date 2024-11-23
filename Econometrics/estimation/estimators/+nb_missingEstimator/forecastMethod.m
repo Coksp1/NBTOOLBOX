@@ -10,7 +10,7 @@ function options = forecastMethod(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     finish                  = options.estim_end_ind;
     tempOpt                 = options;

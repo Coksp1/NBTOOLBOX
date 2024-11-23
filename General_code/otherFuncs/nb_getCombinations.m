@@ -36,7 +36,7 @@ function varargout = nb_getCombinations(nMin,nMax,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get all possible combinations of variables
     vec  = varargin{1};

@@ -50,71 +50,24 @@ function obj = ipcn(obj,initialValues,periods,startAtNaN)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         startAtNaN = false;
         if nargin < 3
             periods = 1;
+            if nargin < 2
+                initialValues = [];
+            end
         end
     end
     
-    if nargin < 2
-        if periods == 1
-            initialValues = repmat(100,[obj.numberOfObservations,obj.numberOfVariables,obj.numberOfDatasets]); 
-        else
-            error([mfilename ':: When the periods input is not equal to 1 the initialValues must be provided.'])
-        end
-    end
-    
-    if isa(initialValues,'nb_ts')
-        
-        if isempty(initialValues)
-            error([mfilename ':: The initialValues input cannot be a empty nb_ts object.'])
-        end
-        
-        if initialValues.startDate > obj.startDate
-            error([mfilename ':: The initialValues input must have a start date (' toString(initialValues.startDate) ') that is before '...
-                             'the start date of this object (' toString(obj.startDate) ').'])
-        end
-        
-        if startAtNaN
-            initEnd = initialValues.getRealEndDate('nb_date');
-            needed  = initEnd - (periods - 1);
-            if initialValues.startDate > needed
-                error([mfilename ':: The initialValues input must start at ' toString(needed) '.'])
-            end
-            t  = (needed - obj.startDate) + 1;
-            d0 = double(window(initialValues,needed,initEnd));
-        else
-            needed = obj.getRealStartDate('nb_date') + (periods - 1);
-            if initialValues.endDate < needed
-                error([mfilename ':: The initialValues input must have at least observation until ' toString(needed) '.'])
-            end
-            t  = 1;
-            d0 = double(window(initialValues,obj.startDate,needed));
-        end
-        
-    else
-        if startAtNaN
-            error('The startAtNaN is not supported when initialValues is not given as a nb_ts object.')
-        end
-        t  = 1;
-        d0 = initialValues;
-    end
-
-    if size(d0,2) ~= obj.numberOfVariables
-        error([mfilename ':: The ''initialValues'' has not the same number of columns as the given object.'])
-    elseif size(d0,3) ~= obj.numberOfDatasets
-        error([mfilename ':: The ''initialValues'' has not the same number of pages as the given object.'])
-    elseif size(d0,1) < periods
-        error([mfilename ':: The ''initialValues'' must has the same number of rows as the periods input indicates (I.e. ' int2str(periods) '.).'])
-    end
+    [d0,t] = checkInverseMethodsInput(obj,initialValues,periods,startAtNaN);
     if t == 1  
-        obj.data = igrowthnan(obj.data./100,d0,periods);
+        obj.data = ipcnnan(obj.data,d0,periods);
     else
         d                   = obj.data(t:end,:,:);
-        d                   = igrowthnan(d./100,d0,periods);
+        d                   = ipcnnan(d,d0,periods);
         obj.data(1:t-1,:,:) = initialValues.data(1:t-1,:,:);
         obj.data(t:end,:,:) = d;
     end

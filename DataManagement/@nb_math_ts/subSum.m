@@ -15,7 +15,7 @@ function obj = subSum(obj,k,w)
 %
 % - k   : Lets you choose what frequency you want to calulate the
 %         cumulative sum over. As a double. E.g. 4 if you have
-%         quarterly data and want to calculate the average over the
+%         quarterly data and want to calculate the cumulative sum over the
 %         last 4 quarters.
 % 
 % - w   : Weights applies to the k periods to sum over. Default is 
@@ -32,11 +32,11 @@ function obj = subSum(obj,k,w)
 %
 % See also:
 %
-% pcn, growth, subAvg
+% nb_math_ts.subAvg, nb_math_ts.subProd
 % 
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         w = [];

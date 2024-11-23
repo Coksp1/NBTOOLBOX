@@ -9,7 +9,7 @@ function updateStatus(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [fMinBees,ind] = min([obj.bees.currentValue]);
     if fMinBees < obj.minFunctionValue

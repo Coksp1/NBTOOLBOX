@@ -10,7 +10,7 @@ function excelChangeLogGUI(gui,~,~,type)
 % 
 % Written by Per Bjarne Bye
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.package.graphs)
         nb_errorWindow('The graph package is empty and there is nothing to read/write.')

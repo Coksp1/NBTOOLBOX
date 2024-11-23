@@ -47,7 +47,7 @@ function frequency = getFrequencyAsString(frequency)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     switch frequency
         case 1

@@ -9,7 +9,7 @@ function exportDistributionGUI(gui,~,~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Figure
     currentMonitor    = nb_getCurrentMonitor();

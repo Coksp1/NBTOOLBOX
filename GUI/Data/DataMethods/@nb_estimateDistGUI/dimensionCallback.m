@@ -9,7 +9,7 @@ function dimensionCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if get(gui.pop3,'value') == 2
         enable = 'off';

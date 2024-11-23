@@ -33,7 +33,7 @@ function plotter = plotPriors(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
        error([mfilename ':: This method only works on a scalar object.']) 

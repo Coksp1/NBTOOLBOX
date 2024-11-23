@@ -1,9 +1,9 @@
 function helpText = help(option,maxChars)
 % Syntax:
 %
-% helpText = nb_hpEstimator.help
-% helpText = nb_hpEstimator.help(option)
-% helpText = nb_hpEstimator.help(option,maxChars)
+% helpText = nb_shorteningEstimator.help
+% helpText = nb_shorteningEstimator.help(option)
+% helpText = nb_shorteningEstimator.help(option,maxChars)
 %
 % Description:
 %
@@ -24,7 +24,7 @@ function helpText = help(option,maxChars)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         maxChars = [];
@@ -34,7 +34,7 @@ function helpText = help(option,maxChars)
     end
     
     % Genereate help for the different options
-    helper   = nb_writeHelp('nb_hpEstimator',option,'package','timeSeries');
+    helper   = nb_writeHelp('nb_shorteningEstimator',option,'package','timeSeries');
     helper   = set(helper,'max',maxChars);
     helpText = help(helper);
     

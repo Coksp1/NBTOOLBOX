@@ -24,7 +24,7 @@ function f = exp_pdf(x,m)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f      = m*exp(-m*x);
     f(x<0) = zeros;

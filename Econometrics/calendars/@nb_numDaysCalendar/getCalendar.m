@@ -22,7 +22,7 @@ function calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResu
     end
     if isempty(start)
         if isempty(modelGroup)
-            start = nb_year('2010');
+            start = nb_day(1,1,2000);
         else
             start = nb_calendar.getDefaultStart(modelGroup,doRecursive,fromResults);
         end
@@ -46,8 +46,15 @@ function calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResu
     for ii = 0:periods
         calendar(ii+1) = getDay(first + ii,inp) + (obj.numDays - 1);
     end
-    if (calendar(end) > finish)
-        calendar = calendar(1:end-1);
+    if obj.closed
+        if (calendar(end) > finish)
+            calendar = calendar(1:end-1);
+        end
+    else
+        if (calendar(end) < finish)
+            lastCalendarDate = getDay(first + periods + 1,inp) + (obj.numDays - 1);
+            calendar         = [calendar;lastCalendarDate];
+        end
     end
     
     if length(calendar) == 0 %#ok<ISMT>

@@ -67,7 +67,7 @@ function [fcstData,fcstDates,fcstPercData] = getForecastLowFreq(obj,freq,outputT
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         variables = {};
@@ -276,6 +276,11 @@ function [fcstData,fcstDates,fcstPercData] = getForecastDefault(obj,vars,freq,do
     numVars  = length(vars);
     histData = getHistory(obj,vars,'',true);
     
+    % Correct for smoothed start date
+    smoothedS = nb_date.toDate(obj.results.smoothed.variables.startDate,histData.frequency);
+    dataS     = nb_date.toDate(obj.estOptions.dataStartDate,histData.frequency) + (obj.estOptions.estim_start_ind - 1);
+    smoothedD = smoothedS - dataS;
+    
     % Get index of low in high at longest history
     nSteps       = obj.forecastOutput.nSteps;
     [~,ind]      = histData.startDate.toDates(0:histData.numberOfObservations + nSteps - 1,'default',freq,false); 
@@ -302,7 +307,7 @@ function [fcstData,fcstDates,fcstPercData] = getForecastDefault(obj,vars,freq,do
         missing      = isnan(histDataOneL);
         mPeriods     = zeros(1,numVars);
         smoothed     = smoothedRec(:,sLoc,ii);
-        smoothed     = smoothed(1:size(histDataOne,1),:);
+        smoothed     = [nan(smoothedD,length(vars));smoothed(1:size(histDataOne,1)-smoothedD,:)];
         
         % Get number of missing at low frequency
         numPeriodsLow = size(histDataOneL,1);

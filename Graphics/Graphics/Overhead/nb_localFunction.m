@@ -1,7 +1,7 @@
-function outString = nb_localFunction(obj,inString)
+function outString = nb_localFunction(obj,inString,giveNormalError)
 % Syntax:
 %
-% outString = nb_localFunction(obj,inString)
+% outString = nb_localFunction(obj,inString,giveNormalError)
 %
 % Description:
 %
@@ -11,9 +11,12 @@ function outString = nb_localFunction(obj,inString)
 % 
 % Input:
 % 
-% - obj       : A NB toolbox object.
+% - obj             : A NB toolbox object.
 %
-% - inString  : A char or a cellstr.
+% - inString        : A char or a cellstr.
+%
+% - giveNormalError : true or false. If true, a normal error is thrown
+%                     even if it is used in DAG.
 % 
 % Output:
 % 
@@ -21,10 +24,10 @@ function outString = nb_localFunction(obj,inString)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
+    outString = inString;
     if isempty(inString)
-        outString = inString;
         return
     end
 
@@ -56,6 +59,14 @@ function outString = nb_localFunction(obj,inString)
     end
     
     h = findobj('type','figure','tag','nbtoolbox'); % Used for errors
+    if nargin > 2
+        if ~isempty(h)
+            if giveNormalError
+                h = [];
+            end
+        end
+    end
+    
     for ii = 1:length(inString)
 
         temp                                    = inString{ii};
@@ -79,7 +90,8 @@ function outString = nb_localFunction(obj,inString)
                         if isempty(h)
                             error([mfilename ':: Error while trying to get the timespan of the graph; ' fFunc '. MATLAB error:: ' Err.message])
                         else
-                           nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' char(10) inString{ii}],Err) 
+                            nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' char(10) inString{ii}],Err) 
+                            return
                         end
                     end
                     temp = strrep(temp,fFunc,out);
@@ -96,7 +108,8 @@ function outString = nb_localFunction(obj,inString)
                         if isempty(h)
                             error([mfilename ':: Error while trying to get the timespan of the graph; ' fFunc '. MATLAB error:: ' Err.message])
                         else
-                           nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' char(10) inString{ii}],Err) 
+                            nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' char(10) inString{ii}],Err) 
+                            return
                         end
                     end
                     temp = strrep(temp,fFunc,out);
@@ -121,6 +134,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'The variable you try to get the start date of is not graphed'],Err) 
+                               return
                             end
                         end
                     end
@@ -134,6 +148,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not add the number of periods to the given date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -147,6 +162,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not convert the frequency of the date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -187,6 +203,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'The variable you try to get the start date of is not in the table'],Err) 
+                               return
                             end
                         end
                     end
@@ -200,6 +217,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not add the number of periods to the given date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -213,6 +231,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not convert the frequency of the date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -253,6 +272,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'The variable you try to get the end date of is not graphed'],Err) 
+                               return
                             end
                         end
                     end
@@ -266,6 +286,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not add the number of periods to the given date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -277,8 +298,9 @@ function outString = nb_localFunction(obj,inString)
                             if isempty(h)
                                 error([mfilename ':: Could not convert the frequency of the date; ' fFunc '. MATLAB error:: ' Err.message])
                             else
-                               nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
-                                   nb_newLine(2), 'Could not convert the frequency of the date'],Err) 
+                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
+                                   nb_newLine(2), 'Could not convert the frequency of the date'],Err)
+                                return
                             end
                         end    
                     end
@@ -318,7 +340,8 @@ function outString = nb_localFunction(obj,inString)
                                 error([mfilename ':: The variable you try to get the end date of is not in the table; ' fFunc])
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
-                                   nb_newLine(2), 'The variable you try to get the end date of is not in the table'],Err) 
+                                   nb_newLine(2), 'The variable you try to get the end date of is not in the table'],Err)
+                               return
                             end
                         end
                     end
@@ -332,6 +355,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not add the number of periods to the given date'],Err) 
+                               return
                             end
                         end    
                     end
@@ -345,6 +369,7 @@ function outString = nb_localFunction(obj,inString)
                             else
                                nb_errorWindow(['Error while interpreting the local function ' fFunc ' in the line; ' nb_newLine(1) inString{ii}...
                                    nb_newLine(2), 'Could not convert the frequency of the date'],Err) 
+                               return
                             end
                         end    
                     end

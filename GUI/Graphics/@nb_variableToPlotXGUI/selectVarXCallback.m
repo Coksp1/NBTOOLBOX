@@ -9,7 +9,7 @@ function selectVarXCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     index   = get(gui.popupmenu,'value');
     strings = get(gui.popupmenu,'string');

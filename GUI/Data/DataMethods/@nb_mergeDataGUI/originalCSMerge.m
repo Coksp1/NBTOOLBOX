@@ -9,7 +9,7 @@ function originalCSMerge(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Check for conflicting variables
     var1  = gui.data1.variables;

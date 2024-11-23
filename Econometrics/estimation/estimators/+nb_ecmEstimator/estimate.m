@@ -24,13 +24,17 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
     if isempty(options)
-        error([mfilename ':: The options input cannot be empty!'])
+        error('The options input cannot be empty!')
     end
+    options = nb_defaultField(options,'removeZeroRegressors',false);
+    options = nb_defaultField(options,'covidAdj',{});
+    options = nb_defaultField(options,'nStep',0);
+    options = nb_defaultField(options,'estim_types',{});
 
     % Get the estimation options
     %------------------------------------------------------
@@ -43,29 +47,35 @@ function [results,options] = estimate(options)
         
         tempDep  = cellstr(options.dependent);
         if isempty(tempDep)
-            error([mfilename ':: No dependent variables selected, please assign the dependent field of the options property.'])
+            error(['No dependent variables selected, please assign the ',...
+                'dependent field of the options property.'])
         end
         if numel(tempDep) ~= 1
-            error([mfilename ':: Only one dependent variable can be selected!'])
+            error('Only one dependent variable can be selected!')
         end
         [testY,indY] = ismember(tempDep,options.dataVariables);
         if any(~testY)
-            error([mfilename ':: Some of the dependent variable are not found to be in the dataset; ' toString(tempDep(~testY))])
+            error(['Some of the dependent variable are not found to ',...
+                'be in the dataset; ' toString(tempDep(~testY))])
         end
         
-        tempEndo = cellstr(options.endogenous); % These are the variables going into the cointegrated relation
+        % These are the variables going into the cointegrated relation
+        tempEndo = cellstr(options.endogenous); 
         if isempty(tempEndo)
-            error([mfilename ':: Endogneous variables to be included in the cointegrated relation cannot be empty.'])
+            error(['Endogneous variables to be included in the ',...
+                'cointegrated relation cannot be empty.'])
         end
         [testC,indC] = ismember(tempEndo,options.dataVariables);
         if any(~testC)
-            error([mfilename ':: Some of the endogneous variable are not found to be in the dataset; ' toString(tempEndo(~testC))])
+            error(['Some of the endogneous variable are not found to ',...
+                'be in the dataset; ' toString(tempEndo(~testC))])
         end
         
         options.exogenous = cellstr(options.exogenous);
         [testX,indX]      = ismember(options.exogenous,options.dataVariables);
         if any(~testX)
-            error([mfilename ':: Some of the exogenous variable are not found to be in the dataset; ' toString(options.exogenous(~testX))])
+            error(['Some of the exogenous variable are not found to be ',...
+                'in the dataset; ' toString(options.exogenous(~testX))])
         end
 
         % Add lags to exogenous variables
@@ -90,8 +100,9 @@ function [results,options] = estimate(options)
         Vdiff                 = [nan(1,size(V,2));diff(V)];
         Vdifflag              = nb_mlag(Vdiff,1,'varFast');
         Vlag                  = nb_mlag(V,1,'varFast');
-        options.dataVariables = [options.dataVariables,strcat('diff_',vars),strcat('diff_',vars,'_lag1'),strcat(vars,'_lag1')];
         tempData              = [tempData,Vdiff,Vdifflag,Vlag];
+        options.dataVariables = [options.dataVariables,strcat('diff_',vars),...
+            strcat('diff_',vars,'_lag1'),strcat(vars,'_lag1')];
         switch lower(options.method)
 
             case 'onestep'
@@ -106,7 +117,10 @@ function [results,options] = estimate(options)
             case 'twostep'
 
                 if ~options.constant
-                    error([mfilename ':: Constant must be included in model in the two step method.'])
+                    error('Constant must be included in model in the two step method.')
+                end
+                if ~isempty(options.covidAdj)
+                    error('The covidAdj option is not supported for the ''twostep'' method')
                 end
 
                 % Test for unit root in residual using an Engle-Granger test
@@ -119,29 +133,31 @@ function [results,options] = estimate(options)
                 [egRes,models] = nb_egcoint(y,'dependent',tempDep{1},'lagLengthCrit',crit);
 
                 % Get the residual from the first step
-                res                   = models(1).results.residual;
-                resLag                = lag(res);
+                residual              = models(1).results.residual;
+                resLag                = nb_lag(residual);
                 options.dataVariables = [options.dataVariables,'firstStepRes_lag1'];
                 tempData              = [tempData,resLag];
                 startInd              = startInd + 2;
 
                 % diff_dep_t = c + g*firstStepResLag + k*diff_exo_t + b_1*diff_dep_t_1 + e
                 options.dependent = strcat('diff_',tempDep);
-                options.rhs       = [{'firstStepRes_lag1'}, strcat('diff_',tempEndo),strcat('diff_',tempDep,'_lag1')];
-                fixed             = [true(1,1),false(1,length(vars))]; % Only the last lagged diff regressors are beeing choosen lag length
-                nNotSort          = 1;
+                options.rhs       = [{'firstStepRes_lag1'}, strcat('diff_',tempEndo),...
+                    strcat('diff_',tempDep,'_lag1')];
+
+                % Only the last lagged diff regressors are beeing choosen lag length
+                fixed    = [true(1,1),false(1,length(vars))]; 
+                nNotSort = 1;
                 
             otherwise
-                error([mfilename ':: Unsupported method ' options.method])
+                error(['Unsupported method ' options.method])
         end
 
         % Get the estimation data
         %------------------------------------------------------
         % Add seasonal dummies
+        options.data = tempData;
         if ~isempty(options.seasonalDummy)
             options = nb_olsEstimator.addSeasonalDummies(options);
-        else
-            options.data = tempData;
         end
 
         % Add lags or find best model
@@ -176,31 +192,36 @@ function [results,options] = estimate(options)
     C           = tempData(:,indC);
     X           = [X,C];
     if isempty(y)
-        error([mfilename ':: The selected sample cannot be empty.'])
+        error('The selected sample cannot be empty.')
     end
                
     % Do the estimation
     %------------------------------------------------------
     if size(X,2) == 0 && ~options.constant && ~options.time_trend
-        error([mfilename ':: You must select some regressors.'])
+        error('You must select some regressors.')
     end
 
     % Check for constant regressors, which we do not allow
-    if any(all(diff(X,1) == 0,1))
-        error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                         'Use the constant option instead.'])
+    if ~options.removeZeroRegressors
+        if any(all(diff(X,1) == 0,1))
+            error(['One or more of the selected exogenous variables is/are ',...
+                'constant. Use the constant option instead.'])
+        end
     end
 
     if options.recursive_estim
         
         if strcmpi(options.method,'twoStep')
-            error([mfilename ':: Recursive estimation with the two steps method is not yet supported.'])
+            error('Recursive estimation with the two steps method is not yet supported.')
         end
         
         % Shorten sample
         %---------------
-        y   = y(startInd:endInd,:);
-        X   = X(startInd:endInd,:); 
+        y = y(startInd:endInd,:);
+        X = X(startInd:endInd,:); 
+
+        % Ignore some covid dates?
+        indCovid = nb_estimator.applyCovidFilter(options,y);
         
         % Check the sample
         numCoeff                = size(X,2) + options.constant + options.time_trend;
@@ -210,35 +231,58 @@ function [results,options] = estimate(options)
         % Estimate the model recursively
         %--------------------------------------------------
         numDep     = size(y,2);
-        beta       = nan(numCoeff,numDep,iter);
+        beta       = zeros(numCoeff,numDep,iter);
         stdBeta    = nan(numCoeff,numDep,iter);
         constant   = options.constant;
         time_trend = options.time_trend;
         stdType    = options.stdType;
         residual   = nan(T,numDep,iter);
         kk         = 1;
-        vcv        = nan(numDep,numDep,iter);
         for tt = start:T
-            [beta(:,:,kk),stdBeta(:,:,kk),~,~,residual(ss(kk):tt,:,kk)] = nb_ols(y(ss(kk):tt,:),X(ss(kk):tt,:),constant,time_trend,stdType);
+            
+            if options.removeZeroRegressors
+                ind  = ~all(abs(X(ss(kk):tt,:)) < eps,1);
+                indA = [true(1,numCoeff - size(X,2)), ind];
+            else
+                ind  = true(1,size(X,2));
+                indA = true(1,numCoeff);
+            end
+
+            yEst = y(ss(kk):tt,:);
+            XEst = X(ss(kk):tt,ind);
+            if ~isempty(indCovid)
+                % Strip covid dates from estimation
+                yEstCov = yEst(~indCovid(ss(kk):tt,:),:);
+                XEstCov = XEst(~indCovid(ss(kk):tt,:),:);
+                yEst    = yEst(indCovid(ss(kk):tt,:),:);
+                XEst    = XEst(indCovid(ss(kk):tt,:),:);
+            end
+            
+            [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,resid] = ...
+                nb_ols(yEst,XEst,constant,time_trend,stdType);
+
+            if ~isempty(indCovid)
+                resid = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                    constant,time_trend,beta(indA,:,kk),resid,...
+                    indCovid(ss(kk):tt,:));
+            end
+            residual(ss(kk):tt,:,kk) = resid;
+
             kk = kk + 1;  
         end
         
         % Estimate the covariance matrix
         %--------------------------------
-        kk = 1;
-        for tt = start:T
-            resid       = residual(ss(kk):tt,:,kk);
-            vcv(:,:,kk) = resid'*resid/(size(resid,1) - numCoeff);
-            kk          = kk + 1;
-        end
+        vcv = nb_estimator.estimateCovarianceMatrixDuringRecEst(...
+                options,residual,indCovid,start,T,ss,numCoeff);
 
         % Get estimation results
         %--------------------------------------------------
-        res          = struct();
-        res.beta     = beta;
-        res.stdBeta  = stdBeta;
-        res.sigma    = vcv;
-        res.residual = residual;
+        results          = struct();
+        results.beta     = beta;
+        results.stdBeta  = stdBeta;
+        results.sigma    = vcv;
+        results.residual = residual;
 
     %======================
     else % Not recursive
@@ -247,54 +291,100 @@ function [results,options] = estimate(options)
         % Get estimation sample
         %--------------------------------------------------
         % Shorten sample
-        y   = y(startInd:endInd,:);
-        X   = X(startInd:endInd,:); 
+        y = y(startInd:endInd,:);
+        X = X(startInd:endInd,:); 
+
+        % Ignore some covid dates?
+        indCovid = nb_estimator.applyCovidFilter(options,y);
 
         % Check the degrees of freedom
         numCoeff = size(X,2) + options.constant + options.time_trend;
         T        = size(X,1);
         nb_estimator.checkDOF(options,numCoeff,T);
-      
+        
         % Estimate model by ols
         %--------------------------------------------------
-        [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = nb_ols(y,X,options.constant,options.time_trend,options.stdType);
+        if options.removeZeroRegressors
+            ind  = ~all(abs(X) < eps);
+        else
+            ind  = true(1,size(X,2));
+        end
+
+        yEst = y;
+        XEst = X(:,ind);
+        if ~isempty(indCovid)
+            yEstCov = yEst(~indCovid,:);
+            XEstCov = XEst(~indCovid,:);
+            yEst    = yEst(indCovid,:);
+            XEst    = XEst(indCovid,:);
+        end
         
+        [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = nb_ols(yEst,XEst,...
+            options.constant,options.time_trend,options.stdType);
+        
+        residualStripped = residual;
+        if ~isempty(indCovid)
+            residual = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                options.constant,options.time_trend,beta,residual,...
+                indCovid);
+        end
+
         % Estimate the covariance matrix
         %-------------------------------
-        T     = size(residual,1);
-        sigma = residual'*residual/(T - numCoeff);
+        T     = size(residualStripped,1);
+        sigma = residualStripped'*residualStripped/(T - numCoeff);
         
         % Get estimation results
         %--------------------------------------------------
-        res            = struct();
-        res.beta       = beta;
-        res.stdBeta    = stdBeta;
-        res.tStatBeta  = tStatBeta;
-        res.pValBeta   = pValBeta;
-        res.residual   = residual;
-        res.sigma      = sigma;
-        res.predicted  = y - residual;
-        res.regressors = XX;
+        results = struct();
+        if options.removeZeroRegressors
+            numEq                     = size(y,2);
+            indA                      = [true(1,numCoeff - size(X,2)), ind];
+            results.beta              = zeros(numCoeff,numEq);
+            results.beta(indA,:)      = beta;
+            results.stdBeta           = nan(numCoeff,numEq);
+            results.stdBeta(indA,:)   = stdBeta; 
+            results.tStatBeta         = nan(numCoeff,numEq);
+            results.tStatBeta(indA,:) = tStatBeta;
+            results.pValBeta          = nan(numCoeff,numEq);
+            results.pValBeta(indA,:)  = pValBeta;
+        else
+            results.beta       = beta;
+            results.stdBeta    = stdBeta;
+            results.tStatBeta  = tStatBeta;
+            results.pValBeta   = pValBeta;
+        end
+        results.residual   = residual;
+        results.sigma      = sigma;
+        results.predicted  = y - residual;
+        results.regressors = XX;
         
         % Get aditional test results
         %--------------------------------------------------
         if options.doTests
-            res = nb_olsEstimator.doTest(res,options,beta,y,X,residual);
+            if isempty(indCovid)
+                yTest = y;
+                XTest = X;
+            else
+                yTest = y(indCovid,:);
+                XTest = X(indCovid,:);
+            end
+            results = nb_olsEstimator.doTest(results,options,results.beta,...
+                yTest,XTest,residualStripped);
         end
         
         if strcmpi(options.method,'twostep')
-            res.egResults  = egRes;
-            res.firstStep  = models;
+            results.egResults  = egRes;
+            results.firstStep  = models;
         end
         
     end
 
     % Assign generic results
-    res.includedObservations = size(y,1);
-    res.elapsedTime          = toc(tStart);
+    results.includedObservations = size(y,1);
+    results.elapsedTime          = toc(tStart);
     
     % Assign results
-    results = res;
     options.estim_start_ind = startInd;
     options.estim_end_ind   = endInd;
     options.estimator       = 'nb_ecmEstimator';

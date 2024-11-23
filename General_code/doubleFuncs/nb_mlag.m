@@ -34,7 +34,7 @@ function xlag = nb_mlag(x,nlag,type)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         type = 'lagFast';
@@ -65,7 +65,7 @@ function xlag = nb_mlag(x,nlag,type)
                 for ii = 1:mlag
                     for jj = 1:nvar  
                         if ii <= nlag(jj) 
-                            xlag(:,kk,:) = lag(x(:,jj,:),ii);
+                            xlag(:,kk,:) = nb_lag(x(:,jj,:),ii);
                             kk = kk + 1;
                         end
                     end
@@ -78,7 +78,7 @@ function xlag = nb_mlag(x,nlag,type)
                 for ii = 1:nvar
                     for jj = 1:mlag   
                         if jj <= nlag(ii)
-                            xlag(:,kk,:) = lag(x(:,ii,:),jj);
+                            xlag(:,kk,:) = nb_lag(x(:,ii,:),jj);
                             kk = kk + 1;
                         end
                     end
@@ -100,7 +100,7 @@ function xlag = nb_mlag(x,nlag,type)
                 % Find the lags
                 [~, nvar,~] = size(x);
                 for t = 1:nlag
-                    xlag(:,nvar*(t-1) + 1:nvar*t,:) = lag(x,t);
+                    xlag(:,nvar*(t-1) + 1:nvar*t,:) = nb_lag(x,t);
                 end
             otherwise
                 % Find the lags

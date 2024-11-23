@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Set up the estimator
     %------------------------------------------------------
@@ -24,7 +24,7 @@ function outOpt = getEstimationOptions(obj)
         estim_method = obj.options.estim_method;
         switch lower(estim_method)
 
-            case 'ols'
+            case {'ols','ecm'}
 
                 default = nb_ecmEstimator.template();
                 tempOpt = nb_structcat(tempOpt,default,'first');

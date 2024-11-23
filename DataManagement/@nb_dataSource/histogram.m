@@ -22,7 +22,7 @@ function [data,plotter] = histogram(obj,M)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         M = [];
@@ -40,7 +40,7 @@ function [data,plotter] = histogram(obj,M)
 
     maxLim = max(obj.data);
     minLim = min(obj.data);
-    stdD   = nanstd(obj.data);
+    stdD   = std(obj.data,'omitnan');
     stdStr = num2str(stdD);
     indDot = strfind(stdStr,'.');
     if ~isempty(indDot)

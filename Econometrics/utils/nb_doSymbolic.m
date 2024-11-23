@@ -49,7 +49,7 @@ function [derivFunc,I,J,V,jac] = nb_doSymbolic(fh,vars,pars,varValues,pValues)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         pValues = {};

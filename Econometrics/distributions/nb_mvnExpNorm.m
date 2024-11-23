@@ -24,7 +24,7 @@ function x = nb_mvnExpNorm(n,sigma)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(sigma)
         error([mfilename ':: sigma must be a scalar number.'])

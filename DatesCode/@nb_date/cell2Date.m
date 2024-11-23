@@ -46,7 +46,7 @@ function obj = cell2Date(cellstr,freq)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     switch freq
         case 1

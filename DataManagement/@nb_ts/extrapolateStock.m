@@ -25,7 +25,7 @@ function obj = extrapolateStock(obj,stock,flow,depreciation)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_isOneLineChar(stock)
         error([mfilename ':: The stock input must be a one line char with the name of a variable.'])

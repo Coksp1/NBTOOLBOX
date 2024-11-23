@@ -50,7 +50,7 @@ function mult = calculateMultipliers(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
  
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Parse optional inputs
     [variables,varargin]  = nb_parseOneOptional('variables',[],varargin{:});

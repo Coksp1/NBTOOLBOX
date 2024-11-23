@@ -13,7 +13,7 @@ function yAxisPanel(gui,side)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get graph object 
     plotter = gui.plotter;

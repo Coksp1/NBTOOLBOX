@@ -32,20 +32,20 @@ function x = skt_mean(a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if d > 1
         if d == inf
             delta = c/sqrt(1 + c^2);
             x     = a + b*delta*sqrt(2/pi);
         else
-            delta = b*c/sqrt(1 + b*c^2);
-            g1    = gamma(0.5*(d - 1));
-            if g1 == inf
+            delta = c/sqrt(1 + c^2);
+            g2 = gamma(0.5*d);
+            if g2 == inf
                 delta = c/sqrt(1 + c^2);
                 x     = a + b*delta*sqrt(2/pi);
             else
-                g2 = gamma(0.5*d);
+                g1    = gamma(0.5*(d - 1));
                 mu = delta*sqrt(d/pi)*(g1/g2);
                 x  = a + b*mu;
             end

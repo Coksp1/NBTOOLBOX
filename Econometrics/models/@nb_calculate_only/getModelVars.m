@@ -23,7 +23,7 @@ function vars = getModelVars(obj,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: Only scalar nb_model_generic object are supported.'])

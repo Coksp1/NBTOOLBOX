@@ -11,7 +11,7 @@ function helpAdvancedMenuCallback(~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     arrow = char(hex2dec('2192'));
 

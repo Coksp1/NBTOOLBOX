@@ -39,7 +39,7 @@ function [out,type] = nb_getTypes(out,variables,data,macro,nInp)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         macro = false;

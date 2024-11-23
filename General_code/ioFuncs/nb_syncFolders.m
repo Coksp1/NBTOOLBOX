@@ -20,7 +20,7 @@ function deleted = nb_syncFolders(folder1,folder2)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if exist(folder1,'file') == 2
         error([mfilename ':: The folder1 does not exist; ' folder1])

@@ -298,7 +298,9 @@ function print2eps(name, fig, export_options, varargin)
     end
 
     % Print to eps file
+    warning('off','MATLAB:print:ExcludesUIInFutureRelease')
     print(fig, options{:}, name);
+    warning('on','MATLAB:print:ExcludesUIInFutureRelease')
 
     % Restore the original axes SortMethods (if updated)
     try set(hAxes,{'SortMethod'},oldSortMethods); catch, end
@@ -329,7 +331,9 @@ function print2eps(name, fig, export_options, varargin)
                 hObj.(propName).ColorData = newColor;
             end
             delete(name);
+            warning('off','MATLAB:print:ExcludesUIInFutureRelease')
             print(fig, options{:}, name);
+            warning('on','MATLAB:print:ExcludesUIInFutureRelease')
             fstrm = read_write_entire_textfile(name);
             [~,fstrm] = eps_maintainAlpha(fig, fstrm, origAlphaColors(foundFlags));
         end
@@ -348,53 +352,6 @@ function print2eps(name, fig, export_options, varargin)
             %fstrm = regexprep(fstrm, '(GC\n2 setlinecap\n1 LJ)\nN', '$1\n0.667 LW\nN');
             % This is faster:
             fstrm = strrep(fstrm, sprintf('GC\n2 setlinecap\n1 LJ\nN'), sprintf('GC\n2 setlinecap\n1 LJ\n0.667 LW\nN'));
-
-            % This is more accurate but *MUCH* slower (issue #52)
-            %{
-            % Modify all thin lines in the figure to have 10x LineWidths
-            hLines = findall(fig,'Type','line');
-            hThinLines = [];
-            for lineIdx = 1 : numel(hLines)
-                thisLine = hLines(lineIdx);
-                if thisLine.LineWidth < 0.75 && strcmpi(thisLine.Visible,'on')
-                    hThinLines(end+1) = thisLine; %#ok<AGROW>
-                    thisLine.LineWidth = thisLine.LineWidth * 10;
-                end
-            end
-
-            % If any thin lines were found
-            if ~isempty(hThinLines)
-                % Prepare an EPS with large-enough line widths
-                print(fig, options{:}, name);
-                % Restore the original LineWidths in the figure
-                for lineIdx = 1 : numel(hThinLines)
-                    thisLine = handle(hThinLines(lineIdx));
-                    thisLine.LineWidth = thisLine.LineWidth / 10;
-                end
-
-                % Compare the original and the new EPS files and correct the original stream's LineWidths
-                fstrm_new = read_write_entire_textfile(name);
-                idx = 500;  % skip heading with its possibly-different timestamp
-                markerStr = sprintf('10.0 ML\nN');
-                markerLen = length(markerStr);
-                while ~isempty(idx) && idx < length(fstrm)
-                    lastIdx = min(length(fstrm), length(fstrm_new));
-                    delta = fstrm(idx+1:lastIdx) - fstrm_new(idx+1:lastIdx);
-                    idx = idx + find(delta,1);
-                    if ~isempty(idx) && ...
-                            isequal(fstrm(idx-markerLen+1:idx), markerStr) && ...
-                            ~isempty(regexp(fstrm_new(idx-markerLen+1:idx+12),'10.0 ML\n[\d\.]+ LW\nN')) %#ok<RGXP1>
-                        value = str2double(regexprep(fstrm_new(idx:idx+12),' .*',''));
-                        if isnan(value), break; end  % something's wrong... - bail out
-                        newStr = sprintf('%0.3f LW\n',value/10);
-                        fstrm = [fstrm(1:idx-1) newStr fstrm(idx:end)];
-                        idx = idx + 12;
-                    else
-                        break;
-                    end
-                end
-            end
-            %}
 
             % This is much faster although less accurate: fix all non-gray lines to have a LineWidth of 0.75 (=1 LW)
             % Note: This will give incorrect LineWidth of 075 for lines having LineWidth<0.75, as well as for non-gray grid-lines (if present)

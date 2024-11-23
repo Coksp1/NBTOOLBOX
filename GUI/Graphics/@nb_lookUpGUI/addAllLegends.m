@@ -10,7 +10,7 @@ function addAllLegends(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     legendTexts = gui.plotter.legendText(2:2:end);
     legendTexts = setdiff(legendTexts, {''});

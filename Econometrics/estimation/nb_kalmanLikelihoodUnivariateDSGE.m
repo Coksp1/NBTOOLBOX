@@ -116,6 +116,9 @@ function lik = nb_kalmanLikelihoodUnivariateDSGE(par,model,y,varargin)
                 x       = x + KS*nut/FS; 
                 P       = P - KS*KS'/FS;
                 lik(tt) = lik(tt) + log(FS) + (nut*nut/FS);
+            elseif FS < 0 || FINF < 0
+                lik = 1e10;
+                return     
             end
 
         end

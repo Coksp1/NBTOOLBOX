@@ -36,7 +36,7 @@ classdef (Abstract) nb_plotHandle < handle
 %
 % Written by Kenneth Sæterhagen Paulsen     
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -54,6 +54,12 @@ classdef (Abstract) nb_plotHandle < handle
                 error([mfilename ':: The parent property must be '...
                       'given as an matlab.graphics.axis.Axes object'...
                       ' or an object of class nb_axes.'])
+            end
+            if isa(obj,'nb_heatmap')
+                if isa(obj.parent,'nb_axes')
+                    % Remove it from its old parent
+                    obj.parent.removeChild(obj);
+                end
             end
             obj.parent = value;
         end

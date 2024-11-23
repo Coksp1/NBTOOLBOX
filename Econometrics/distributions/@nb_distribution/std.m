@@ -20,7 +20,7 @@ function x = std(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nobj1 = size(obj,1); 
     nobj  = size(obj,2);

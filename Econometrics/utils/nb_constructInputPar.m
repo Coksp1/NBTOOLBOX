@@ -22,7 +22,7 @@ function inputs = nb_constructInputPar(vars,pars)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     all    = [vars,pars];
     all    = strcat(all,',');

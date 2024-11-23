@@ -6,7 +6,7 @@ function calc = getCalculated(obj)
     
     factorData  = obj.results.smoothed.variables.data(:,1:obj.options.nFactors);
     start       = obj.results.smoothed.variables.startDate;
-    factorNames = nb_appendIndexes('Facor',1:obj.options.nFactors)';
+    factorNames = nb_appendIndexes('Factor',1:obj.options.nFactors)';
     calc        = nb_ts(factorData,'',start,factorNames);
     calc        = nb_calculate_generic.rename(calc,obj.options.renameVariables);
     

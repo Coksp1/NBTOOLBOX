@@ -9,7 +9,7 @@ function getMethodList(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create the window to show and edit the method calls
     methodgui = nb_methodCallsGUI(gui.parent,gui.data);

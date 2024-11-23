@@ -55,7 +55,7 @@ function [xf,xs,us] = nb_kalmanSmootherDiffuseTVPDSGE(H,A,C,obs,x0,P0,P0INF,y,ka
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------

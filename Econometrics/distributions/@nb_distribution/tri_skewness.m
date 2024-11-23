@@ -25,7 +25,7 @@ function x = tri_skewness(m,k,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = sqrt(2)*(m + k - 2*d)*(2*m - k - d)*(m - 2*k + d);
     d = 5*(m^2 + k^2 + d^2 - m*k - m*d - k*d)^(1.5);

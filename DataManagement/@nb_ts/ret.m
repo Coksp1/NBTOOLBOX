@@ -36,7 +36,7 @@ function obj = ret(obj,nlag,skipNaN)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         skipNaN = 0;
@@ -56,7 +56,7 @@ function obj = ret(obj,nlag,skipNaN)
                 
                 dataTT              = dataT(:,jj,ii);
                 isNaN               = isnan(dataTT);
-                dataTTLag           = lag(dataTT(~isNaN),nlag);
+                dataTTLag           = nb_lag(dataTT(~isNaN),nlag);
                 dataT(~isNaN,jj,ii) = dataTT(~isNaN)./dataTTLag;
                 
             end
@@ -67,7 +67,7 @@ function obj = ret(obj,nlag,skipNaN)
     else
     
         dataT    = obj.data;
-        dataTLag = lag(dataT,nlag);
+        dataTLag = nb_lag(dataT,nlag);
         obj.data = dataT./dataTLag;
         
     end

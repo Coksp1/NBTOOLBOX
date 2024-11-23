@@ -9,7 +9,7 @@ function export(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(gui.type,'advanced')
         nb_exportGraphGUI(gui.plotterAdv);

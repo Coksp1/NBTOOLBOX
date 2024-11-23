@@ -30,7 +30,7 @@ classdef nb_curlyBrace < nb_annotation & nb_movableAnnotation & nb_lineAnnotatio
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 

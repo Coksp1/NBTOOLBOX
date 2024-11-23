@@ -5,12 +5,17 @@ function checkDOF(options,numCoeff,T)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(options,'requiredDegreeOfFreedom')
         degreeOfFreedom = options.requiredDegreeOfFreedom;
     else
         degreeOfFreedom = 3;
+    end
+    if isfield(options,'regularizationMode')
+        if strcmpi(options.regularizationMode,'lagrangian')
+            degreeOfFreedom = -inf;
+        end
     end
     dof = T - degreeOfFreedom - numCoeff;
     if dof < 0

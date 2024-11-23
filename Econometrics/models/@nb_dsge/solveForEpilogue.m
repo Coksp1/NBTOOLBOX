@@ -13,7 +13,7 @@ function [A,B,parser] = solveForEpilogue(parser,solution,H,D,Alead,Alag,algorith
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(Alead) % Called in nb_dsge.rationalExpectationSolver
         

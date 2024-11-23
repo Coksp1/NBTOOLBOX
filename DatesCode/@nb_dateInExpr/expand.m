@@ -31,7 +31,7 @@ function obj = expand(obj,~,newEndDate,~,~)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ischar(newEndDate)
         newEndDate = nb_date.date2freq(newEndDate);

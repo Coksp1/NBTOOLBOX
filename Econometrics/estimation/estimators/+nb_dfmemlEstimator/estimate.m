@@ -28,7 +28,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
     
@@ -39,6 +39,17 @@ function [results,options] = estimate(options)
     % when producing forecast.
     options.missingMethod = 'kalman'; 
     options = nb_defaultField(options,'set2nan',struct());
+    options = nb_defaultField(options,'covidAdj',[]);
+
+    if ~isempty(options.covidAdj)
+        if ~nb_isempty(options.set2nan)
+            error('You cannot provide both set2nan and covidAdj at the same time.')
+        end
+        if isa(options.covidAdj,'nb_date')
+            dates = toString(options.covidAdj);
+        end
+        options.set2nan = struct('all',{dates});
+    end
 
     % Check inputs
     %------------------------------------------------------

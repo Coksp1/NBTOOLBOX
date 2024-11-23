@@ -24,7 +24,7 @@ function [CT,pValue] = nb_cucconiTest(x,y)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = x(:);
     y = y(:);

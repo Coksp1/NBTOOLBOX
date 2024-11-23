@@ -1,7 +1,7 @@
 function generalPanel(gui)
 % Creates a panel for editing general legend properties  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get graph object 
     annh = gui.parent;

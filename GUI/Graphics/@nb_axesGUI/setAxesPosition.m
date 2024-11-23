@@ -9,7 +9,7 @@ function setAxesPosition(gui,hObject,~,index)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the value selected
     strs    = get(hObject,'string');

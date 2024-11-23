@@ -27,7 +27,7 @@ function x = skewedt_skewness(~,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if d > 1.5
         v   = 1/(d^0.5*sqrt((3*c^2 + 1)*(1/(2*d-2)) - (4*c^2/pi)*((gamma(d-0.5)/gamma(d))^2)));

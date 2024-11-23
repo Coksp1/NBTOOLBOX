@@ -145,7 +145,7 @@ function [results,models] = nb_jcoint(y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     opt = parseInput(varargin{:});
     
@@ -160,11 +160,11 @@ function [results,models] = nb_jcoint(y,varargin)
     
         num           = y.numberOfVariables;
         vars          = y.variables;
-        ylag          = lag(y,1);
+        ylag          = nb_lag(y,1);
         ylag          = addPostfix(ylag,'_lag1');
         ydiff         = diff(y,1);
         ydiff         = addPrefix(ydiff,'diff_');
-        ylagdiff      = lag(ydiff,1);
+        ylagdiff      = nb_lag(ydiff,1);
         ylagdiff      = addPostfix(ylagdiff,'_lag1');
         y             = [y,ylag,ydiff,ylagdiff];
         y             = y(3:end,:);
@@ -177,11 +177,11 @@ function [results,models] = nb_jcoint(y,varargin)
         [num,svars]   = size(y);
         vars          = strcat('Var',strtrim(cellstr(int2str([1:svars]')))); %#ok<NBRAK>
         dataVars      = vars;
-        ylag          = lag(y,1);
+        ylag          = nb_lag(y,1);
         dataVars      = [dataVars,strcat(vars,'_lag1')];
         ydiff         = diff(y,1);
         dataVars      = [dataVars,strcat('diff_',vars)];
-        ylagdiff      = lag(ydiff,1);
+        ylagdiff      = nb_lag(ydiff,1);
         dataVars      = [dataVars,strcat('diff_', vars,'_lag1')];
         y             = [y,ylag,ydiff,ylagdiff];
         y             = y(3:num,:);

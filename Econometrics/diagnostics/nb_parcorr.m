@@ -69,7 +69,7 @@ function [pacf,lBound,uBound] = nb_parcorr(y,lags,errorBound,alpha,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         alpha = 0.05;

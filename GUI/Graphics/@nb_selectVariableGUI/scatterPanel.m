@@ -9,7 +9,7 @@ function scatterPanel(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isempty(gui.uip)
         if ishandle(gui.uip)

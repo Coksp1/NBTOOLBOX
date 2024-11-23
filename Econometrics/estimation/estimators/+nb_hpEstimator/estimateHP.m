@@ -3,7 +3,7 @@ function [res,options] = estimateHP(options,Z)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options.oneSided
         func = @hpfilter1s;

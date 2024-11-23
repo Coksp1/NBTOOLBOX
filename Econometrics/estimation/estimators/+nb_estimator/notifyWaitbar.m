@@ -9,7 +9,7 @@ function notifyWaitbar(h,kk,iter,note)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if iter ~= 1
         if h.canceling

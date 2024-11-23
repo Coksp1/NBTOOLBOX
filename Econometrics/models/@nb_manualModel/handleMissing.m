@@ -13,12 +13,12 @@ function ret = handleMissing(obj)
 % 
 % Output:
 % 
-% - ret : true or false. true if the estimation settings is so that the
+% - ret : true or false. true if the estimation settings are so that the
 %         model handle missing data.
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ret = obj.options.handleMissing;
     

@@ -2,6 +2,18 @@ function calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResu
 
     if nargin < 6
         fromResults = false;
+        if nargin < 5
+            doRecursive = false;
+            if nargin < 4
+                modelGroup = [];
+                if nargin < 3
+                    finish = '';
+                    if nargin < 2
+                        start = '';
+                    end
+                end
+            end
+        end
     end
 
     today = nb_day.today();
@@ -9,7 +21,11 @@ function calendar = getCalendar(obj,start,finish,modelGroup,doRecursive,fromResu
         finish = today;
     end
     if isempty(start)
-        start = nb_calendar.getDefaultStart(modelGroup,doRecursive,fromResults);
+        if isempty(modelGroup)
+            start = nb_day(1,1,2000);
+        else
+            start = nb_calendar.getDefaultStart(modelGroup,doRecursive,fromResults);
+        end
     end
     if finish < start
         calendar = [];

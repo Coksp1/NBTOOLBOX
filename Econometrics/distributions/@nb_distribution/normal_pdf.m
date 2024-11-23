@@ -9,7 +9,7 @@ function f = normal_pdf(x,m,k)
 % 
 % Input:
 % 
-% - x : The point to evaluate the cdf, as a double
+% - x : The point to evaluate the pdf, as a double
 %
 % - m : The mean of the distribution
 % 
@@ -25,7 +25,7 @@ function f = normal_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f = exp(-0.5*((x - m)./k).^2)./(sqrt(2*pi).*k);
     

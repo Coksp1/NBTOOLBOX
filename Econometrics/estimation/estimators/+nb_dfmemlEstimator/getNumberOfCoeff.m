@@ -9,7 +9,7 @@ function nCoeff = getNumberOfCoeff(options)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     % Transition equation including residual variances
     nObs = length(options.observables);

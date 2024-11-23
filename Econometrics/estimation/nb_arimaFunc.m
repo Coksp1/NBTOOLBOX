@@ -49,58 +49,78 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
 %
 % Optional inputs:
 %
-% - 'constant'  : Give 1 to include constant, otherwise give 0.
-%                 Default is 0.
+% - 'constant'      : Give 1 to include constant, otherwise give 0.
+%                     Default is 0.
 %
-% - 'criterion' : The criterion to use when selecting between ARIMA
-%                 models. See the function nb_infoCriterion for 
-%                 more. Default is 'aicc'.
+% - 'criterion'     : The criterion to use when selecting between ARIMA
+%                     models. See the function nb_infoCriterion for 
+%                     more. Default is 'aicc'.
 %
-% - 'exo'       : Exogenous regressors in the observation equation. As a 
-%                 nobs x nvars. Defualt is [].
+% - 'exo'           : Exogenous regressors in the observation equation. As  
+%                     a nobs x nvars. Default is [].
 %
-% - 'texo'      : Exogenous regressors in the transition equation. As 
-%                 a nobs x mvars. Defualt is [].
+% - 'texo'          : Exogenous regressors in the transition equation. As 
+%                     a nobs x mvars. Default is [].
 %
-% - 'maxAR'     : Maximal number of AR coefficient. Default is 3.
+% - 'maxAR'         : Maximal number of AR coefficient. Default is 3.
 %
-% - 'maxMA'     : Maximal number of MA coefficient. Default is 3.
+% - 'maxMA'         : Maximal number of MA coefficient. Default is 3.
 %
-% - 'method'    : Either:
+% - 'method'        : Either:
 %
-%                 > 'ml' : Maximum likelihood
+%                     > 'ml'       : Maximum likelihood
 %
-%                 > 'hr' : Hannan-Rissanen algorithm. Default.
-%                          (Same as OLS if only AR terms are included)
+%                     > 'bayesian' : Bayesian using a normal-whishart type
+%                                    prior. The prior pushes the model
+%                                    against an AR model with one lag,
+%                                    estimated with OLS. For more see the
+%                                    nb_barima function.
+%
+%                     > 'hr'       : Hannan-Rissanen algorithm. Default.
+%                                    (Same as OLS if only AR terms are 
+%                                    included)
 % 
-% - 'optimizer' : See the output from the nb_getOptimizers('arima').
+% - 'optimizer'     : See the output from the nb_getOptimizers('arima').
 %
-% - 'filter'    : Give 1 if you want to run the kalman filter to 
-%                 estimate the residual. Otherwise give 0. Default 
-%                 is not to run filter. Only for 'ml'.
+% - 'filter'        : Give 1 if you want to run the kalman filter to 
+%                     estimate the residual. Otherwise give 0. Default 
+%                     is not to run filter. Only for 'ml'.
 %
-% - 'alpha'     : The significance level used by the ADF test for unit 
-%                 root when i is set to empty. Default is 0.05.
+% - 'alpha'         : The significance level used by the ADF test for unit 
+%                     root when i is set to empty. Default is 0.05.
 %
-% - 'test'      : Test for roots outside the unit circle. Default is true. 
-%                 Must be true or false.
+% - 'test'          : Test for roots outside the unit circle. Default is  
+%                     true. Must be true or false.
 %
-% - 'options'   : Inputs given to the optimset function. If no 
-%                 optional inputs are given default settings are 
-%                 used. Must be given as a struct or a cell array.
-%                 If given as a cell array it is given to the
-%                 optimset function. struct is recommended. See
-%                 nb_getDefaultOptimset.
+% - 'options'       : Inputs given to the optimset function. If no 
+%                     optional inputs are given default settings are 
+%                     used. Must be given as a struct or a cell array.
+%                     If given as a cell array it is given to the
+%                     optimset function. struct is recommended. See
+%                     nb_getDefaultOptimset.
 %
-% - 'covrepair' : See help on nb_mlarima. Only an option if 'method' is
-%                 set to 'ml'.
+% - 'covrepair'     : See help on nb_mlarima. Only an option if 'method' 
+%                     is set to 'ml'.
+%
+% - 'stabilityTest' : true or false. If true, stability is forced on the
+%                     model during estimation. Default is true. Only when
+%                     'method' is set to 'ml' or 'bayesian'
+% 
+% - 'prior'         : A struct returned by nb_arima.priorTemplate or [].
+%
+% - 'remove'        : Rows to remove from the estimation problem. As a 
+%                     nobs x 1 logical array. Specifies the rows of the 
+%                     dependent variable that includes data points needed 
+%                     to be removed. Lagged variables are being taken care 
+%                     of automatically! Only supported for the 'method' 
+%                     input set to 'hr'.
 %
 % Output:
 % 
 % - results : A struct consiting of:
 %
 %             > beta       : The estimated coefficients. Order; constant,  
-%                            AR, MA, (SAR, SMA then exogenous).
+%                            AR, MA, (SAR, SMA, 'texo', 'exo').
 %             
 %             > stdBeta    : The standard deviation of the estimated  
 %                            coefficients. Constant, AR 
@@ -137,11 +157,12 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
 %             > MA         : Number of MA terms.
 %
 % See also:
-% nb_getDefaultOptimset, nb_getOptimizers
+% nb_getDefaultOptimset, nb_getOptimizers, nb_hrarima, nb_mlarima,
+% nb_barima
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         sq = 0;
@@ -175,10 +196,13 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
                'filter',          true,       @islogical;...
                'maxAR',           3,          {@nb_isScalarInteger,'&&',{@gt,0},'&&',{@le,13}};...
                'maxMA',           3,          {@nb_isScalarInteger,'&&',{@gt,0},'&&',{@le,5}};...
-               'method',          'hr',       {{@nb_ismemberi,{'hr','ml'}}};...
+               'method',          'hr',       {{@nb_ismemberi,{'hr','ml','bayesian'}}};...
                'optimizer',       'fminunc',  {{@nb_ismemberi,{'fminunc','fminsearch','fmincon'}}}
-               'options',         {},         @iscell;...
-               'test',            true,       @islogical};
+               'options',         {},         {@iscell,'||',@isstruct};...
+               'prior',           [],         {@isempty,'||',@isstruct};...
+               'remove',          [],         @(x)or(islogical(x),isempty(x));...          
+               'test',            true,       @islogical;
+               'stabilityTest',   true,       @islogical};
     [inputs,message] = nb_parseInputs(mfilename,default,varargin{:});
     if ~isempty(message)
         error(message)
@@ -216,6 +240,16 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
         inputs.exo = inputs.exo(1+i:end,:);
     end
 
+    if isempty(inputs.texo)
+        inputs.texo = nan(size(y,1),0);
+    else
+        inputs.texo = inputs.texo(1+i:end,:);
+    end
+
+    if ~isempty(inputs.remove)
+        inputs.remove = inputs.remove(1+i:end,:);
+    end
+
     % Estimate the models and find the best fit
     %--------------------------------------------------------------
     if isnan(p) || isnan(q)
@@ -225,15 +259,28 @@ function results = nb_arimaFunc(y,p,i,q,sp,sq,varargin)
         switch lower(inputs.method)
             case 'ml'  
                 results = nb_mlarima(y,p,0,q,sp,sq,inputs.constant,inputs.exo,inputs.texo,...
-                            'optimizer',    inputs.optimizer,...
-                            'filter',       inputs.filter,...
-                            'options',      inputs.options,...
-                            'test',         inputs.test,...
-                            'covrepair',    inputs.covrepair);
+                    'optimizer',    inputs.optimizer,...
+                    'filter',       inputs.filter,...
+                    'options',      inputs.options,...
+                    'stabilityTest',inputs.stabilityTest,...
+                    'test',         inputs.test,...
+                    'covrepair',    inputs.covrepair,...
+                    'remove',       inputs.remove);
+            case 'bayesian'
+                results = nb_barima(y,p,0,q,sp,sq,inputs.constant,inputs.exo,inputs.texo,...
+                    'optimizer',    inputs.optimizer,...
+                    'filter',       inputs.filter,...
+                    'options',      inputs.options,...
+                    'prior',        inputs.prior,...
+                    'stabilityTest',inputs.stabilityTest,...
+                    'test',         inputs.test,...
+                    'covrepair',    inputs.covrepair,...
+                    'remove',       inputs.remove);
             case 'hr'
-                results = nb_hrarima(y,p,0,q,inputs.constant,inputs.test,inputs.exo,inputs.texo);
+                results = nb_hrarima(y,p,0,q,inputs.constant,inputs.test,...
+                    inputs.exo,inputs.texo,'remove',inputs.remove);
             otherwise
-                error([mfilename ':: Unsupported estimation method ' inputs.method])
+                error(['Unsupported estimation method ' inputs.method])
         end
         results.AR  = p;
         results.MA  = q;
@@ -280,25 +327,34 @@ function results = findPQ(inputs,p,q,i,sp,sq,y,T)
     
     switch lower(inputs.method)
         
-        case 'ml'
+        case {'ml','bayesian'}
             
+            if strcmpi(inputs.method,'bayesian')
+                modelFunc = @nb_barima;
+                extInputs = {'prior',inputs.prior};
+            else
+                modelFunc = @nb_mlarima;
+                extInputs = {};
+            end
+
             % Waitbar
-            h = nb_waitbar([],'Find best ARIMA model',numAR*numMA,false);
+            h      = nb_waitbar([],'Find best ARIMA model',numAR*numMA,false);
             h.text = 'Estimating...';
-    
-            hh = 1;
+            hh     = 1;
             for ar = iterAR
 
                 kk = 1;
                 for ma = iterMA
 
                     try
-                        results(hh,kk) = nb_mlarima(y,ar,i,ma,sp,sq,inputs.constant,inputs.exo,inputs.texo,...
+                        results(hh,kk) = modelFunc(y,ar,i,ma,sp,sq,inputs.constant,inputs.exo,inputs.texo,...
                             'optimizer',    inputs.optimizer,...
                             'filter',       false,...
                             'options',      inputs.options,...
+                            'stabilityTest',inputs.stabilityTest,...
                             'test',         inputs.test,...
-                            'covrepair',    inputs.covrepair); %#ok<AGROW>
+                            'covrepair',    inputs.covrepair,...
+                            extInputs{:}); %#ok<AGROW>
                         models(hh,kk)  = nb_infoCriterion(inputs.criterion,results(hh,kk).likelihood,T,ar + ma + numSAR + numSMA + 1,0);
                     catch Err
 

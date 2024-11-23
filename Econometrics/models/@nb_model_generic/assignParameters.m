@@ -47,7 +47,7 @@ function obj = assignParameters(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj = nb_callMethod(obj,@assignParameters,str2func(class(obj)),varargin{:});

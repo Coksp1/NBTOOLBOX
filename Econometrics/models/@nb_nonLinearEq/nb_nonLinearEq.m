@@ -26,7 +26,7 @@ classdef nb_nonLinearEq < nb_model_generic & nb_model_parse
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         

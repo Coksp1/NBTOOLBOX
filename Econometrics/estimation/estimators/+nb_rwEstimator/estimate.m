@@ -23,7 +23,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -75,7 +75,7 @@ function [results,options] = estimate(options)
     if isempty(y)
         error([mfilename ':: The selected sample cannot be empty.'])
     end
-    y = y - lag(y,1);
+    y = y - nb_lag(y,1);
     X = options.data(:,indX);
     
     % Do the estimation
@@ -271,7 +271,7 @@ function [results,options] = estimate(options)
         if options.doTests
             ind             = options.estim_start_ind:options.estim_end_ind;
             yTest           = options.data(:,indY);
-            yLag            = lag(yTest,1);
+            yLag            = nb_lag(yTest,1);
             yTest           = yTest(ind,:);
             T               = size(y,1);
             yLag            = yLag(ind,:);

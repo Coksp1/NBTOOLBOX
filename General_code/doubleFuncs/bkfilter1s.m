@@ -8,7 +8,7 @@ function x = bkfilter1s(y,low,high)
 %   
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = nb_bkfilter1s(y,low,high);
     

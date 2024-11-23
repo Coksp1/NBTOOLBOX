@@ -17,7 +17,7 @@ function vars = getForecastVariables(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: This method only handle scalar object.'])

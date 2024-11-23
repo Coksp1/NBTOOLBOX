@@ -9,7 +9,7 @@ function addKeys(gui, newKeys)
 % 
 % Written by Kenneth Sæterhagen Paulsen
    
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Do not add keys that are already in table
     newKeys = setdiff(newKeys, gui.keys);

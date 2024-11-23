@@ -72,7 +72,7 @@ function lik = nb_kalmanLikelihoodDiffuseTVPDSGE(par,model,y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)

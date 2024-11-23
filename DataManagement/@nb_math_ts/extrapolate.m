@@ -38,6 +38,9 @@ function obj = extrapolate(obj,toDate,varargin)
 %        > 'ar'    : Extrapolate each series individually using a fitted
 %                    AR model.
 %
+%        > double  : Extrapolate each series individually using the given 
+%                    number.
+%
 % - 'takeLog'    : Take log before stock variables are extrapolated in
 %                  first difference. true or false.
 %
@@ -59,7 +62,7 @@ function obj = extrapolate(obj,toDate,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if isempty(obj)
         error([mfilename ':: Object is empty, and no extrapolation can be done.'])
@@ -69,7 +72,7 @@ function obj = extrapolate(obj,toDate,varargin)
                'constant',  false,  @nb_isScalarLogical;...
                'draws',     1000,   @(x)nb_isScalarInteger(x,0);...
                'freq',         1,   @(x)nb_isScalarInteger(x,0);...
-               'method',    'end',  @nb_isOneLineChar;...   
+               'method',    'end',  {@nb_isOneLineChar,'||',@nb_isScalarNumber};...   
                'nLags',     5,      @(x)nb_isScalarInteger(x,0);...
                'takeLog',   false,  @nb_isScalarLogical;...
                'type',      'flow', @(x)nb_ismemberi(x,types)};
@@ -96,7 +99,7 @@ function obj = extrapolate(obj,toDate,varargin)
                 toDate = nb_date.toDate(toDate,obj.startDate.frequency);
             end
         elseif isa(toDate,'nb_date')
-            if toDate.frequency ~= obj.frequency
+            if toDate.frequency ~= obj.startDate.frequency
                 error([mfilename ':: The toDate input must be of the same frequency as the object itself.'])
             end
         end
@@ -109,7 +112,7 @@ function obj = extrapolate(obj,toDate,varargin)
     
     % Are ww dealing with a stock?
     if strcmpi(inputs.type,'stock')
-        init = obj.data(1,:,:);
+        init = obj.data;
         obj  = diff(obj,1);
     elseif strcmpi(inputs.type,'test')
         if obj.dim2 > 1
@@ -121,19 +124,23 @@ function obj = extrapolate(obj,toDate,varargin)
             % Cannot reject the null of a unit root, so we take it as
             % a stock
             inputs.type = 'stock';
-            init        = obj.data(1,:,:);
+            init        = obj.data;
             obj         = diff(obj,1);
         end
     end
     
     % Choose extrapolate method
-    switch lower(inputs.method)
-        case 'ar'
-            obj = arExtrapolate(obj,toDate,inputs);
-        case 'end'
-            obj = endExtrapolate(obj,toDate);
-        otherwise
-            error([mfilename ':: The method ' inputs.method ' is not supported.'])
+    if nb_isScalarNumber(inputs.method)
+        obj = doubleExtrapolate(obj,toDate,inputs.method);
+    else
+        switch lower(inputs.method)
+            case 'ar'
+                obj = arExtrapolate(obj,toDate,inputs);
+            case 'end'
+                obj = endExtrapolate(obj,toDate);
+            otherwise
+                error([mfilename ':: The method ' inputs.method ' is not supported.'])
+        end
     end
     
     if strcmpi(inputs.type,'stock')
@@ -175,6 +182,33 @@ function obj = endExtrapolate(obj,toDate)
 end
 
 %==========================================================================
+function obj = doubleExtrapolate(obj,toDate,d)
+  
+    % Find the number of extrapolating period for the object as a whole
+    periods     = max(0,toDate - obj.endDate);
+    obj.data    = [obj.data; nan(periods,obj.dim2,obj.dim3)];
+    obj.endDate = obj.endDate + periods;
+
+    % Extrapolate the wanted variables
+    for vv = 1:obj.dim2
+        for pp = 1:obj.dim3
+            dataVar = obj.data(:,vv,pp);
+            varEnd  = find(~isnan(dataVar),1,'last');
+            if isempty(varEnd)
+                % The series have only nan values.
+                continue
+            end
+            endDateVar = obj.startDate + (varEnd - 1);
+            nSteps     = toDate - endDateVar;
+            if nSteps > 0
+                obj.data(varEnd+1:varEnd+nSteps,vv,:) = repmat(d,[nSteps,1,1]);    
+            end
+        end
+    end
+
+end
+
+%==========================================================================
 function obj = arExtrapolate(obj,toDate,inputs)
 
     % Find the number of extrapolating period for the object as a whole
@@ -204,7 +238,7 @@ function obj = arExtrapolate(obj,toDate,inputs)
             if nSteps > 0
                 
                 % Estimate and forecast model
-                dataLag = lag(data,1);
+                dataLag = nb_lag(data,1);
                 beta    = nb_ols(data(2:end),dataLag(2:end),true);
                 fcst    = nan(nSteps+1,1);
                 fcst(1) = data(end);

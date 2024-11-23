@@ -27,7 +27,7 @@ function x = nb_normal_deriv(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = -((x-m)/(sqrt(2*pi)*k^3))*exp(-0.5*((x - m)./k).^2);
     

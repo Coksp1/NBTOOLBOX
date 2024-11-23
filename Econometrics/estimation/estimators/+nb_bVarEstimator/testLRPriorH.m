@@ -5,7 +5,7 @@ function H = testLRPriorH(H,n)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(H,2) ~= n
         error([mfilename ':: The matrix with the long run priors must have ' int2str(n) ' columns.'])

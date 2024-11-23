@@ -17,11 +17,11 @@ function obj = meanGrowth(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     data     = obj.data;
     dataD    = growth(data,1);
-    dataM    = nanmean(dataD,1);
+    dataM    = mean(dataD,1,'omitnan');
     dataM    = dataM(ones(1,obj.numberOfObservations),:,:);
     obj.data = igrowth(dataM,data,1);
     

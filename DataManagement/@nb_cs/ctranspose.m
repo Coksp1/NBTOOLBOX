@@ -38,7 +38,7 @@ function obj = ctranspose(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % We may need to sort the types before assigning them as variables
     var      = obj.types;

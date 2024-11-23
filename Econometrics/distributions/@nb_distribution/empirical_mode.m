@@ -24,7 +24,7 @@ function x = empirical_mode(domain,density)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Find the PDF
     diffR   = (domain(end)-domain(1))/length(domain);

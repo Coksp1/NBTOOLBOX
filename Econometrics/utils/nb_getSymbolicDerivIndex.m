@@ -25,7 +25,7 @@ function [I,J] = nb_getSymbolicDerivIndex(symDeriv,all,derivEqs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         derivEqs = [symDeriv.derivatives];

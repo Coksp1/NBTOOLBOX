@@ -12,7 +12,7 @@ function inputs = interpretBins(options,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~iscell(inputs.bins)
         return

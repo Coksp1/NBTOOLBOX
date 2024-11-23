@@ -5,7 +5,7 @@ function options = varModifications(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options.nLags < 1
         return
@@ -30,13 +30,17 @@ function options = varModifications(options)
         % Add first lag to dataset
         [test,indY] = ismember(tempAll,options.dataVariables);
         if any(~test)
-            error([mfilename ':: The following dependent variables are not found to be in the data; ' toString(tempAll(~test))])
+            error(['The following dependent variables are not found to be ',...
+                'in the data; ' toString(tempAll(~test))])
         end
         Y                     = options.data(:,indY);
         Ylag                  = nb_mlag(Y,1,'varFast');
         options.data          = [options.data, Ylag];
         options.dataVariables = [options.dataVariables, endoLag];
         
+    else
+        % Should never end up here, but...
+        options.nLags = options.nLags - 1;
     end
 
 end

@@ -24,7 +24,7 @@ function moveFirst(obj,identifier)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind      = strcmp(identifier,obj.identifiers);
     indMoved = find(ind,1);

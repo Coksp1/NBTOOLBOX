@@ -18,7 +18,8 @@ help nb_var.priorTemplate
 
 %% Setup prior
 
-prior = nb_var.priorTemplate('horseshoe');
+prior         = nb_var.priorTemplate('horseshoe');
+prior.variant = 3;
 
 %% B-VAR (Horseshoe prior)
 
@@ -26,7 +27,7 @@ prior = nb_var.priorTemplate('horseshoe');
 t            = nb_var.template();
 t.data       = sim;
 t.dependent  = {'VAR1','VAR2','VAR3'};
-t.draws      = 500; % Return posterior mean estimate (using posterior sim)
+t.draws      = 10000; % Return posterior mean estimate (using posterior sim)
 t.prior      = prior;
 t.constant   = false;
 t.nLags      = 2;
@@ -104,29 +105,30 @@ print(model)
 %% Recursive estimation
 % Missing observations
 
-simMissing              = sim; 
-simMissing(1:5,2)       = NaN;
-simMissing(end-1:end,3) = NaN;
-
-% Options
-t                            = nb_var.template();
-t.data                       = simMissing;
-t.dependent                  = {'VAR1','VAR2','VAR3'};
-t.prior                      = nb_var.priorTemplate('horseshoe');
-t.constant                   = false;
-t.nLags                      = 2;
-t.recursive_estim            = true;
-t.draws                      = 1000;
-t.recursive_estim_start_date = '2020M1';
-
-% Create model and estimate
-modelRec = nb_var(t);
-modelRec = estimate(modelRec);
-print(modelRec)
+% simMissing              = sim; 
+% simMissing(1:5,2)       = NaN;
+% simMissing(end-1:end,3) = NaN;
+% 
+% % Options
+% t                            = nb_var.template();
+% t.data                       = simMissing;
+% t.dependent                  = {'VAR1','VAR2','VAR3'};
+% t.prior                      = nb_var.priorTemplate('horseshoe');
+% t.constant                   = false;
+% t.nLags                      = 2;
+% t.recursive_estim            = true;
+% t.draws                      = 1000;
+% t.recursive_estim_start_date = '2020M1';
+% 
+% % Create model and estimate
+% modelRec = nb_var(t);
+% modelRec = estimate(modelRec);
+% print(modelRec)
 
 %% Solve
 
-modelRecS = solve(modelRec);
+%modelRecS = solve(modelRec);
+modelRecS = solve(model);
 
 %% Forecast
 

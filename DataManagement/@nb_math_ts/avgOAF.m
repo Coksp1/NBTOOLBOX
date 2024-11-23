@@ -29,7 +29,7 @@ function obj = avgOAF(obj,sumFreq)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 
     freq = obj.startDate.frequency;
@@ -51,7 +51,7 @@ function obj = avgOAF(obj,sumFreq)
                         dataTemp = obj.data(ind,jj,zz);
                         dataTemp = dataTemp(~isnan(dataTemp));
                         if ~isempty(dataTemp)
-                            newData(ind,jj,zz) = nanmean(dataTemp,1);
+                            newData(ind,jj,zz) = mean(dataTemp,1,'omitnan');
                         end
                     end
 
@@ -66,7 +66,7 @@ function obj = avgOAF(obj,sumFreq)
                         dataTemp = obj.data(locations(mm-1) + 1:locations(mm),jj,zz);
                         dataTemp = dataTemp(~isnan(dataTemp));
                         if ~isempty(dataTemp)
-                            newData(ind,jj,zz) = nanmean(dataTemp(~isnan(dataTemp)),1);
+                            newData(ind,jj,zz) = mean(dataTemp(~isnan(dataTemp)),1,'omitnan');
                         end
                     end
 

@@ -9,7 +9,7 @@ function options = kalmanMethod(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~any(strcmpi(options.class,{'nb_var','nb_pitvar'}))
         error([mfilename ':: Setting missingMethod to ''kalmanFilter'' is only possible for nb_var and nb_pitvar objects.'])

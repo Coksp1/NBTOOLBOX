@@ -10,15 +10,15 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options = nb_defaultField(options,'parallel',false);
     options = nb_defaultField(options,'cores',[]);
     if options.empirical || options.hyperLearning
-        error([mfilename ':: Empirical bayesian or hyper learning is not supported for recursivly ',...
-                         'estimated VARs. Estimate the model over the full sample first ',...
-                         'then assume these estimated hyperparameters as fixed when ',...
-                         'estimating the model recursivly.'])
+        error(['Empirical bayesian or hyper learning is not supported for recursivly ',...
+            'estimated VARs. Estimate the model over the full sample first ',...
+            'then assume these estimated hyperparameters as fixed when ',...
+            'estimating the model recursivly.'])
     end
 
     % Shorten sample
@@ -37,10 +37,11 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         X      = X(sample,:);
         if any(isnan(X(:)))
             test = any(isnan(X),1);
-            error([mfilename ':: The estimation data on some of the exogenous variables are ',...
-                   'missing for the selected sample; ' toString(options.exogenous(test))])
+            error(['The estimation data on some of the exogenous variables are ',...
+                'missing for the selected sample; ' toString(options.exogenous(test))])
         end
-        numCoeff = options.nLags*(size(y,2) - sum(options.indObservedOnly)) + size(X,2) + options.constant + options.time_trend;
+        numCoeff = options.nLags*(size(y,2) - sum(options.indObservedOnly)) ...
+            + size(X,2) + options.constant + options.time_trend;
     else
         yFull         = y;
         XFull         = X;
@@ -90,18 +91,34 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         h = false;
     end
 
+    % For laplace prior, lambda is also returned!
+    if strcmpi(options.prior.type,'laplace')
+        numCoeff = numCoeff + 1;
+    end
+
     % Estimate the model recursively
     %--------------------------------------------------
     numObs = size(y,2);
     iter   = T - start + 1;
     if mfvar || missing
         
-        if options.prior.LR
-            error([mfilename ':: Prior for the long run is not supported for Mixed frequency VARs or VARs with missing observations.'])
-        end
-        if options.empirical
-            error([mfilename ':: Empirical bayesian is not supported for Mixed frequency VARs ',...
-                             'or VARs with missing observations.'])
+        if mfvar
+            if options.prior.LR
+                error(['Prior for the long run (LR) is not supported for ',...
+                    'Mixed frequency VARs.'])
+            end
+            if options.prior.SC
+                error(['sum-of-coefficients (SC) prior is not supported for ',...
+                    'Mixed frequency VARs.'])
+            end
+            if options.prior.DIO
+                error(['dummy-initial-observation (DIO) prior is not ',...
+                    'supported for Mixed frequency VARs.'])
+            end
+            if options.prior.SVD
+                error(['stochastic-volatility-dummy (SVD) prior is not ',...
+                    'supported for Mixed frequency VARs.'])
+            end
         end
         
         nLags = options.nLags;
@@ -140,6 +157,16 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             'start',start,...
             'T',T,...
             'nLags',options.nLags);
+
+        % Set covid observations to nan
+        if ~isempty(options.covidAdj)
+            if isa(options.covidAdj,'nb_date')
+                dates = toString(options.covidAdj);
+            end
+            set2nan = struct('all',{dates});
+            startD  = nb_date.date2freq(options.dataStartDate) + (options.estim_start_ind - 1);
+            y       = nb_estimator.set2nan(y,startD,options.dependent,set2nan);
+        end
         
         % Find number of missing observations for each variable
         missingPer = nan(1,numObs);
@@ -148,18 +175,17 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         end
         
         if options.parallel
-            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missingPer);
+            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(...
+                options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missingPer);
         else
-            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(options,y,X,restrictions,waitbar,note,freq,H,mixing,sizes,missingPer);
+            [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(...
+                options,y,X,restrictions,waitbar,note,freq,H,mixing,sizes,missingPer);
         end 
         
     %======================================================================
     else % Not missing or mixed-frequency
     %======================================================================
     
-        if options.empirical
-            error('Emprirical bayesian is not yet supported for recursive estimation.')
-        end
         if ~nb_isempty(options.measurementEqRestriction)
             error(['Cannot apply the measurementEqRestriction option for ',...
                    'the prior; ' options.prior.type])
@@ -175,9 +201,11 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             'T',T);
         nLags = options.nLags + 1;
         if options.parallel
-            [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(options,y,X,yFull,XFull,restrictions,waitbar,sizes);
+            [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(...
+                options,y,X,yFull,XFull,restrictions,waitbar,sizes);
         else
-            [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,yFull,XFull,restrictions,h,note,sizes);
+            [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(...
+                options,y,X,yFull,XFull,restrictions,h,note,sizes);
         end 
         R = [];
     
@@ -197,15 +225,25 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
             nb_estimator.closeWaitbar(h);
         end
     end
-    
+
     % Get estimation results
     %--------------------------------------------------
+    if strcmpi(options.prior.type,'laplace')
+        lambda    = beta(end,:,:);
+        beta      = beta(1:end-1,:,:);
+        stdLambda = stdBeta(end,:,:);
+        stdBeta   = stdBeta(1:end-1,:,:);
+    end
     res           = struct();
     res.beta      = beta;
     res.stdBeta   = stdBeta;
     res.sigma     = sigma;
     res.stdSigma  = stdSigma;
     res.R         = R;
+    if strcmpi(options.prior.type,'laplace')
+        res.lambda    = lambda;
+        res.stdLambda = stdLambda;
+    end
     
     % Report filtering/estimation dates
     if mfvar || missing
@@ -231,16 +269,19 @@ function [res,options] = recursiveEstimation(options,y,X,mfvar,missing)
         else
             allEndo = [tempDep,nb_cellstrlag(tempDep,options.nLags-1)];
         end
-        res.smoothed.variables = struct('data',ys,'startDate',res.filterStartDate,'variables',{allEndo});
-        res.smoothed.shocks    = struct('data',nan(size(ys,1),0,size(ys,3)),'startDate',res.filterStartDate,'variables',{{}});
-        res.ys0                = ys0;
+        res.smoothed.variables = struct('data',ys,'startDate',...
+            res.filterStartDate,'variables',{allEndo});
+        res.smoothed.shocks    = struct('data',nan(size(ys,1),0,size(ys,3)),...
+            'startDate',res.filterStartDate,'variables',{{}});
+        res.ys0 = ys0;
         
     end
     
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(options,y,X,restrictions,h,note,freq,H,mixing,sizes,missing)
+function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(...
+    options,y,X,restrictions,h,note,freq,H,mixing,sizes,missing)
 
     if options.prior.SVD
         obsSVD = options.prior.obsSVD;
@@ -262,6 +303,7 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(o
     kk         = 1;
     iter       = sizes.iter;
     for tt = sizes.start:sizes.T
+        
         if size(H,3) > 1
             % Time-varying measurement equations
             HT = H(:,:,ss(kk):tt);
@@ -271,8 +313,12 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(o
         tts  = tt-sizes.nLags;
         yOne = nb_estimator.correctForMissing(y(ss(kk):tt,:),missing);
         [betaD,sigmaD,R(:,:,kk),ys(ss(kk):tts,:,kk),~,posterior{kk}] = ...
-            nb_bVarEstimator.doBayesianMF(options,h,nLags,restrictions,yOne,X(ss(kk):tt,:),freq,HT,mixing,obsSVD - ss(kk) + 1);
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
+            nb_bVarEstimator.doBayesianMF(options,h,nLags,restrictions,...
+            yOne,X(ss(kk):tt,:),freq,HT,mixing,obsSVD - ss(kk) + 1);
+
+        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = ...
+            takeMean(betaD,sigmaD);
+
         ys0(:,:,kk) = ys(tts,:,kk);
         if waitbar 
             nb_estimator.notifyWaitbar(h,kk,iter,note)
@@ -283,7 +329,8 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFNormal(o
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missing)
+function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel(...
+    options,y,X,restrictions,waitbar,freq,H,mixing,sizes,missing)
 
     if options.prior.SVD
         obsSVD = options.prior.obsSVD;
@@ -325,9 +372,13 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel
         yOne = y;
         yOne = nb_estimator.correctForMissing(yOne(ss(kk):tt(kk),:),missing);
         XOne = X;
-        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = nb_bVarEstimator.doBayesianMF(...
-            options,false,nLags,restrictions,yOne,XOne(ss(kk):tt(kk),:),freq,HT,mixing,obsSVD - ss(kk) + 1);    
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
+        [betaD,sigmaD,R(:,:,kk),ysC{kk},~,posterior{kk}] = ...
+            nb_bVarEstimator.doBayesianMF(options,false,nLags,restrictions,...
+            yOne,XOne(ss(kk):tt(kk),:),freq,HT,mixing,obsSVD - ss(kk) + 1); 
+
+        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = ...
+            takeMean(betaD,sigmaD);
+
         if waitbar 
             send(D,1); % Update waitbar
         end
@@ -351,7 +402,8 @@ function [beta,stdBeta,sigma,stdSigma,R,ys,ys0,posterior] = doBayesianMFParallel
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,yFull,XFull,restrictions,h,note,sizes)
+function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,...
+    y,X,yFull,XFull,restrictions,h,note,sizes)
 
     if options.prior.SVD
         obsSVD = options.prior.obsSVD;
@@ -370,10 +422,14 @@ function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,
     kk        = 1;
     iter      = sizes.iter;
     for tt = sizes.start:sizes.T 
+
         [betaD,sigmaD,~,posterior{kk}] = nb_bVarEstimator.doBayesian(...
         	options,h,nLags,restrictions,y(ss(kk):tt,:),X(ss(kk):tt,:),...
             yFull(ss(kk):tt+nLags,:),XFull(ss(kk):tt+nLags,:),obsSVD - ss(kk) + 1);
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
+
+        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = ...
+            takeMean(betaD,sigmaD);
+
         if waitbar 
             nb_estimator.notifyWaitbar(h,kk,iter,note)
         end
@@ -383,7 +439,8 @@ function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianNormal(options,y,X,
 end
 
 %==========================================================================
-function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(options,y,X,yFull,XFull,restrictions,waitbar,sizes)
+function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(...
+    options,y,X,yFull,XFull,restrictions,waitbar,sizes)
 
     if options.prior.SVD
         obsSVD = options.prior.obsSVD;
@@ -422,7 +479,10 @@ function [beta,stdBeta,sigma,stdSigma,posterior] = doBayesianParallel(options,y,
         [betaD,sigmaD,~,posterior{kk}] = nb_bVarEstimator.doBayesian(...
         	options,false,nLags,restrictions,yOne(ss(kk):tt(kk),:),XOne(ss(kk):tt(kk),:),...
             yFullOne(ss(kk):tt(kk)+nLags,:),XFullOne(ss(kk):tt(kk)+nLags,:),obsSVD - ss(kk) + 1);
-        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = takeMean(betaD,sigmaD);
+
+        [beta(:,:,kk),stdBeta(:,:,kk),sigma(:,:,kk),stdSigma(:,:,kk)] = ...
+            takeMean(betaD,sigmaD);
+        
         if waitbar 
             send(D,1); % Update waitbar
         end               

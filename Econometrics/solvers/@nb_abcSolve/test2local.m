@@ -22,7 +22,7 @@ function [x,fval,exitflag] = test2local(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options           = nb_abcSolve.optimset('maxSolutions',1,...
                             'toleranceX',1e-3,'maxTime',60,...

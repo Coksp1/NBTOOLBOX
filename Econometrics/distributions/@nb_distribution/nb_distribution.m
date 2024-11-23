@@ -35,7 +35,7 @@ classdef nb_distribution < matlab.mixin.Copyable
 % 
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
    properties 
        
@@ -490,6 +490,7 @@ classdef nb_distribution < matlab.mixin.Copyable
        varargout = gamma_domain(varargin)
        varargout = gamma_icdf(varargin)
        varargout = gamma_kurtosis(varargin);
+       varargout = gamma_lpdf(varargin);
        varargout = gamma_mean(varargin);
        varargout = gamma_median(varargin);
        varargout = gamma_mode(varargin); 
@@ -601,6 +602,7 @@ classdef nb_distribution < matlab.mixin.Copyable
        varargout = normal_domain(varargin)
        varargout = normal_icdf(varargin)
        varargout = normal_kurtosis(varargin);
+       varargout = normal_lpdf(varargin)
        varargout = normal_mean(varargin);
        varargout = normal_median(varargin);
        varargout = normal_mode(varargin);

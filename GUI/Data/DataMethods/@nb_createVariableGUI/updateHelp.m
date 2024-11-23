@@ -9,7 +9,7 @@ function updateHelp(gui,listbox,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     list     = get(listbox,'string');
     value    = get(listbox, 'value');

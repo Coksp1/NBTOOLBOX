@@ -30,7 +30,7 @@ function norm = dummyNormalizationConstant(yd,xd,d,priorBeta,PSI,Omega)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [Td,n] = size(yd);
 

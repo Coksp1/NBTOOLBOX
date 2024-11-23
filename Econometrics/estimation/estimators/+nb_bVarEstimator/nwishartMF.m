@@ -72,7 +72,7 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(prior,'maxTries')
         maxTries = prior.maxTries;
@@ -81,11 +81,10 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
     end
 
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the nwishart prior.'])
+        error('Block exogenous variables cannot be declared with the nwishart prior.')
     end
     
-    [T,numDep] = size(y);
-    R_prior    = zeros(numDep,1); % Prior on measurement error variance 
+    [T,numDep] = size(y); 
     if ~isempty(mixing)
         indObservedOnly = mixing.indObservedOnly;
         numDep          = numDep - sum(indObservedOnly);
@@ -170,19 +169,12 @@ function [beta,sigma,R,yM,X,posterior] = nwishartMF(draws,y,x,nLags,constant,tim
     
     % Set up prior on measurement error covariance matrix. Here using a
     % dogmatic prior for now...
-    if any(indObservedOnly) && ~isempty(mixing)
-        % Even if all observation of the series are nan, this is not a
-        % problem as the nan elements of R will never be used!
-        if isscalar(prior.R_scale)
-            R_prior(mixing.loc) = nanvar(y(:,mixing.loc))/prior.R_scale;
-        else
-            varDep                      = nanvar(y(:,prior.R_scale(:,1)))';
-            R_prior(prior.R_scale(:,1)) = varDep./prior.R_scale(:,2);
-        end
-    end
+    R_prior = nb_bVarEstimator.setUpPriorMeasEqCovMat(y,...
+        indObservedOnly,mixing,prior);
     
     % Collect dummy prior options
-    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,constant,timeTrend);
+    dummyPriorOptions = nb_bVarEstimator.getDummyPriorOptions(nLags,prior,...
+        constant,timeTrend);
     
     % Gibbs sampler
     R                  = R_prior;

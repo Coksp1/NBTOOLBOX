@@ -39,7 +39,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = pca(obj,~,~,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     empt   = emptyObject(obj);
     F      = obj;

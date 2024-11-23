@@ -23,7 +23,7 @@ function t = nb_rmfield(s,field)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fieldN = fieldnames(s);
     if ischar(field)

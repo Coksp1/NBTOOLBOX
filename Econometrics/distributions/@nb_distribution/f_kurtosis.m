@@ -26,7 +26,7 @@ function x = f_kurtosis(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if k > 8
         x = m*(5*k-22)*(m + k - 2) + (k - 4)*(k -2)^2;

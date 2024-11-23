@@ -28,7 +28,7 @@ function obj = parse(filename,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = nb_nonLinearEq();
     obj = set(obj,varargin{:});

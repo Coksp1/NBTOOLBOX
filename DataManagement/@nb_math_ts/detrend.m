@@ -7,7 +7,7 @@ function [obj,trendObj] = detrend(obj,method,output,varargin)
 %
 % Description:
 %
-% Detrending nb_ts object.
+% Detrending nb_math_ts object.
 % 
 % Input:
 % 
@@ -64,7 +64,7 @@ function [obj,trendObj] = detrend(obj,method,output,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         output = 'normal';
@@ -104,7 +104,7 @@ function [obj,trendObj] = detrend(obj,method,output,varargin)
                 error([mfilename ':: When method is ''exponentialSmoother'' one additional input must be given to this method. I.e. the weight input.'])
             end
             
-            trend         = lag(exptrend(obj.data,varargin{:}));
+            trend         = nb_lag(exptrend(obj.data,varargin{:}));
             obj.data      = obj.data - trend;
             trendObj.data = trend;
             

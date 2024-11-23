@@ -11,7 +11,7 @@ function fcst = exprModel(model,options,results,startInd,endInd,nSteps,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     %--------------------------------------------------------------

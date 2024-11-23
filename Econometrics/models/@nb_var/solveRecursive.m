@@ -5,7 +5,7 @@ function tempSol = solveRecursive(results,opt,ident)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         ident = [];
@@ -79,7 +79,7 @@ function tempSol = solveRecursive(results,opt,ident)
             R_scale = [opt.measurementEqRestriction.R_scale];
             start   = opt.recursive_estim_start_ind - opt.estim_start_ind;
             for ii = 1:nPeriods   
-                R(numDep+1:end,:,ii) = nanvar(yRest(1:start+ii,:))./R_scale;
+                R(numDep+1:end,:,ii) = var(yRest(1:start+ii,:),'omitnan')./R_scale;
             end
             tempSol.R = R;
             
@@ -237,7 +237,7 @@ function tempSol = appendMeasurementRest(tempSol,opt,results,obs,numDep,numRows,
         R_scale   = [opt.measurementEqRestriction.R_scale];
         start     = opt.recursive_estim_start_ind - opt.estim_start_ind;
         for ii = 1:nPeriods   
-            tempSol.R(numDep+1:end,:,ii) = nanvar(yRest(1:start+ii,:))./R_scale;
+            tempSol.R(numDep+1:end,:,ii) = var(yRest(1:start+ii,:),'omitnan')./R_scale;
         end
     else
         tempSol.R = results.R;
@@ -267,11 +267,11 @@ function tempSol = calibrateR(tempSol,opt,obs)
     start    = opt.recursive_estim_start_ind - opt.estim_start_ind;
     if size(tempSol.RCalib,2) > 1
         for ii = 1:nPeriods
-            tempSol.RCalib(loc,loc,ii) = diag(nanvar(Y(1:start+ii,:))./R_scale);
+            tempSol.RCalib(loc,loc,ii) = diag(var(Y(1:start+ii,:),'omitnan')./R_scale);
         end
     else
         for ii = 1:nPeriods
-            tempSol.RCalib(loc,:,ii) = nanvar(Y(1:start+ii,:))./R_scale;
+            tempSol.RCalib(loc,:,ii) = var(Y(1:start+ii,:),'omitnan')./R_scale;
         end
     end
     

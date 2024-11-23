@@ -24,7 +24,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -38,6 +38,9 @@ function [results,options] = estimate(options)
     end
     options = nb_defaultField(options,'removeZeroRegressors',false);
     options = nb_defaultField(options,'transition',[]);
+    options = nb_defaultField(options,'covidAdj',{});
+    options = nb_defaultField(options,'nStep',0);
+    options = nb_defaultField(options,'estim_types',{});
 
     % Estimate
     if options.recursive_estim
@@ -45,9 +48,9 @@ function [results,options] = estimate(options)
         % When we are doing recursive estimation we don't
         % need the fancy printouts, so we write the 
         % estimation more compact
-        [res,options] = recursiveEstimation(options);
-        tempDep       = options.dependent;
-        [~,indY]      = ismember(tempDep,options.dataVariables);
+        [results,options] = recursiveEstimation(options);
+        tempDep           = options.dependent;
+        [~,indY]          = ismember(tempDep,options.dataVariables);
         
     else % Normal estimation
 
@@ -87,10 +90,12 @@ function [results,options] = estimate(options)
         [testY,indY] = ismember(tempDep,options.dataVariables);
         [testZ,indZ] = ismember(tempExo,options.dataVariables);
         if any(~testY)
-            error([mfilename ':: Some of the dependent variable are not found to be in the dataset; ' toString(tempDep(~testY))])
+            error(['Some of the dependent variable are not found to be ',...
+                'in the dataset; ' toString(tempDep(~testY))])
         end
         if any(~testZ)
-            error([mfilename ':: Some of the exogenous variable are not found to be in the dataset; ' toString(tempExo(~testZ))])
+            error(['Some of the exogenous variable are not found to be ',...
+                'in the dataset; ' toString(tempExo(~testZ))])
         end
         y             = tempData(:,indY);
         z             = tempData(:,indZ);
@@ -102,9 +107,10 @@ function [results,options] = estimate(options)
         sample   = T - options.requiredDegreeOfFreedom - numCoeff - options.integration - options.AR - options.MA*2 + 2;
         needed   = options.requiredDegreeOfFreedom + numCoeff + options.integration + options.AR + options.MA*2 + 2;
         if sample < 1
-            error([mfilename ':: The sample is too short for estimation. At least '...
-                int2str(options.requiredDegreeOfFreedom) ' degrees of freedom are required. Which '...
-                'require a sample of at least ' int2str(needed) ' observations.'])
+            error(['The sample is too short for estimation. At least ',...
+                int2str(options.requiredDegreeOfFreedom) ' degrees of ',...
+                'freedom are required. Which require a sample of at least ',...
+                int2str(needed) ' observations.'])
         end
         
         if options.removeZeroRegressors
@@ -115,7 +121,8 @@ function [results,options] = estimate(options)
         
         if ~isempty(options.transition)
             if size(options.transition,2) ~= size(z,2)
-                error(['The transition options must match the number of exogenous variables (' int2str(size(z,2)) ').'])
+                error(['The transition options must match the number of ',...
+                    'exogenous variables (' int2str(size(z,2)) ').'])
             end
             x    = z(:,options.transition);
             indX = ind(options.transition);
@@ -125,6 +132,9 @@ function [results,options] = estimate(options)
             x    = nan(size(z,1),0);
             indX = false(1,0);
         end
+
+        % Ignore some covid dates?
+        indCovid = nb_estimator.applyCovidFilter(options,y);
         
         % Estimate the model
         %--------------------------------------------------
@@ -143,7 +153,11 @@ function [results,options] = estimate(options)
             'maxMA',        options.maxMA,...
             'method',       options.algorithm,...
             'optimizer',    options.optimizer,...
-            'test',         false);
+            'options',      options.optimset,...
+            'prior',        options.prior,...
+            'stabilityTest',options.stabilityTest,...
+            'test',         false,...
+            'remove',       indCovid);
 
         options.AR          = mRes.AR;
         options.integration = mRes.i;
@@ -151,66 +165,66 @@ function [results,options] = estimate(options)
 
         % Get estimation results
         %--------------------------------------------------
-        res      = struct();
-        numCoeff = options.AR + options.MA + maxSAR + maxSMA + options.constant + size(z,2);
+        results  = struct();
+        numCoeff = options.AR + options.MA + maxSAR + maxSMA + options.constant + size(z,2) + size(x,2);
         if options.removeZeroRegressors
-            numEq                 = size(y,2);
-            indA                  = [true(1,numCoeff - size(z,2)), ind];
-            res.beta              = zeros(numCoeff,numEq);
-            res.beta(indA,:)      = mRes.beta;
-            res.stdBeta           = nan(numCoeff,numEq);
-            res.stdBeta(indA,:)   = mRes.stdBeta; 
-            res.tStatBeta         = nan(numCoeff,numEq);
-            res.tStatBeta(indA,:) = mRes.tStatBeta;
-            res.pValBeta          = nan(numCoeff,numEq);
-            res.pValBeta(indA,:)  = mRes.pValBeta;
+            numEq                     = size(y,2);
+            indA                      = [true(1,numCoeff - size(x,2) - size(z,2)), indX, ind];
+            results.beta              = zeros(numCoeff,numEq);
+            results.beta(indA,:)      = mRes.beta;
+            results.stdBeta           = nan(numCoeff,numEq);
+            results.stdBeta(indA,:)   = mRes.stdBeta; 
+            results.tStatBeta         = nan(numCoeff,numEq);
+            results.tStatBeta(indA,:) = mRes.tStatBeta;
+            results.pValBeta          = nan(numCoeff,numEq);
+            results.pValBeta(indA,:)  = mRes.pValBeta;
         else
-            res.beta      = mRes.beta;
-            res.stdBeta   = mRes.stdBeta; 
-            res.tStatBeta = mRes.tStatBeta;
-            res.pValBeta  = mRes.pValBeta;
+            results.beta      = mRes.beta;
+            results.stdBeta   = mRes.stdBeta; 
+            results.tStatBeta = mRes.tStatBeta;
+            results.pValBeta  = mRes.pValBeta;
         end
         
-        residual       = mRes.residual;
-        numCoeff       = size(res.beta,1);
-        T              = size(residual,1);
-        res.residual   = residual;
-        res.u          = mRes.u;
-        res.sigma      = mRes.sigma;
-        res.predicted  = mRes.y;
-        res.regressors = mRes.X;
-        res.includedObservations = size(res.residual,1);
+        numCoeff           = size(results.beta,1);
+        T                  = size(mRes.residual,1);
+        results.residual   = mRes.residual;
+        results.u          = mRes.u;
+        results.sigma      = mRes.sigma;
+        results.predicted  = mRes.y;
+        results.regressors = mRes.X;
+
+        results.includedObservations = size(results.residual,1);
         
         % Get residual from measurement error
-        uRes = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,mRes.beta,mRes.y,mRes.z,mRes.x);
+        uRes = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,...
+            mRes.beta,mRes.y,mRes.z,mRes.x);
         
         % Store numerically estimated Hessian
         if isfield(mRes,'omega')
-            res.omega = mRes.omega;
+            results.omega = mRes.omega;
         end
         
         % Get aditional test results
         %--------------------------------------------------
         if options.doTests
-            
-            res.logLikelihood = mRes.likelihood;
-            res.aic           = nb_infoCriterion('aic',res.logLikelihood,T,numCoeff+1);
-            res.sic           = nb_infoCriterion('sic',res.logLikelihood,T,numCoeff+1);
-            res.hqc           = nb_infoCriterion('hqc',res.logLikelihood,T,numCoeff+1);
-            res.fTest         = nan;
-            res.fProb         = nan; 
-            res.dwtest        = nb_durbinWatson(residual);
-            res.archTest      = nb_archTest(residual,round(options.nLagsTests));
-            res.autocorrTest  = nb_autocorrTest(residual,round(options.nLagsTests));
-            res.normalityTest = nb_normalityTest(residual,numCoeff);
-            [res.SERegression,res.sumOfSqRes]  = nb_SERegression(residual,numCoeff);
-            [res.rSquared,res.adjRSquared]     = nb_rSquared(mRes.y,residual,numCoeff);
+            results.logLikelihood   = mRes.likelihood;
+            results.aic             = nb_infoCriterion('aic',results.logLikelihood,T,numCoeff+1);
+            results.sic             = nb_infoCriterion('sic',results.logLikelihood,T,numCoeff+1);
+            results.hqc             = nb_infoCriterion('hqc',results.logLikelihood,T,numCoeff+1);
+            results.fTest           = nan;
+            results.fProb           = nan; 
+            results.dwtest          = nb_durbinWatson(mRes.residual);
+            results.archTest        = nb_archTest(mRes.residual,round(options.nLagsTests));
+            results.autocorrTest    = nb_autocorrTest(mRes.residual,round(options.nLagsTests));
+            results.normalityTest   = nb_normalityTest(mRes.residual,numCoeff);
+            [results.SERegression,results.sumOfSqRes] = nb_SERegression(mRes.residual,numCoeff);
+            [results.rSquared,results.adjRSquared]    = nb_rSquared(mRes.y,mRes.residual,numCoeff);
             
         end
         
         % Adjust estimation start date (data will be lagged and diff)
         endInd = options.estim_end_ind;
-        start  = endInd - size(residual,1) + 1;
+        start  = endInd - T + 1;
         options.estim_start_ind = start;
         
         % Add the residual to the data, used by forcast methods (Forward
@@ -219,11 +233,11 @@ function [results,options] = estimate(options)
         tempData = options.data;
         MAterms  = options.MA + options.SMA;
         if MAterms > 0
-            reslag                = nb_mlag(residual,MAterms-1); 
+            reslag                = nb_mlag(mRes.residual,MAterms-1); 
             [s1,s2]               = size(tempData);
             tempData              = [tempData,nan(s1,MAterms)];
             tt                    = start:endInd;
-            tempData(tt,s2+1:end) = [residual,reslag];
+            tempData(tt,s2+1:end) = [mRes.residual,reslag];
             namesOfRes            = nb_cellstrlag({'U'},MAterms);
             namesOfRes            = strcat('E_',namesOfRes);
             options.dataVariables = [options.dataVariables,namesOfRes];
@@ -267,13 +281,16 @@ function [results,options] = estimate(options)
     end
 
     % Assign output
-    options.data    = tempData;
-    res.elapsedTime = toc(tStart);
-    results         = res;
+    options.data        = tempData;
+    results.elapsedTime = toc(tStart);
     
     options.estimator = 'nb_arimaEstimator';
-    options.estimType = 'classic';
-           
+    if strcmpi(options.algorithm,'bayesian')
+        options.estimType = 'bayesian';
+    else
+        options.estimType = 'classic';
+    end
+
 end
 
 %==================================================================
@@ -371,6 +388,9 @@ function [res,options] = recursiveEstimation(options)
     else
         x = nan(size(z,1),0);
     end
+
+    % Ignore some covid dates?
+    indCovid = nb_estimator.applyCovidFilter(options,y);
     
     % Estimate the model recursively
     %--------------------------------------------------
@@ -394,6 +414,12 @@ function [res,options] = recursiveEstimation(options)
             indX  = true(1,size(x,2));
             indA  = true(1,numCoeff);
         end
+
+        if ~isempty(indCovid)
+            indCovidTT = indCovid(ss(kk):tt,:);
+        else
+            indCovidTT = [];
+        end
         
         % Estimate ARIMA model
         mRes = nb_arimaFunc(y(ss(kk):tt,:),p,i,q,sp,sq,...
@@ -405,7 +431,11 @@ function [res,options] = recursiveEstimation(options)
             'filter',       true,...
             'method',       options.algorithm,...
             'optimizer',    options.optimizer,...
-            'test',         false);         
+            'options',      options.optimset,...
+            'prior',        options.prior,...
+            'stabilityTest',options.stabilityTest,...
+            'test',         false,...
+            'remove',       indCovidTT);         
          
         % Store needed estimation results
         res                 = mRes.residual;
@@ -417,9 +447,11 @@ function [res,options] = recursiveEstimation(options)
         resEnd(kk,:)        = res(end-MAterms+1:end)';
         
         % Get initial condition for forecasting
-        uEnd(kk,:) = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,beta(:,:,kk),yTrans(tt-ARterms+1:tt,:),z(tt-ARterms+1:tt,:),x(tt-ARterms+1:tt,:))';
+        uEnd(kk,:) = nb_arimaEstimator.getMeasurementEqRes(options,sq,sp,...
+            beta(:,:,kk),yTrans(tt-ARterms+1:tt,:),z(tt-ARterms+1:tt,:),...
+            x(tt-ARterms+1:tt,:))';
         if storeOmega
-            omega(:,:,kk) = mRes.omega;
+            omega(indA,indA,kk) = mRes.omega;
         end
         
         % Report current state in the waitbar's message field

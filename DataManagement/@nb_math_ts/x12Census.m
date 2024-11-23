@@ -135,7 +135,7 @@ function [obj,x,outputfile,errorfile,model] = x12Census(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if obj.dim3 > 1
         error([mfilename ':: This method does not support multi-paged nb_math_ts objects.'])

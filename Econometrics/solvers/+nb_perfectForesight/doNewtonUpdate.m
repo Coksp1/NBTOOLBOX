@@ -9,7 +9,7 @@ function [DY,err] = doNewtonUpdate(FY,JF,solveIter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     err = false;
     if 1/condest(JF) < eps

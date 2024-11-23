@@ -12,7 +12,7 @@ function YDRAW = makeArtificial(model,options,results,method,draws,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: Make artificial data from model by simulation for models estimated with maximum likelihood is not supported.'])
       

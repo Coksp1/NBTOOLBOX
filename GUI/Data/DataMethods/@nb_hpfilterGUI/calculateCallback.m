@@ -9,7 +9,7 @@ function calculateCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the lambda selected (already checked)
     string = get(gui.edit1,'string');

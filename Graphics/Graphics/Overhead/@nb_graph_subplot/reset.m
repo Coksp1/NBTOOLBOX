@@ -31,7 +31,7 @@ function copiedGraph = reset(obj,oldGraphObj,newGraphObj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if not(isa(newGraphObj,'nb_graph_obj') || isa(newGraphObj,'nb_graph_adv'))
         error([mfilename ':: The added graph object must be of class nb_graph_obj or nb_graph_adv'])

@@ -30,7 +30,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(varargin,1) && iscell(varargin{1})
         varargin = varargin{1};
@@ -120,6 +120,13 @@ function set(obj,varargin)
                     end
                     obj.location = propertyValue;
                     
+                case 'mark'
+
+                    if ~isnumeric(propertyValue)
+                        error([mfilename ':: The property ' mark ' must be a char.'])
+                    end
+                    obj.mark = propertyValue;     
+                    
                 case 'normalized'
                     
                     if ischar(propertyValue)
@@ -172,7 +179,7 @@ function set(obj,varargin)
                     end
                     obj.ticks    = propertyValue(:); 
                     obj.ticksSet = true;
-
+                    
                 otherwise
 
                     error([mfilename ':: Bad property name; ' propertyName])

@@ -23,7 +23,7 @@ function [expl,plotter] = explained(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error('This method only handle a scalar object.')

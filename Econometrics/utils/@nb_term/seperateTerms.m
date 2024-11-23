@@ -9,7 +9,7 @@ function [num,eqs] = seperateTerms(obj,op)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(obj,'nb_base')
         num = nb_num(1); 

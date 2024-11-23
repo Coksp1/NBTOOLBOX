@@ -1,7 +1,8 @@
-function [results,options] = normalEstimation(options,y,X,nExo)
+function [results,options] = normalEstimation(options,y,X,nExo,indCovid)
 % Syntax:
 %
-% [results,options] = nb_midasEstimator.normalEstimation(options,y,X,nExo)
+% [results,options] = nb_midasEstimator.normalEstimation(options,y,X,...
+%       nExo,indCovid)
 %
 % Description:
 %
@@ -12,10 +13,10 @@ function [results,options] = normalEstimation(options,y,X,nExo)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Check the degrees of freedom
-    if strcmpi(options.algorithm,'unrestricted')
+    if any(strcmpi(options.algorithm,{'unrestricted','lasso','ridge'}))
         numCoeff = size(X,2) + options.constant + options.AR;
     elseif strcmpi(options.algorithm,'beta')
         numCoeff = nExo + 1 + options.constant + options.AR;
@@ -29,11 +30,16 @@ function [results,options] = normalEstimation(options,y,X,nExo)
 
     % Estimate model
     %--------------------------------------------------
-    [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD] = ...
+    [beta,stdBeta,tStatBeta,pValBeta,residual,sigma,betaD,sigmaD,reg,regPerc,lagMulti] = ...
         nb_midasFunc(y,X,options.constant,options.AR,options.algorithm,options.nStep,...
               options.stdType,nExo,options.nLags+1,'draws',options.draws,...
-              'polyLags',options.polyLags);
-                                                                                                         
+              'polyLags',options.polyLags,...
+              'regularization',options.regularization, ...
+              'regularizationPerc',options.regularizationPerc, ...
+              'restrictConstant',options.restrictConstant,...
+              'optimset',options.optimset,'remove',indCovid,...
+              'regularizationMode',options.regularizationMode);
+
     % Get estimation results
     %--------------------------------------------------
     y                  = nb_mlead(y,options.nStep);
@@ -48,13 +54,22 @@ function [results,options] = normalEstimation(options,y,X,nExo)
     results.sigmaD     = sigmaD;
     results.predicted  = y(1:end-1,:) - residual;
 
+    % Extra LASSO/RIDGE results
+    if any(strcmpi(options.algorithm,{'lasso','ridge'}))
+        results.regularization     = reg;
+        results.regularizationPerc = regPerc;
+    end
+    if strcmpi(options.algorithm,'ridge')
+        results.lagrangeMult = lagMulti;
+    end
+
     % Get estimation dates of low frequency
     results.recursive_estim_start_ind_low = [];
     results.estim_end_ind_low             = T;
     
     % Get aditional test results
     %--------------------------------------------------
-    if options.doTests
+    if options.doTests && ~any(strcmpi(options.algorithm,{'lasso','ridge'}))
 
         numCoeff      = size(beta,1);
         numEq         = options.nStep;
@@ -72,7 +87,11 @@ function [results,options] = normalEstimation(options,y,X,nExo)
         SOSR          = rSq;
         for ii = 1:numEq
             residualT            = residual(1:end-ii+1,ii);
-            [rSq(ii),adjRSq(ii)] = nb_rSquared(y(1:end-ii,ii),residualT,numCoeff);
+            yT                   = y(1:end-ii,ii);
+            indNaN               = isnan(residualT);
+            residualT(indNaN)    = [];
+            yT(indNaN)           = [];
+            [rSq(ii),adjRSq(ii)] = nb_rSquared(yT,residualT,numCoeff);
             logLikelihood(ii)    = nb_olsLikelihood(residualT);
             dwtest(ii)           = nb_durbinWatson(residualT);
             [SER(ii),SOSR(ii)]   = nb_SERegression(residualT,numCoeff);

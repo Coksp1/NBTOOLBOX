@@ -10,7 +10,7 @@ function selectScatterVariables(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the scatter group selected
     string     = get(gui.popupmenu1,'string');

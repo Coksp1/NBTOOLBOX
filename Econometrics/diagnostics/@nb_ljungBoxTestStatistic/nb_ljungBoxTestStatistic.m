@@ -27,7 +27,7 @@ classdef nb_ljungBoxTestStatistic < nb_test_generic
 % 
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     methods
         
@@ -35,11 +35,12 @@ classdef nb_ljungBoxTestStatistic < nb_test_generic
         % Constructor
         
             if isempty(fieldnames(model.results))
-                error([mfilename ':: The provided model is not estimated!'])
+                error('The provided model is not estimated!')
             end
             
             if not(isa(model,'nb_var') || isa(model,'nb_favar'))
-                error([mfilename ':: The Ljung-Box test is only supported for VAR (nb_var) or FA-VAR (nb_favar) model (object)'])
+                error(['The Ljung-Box test is only supported for VAR ',...
+                    '(nb_var) or FA-VAR (nb_favar) model (object)'])
             end
         
             obj         = obj@nb_test_generic(model);
@@ -52,8 +53,6 @@ classdef nb_ljungBoxTestStatistic < nb_test_generic
     
     methods
         
-        varargout = help(varargin)
-        
         varargout = print(varargin) 
         
         varargout = doTest(varargin)
@@ -61,7 +60,9 @@ classdef nb_ljungBoxTestStatistic < nb_test_generic
     end
     
     methods(Static=true)
-        
+
+        varargout = help(varargin)
+
         varargout = template(varargin)
         
     end

@@ -9,7 +9,7 @@ function nb_confirmWindow(message,callbackfuncNo,callbackfuncYes,...
 %
 % A window for printing confimation messages.
 %
-% Possible answars is yes and no.
+% Possible answers is yes and no by default.
 % 
 % Input:
 % 
@@ -20,6 +20,12 @@ function nb_confirmWindow(message,callbackfuncNo,callbackfuncYes,...
 %
 % - callbackfuncYes : The callback function handle to be called if 
 %                     answering yes. Can also be a cell.
+%
+% - nameOfWindow    : Name to provide the window. Default is 'Warning'
+%
+% - buttonNo        : Text displayed on the "no" button.
+%
+% - buttonYes       : Text displayed on the "yes" button.
 % 
 % Output:
 % 
@@ -27,7 +33,7 @@ function nb_confirmWindow(message,callbackfuncNo,callbackfuncYes,...
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         buttonNo = 'No';
@@ -57,7 +63,7 @@ function nb_confirmWindow(message,callbackfuncNo,callbackfuncYes,...
     % Print question message
     htext = uicontrol('parent',             f,...
                       'units',              'normalized',...
-                      'position',           [0.04 0.25 0.96 0.4],...
+                      'position',           [0.04 0.25 0.96 0.71],...
                       'Style',              'text',...
                       'HorizontalAlignment','left',...
                       'String',             message);

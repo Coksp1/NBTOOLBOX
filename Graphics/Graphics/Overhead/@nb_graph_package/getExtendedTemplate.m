@@ -12,7 +12,7 @@ function template = getExtendedTemplate()
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     normalizeFactor = 0.002911226571376;
     template        = struct(...

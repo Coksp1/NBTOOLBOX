@@ -1,7 +1,8 @@
-function dout = epcn(din,t)
+function dout = epcn(din,t,stripNaN)
 % Syntax:
 %
 % dout = epcn(din,t)
+% dout = epcn(din,t,stripNaN)
 %
 % Description:
 %
@@ -13,11 +14,14 @@ function dout = epcn(din,t)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin<2
-        t=1;
+    if nargin < 3
+        stripNaN = false;
+        if nargin<2
+            t = 1;
+        end
     end
-    dout = egrowth(din,t)*100;
+    dout = egrowth(din,t,stripNaN)*100;
     
 end

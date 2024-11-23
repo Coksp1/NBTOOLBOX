@@ -72,14 +72,16 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x] = nb_olsRestricted(y,x,res
 % - residual   : Residual from the estimated equation. As an 
 %                nobs x neq matrix. 
 %
-% - x          : Regressors including constant and time-trend.
+% - x          : Regressors including constant and time-trend. If more 
+%                than one equation this will be given as kron(I,x), and
+%                then the block restrictions is applied to this matrix.
 % 
 % See also
 % nb_olsEstimator, nb_singleEq 
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         stdType = 'h';

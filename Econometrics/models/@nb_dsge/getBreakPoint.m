@@ -10,7 +10,7 @@ function [options,isBreakP,isTimeOfBreakP,states,filterType] = getBreakPoint(opt
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     parser         = options.parser;
     if isempty(options.prior)

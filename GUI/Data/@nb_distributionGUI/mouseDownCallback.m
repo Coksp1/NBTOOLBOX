@@ -9,7 +9,7 @@ function mouseDownCallback(gui, ~, ~)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get mouse position relative to axes
     pointInFigure = nb_getInUnits(gui.figureHandle, 'CurrentPoint', 'pixels');

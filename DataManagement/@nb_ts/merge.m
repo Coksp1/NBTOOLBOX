@@ -134,7 +134,7 @@ function obj = merge(obj,DB,interpolateDate,method,rename,append,type)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         type = '';

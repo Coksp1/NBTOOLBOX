@@ -21,7 +21,7 @@ function obj = cosh(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.data = cosh(obj.data);
 

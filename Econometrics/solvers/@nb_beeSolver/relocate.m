@@ -27,7 +27,7 @@ function obj = relocate(obj,lowerBound,upperBound,cutLimit,local,F,...
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [employed,onlookers,scouts] = separate(obj,cutLimit,tolerance,newtonStop);
     

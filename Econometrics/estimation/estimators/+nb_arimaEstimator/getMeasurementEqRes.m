@@ -9,7 +9,7 @@ function u = getMeasurementEqRes(options,sq,sp,beta,y,z,x)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     numDyn  = options.AR + options.MA + sq + sp;
     numExoT = size(x,2);

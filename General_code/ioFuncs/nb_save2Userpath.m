@@ -18,7 +18,7 @@ function nb_save2Userpath(filename,variable) %#ok<INUSD>
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     pathToSave = nb_userpath('gui');
     if exist(pathToSave,'dir') ~= 7

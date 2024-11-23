@@ -31,7 +31,7 @@ function setPropSimpleRulesSecondData(obj,propertyName,propertyValue)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ischar(propertyValue) || isa(propertyValue,'dyn_ts')
         inputData          = propertyValue;

@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen       
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Set up the estimators
     obj  = obj(:);
@@ -61,7 +61,9 @@ function outOpt = getEstimationOptions(obj)
                 else
                     tempOpt.recursive_estim_start_ind = [];
                 end
-                tempOpt.requiredDegreeOfFreedom = 3;
+                if ~isfield(tempOpt,'requiredDegreeOfFreedom')
+                    tempOpt.requiredDegreeOfFreedom = 3;
+                end
                 tempOpt = rmfield(tempOpt,{'estim_end_date','estim_start_date','recursive_estim_start_date'});
                   
                 % Mixed frequency options

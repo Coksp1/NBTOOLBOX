@@ -9,7 +9,7 @@ function grid = test()
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     parent = figure();
     grid = nb_gridcontainer(parent, ...

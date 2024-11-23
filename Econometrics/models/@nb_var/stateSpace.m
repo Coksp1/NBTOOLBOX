@@ -59,7 +59,7 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = stateSpace(par,nDep,nLags,nExo,r
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         stabilityTest = false;

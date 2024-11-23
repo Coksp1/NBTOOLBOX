@@ -9,7 +9,7 @@ function previousPage(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if gui.page ~= 1
         gui.page = gui.page - 1;

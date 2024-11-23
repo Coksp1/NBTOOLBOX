@@ -12,7 +12,7 @@ function help = threshold()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     help = 'The threshold level for what being zero. Default is 1e-4.';
 

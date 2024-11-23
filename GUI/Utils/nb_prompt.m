@@ -23,7 +23,7 @@ function output = nb_prompt(message, yesText, noText)
 %
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         noText = 'No';

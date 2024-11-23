@@ -13,7 +13,7 @@ function converged = checkConvergence(res,oldLogLik,tol)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     change = abs(res.likelihood - oldLogLik);
     if change < tol

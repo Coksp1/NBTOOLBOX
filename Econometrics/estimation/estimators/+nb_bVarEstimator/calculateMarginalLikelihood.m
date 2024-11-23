@@ -9,7 +9,7 @@ function fh = calculateMarginalLikelihood(par,paramMin,paramMax,hyperParam,nCoef
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Map the parameter using log transformation
     ind = ~isnan(paramMin);
@@ -31,11 +31,14 @@ function fh = calculateMarginalLikelihood(par,paramMin,paramMax,hyperParam,nCoef
     
     % Evaluate the marginal likelihood
     if strcmp(options.prior.type,'glp')
-        fh = nb_bVarEstimator.glp([],y,X,nLags,options.constant,options.constantAR,options.time_trend,options.prior,[],[]);  
+        fh = nb_bVarEstimator.glp([],y,X,nLags,options.constant,...
+            options.constantAR,options.time_trend,options.prior,[],[]);  
     elseif strcmp(options.prior.type,'dsge')
-        fh = nb_bVarEstimator.dsge([],y,X,nLags,options.constant,options.time_trend,options.prior,[],[]);  
+        fh = nb_bVarEstimator.dsge([],y,X,nLags,options.constant,...
+            options.time_trend,options.prior,[],[]);  
     else
-        fh = nb_bVarEstimator.nwishart([],y,X,nLags,options.constant,options.time_trend,options.prior,[],[]);
+        fh = nb_bVarEstimator.nwishart([],y,X,nLags,options.constant,...
+            options.time_trend,options.prior,[],[]);
     end
 
     % Evaluate the hyperpriors

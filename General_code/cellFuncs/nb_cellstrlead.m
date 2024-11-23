@@ -32,7 +32,7 @@ function clead = nb_cellstrlead(c,nlead,type,reverse)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         reverse = false;

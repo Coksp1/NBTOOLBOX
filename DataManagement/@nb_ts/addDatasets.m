@@ -26,7 +26,7 @@ function obj = addDatasets(obj,datasets,NameOfDatasets,startDate,variables)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         variables = {};

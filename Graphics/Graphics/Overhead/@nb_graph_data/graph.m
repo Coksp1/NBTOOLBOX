@@ -31,7 +31,7 @@ function graph(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = obj(:); 
     nobj = size(obj,1);
@@ -295,10 +295,9 @@ function graph(obj)
                 scatterPlot(obj,'left');
                 scatterPlot(obj,'right');    
 
-            case 'simplerules'
-
-                % Here we have a special plot for the simple rules
-                graphSimpleRules(obj);
+            case 'heatmap'
+                
+                plotHeatMap(obj); 
 
             otherwise
 

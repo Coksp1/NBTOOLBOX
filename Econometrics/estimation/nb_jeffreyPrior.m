@@ -15,7 +15,7 @@ function prior = nb_jeffreyPrior(varargin)
 % Prior on beta  : Diffuse
 % Prior on sigma : Diffuse
 %
-% Optionsl input:
+% Optional input:
 % 
 % - Run without inputs to get default priors.
 %
@@ -39,7 +39,7 @@ function prior = nb_jeffreyPrior(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     input = '';
     if length(varargin) == 1

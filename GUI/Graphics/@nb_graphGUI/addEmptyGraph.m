@@ -9,7 +9,7 @@ function emptyObject = addEmptyGraph(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create an empty graph object
     switch class(gui.plotterAdv.plotter)

@@ -30,7 +30,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         obj = obj(:);
@@ -51,6 +51,9 @@ function set(obj,varargin)
         check = inputPropNames{ii};
         value = inputProps.(check);
         ind   = strcmpi(check,props);
+        if ~any(ind)
+            error(['No public field ' check ' exists for class ' class(obj) '.']);
+        end
         prop  = props{ind};
         if isprop(obj, prop)
             obj.(prop) = value;

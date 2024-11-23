@@ -33,7 +33,7 @@ function [ST,pValue] = nb_smirnovTest(x,y,m,n)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = x(:);
     y = y(:);

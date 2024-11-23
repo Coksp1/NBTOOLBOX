@@ -24,7 +24,7 @@ function [realD,imagD,modulus] = nb_calcRoots(A)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [s,~,p] = size(A);
     eigVal  = nan(s,1,p);

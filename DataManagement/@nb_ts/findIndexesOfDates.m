@@ -25,7 +25,7 @@ function indexes = findIndexesOfDates(startDate,endDate,dates)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if iscellstr(dates)
         datesObj = nb_date.cell2Date(dates,startDate.frequency);

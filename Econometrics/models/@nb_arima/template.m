@@ -21,7 +21,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -32,6 +32,7 @@ function options = template(num)
     options.alpha                       = 0.05;
     options.AR                          = nan;
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.covrepair                   = false;
     options.criterion                   = '';
     options.dependent                   = {};
@@ -43,12 +44,13 @@ function options = template(num)
     options.maxMA                       = 3;
     options.nLagsTests                  = 5;
     options.optimizer                   = 'fmincon';
+    options.optimset                    = struct('MaxTime',[],'MaxFunEvals',inf,'MaxIter',10000,'Display','off','TolFun',[],'TolX',[]);
+    options.prior                       = [];
     options.removeZeroRegressors        = false;
     options.SAR                         = 0;
     options.SMA                         = 0;
     options.stabilityTest               = true;
     options.transition                  = [];
     options.waitbar                     = true;
-%     options.stdType                     = 'h';
 
 end

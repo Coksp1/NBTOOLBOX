@@ -57,7 +57,7 @@ function obj = packing(obj,packages,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     inputs               = varargin; 
     [includeRest,inputs] = nb_parseOneOptional('includeRest',true,inputs{:});

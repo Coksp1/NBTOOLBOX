@@ -32,7 +32,7 @@ function y = hpfilter(x,lamb,perc,fcstLen)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         fcstLen = 0;

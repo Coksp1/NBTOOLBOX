@@ -25,7 +25,7 @@ function obj = log1p(obj)
 % 
 % Written by Andreas Haga Raavand 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.data = log1p(obj.data);
 

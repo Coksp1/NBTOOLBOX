@@ -9,7 +9,7 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
 % Estimate a ARIMA(p,i,q) or ARIMAX(p,i,q) model using maximum likelihood.
 % 
 % y(t) = b*z + u(t)
-% u(t) = lambda*u(t-1) + c*q + eps(t)
+% u(t) = lambda*u(t-1) + c*x + eps(t)
 %
 % Input:
 % 
@@ -68,7 +68,7 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
 % - results : A struct consiting of:
 %
 %             > beta       : The estimated coefficients. Order; constant,  
-%                            AR, MA, SAR, SMA then exogenous.
+%                            AR, MA, SAR, SMA, x, z.
 %             
 %             > stdBeta    : The standard deviation of the estimated  
 %                            coefficients. Order; constant, AR, MA, SAR,  
@@ -115,7 +115,7 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         x = [];
@@ -143,7 +143,8 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
                'options',         {},         {@iscell,'||',@isstruct};...
                'filter',          true,       @islogical;...
                'covrepair',       true,       @islogical;...
-               'optimizer',       'fminunc',  {{@nb_ismemberi,{'fmincon','fminunc','fminsearch'}}}};
+               'optimizer',       'fminunc',  {{@nb_ismemberi,{'fmincon','fminunc','fminsearch'}}};...
+               'remove',          [],         @(x)or(islogical(x),isempty(x))};
            
     [inputs,message] = nb_parseInputs(mfilename,default,varargin{:});
     if ~isempty(message)
@@ -176,7 +177,7 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
     %--------------------------------------------------------------
     r = p + q;
     if r > T
-        error([mfilename ':: The sample is to short to use the Hannan-Rissanen algorithm to '...
+        error(['The sample is to short to use the Hannan-Rissanen algorithm to '...
             'initalize the coefficent to be estimated.'])
     end
     results  = nb_hrarima(y,p,0,q,constant,test,z,x);
@@ -195,7 +196,7 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
     % Estimate the parameters by maximum likelihood
     %--------------------------------------------------------------
     if strcmpi(optimizer,'nb_abc')
-        error([mfilename ':: The nb_abc optimizer is not supported for a model of class nb_arima.'])
+        error('The nb_abc optimizer is not supported for a model of class nb_arima.')
     end
     if iscell(options)
         if size(options,2) > 0
@@ -228,19 +229,34 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
     end
     
     % Minimize the minus the log likelihood 
-    nExoT          = size(x,2);
-    yt             = y';
-    Xt             = X';
+    nExoT = size(x,2);
+    yt    = y';
+    Xt    = X';
+    yEst  = yt;
+    XEst  = Xt;
+    if ~isempty(inputs.remove)
+        % Set observations to nan to drop them from kalman filter
+        % estimation, and exogenous set to their mean
+        XEstM          = mean(XEst,2);
+        indRem         = ~inputs.remove(1+i:end);
+        yEst(:,indRem) = nan;
+        XEst(:,indRem) = XEstM(:,ones(1,sum(indRem)));
+        kalmanFunc     = @nb_kalmanlikelihood_missing;
+    else
+        kalmanFunc = @nb_kalmanlikelihood;
+    end
     UB             = inf(size(par,1),1);
     LB             = -UB;
     LB(end)        = 0; % Lower bound on residual variance
-    [estPar,lik,H] = nb_callOptimizer(optimizer,@nb_kalmanlikelihood,par,LB,UB,options,...
-                        ':: Estimation of the ARIMA model failed.',@nb_arimaStateSpace,yt,Xt,1,p,q,sp,sq,constant,nExoT,stability);
+    [estPar,lik,H] = nb_callOptimizer(optimizer,kalmanFunc,par,LB,UB,options,...
+                        ':: Estimation of the ARIMA model failed.',...
+                        @nb_arimaStateSpace,yEst,XEst,1,p,q,sp,sq,constant,nExoT,stability);
     
     % Standard deviation of the estimated paramteres (estPar)
     H = H(1:end-1,1:end-1); % Skip std on residual!!! 
-    if rcond(H) < eps^(0.9)
-        error('nb_mlarima:invalidHessian',[mfilename ':: Standard error of parameters cannot be calulated. Hessian is badly scaled.'])
+    if rcond(H) < eps^(0.9) && ~covrepair
+        error('nb_mlarima:invalidHessian',['Standard error of parameters ',...
+            'cannot be calulated. Hessian is badly scaled.'])
     else
         omega     = H\eye(size(H,1));
         stdEstPar = sqrt(diag(omega));
@@ -249,7 +265,8 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
                 omega     = nb_covrepair(omega,false);
                 stdEstPar = sqrt(diag(omega));
             else
-                error('nb_mlarima:invalidHessian',[mfilename ':: Standard error of parameters are not real, something went wrong...'])
+                error('nb_mlarima:invalidHessian',['Standard error of ',...
+                    'parameters are not real, something went wrong...'])
             end
         end
     end
@@ -267,14 +284,17 @@ function results = nb_mlarima(y,p,i,q,sp,sq,constant,z,x,varargin)
     if test && ~stability
         absr = abs(roots([1,-results.beta(constant + 1:constant + p)']));
         if any(absr >= 1)
-            error('nb_mlarima:invalidRoots',[mfilename ':: The roots of the ARIMA(' int2str(p) ',' int2str(i) ',' int2str(q) ') Lag '...
-                'operator polynominal is outside the unit circle. Cannot estimate this model.'])
+            error('nb_mlarima:invalidRoots',['The roots of the ARIMA(',...
+                int2str(p) ',' int2str(i) ',' int2str(q) ') Lag ',...
+                'operator polynominal is outside the unit circle. ',...
+                'Cannot estimate this model.'])
         end
     end
     
     if filter
-        [u,results.residual] = nb_kalmanfilter(@nb_arimaStateSpace,yt,Xt,estPar,p,q,sp,sq,constant,nExoT);
-        u                    = u(:,end);
+        [u,results.residual] = nb_kalmanfilter(@nb_arimaStateSpace,yt,Xt,...
+            estPar,p,q,sp,sq,constant,nExoT);
+        u = u(:,1);
     else
         results.residual = [];
         u                = [];

@@ -5,7 +5,7 @@ function restrictions = getBlockExogenousRestrictions(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options = nb_defaultField(options,'blockLags',[]);
     if ~isempty(options.blockLags)

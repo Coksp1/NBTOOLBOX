@@ -22,7 +22,7 @@ function [test,prob] = nb_whiteTest(residual,X)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [T,nxvar] = size(X);
     

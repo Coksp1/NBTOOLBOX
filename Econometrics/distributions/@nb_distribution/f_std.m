@@ -26,7 +26,7 @@ function x = f_std(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = sqrt(nb_distribution.f_variance(m,k));
 

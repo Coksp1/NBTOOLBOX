@@ -18,7 +18,7 @@ function obj = logLinearize(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
            
     % Translate equations into function handle
     obj = eq2Func(obj);

@@ -23,7 +23,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -34,6 +34,9 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'requiredDegreeOfFreedom',3);
     options = nb_defaultField(options,'seasonalDummy','');
     options = nb_defaultField(options,'removeZeroRegressors',false);
+    options = nb_defaultField(options,'covidAdj',{});
+    options = nb_defaultField(options,'nStep',0);
+
     if ~ismember(options.stdType,{'h','w','nw'})
         options.stdType = 'h';
     end
@@ -42,10 +45,11 @@ function [results,options] = estimate(options)
     %------------------------------------------------------
     tempDep = cellstr(options.dependent);
     if isempty(tempDep)
-        error([mfilename ':: No dependent variables (expressions) selected, please assign the dependent field of the options property.'])
+        error(['No dependent variables (expressions) selected, please ',...
+            'assign the dependent field of the options property.'])
     end
     if isempty(options.data)
-        error([mfilename ':: Cannot estimate without data.'])
+        error('Cannot estimate without data.')
     end
 
     % Interpret the expression
@@ -55,7 +59,8 @@ function [results,options] = estimate(options)
         depFuncs = cell(1,nDep);
         depOrig  = cell(1,nDep);
         for ii = 1:nDep
-            [depFuncs{ii},~,depOrig(ii)] = nb_exprEstimator.eqs2funcSub(options.dataVariables,options.dependent{ii},true);
+            [depFuncs{ii},~,depOrig(ii)] = nb_exprEstimator.eqs2funcSub(...
+                options.dataVariables,options.dependent{ii},true);
         end
         options.depFuncs      = depFuncs;
         options.dependentOrig = depOrig; 
@@ -72,8 +77,9 @@ function [results,options] = estimate(options)
 
             if iscell(options.exogenous{1})
                 if length(options.exogenous) ~= nDep
-                    error([mfilename ':: If exogenous is a nested cell it has to have the same length ',...
-                                     'as the number of dependent expressions (' int2str(nDep) ').'])
+                    error(['If exogenous is a nested cell it has to have ',...
+                        'the same length as the number of dependent ',...
+                        'expressions (' int2str(nDep) ').'])
                 end
                 nDep     = length(options.dependent);
                 exoFuncs = cell(1,nDep);
@@ -86,9 +92,11 @@ function [results,options] = estimate(options)
                     exoFuncsOne = cell(1,nExoOne);
                     varsOne     = cell(1,nExoOne);
                     for jj = 1:nExoOne
-                        [exoFuncsOne{jj},nLags,varsOne{jj}] = nb_exprEstimator.eqs2funcSub(options.dataVariables,options.exogenous{ii}{jj},false);
-                        [maxLags,minLags,indContOne]        = updateLags(maxLags,minLags,nLags,varsOne{jj},depOrig);
-                        indCont(ii,:)                       = indCont(ii,:) | indContOne;
+                        [exoFuncsOne{jj},nLags,varsOne{jj}] = nb_exprEstimator.eqs2funcSub(...
+                            options.dataVariables,options.exogenous{ii}{jj},false);
+                        [maxLags,minLags,indContOne] = updateLags(...
+                            maxLags,minLags,nLags,varsOne{jj},depOrig);
+                        indCont(ii,:) = indCont(ii,:) | indContOne;
                     end
                     exoFuncs{ii} = exoFuncsOne;
                     vars{ii}     = varsOne;
@@ -138,30 +146,26 @@ function [results,options] = estimate(options)
     options.nExo = nExo;
     
     % Decide the estimation sample
+    [options,yAll,XAll] = nb_estimator.testSample(options,[yEq{:}],[XEq{:}]);
+    numCoeff            = max(nExo) + options.constant + options.time_trend;
+    T                   = size(yAll,1);
     if options.recursive_estim
         
-        % Shorten sample
-        [options,yAll,XAll] = nb_estimator.testSample(options,[yEq{:}],[XEq{:}]);
-
         % Check the sample
-        numCoeff                = max(nExo) + options.constant + options.time_trend;
-        T                       = size(yAll,1);
         [start,iter,ss,options] = nb_estimator.checkDOFRecursive(options,numCoeff,T);
             
     else
         
-        % Shorten sample
-        [options,yAll,XAll] = nb_estimator.testSample(options,[yEq{:}],[XEq{:}]);
-
         % Check the degrees of freedom
-        numCoeff = max(nExo) + options.constant + options.time_trend;
-        T        = size(yAll,1);
-        iter     = 1;
-        start    = T;
-        ss       = 1;
+        iter  = 1;
+        start = T;
+        ss    = 1;
         nb_estimator.checkDOF(options,numCoeff,T);
         
     end
+
+    % Ignore some covid dates?
+    indCovid = nb_estimator.applyCovidFilter(options,yAll);
     
     % Preallocation
     results.beta                 = cell(1,nDep);
@@ -175,12 +179,6 @@ function [results,options] = estimate(options)
         results.XX        = cell(1,nDep);
         results.tests     = cell(1,nDep);
     end
-    
-    % Check for constant regressors, which we do not allow
-%     if any(all(diff(XAll,1) == 0,1))
-%         error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-%                          'Use the constant option instead.'])
-%     end
     
     % Loop each equation
     exoInd = 1;
@@ -204,7 +202,7 @@ function [results,options] = estimate(options)
             constant   = options.constant;
             time_trend = options.time_trend;
             stdType    = options.stdType;
-            res        = nan(T,1,iter);
+            residual   = nan(T,1,iter);
             kk         = 1;
             for tt = start:T
                 
@@ -215,8 +213,27 @@ function [results,options] = estimate(options)
                     ind  = true(1,size(X,2));
                     indA = true(1,nCoeff);
                 end
+
+                yEst = y(ss(kk):tt,:);
+                XEst = X(ss(kk):tt,ind);
+                if ~isempty(indCovid)
+                    % Strip covid dates from estimation
+                    yEstCov = yEst(~indCovid(ss(kk):tt,:),:);
+                    XEstCov = XEst(~indCovid(ss(kk):tt,:),:);
+                    yEst    = yEst(indCovid(ss(kk):tt,:),:);
+                    XEst    = XEst(indCovid(ss(kk):tt,:),:);
+                end
                 
-                [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,res(ss(kk):tt,:,kk)] = nb_ols(y(ss(kk):tt,:),X(ss(kk):tt,ind),constant,time_trend,stdType);
+                [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,res] = ...
+                    nb_ols(yEst,XEst,constant,time_trend,stdType);
+
+                if ~isempty(indCovid)
+                    res = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                        constant,time_trend,beta(indA,:,kk),res,...
+                        indCovid(ss(kk):tt,:));
+                end
+                residual(ss(kk):tt,:,kk) = res;
+
                 kk = kk + 1;
                 
             end
@@ -225,7 +242,7 @@ function [results,options] = estimate(options)
             %--------------------------------------------------
             results.beta{ii}         = beta;
             results.stdBeta{ii}      = stdBeta;
-            results.residual(:,ii,:) = res;
+            results.residual(:,ii,:) = residual;
 
         %======================
         else % Not recursive
@@ -239,7 +256,23 @@ function [results,options] = estimate(options)
                 ind  = true(1,size(X,2));
             end
             
-            [beta,stdBeta,tStatBeta,pValBeta,res,XX] = nb_ols(y,X(:,ind),options.constant,options.time_trend,options.stdType);
+            yEst = y;
+            XEst = X(:,ind);
+            if ~isempty(indCovid)
+                yEstCov = yEst(~indCovid,:);
+                XEstCov = XEst(~indCovid,:);
+                yEst    = yEst(indCovid,:);
+                XEst    = XEst(indCovid,:);
+            end
+
+            [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = nb_ols(yEst,XEst,...
+                options.constant,options.time_trend,options.stdType);
+
+            if ~isempty(indCovid)
+                residual = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                    options.constant,options.time_trend,beta,residual,...
+                    indCovid);
+            end
 
             if options.removeZeroRegressors
                 nCoeff             = nExo(ii) + options.constant + options.time_trend;
@@ -265,14 +298,23 @@ function [results,options] = estimate(options)
             results.stdBeta{ii}     = stdBeta;
             results.tStatBeta{ii}   = tStatBeta;
             results.pValBeta{ii}    = pValBeta;
-            results.residual(:,ii)  = res;
-            results.predicted(:,ii) = y - res;
+            results.residual(:,ii)  = residual;
+            results.predicted(:,ii) = y - residual;
             results.regressors{ii}  = XX;
 
             % Get aditional test results
             %--------------------------------------------------
             if options.doTests
-                results.tests{ii} = nb_olsEstimator.doTest(results.tests{ii},options,beta,y,X,res);
+                yTest = y;
+                XTest = X;
+                rTest = residual;
+                if ~isempty(indCovid)
+                    yTest = yTest(indCovid,:);
+                    XTest = XTest(indCovid,:);
+                    rTest = rTest(indCovid,:);
+                end
+                results.tests{ii} = nb_olsEstimator.doTest(results.tests{ii},...
+                    options,beta,yTest,XTest,rTest);
             end
 
         end
@@ -286,7 +328,11 @@ function [results,options] = estimate(options)
     sigma = nan(nDep,nDep,iter);
     kk    = 1;
     for tt = start:T
-        resid         = results.residual(ss(kk):tt,:,kk);
+        resid = results.residual(ss(kk):tt,:,kk);
+        if ~isempty(indCovid)
+            indCovidTT = indCovid(ss(kk):tt);
+            resid      = resid(indCovidTT,:);
+        end
         sigma(:,:,kk) = resid'*resid/(size(resid,1) - numCoeff);
         kk            = kk + 1;
     end

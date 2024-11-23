@@ -26,7 +26,7 @@ function x = truncgamma_mean(m,k,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: Not yet finished'])
     

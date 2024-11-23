@@ -1,7 +1,7 @@
 function deleteRow(obj, y)
 % Delete row number y
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     assert(...
         nb_iswholenumber(y) && ...

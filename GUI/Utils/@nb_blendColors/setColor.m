@@ -9,7 +9,7 @@ function setColor(gui,hObject,~,type)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(get(hObject,'style'),'slider')
         value = get(hObject,'value');

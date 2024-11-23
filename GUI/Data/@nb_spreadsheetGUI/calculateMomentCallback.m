@@ -9,7 +9,7 @@ function calculateMomentCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     type = nb_getUIControlValue(gui.momentTypeBox,'userdata');
     sel  = gui.selectedCellsU;

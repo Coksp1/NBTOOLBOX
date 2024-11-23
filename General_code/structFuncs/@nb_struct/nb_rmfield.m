@@ -23,7 +23,7 @@ function obj = nb_rmfield(obj,field)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fieldN = fieldnames(obj.s);
     if ischar(field)

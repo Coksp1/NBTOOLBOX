@@ -9,10 +9,11 @@ function deterministic = getDeterministicVariables(exo)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind           = strncmpi('covidDummy',exo,10);
     indT          = strncmpi('timeDummy',exo,9);
-    deterministic = [{'constant','time-trend','easterDummy'}, exo(ind), exo(indT)];
+    indS          = strncmpi('Seasonal_',exo,9);
+    deterministic = [{'constant','time-trend','easterDummy'}, exo(ind), exo(indT), exo(indS)];
     
 end

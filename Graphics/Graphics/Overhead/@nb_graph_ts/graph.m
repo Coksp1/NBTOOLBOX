@@ -31,7 +31,7 @@ function graph(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = obj(:); 
     nobj = size(obj,1);
@@ -211,8 +211,9 @@ function graph(obj)
         obj.axesHandle.update         = 'off';  
         obj.axesHandle.scaleLineWidth = obj.axesScaleLineWidth;
         obj.axesHandle.scaleFactor    = obj.axesScaleFactor;
+
         if isempty(obj.datesToPlot)
-                
+
             %----------------------------------------------------------
             % Add highlighted areas
             %----------------------------------------------------------
@@ -228,7 +229,7 @@ function graph(obj)
             % Add fan chart
             %----------------------------------------------------------
             addFanChart(obj);
-            
+
         end     
 
         %----------------------------------------------------------
@@ -242,14 +243,14 @@ function graph(obj)
         addHorizontalLine(obj);
 
         if isempty(obj.datesToPlot)
-        
+
             %----------------------------------------------------------
             % Add vertical forecast line
             %----------------------------------------------------------
             addVerticalLine(obj);
-            
-        end
 
+        end
+            
         %----------------------------------------------------------
         % Here we do the plotting of the 'variablesToPlot'
         % variables
@@ -297,6 +298,10 @@ function graph(obj)
 
                 % Here we have a special plot for the simple rules
                 graphSimpleRules(obj);
+                
+            case 'heatmap'
+                
+                plotHeatMap(obj);
 
             otherwise
 

@@ -38,7 +38,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = nb_pca(X,r,method,varargin)
 %
 % Optional inputs:
 %
-% - 'crit'   : You can choose between the follwing selection criterion
+% - 'crit'   : You can choose between the following selection criterion
 %
 %             > 1,10: ii*(NT1/NT)*log(NT/NT1); % IC_p1 and PC_p1 (default) 
 %
@@ -126,7 +126,7 @@ function [F,LAMBDA,R,varF,expl,c,sigma,e,Z] = nb_pca(X,r,method,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = 'svg';

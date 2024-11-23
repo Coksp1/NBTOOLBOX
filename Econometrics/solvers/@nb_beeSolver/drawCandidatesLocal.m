@@ -29,7 +29,7 @@ function draws = drawCandidatesLocal(fVal,cVal,x,nBees)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     N     = size(fVal,1);
     alpha = rand(N,N,nBees);

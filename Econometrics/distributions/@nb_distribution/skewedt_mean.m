@@ -27,7 +27,7 @@ function x = skewedt_mean(a,~,~,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if d > 0.5
         x = a;

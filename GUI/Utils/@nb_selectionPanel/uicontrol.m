@@ -36,7 +36,7 @@ function uih = uicontrol(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind   = find(strcmpi('style',varargin),1);
     if ~isempty(ind)

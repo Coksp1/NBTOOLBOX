@@ -9,7 +9,7 @@ function applyTemplate(obj,chosen)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     try
         t = obj.template.(chosen);
@@ -18,7 +18,7 @@ function applyTemplate(obj,chosen)
     end
     
     fields = fieldnames(t);
-    for ii = 1:size(fields)
+    for ii = 1:length(fields)
         if isprop(obj,fields{ii})
            obj.(fields{ii}) = t.(fields{ii}); 
         end

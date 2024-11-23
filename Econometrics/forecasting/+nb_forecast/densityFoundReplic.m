@@ -10,7 +10,7 @@ function [Y,XE,states,PAI] = densityFoundReplic(y0,restrictions,model,options,re
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if strcmpi(model.type,'rise')

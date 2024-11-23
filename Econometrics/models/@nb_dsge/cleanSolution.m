@@ -21,7 +21,7 @@ function obj = cleanSolution(obj,normalize)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<2
         normalize = false;
@@ -45,10 +45,18 @@ function obj = cleanSolution(obj,normalize)
     
     if isNB(obj) || isRise(obj)
         if iscell(C)
-            ind = any(C{1});
+            ind = nan(length(C),size(C{1},2));
+            for ii = 1:length(C)
+                ind(ii,:) = any(C{ii});
+            end
+            ind = any(ind,1);
         else
+            ind = nan(size(C,3),size(C,2));
+            for tt = 1:size(C,3)
+                ind(tt,:) = any(C(:,:,tt));
+            end
             C   = C(:,:,1);
-            ind = any(C(:,:,1));
+            ind = any(ind,1);
         end
     else
         v   = diag(vcv);

@@ -22,7 +22,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -30,6 +30,7 @@ function options = template(num)
 
     options                             = nb_model_generic.templateGeneral(num,'both');
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.criterion                   = '';
     options.dependent                   = {};
     options.doTests                     = 1;
@@ -47,7 +48,9 @@ function options = template(num)
     options.optimset                    = [];
     options.quantile                    = 0.5;
     options.regularization              = [];
+    options.regularizationPerc          = [];
     options.removeZeroRegressors        = false;
+    options.restrictConstant            = true;
     options.restrictions                = {};
     options.seasonalDummy               = '';
     options.stdType                     = 'h';

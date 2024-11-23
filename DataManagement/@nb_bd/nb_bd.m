@@ -162,13 +162,13 @@ classdef nb_bd < nb_dataSource
 % 
 % Written by Per Bjarne Bye  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
      properties (SetAccess=protected,Dependent=true)
         
         % Number of observation of the data stored in the object. As a 
         % double.
-        numberOfObservations    = 0;    
+        numberOfObservations    
         
     end
 
@@ -880,10 +880,6 @@ classdef nb_bd < nb_dataSource
                     otherwise
                         error([mfilename ':: Cannot read the provided file format; ' type])
 
-                end
-
-                if locfold
-                    cd(OldFolderName)
                 end
  
             else

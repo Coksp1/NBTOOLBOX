@@ -26,7 +26,7 @@ function score = nb_evaluateForecast(type,data,forecastData)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Then evaluate the forecast
     switch lower(type)

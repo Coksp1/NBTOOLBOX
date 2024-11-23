@@ -27,7 +27,7 @@ function f = wald_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f = sqrt(k./(2.*pi.*(x.^3))).*exp((-k.*(x - m).^2)./(2.*m^2.*x));
     

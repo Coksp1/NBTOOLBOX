@@ -14,20 +14,23 @@ function [yPlus,xPlus] = setUpPriorLR(prior,y,x,lags,constant,timeTrend)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if timeTrend
-        error([mfilename ':: If you apply the prior for the long run you cannot include a time trend.'])
+        error(['If you apply the prior for the long run you cannot ',...
+            'include a time trend.'])
     end
     if isfield(prior,'phi')
         phi = prior.phi;
     else
-        error([mfilename ':: If you apply the prior for the long run you need to specify the phi option.'])
+        error(['If you apply the prior for the long run you need to ',...
+            'specify the phi option.'])
     end
     if isfield(prior,'H')
         H = prior.H;
     else
-        error([mfilename ':: If you apply the prior for the long run you need to specify the H option.'])
+        error(['If you apply the prior for the long run you need to ',...
+            'specify the H option.'])
     end
     
     % Remove missing observations at the start
@@ -46,7 +49,7 @@ function [yPlus,xPlus] = setUpPriorLR(prior,y,x,lags,constant,timeTrend)
     yPlus = diag(Hy0./phi)*Hinv';
     xPlus = repmat(yPlus,[1,lags]);
     if ~isempty(x)
-        xPlus = [repmat(mean(x(1:lags,:)),[n,1]),xPlus];
+        xPlus = [repmat(mean(x(1:lags,:),1),[n,1]),xPlus];
     end
     if constant
         xPlus = [zeros(n,1),xPlus];

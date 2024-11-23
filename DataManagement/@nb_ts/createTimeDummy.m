@@ -52,7 +52,7 @@ function obj = createTimeDummy(obj,nameOfDummy,date,condition)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         condition = '==';
@@ -68,7 +68,9 @@ function obj = createTimeDummy(obj,nameOfDummy,date,condition)
         date2T               = interpretDateInput(obj,date{2});
         dummy                = false(obj.numberOfObservations,1,obj.numberOfDatasets);
         ind1                 = (date1T - obj.startDate) + 1;
+        ind1                 = max(ind1,1);
         ind2                 = (date2T - obj.startDate) + 1;
+        ind2                 = min(ind2,obj.numberOfObservations);
         dummy(ind1:ind2,:,:) = true;
         switch condition
             case '=='

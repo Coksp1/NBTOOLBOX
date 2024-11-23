@@ -23,7 +23,7 @@ function f = nb_struct2functionHandle(structThatRepresentsTheFunctionHandle)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_isStructOfFunctionHandle(structThatRepresentsTheFunctionHandle)
         error('The struct is not possible to convert to function_handle')   

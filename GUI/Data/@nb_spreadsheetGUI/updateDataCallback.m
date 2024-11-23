@@ -16,7 +16,7 @@ function updateDataCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the updated data and assign it to the spreadsheet 
     % (Calling the set.data method which will update the 

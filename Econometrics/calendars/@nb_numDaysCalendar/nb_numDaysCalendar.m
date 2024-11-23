@@ -30,11 +30,11 @@ classdef nb_numDaysCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     properties
         
-        % The frequency of the current calendar.
+        % The frequency of the calendar.
         frequency = 1;
     
         % Number of days into the period.
@@ -86,6 +86,9 @@ classdef nb_numDaysCalendar < nb_calendar
             s = struct('class',class(obj),...
                 'numDays',obj.numDays,...
                 'frequency',obj.frequency);
+            if obj.closed
+                s.closed = obj.closed;
+            end
         end
         
         function name = getName(obj)
@@ -98,6 +101,9 @@ classdef nb_numDaysCalendar < nb_calendar
        
         function obj = unstruct(s)
             obj = nb_numDaysCalendar(s.numDays,s.frequency);
+            if isfield(s,'closed')
+                obj.closed = s.closed;
+            end
         end
         
     end

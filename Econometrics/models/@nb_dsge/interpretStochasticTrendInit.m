@@ -31,7 +31,7 @@ function stInit = interpretStochasticTrendInit(parser,stochasticTrendInit,beta)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(stochasticTrendInit,'function_handle') || ischar(stochasticTrendInit)
         if ischar(stochasticTrendInit)

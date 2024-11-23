@@ -9,7 +9,7 @@ function setZeroLowerBound(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     string = get(hObject,'checked');
     if strcmpi(string,'on')

@@ -29,7 +29,7 @@ function vars = getLHSVars(obj,varsIn)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: Only scalar nb_model_generic object are supported.'])
@@ -54,7 +54,9 @@ function vars = getLHSVars(obj,varsIn)
                 'must be set to a cellstr with all the endogenous/left-hand ',...
                 'side variables that the model uses.'])
         end
-        vars = obj.options.LHSVariables;    
+        vars = obj.options.LHSVariables; 
+    elseif isa(obj,'nb_harmonizer')
+        vars = nb_harmonizeEstimator.getVariables(obj.options);    
     else
         vars = {};
         if isprop(obj,'dependent')
@@ -63,7 +65,7 @@ function vars = getLHSVars(obj,varsIn)
         if isprop(obj,'block_exogenous')
             vars = [vars,obj.block_exogenous.name];
         end
-        if isprop(obj,'endogenous') && ~isa(obj,'nb_dsge')
+        if isprop(obj,'endogenous') && ~(isa(obj,'nb_dsge') || isa(obj,'nb_ecm'))
             vars = [vars,obj.endogenous.name];
         end
         if isprop(obj,'observables')
@@ -74,7 +76,10 @@ function vars = getLHSVars(obj,varsIn)
         end
         if isfield(obj.options,'measurementEqRestriction')
             if ~nb_isempty(obj.options.measurementEqRestriction)
-                vars = [vars,{obj.options.measurementEqRestriction.restricted}];
+                restr = unique({obj.options.measurementEqRestriction.restricted}); 
+                indR  = ~ismember(restr,dep);
+                restr = restr(indR);    
+                vars = [vars,restr];
             end
         end
     end

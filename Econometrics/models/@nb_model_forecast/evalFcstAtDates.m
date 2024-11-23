@@ -58,7 +58,7 @@ function [evaluation,errorDates] = evalFcstAtDates(obj, dates, type, density, qu
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: This function takes only one nb_model_generic object as input. Not a vector!'])
@@ -196,20 +196,20 @@ function [evaluation,errorDates] = evalFcstAtDates(obj, dates, type, density, qu
     for ii = 1:length(type)
         switch type{ii}
             case 'RMSE'
-                evaluation = nanmean(evaluation,3);
+                evaluation = mean(evaluation,3,'omitnan');
                 evaluation = evaluation.^0.5;
             case {'MSE','MAE'}
-                evaluation = nanmean(evaluation,3);
+                evaluation = mean(evaluation,3,'omitnan');
             case 'ME'
-                evaluation = nanmean(evaluation,3);
+                evaluation = mean(evaluation,3,'omitnan');
             case 'STD'
-                evaluation = nanstd(evaluation,3);
+                evaluation = std(evaluation,1,3,'omitnan');
             case 'EELS'
-                evaluation = exp(nanmean(evaluation));
+                evaluation = exp(mean(evaluation,3,'omitnan'));
             case 'ESLS'
-                evaluation = exp(nansum(evaluation,3));
+                evaluation = exp(sum(evaluation,3,'omitnan'));
             case 'MLS'
-                evaluation = nanmean(evaluation,3);
+                evaluation = mean(evaluation,3,'omitnan');
             otherwise
                 error([mfilename ':: Unsupported forecast evaluation type ' type{ii}])
         end

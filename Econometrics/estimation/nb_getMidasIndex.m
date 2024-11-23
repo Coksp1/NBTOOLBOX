@@ -23,7 +23,7 @@ function ind = nb_getMidasIndex(I,K,E)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     c = cell(E,max(K));
     for ii = 1:E

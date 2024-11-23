@@ -12,7 +12,7 @@ function options = getOptionsFromEstOptions(estOptions)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options = estOptions;
     data    = nb_modelData.getDataAsObject(estOptions);
@@ -39,13 +39,23 @@ function options = getOptionsFromEstOptions(estOptions)
     
     % Delete fields
     if isfield(options,'class')
+        className = options.class;
+    else
+        className = '';
+    end
+    
+    if not(isempty(className) || strcmpi(className,'nb_manualModel'))
         classTemplate  = str2func([options.class, '.template']);
         optionsTemp    = classTemplate();
         delOptionNames = setdiff(fieldnames(options),fieldnames(optionsTemp));
     else
         delOptionNames = {'estim_end_ind','estim_start_ind','recursive_estim_start_ind',...
-                          'dataStartDate','dataVariables','class','context','name'};
+                          'dataStartDate','dataVariables','class','context','name','shift'};
     end
     options = nb_rmfield(options,delOptionNames);
-
+    if isfield(options,'condDB') && isfield(options,'condDBVariables')
+        options.condDB = nb_data(options.condDB,'',1,options.condDBVariables);
+        options        = rmfield(options,'condDBVariables');
+    end
+        
 end

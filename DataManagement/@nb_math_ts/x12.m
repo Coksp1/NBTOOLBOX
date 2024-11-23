@@ -119,7 +119,7 @@ function varargout = x12(obj,range,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Transform to a tseries object and use the method x12 of that
     % class. (The IRIS package is needed)

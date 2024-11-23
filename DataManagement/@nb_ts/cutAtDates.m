@@ -19,7 +19,7 @@ function obj = cutAtDates(obj,endDates)
 % 
 % Written by Kenneth S. Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     siz = size(endDates);
     if siz(1) ~= obj.numberOfDatasets

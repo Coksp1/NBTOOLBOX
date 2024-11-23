@@ -12,7 +12,7 @@ function [stackedFirst,initN,varsN] = getStackedFirst(eqs,matches,pars,paramN,va
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nEqs = size(eqs,1);
     

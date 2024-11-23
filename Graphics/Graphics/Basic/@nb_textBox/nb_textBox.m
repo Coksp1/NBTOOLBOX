@@ -31,7 +31,7 @@ classdef nb_textBox < nb_textAnnotation & nb_movableAnnotation & nb_lineAnnotati
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 

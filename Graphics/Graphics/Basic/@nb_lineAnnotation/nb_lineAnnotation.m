@@ -27,7 +27,7 @@ classdef (Abstract) nb_lineAnnotation < handle
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %==============================================================
     % Properties of the class 

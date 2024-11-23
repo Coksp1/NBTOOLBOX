@@ -21,7 +21,7 @@ function obj = coth(obj)
 % 
 % Written by Andreas Haga Raavand
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.data = coth(obj.data);
 

@@ -5,7 +5,7 @@ function str = nb_func2Cellstr(func)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~ischar(func)
         str = func2str(func);

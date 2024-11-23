@@ -13,7 +13,7 @@ function [YDRAW,start,finish,indY,startEst] = makeArtificial(model,options,resul
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_sa')
         ind = ismember(model.endo,options.dataVariables);
@@ -76,6 +76,9 @@ function [YDRAW,start,finish,indY,startEst] = makeArtificial(model,options,resul
             startEst = startEst + nLags;
         end
         endo = [dep,nb_cellstrlag(dep,nLags,'varFast')];
+    elseif strcmpi(model.class,'nb_sa')
+        numEndo  = length(options.dependent);
+        endo     = strrep(model.endo(1:numEndo),'_lead1','');
     else
         endo = model.endo;
     end

@@ -43,7 +43,7 @@ classdef nb_var < nb_model_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -110,7 +110,7 @@ classdef nb_var < nb_model_generic
                 error('This method only handle a scalar nb_model_name object.')
             end
             if ~nb_isempty(obj.options.prior)
-                name = 'B_VAR';
+                name = ['B_VAR_', upper(obj.options.prior.type)];
             else
                 if strcmpi(obj.options.estim_method,'ml')
                     name = 'ML_VAR';   
@@ -178,6 +178,7 @@ classdef nb_var < nb_model_generic
         varargout = solveRecursive(varargin)
         varargout = stateSpace(varargin)
         varargout = template(varargin)
+        varargout = priorHelp(varargin)
         varargout = priorTemplate(varargin)
         varargout = help(varargin)
         

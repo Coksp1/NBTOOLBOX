@@ -17,9 +17,12 @@ function obj = unstruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = nb_ts();
+    if isempty(s)
+        return;
+    end
     if isempty(s.data)
         return;
     end

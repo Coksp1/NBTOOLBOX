@@ -47,7 +47,7 @@ function obj = ecdf(obj,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if obj.numberOfDatasets > 1
         error([mfilename ':: This method does not handle a multi-paged nb_data object.'])

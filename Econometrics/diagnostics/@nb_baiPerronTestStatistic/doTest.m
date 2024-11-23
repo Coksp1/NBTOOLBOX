@@ -18,7 +18,7 @@ function obj = doTest(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
             
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(obj.data,'nb_ts')
         error([mfilename ':: The data property must be an object of class nb_ts.'])

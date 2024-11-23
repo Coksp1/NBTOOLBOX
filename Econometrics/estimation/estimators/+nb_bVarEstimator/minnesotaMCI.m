@@ -22,7 +22,7 @@ function [beta,sigma] = minnesotaMCI(draws,y,X,initBeta,initSigma,a_prior,V_prio
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [numCoeff,nEq] = size(initBeta);
     N              = size(a_prior,1);

@@ -5,7 +5,7 @@ function [options,maxLags] = addExoLags(options,field)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options.exogenousOrig = options.exogenous;
     lagOption             = options.(field);
@@ -58,6 +58,12 @@ function [options,maxLags] = addExoLags(options,field)
 
         end
 
+        % Secure rows in lagOption
+        for ii = 1:length(lagOption)
+            lagOption{ii} = nb_rowVector(lagOption{ii});
+        end
+        options.(field) = lagOption;
+        
         % Add the lags to the estimation data for later
         [~,indX]              = ismember(exoOrig,options.dataVariables);
         X                     = options.data(:,indX);

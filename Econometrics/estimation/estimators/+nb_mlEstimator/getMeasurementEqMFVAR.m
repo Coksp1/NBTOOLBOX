@@ -12,7 +12,7 @@ function [H,freqD,extraAdded] = getMeasurementEqMFVAR(options,extra)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         extra = 0;
@@ -58,9 +58,9 @@ function [H,freqD,extraAdded] = getMeasurementEqMFVAR(options,extra)
 
     % Initialize the map from state to measured variables
     type = 1;
-    if any(ismember({'diffSummed','diffAverage'},mapping))
+    if any(nb_ismemberi({'diffSummed','diffAverage'},mapping))
         type = 2;
-    elseif any(ismember({'levelSummed','levelAverage'},mapping))
+    elseif any(nb_ismemberi({'levelSummed','levelAverage'},mapping))
         type = 3;
     end
     maxFreq = max(freqD);

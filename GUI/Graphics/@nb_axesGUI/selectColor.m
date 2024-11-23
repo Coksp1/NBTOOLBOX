@@ -9,7 +9,7 @@ function selectColor(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     plotterT = gui.plotter;
     parent   = plotterT.parent;

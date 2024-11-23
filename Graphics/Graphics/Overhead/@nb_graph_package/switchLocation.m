@@ -27,7 +27,7 @@ function switchLocation(obj,identifier1,identifier2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind1 = find(strcmp(identifier1,obj.identifiers),1);
     if isempty(ind1)

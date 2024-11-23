@@ -23,7 +23,7 @@ function [dates,drop] = nb_covidDates(freq)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     switch freq
         case 1

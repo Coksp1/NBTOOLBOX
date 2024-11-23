@@ -139,7 +139,7 @@ function obj = convert(obj,freq,method,varargin)
 %
 % Written by Kenneth S. Paulsen                                   
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         method = '';
@@ -619,13 +619,13 @@ function obj = convert(obj,freq,method,varargin)
                 case 'average'
 
                     if obj.frequency == 365
-                        meanMethod = @nanmean;
+                        meanMethod = @nanmeanlocal;
                     else
                         meanMethod = @mean; 
                     end
                     
                     newData        = nan(length(locations),obj.numberOfVariables,obj.numberOfDatasets);
-                    newData(1,:,:) = nanmean(obj.data(1:locations(1),:,:),1);
+                    newData(1,:,:) = meanMethod(obj.data(1:locations(1),:,:),1);
                     for mm = 2:length(locations)
                         newData(mm,:,:) = meanMethod(obj.data(locations(mm-1) + 1:locations(mm),:,:),1);
                     end
@@ -712,7 +712,7 @@ function obj = convert(obj,freq,method,varargin)
                 case 'sum'
                     
                     if obj.frequency == 365
-                        sumMethod = @nansum;
+                        sumMethod = @nansumlocal;
                     else
                         sumMethod = @sum; 
                     end
@@ -971,4 +971,12 @@ function obj = convert(obj,freq,method,varargin)
         
     end
 
+end
+
+function y = nansumlocal(varargin)
+    y = sum(varargin{:},'omitnan');
+end
+
+function y = nanmeanlocal(varargin)
+    y = mean(varargin{:},'omitnan');
 end

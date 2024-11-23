@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -81,7 +81,15 @@ function res = resursivePrint(results,options,precision)
     else
         startRecursive = options.recursive_estim_start_ind - startInd + 1;
     end
-    stdBeta = results.stdBeta; 
+    stdBeta = results.stdBeta;
+
+    if strcmpi(options.prior.type,'laplace')
+        exo     = [exo,{'lambda'}];
+        numExo  = numExo + 1;
+        beta    = [beta;results.lambda];
+        stdBeta = [stdBeta;results.stdLambda];
+    end    
+
     dates   = start:finish;
     dates   = dates(startRecursive:end)';
     numObs  = size(beta,3);
@@ -148,10 +156,18 @@ function res = normalPrint(results,options,precision)
     % Equation estimation results
     beta         = results.beta;
     stdBeta      = results.stdBeta;
-    numPar       = size(beta,1);
-    numEndo      = size(beta,2);
-    table        = cell(numPar*2 + 1,numEndo + 1);
-    [exo,numExo] = nb_bVarEstimator.getCoeff(options);  
+    [exo,numExo] = nb_bVarEstimator.getCoeff(options); 
+
+    if strcmpi(options.prior.type,'laplace')
+        exo     = [exo,{'lambda'}];
+        numExo  = numExo + 1;
+        beta    = [beta;results.lambda];
+        stdBeta = [stdBeta;results.stdLambda];
+    end
+
+    numPar  = size(beta,1);
+    numEndo = size(beta,2);
+    table   = cell(numPar*2 + 1,numEndo + 1);
 
     % Fill table
     firstRow = options.dependent;

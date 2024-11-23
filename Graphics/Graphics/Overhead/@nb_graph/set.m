@@ -30,7 +30,7 @@ function set(obj,varargin)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nobj = size(obj,2);
     if nobj > 1

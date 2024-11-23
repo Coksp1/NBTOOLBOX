@@ -17,7 +17,7 @@ function results = initialize(options,X)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Spline each series separately, and use ARI model to fill in for
     % leading and trailing nan values.

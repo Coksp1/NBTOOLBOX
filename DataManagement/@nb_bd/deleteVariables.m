@@ -56,7 +56,7 @@ function obj = deleteVariables(obj,deletedVar)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~ischar(deletedVar) && ~iscellstr(deletedVar)
         error([mfilename ':: The second argument (including the object itself) should be a char, char array or a cellstr'])

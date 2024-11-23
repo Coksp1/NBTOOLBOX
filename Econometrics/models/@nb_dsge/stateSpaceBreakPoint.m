@@ -56,11 +56,11 @@ function sol = stateSpaceBreakPoint(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Assign current estimate
     estStruct.beta(estStruct.indPar) = par(~estStruct.isBreakP & ~estStruct.isTimeOfBreakP);
-    
+
     % Solve main model (first regime)
     options                     = estStruct.options;
     [Am,Bm,Cm,~,ss,JAC,sol.err] = nb_dsge.solveOneRegime(options,estStruct.beta);

@@ -9,7 +9,7 @@ function makeGUI(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f = nb_guiFigure(gui.parent.parent,'Method Selection',[65   15  70   30],'modal','off');
     gui.figureHandle = f;

@@ -19,7 +19,7 @@ function obj = nb_graph_init(data)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     type = class(data);
     switch type

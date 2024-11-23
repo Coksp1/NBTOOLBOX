@@ -24,7 +24,7 @@ function obj = horzcatfast(varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = compare(a,b);
     

@@ -24,7 +24,7 @@ function fit = standardDev(fVal,fMin,Q)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fit = 1/(Q + fVal - fMin);
 

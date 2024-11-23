@@ -9,7 +9,7 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Construct coefficents on exogenous
     options = options(end);
@@ -33,12 +33,12 @@ function [coeff,numCoeff] = getCoeff(options)
     
     % Construct the coeff names of measurement matrix
     if strcmpi(options.class,'nb_var')
-        factorNames    = options.dependent(options.reorderLoc);
+        factorNames    = options.dependent(options.invReorderLoc);
         coeffL         = {};
         k              = 0;
         measErrorNames = {};
     elseif strcmpi(options.class,'nb_mfvar')
-        factorNames = options.dependent(options.reorderLoc);
+        factorNames = options.dependent(options.invReorderLoc);
         if any(options.indObservedOnly) && ~isempty(options.mixing)
             factorNames = factorNames(~options.indObservedOnly);
         end

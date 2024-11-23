@@ -13,7 +13,7 @@ function [AR,sigma,ys,us] = estimateARLowFreq(y,H)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % No exogenous
     X = zeros(0,size(y,1));

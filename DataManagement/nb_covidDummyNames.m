@@ -25,7 +25,7 @@ function names = nb_covidDummyNames(freq,covidDummyDates)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_isScalarInteger(freq)
         error([mfilename ':: The freq input must be a scalar integer.'])

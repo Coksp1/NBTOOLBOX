@@ -25,7 +25,7 @@ function s = nb_num2str(d,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isnumeric(d)
         error([mfilename ':: d must be a scalar double'])

@@ -22,7 +22,7 @@ function out = nb_exponentialDecayingSum(in,lambda,dim)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         dim = 1;
@@ -44,7 +44,7 @@ function out = nb_exponentialDecayingSum(in,lambda,dim)
     lambda  = lambda.^(T-1:-1:0);
     lambda  = lambda';
     lambda  = lambda(:,ones(1,N),ones(1,P));
-    out     = nansum(lambda.*in,1);
+    out     = sum(lambda.*in,1,'omitnan');
     
     if dim == 2
         out = permute(out,[2,1,3]);

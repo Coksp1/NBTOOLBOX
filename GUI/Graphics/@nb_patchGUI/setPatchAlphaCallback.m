@@ -9,7 +9,7 @@ function setPatchAlphaCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     patchAlpha = nb_getUIControlValue(hObject,'numeric');
     if isnan(patchAlpha)

@@ -16,11 +16,32 @@ sim     = nb_ts.simulate('2012M1',obs,{'VAR1','VAR2','VAR3'},1,lambda,rho);
 nb_var.help('prior')
 help nb_var.priorTemplate
 
-%% B-VAR (Laplace prior)
+%% Options
+
+constant        = true;
+constantDiffuse = true;
+
+%% B-VAR (OLS)
+
+% Options
+t            = nb_var.template();
+t.data       = sim;
+t.dependent  = {'VAR1','VAR2','VAR3'};
+t.constant   = constant;
+t.nLags      = 2;
+
+% Create model and estimate
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% B-VAR (Laplace prior, mean)
 
 % Setup prior
-prior           = nb_var.priorTemplate('laplace');
-prior.lam2Prior = [];
+prior                 = nb_var.priorTemplate('laplace');
+prior.lambda          = [];
+prior.constantDiffuse = constantDiffuse;
 
 % Options
 t            = nb_var.template();
@@ -28,19 +49,54 @@ t.data       = sim;
 t.dependent  = {'VAR1','VAR2','VAR3'};
 t.draws      = 1000; % Return posterior mean estimate (using posterior sim)
 t.prior      = prior;
-t.constant   = false;
+t.constant   = constant;
 t.nLags      = 2;
 
 % Create model and estimate
-modelRec = nb_var(t);
-modelRec = estimate(modelRec);
-print(modelRec)
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% B-VAR (Laplace prior, mode)
+
+% Setup prior
+prior                 = nb_var.priorTemplate('laplace');
+prior.lambda          = 20; % Must be set in this case!
+prior.constantDiffuse = constantDiffuse;
+
+% Options
+t            = nb_var.template();
+t.data       = sim;
+t.dependent  = {'VAR1','VAR2','VAR3'};
+t.draws      = 1; % Return posterior mode estimate
+t.prior      = prior;
+t.constant   = constant;
+t.nLags      = 2;
+
+% Create model and estimate
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% Density forecast from end of sample
+
+nSteps  = 8;
+modelS  = solve(model);
+modelF  = forecast(modelS,nSteps,...
+            'draws',1,...
+            'parameterDraws',2000);
+plotter = plotForecast(modelF);
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
 
 %% B-VAR (Laplace prior)
 
 % Setup prior
-prior           = nb_var.priorTemplate('laplace');
-prior.lam2Prior = 0.5;
+prior                 = nb_var.priorTemplate('laplace');
+prior.lambda          = 40;
+prior.constantDiffuse = constantDiffuse;
 
 % Options
 t            = nb_var.template();
@@ -48,31 +104,71 @@ t.data       = sim;
 t.dependent  = {'VAR1','VAR2','VAR3'};
 t.draws      = 1000; % Return posterior mean estimate (using posterior sim)
 t.prior      = prior;
-t.constant   = false;
+t.constant   = constant;
 t.nLags      = 2;
 
 % Create model and estimate
-modelRec = nb_var(t);
-modelRec = estimate(modelRec);
-print(modelRec)
+model = nb_var(t);
+model = estimate(model);
+print(model)
 
-%% B-VAR (Laplace prior)
+%% Density forecast from end of sample
+
+nSteps  = 8;
+modelS  = solve(model);
+modelF  = forecast(modelS,nSteps,...
+            'draws',1,...
+            'parameterDraws',2000);
+plotter = plotForecast(modelF);
+set(plotter,'startGraph','2017M1')
+nb_graphSubPlotGUI(plotter);
+
+%% B-VAR (Laplace prior, mean, recursive)
 
 % Setup prior
-prior           = nb_var.priorTemplate('laplace');
-prior.lam2Prior = 0.5;
+prior                 = nb_var.priorTemplate('laplace');
+prior.lambda          = [];
+prior.constantDiffuse = constantDiffuse;
 
 % Options
-t               = nb_var.template();
-t.data          = sim;
-t.dependent     = {'VAR1','VAR2','VAR3'};
-t.draws         = 1000; % Return posterior mean estimate (using posterior sim)
-t.prior         = prior;
-t.constant      = false;
-t.nLags         = 2;
-t.hyperLearning = 1;
+t           = nb_var.template();
+t.data      = sim;
+t.dependent = {'VAR1','VAR2','VAR3'};
+t.draws     = 1000; % Return posterior mean estimate (using posterior sim)
+t.prior     = prior;
+t.constant  = constant;
+t.nLags     = 2;
+
+t.recursive_estim            = true;
+t.recursive_estim_start_date = '2019M1';
 
 % Create model and estimate
-modelRec = nb_var(t);
-modelRec = estimate(modelRec);
-print(modelRec)
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% B-VAR (Laplace prior, mode)
+
+% Setup prior
+prior                 = nb_var.priorTemplate('laplace');
+prior.lambda          = 20; % Must be set in this case!
+prior.constantDiffuse = constantDiffuse;
+
+% Options
+t            = nb_var.template();
+t.data       = sim;
+t.dependent  = {'VAR1','VAR2','VAR3'};
+t.draws      = 1; % Return posterior mode estimate
+t.prior      = prior;
+t.constant   = constant;
+t.nLags      = 2;
+
+t.recursive_estim            = true;
+t.recursive_estim_start_date = '2019M1';
+
+% Create model and estimate
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)

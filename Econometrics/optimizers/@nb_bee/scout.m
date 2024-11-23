@@ -32,7 +32,7 @@ function obj = scout(obj,lowerBound,upperBound,hasConstraints)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nBees = size(obj,1);
     if nBees == 0

@@ -21,7 +21,7 @@ function outString = nb_localVariables(localVariables,inString)
 %
 % Written by Kenneth Sæterhagen Paulsen and Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(inString) || ~isstruct(localVariables)
         outString = inString;

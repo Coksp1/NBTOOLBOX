@@ -45,7 +45,7 @@ function [f_sm,H_t,ef_t,var_f_sm] = f_KFS_fac(options,priors,XY,lambda_sm,beta_s
 % - Returned the smoothed estimates of the one-step-ahead forecast error 
 %   variance.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     lags_f = priors.nLags;
     T      = size(XY,1);

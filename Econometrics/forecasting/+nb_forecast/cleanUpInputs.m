@@ -10,7 +10,7 @@ function inputs = cleanUpInputs(inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     inputs  = nb_rmfield(inputs,{'nObj','index','startInd','endInd','nPeriods','missing',...
                                  'reporting','shift','shiftVariables','waitbar'});

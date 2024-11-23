@@ -38,7 +38,7 @@ function nb_copyToClipboard(x,dec,hSep,vSep)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         vSep = nb_newLine;

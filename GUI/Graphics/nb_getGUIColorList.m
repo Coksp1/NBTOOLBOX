@@ -9,7 +9,7 @@ function endc = nb_getGUIColorList(gui,parent)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(parent,'nb_GUI')
         endc = parent.settings.defaultColors;

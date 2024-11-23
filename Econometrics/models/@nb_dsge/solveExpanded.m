@@ -6,7 +6,7 @@ function tempSol = solveExpanded(model,results,opt,numAntSteps,shockProperties)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isempty(opt.riseObject) % Dealing with RISE
         tempSol = solveRISEExpanded(results,opt,numAntSteps,shockProperties);

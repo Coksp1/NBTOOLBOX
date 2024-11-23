@@ -136,7 +136,7 @@ function [xOpt,fval,exitflag,output,population,scores] = do(fitnessfcn,nvars,Ain
 
 % Copyright (c) 2009-2016, S. Samuel Chen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isstruct(fitnessfcn)
         nvars   = fitnessfcn.nvars ;
@@ -278,7 +278,7 @@ function [xOpt,fval,exitflag,output,population,scores] = do(fitnessfcn,nvars,Ain
                 warning('%s using the ''Vectorized'' computation method.',...
                     msg) ;
             end
-        elseif isempty(ver('distcomp')) % Check for toolbox installed
+        elseif isempty(ver('parallel')) % Check for toolbox installed
             if options.Verbosity > 2 
                 msg = 'Parallel computing toolbox not installed. Problem' ;
                 warning('%s will be computed locally instead.',msg) ;

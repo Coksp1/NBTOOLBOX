@@ -1,4 +1,5 @@
-function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,timeTrend,prior,restrictions,waitbar)
+function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,...
+    constantAR,timeTrend,prior,restrictions,waitbar)
 % Syntax:
 %
 % beta = nb_bVarEstimator.glp(draws,y,x,nLags,...
@@ -64,7 +65,7 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 10
         waitbar = 0;
@@ -86,7 +87,8 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
     end
 
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the Giannone, Lenza and Primiceri (2014) prior.'])
+        error(['Block exogenous variables cannot be declared with the ',...
+            'Giannone, Lenza and Primiceri (2014) prior.'])
     end
     
     S_scale = 1;
@@ -115,17 +117,6 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
     Vc      = prior.Vc;
     ARcoeff = prior.ARcoeff;
     
-    % Prior mean on VAR regression coefficients
-    %------------------------------------------
-    A_prior = [zeros(nExo,numDep); ARcoeff*eye(numDep); zeros((nLags-1)*numDep,numDep)];   
-    a_prior = A_prior(:);
-    if isfield(prior,'coeffInt')
-        % Specific priors, see nb_estimator.getSpecificPriors
-        p               = prior.coeffInt;
-        a_prior(p(:,1)) = p(:,2);
-    end
-    A_prior = reshape(a_prior,[numCoeff,numDep]);
-    
     % Minnesota Variance on VAR regression coefficients
     %--------------------------------------------------
     TrawAR = Traw;
@@ -146,6 +137,22 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
     else
         yT = y;
     end
+
+    % Prior mean on VAR regression coefficients
+    %------------------------------------------
+    if isnan(ARcoeff)
+        ARcoeffEach = nb_bVarEstimator.getARCoeffs(yT,TrawAR,constantAR,timeTrend,prior.indCovid);
+        A_prior     = [zeros(nExo,numDep); diag(ARcoeffEach); zeros((nLags-1)*numDep,numDep)];  
+    else
+        A_prior     = [zeros(nExo,numDep); ARcoeff*eye(numDep); zeros((nLags-1)*numDep,numDep)];  
+    end   
+    a_prior = A_prior(:);
+    if isfield(prior,'coeffInt')
+        % Specific priors, see nb_estimator.getSpecificPriors
+        p               = prior.coeffInt;
+        a_prior(p(:,1)) = p(:,2);
+    end
+    A_prior = reshape(a_prior,[numCoeff,numDep]);
     
     % Now get residual variances of univariate autoregressions. 
     % Here we just run the AR(1) model on each equation, ignoring the 
@@ -159,12 +166,20 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
         yLag_i = nb_mlag(yT(:,ii),1);
         yLag_i = yLag_i(2:TrawAR,:);
         y_i    = yT(2:TrawAR,ii);
+
+        if ~isempty(prior.indCovid)
+            y_i    = y_i(prior.indCovid(2:TrawAR));
+            yLag_i = yLag_i(prior.indCovid(2:TrawAR));
+        end
         
         % OLS estimates of i-th equation
         [~,~,~,~,res] = nb_ols(y_i,yLag_i,constantAR,timeTrend);
         s_prior(ii)   = (1./(TrawAR-normFac))*(res'*res);
         
     end
+
+    % Strip observations
+    [y,x,Traw] = nb_bVarEstimator.stripObservations(prior,y,x);
     
     % Setting up the priors (See appendix B of GLP (2017))
     %----------------------------------------------------------------------
@@ -197,12 +212,14 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
     
     if nargout == 1
         % In this case we report the marginal likelihood p(Y)
-        beta = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
+        beta = logMarginalLikelihood(prior,Traw,numDep,y,x,...
+            v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
     else
     
         % Simulate from posterior using Monte carlo integration
         if draws > 1
-            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_post,S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
+            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_post,...
+                S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
         else
             beta  = A_post;
             sigma = S_post/v_post;
@@ -216,16 +233,17 @@ function [beta,sigma,X,posterior,pY] = glp(draws,y,x,nLags,constant,constantAR,t
                                    'a_post',a_post,'S_post',S_post,'v_post',v_post,...
                                    'V_post',V_post,'restrictions',{restrictions});
                 if nargout > 4
-                    pY = logMarginalLikelihood(prior,Traw,numDep,y,x,v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
+                    pY = logMarginalLikelihood(prior,Traw,numDep,y,x,...
+                        v_post - Traw + nLags,A_prior,A_post,s_prior,v_prior,eps);
                 end
             end
         end
         
-    end
-    
-    % Expand to include all zero regressors
-    if any(~indZR)
-        beta = nb_bVarEstimator.expandZR(beta,indZR); 
+        % Expand to include all zero regressors
+        if any(~indZR)
+            beta = nb_bVarEstimator.expandZR(beta,indZR); 
+        end
+        
     end
     
 end
@@ -234,7 +252,8 @@ end
 function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,A_post,s_prior,v_prior,eps)
 
     xx = x'*x;
-    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,A_prior,A_post,s_prior,v_prior,eps);
+    pY = nb_bVarEstimator.logMarginalLikelihood(Traw,numDep,d,xx,...
+        A_prior,A_post,s_prior,v_prior,eps);
     if prior.LR || prior.SC || prior.DIO
         elem = 0;
         if prior.LR || prior.SC
@@ -245,7 +264,8 @@ function pY = logMarginalLikelihood(prior,Traw,numDep,y,x,d,A_prior,A_post,s_pri
         end
         yd   = y(end-elem+1:end,:);
         xd   = x(end-elem+1:end,:);
-        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,A_prior,s_prior,v_prior);
+        norm = nb_bVarEstimator.dummyNormalizationConstant(yd,xd,d,...
+            A_prior,s_prior,v_prior);
         pY   = pY - norm;
     end
     if prior.SVD

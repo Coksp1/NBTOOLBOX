@@ -27,11 +27,11 @@ function obj = pcn(obj,lag,stripNaN)
 % obj = pcn(obj,4); % 4-periods log approx. growth
 %
 % See also:
-% epcn
+% nb_math_ts.epcn, nb_math_ts.growth
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         stripNaN = false;
@@ -40,7 +40,6 @@ function obj = pcn(obj,lag,stripNaN)
         end
     end
 
-    obj = growth(obj,lag,stripNaN);
-    obj = obj*100;
+    obj.data = pcn(obj.data,lag,stripNaN);
 
 end

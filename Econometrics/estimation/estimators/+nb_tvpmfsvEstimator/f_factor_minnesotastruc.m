@@ -26,7 +26,7 @@ function F_aux = f_factor_minnesotastruc(f_aux,lags_f,n_f,t,k,p)
 % Edited by Kenneth Sæterhagen Paulsen
 % - Formated the documentation to fit NB toolbox
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % extract the necessary size according to the dimensions of the state-space
     K = (n_f^2)*lags_f;

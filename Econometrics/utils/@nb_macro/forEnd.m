@@ -29,11 +29,11 @@ function [obj,statement] = forEnd(obj,forVar,looped,forStatements)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nb_isOneLineChar(looped)
         try
-            looped = eval(obj,looped); %#ok<EVLC>
+            looped = eval(obj,looped); %#ok<EV2IN>
         catch
             error('nb_macro:forEnd:loop',['Could not interpret the statement to loop; ' looped '.'])
         end

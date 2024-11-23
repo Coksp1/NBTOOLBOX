@@ -17,7 +17,7 @@ function tableAsChar = cell2charTable(table)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     body_format = '';
     dim         = nan(size(table,2) - 1,1);

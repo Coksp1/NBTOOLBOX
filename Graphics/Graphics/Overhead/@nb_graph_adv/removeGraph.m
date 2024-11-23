@@ -15,7 +15,7 @@ function removeGraph(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(obj.plotter,2) < 2
         error([mfilename,':: Cannot reomve a graph when only one graph is stored.'])

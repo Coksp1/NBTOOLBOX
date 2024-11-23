@@ -125,7 +125,7 @@ classdef nb_axes < handle
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % The properties of the class
@@ -194,7 +194,7 @@ classdef nb_axes < handle
         % only plotting a image of one page. Must be given as n x 3
         % double or a one line char with the path to a MAT file
         % containing the colormap. It will also set the colors used for 
-        % the nb_gradedFanChart class.
+        % the nb_gradedFanChart and nb_heatmap classes.
         %
         % For an example of a supported MAT file see:
         % - ...\Examples\Graphics\colorMapNB.mat
@@ -254,6 +254,9 @@ classdef nb_axes < handle
         % 'on' | {'off'} ; If 'on' grid lines will be added
         grid                    = 'off';                    
         
+        % As a 1x3 double. Sets the color of the axes major grid lines. 
+        gridColor               = [0.1500,0.1500,0.1500];
+         
         % '-' | '--' | {':'} | '-.' | 'none'. Line style used to 
         % draw grid lines. The line style is a string consisting of 
         % a character, in quotes, specifying solid lines (-), 
@@ -337,7 +340,10 @@ classdef nb_axes < handle
         shading                 = 'none'; 
         
         % {'in'} | 'out'. Direction of tick marks
-        tickDir                 = 'in';  
+        tickDir                 = 'in';
+        
+        % Tick length in normalized units. As a 1x2 double.
+        tickLength              = [0.015,0.015];
         
         % The handle to the title placed right above the axes. An 
         % nb_title handle. 
@@ -383,6 +389,10 @@ classdef nb_axes < handle
         % The labels of the tick marks. Either a cellstr array or a 
         % double vector
         xTickLabel              = {};                       
+        
+        % Set the interpreter of the x-axis tick labels. {'text'}, 'none' 
+        % or 'latex'.
+        xTickLabelInterpreter   = 'tex';
         
         % The location of the x-axis tick marks labels.
         % Either {'bottom'} | 'top' | 'baseline'. 
@@ -459,6 +469,10 @@ classdef nb_axes < handle
         % The labels of the tick marks (both or only left). Either
         % a cellstr array or a double vector
         yTickLabel              = {}; 
+        
+        % Set the interpreter of the y-axis tick labels. {'text'}, 'none' 
+        % or 'latex'.
+        yTickLabelInterpreter   = 'tex';
         
         % The labels of the tick marks (only right). Either a 
         % cellstr array or a double vector
@@ -710,6 +724,16 @@ classdef nb_axes < handle
             obj.grid = value;
         end
         
+        function set.gridColor(obj,value)
+            if ~nb_isColorProp(value)
+                error([mfilename ':: The color property must be'...
+                    ' set to either ''none'' or a valid'...
+                    ' property value (RGB vector or a MATLAB'...
+                    ' predefined name).'])
+            end
+            obj.gridColor = value;
+        end
+        
         function set.gridLineStyle(obj,value)
             if ~nb_islineStyle(value)
                 error([mfilename ':: The gridLineStyle property must be'...
@@ -842,12 +866,19 @@ classdef nb_axes < handle
         end
         
         function set.tickDir(obj,value)
-            if ~any(ismember({'in','out'},value)) && ...
+            if ~any(ismember({'in','out','none'},value)) && ...
                     nb_isOneLineChar(value)
                 error([mfilename ':: The tickDir property must be set'...
                     ' to either ''out'' or ''in'' (default).'])
             end
             obj.tickDir = value;
+        end
+        
+        function set.tickLength(obj,value)
+            if ~all(ismember([1 2],size(value))) && ~isa(value,'double')
+                error('The tickLength property must be given as a 1x2 double.')
+            end
+            obj.tickLength = value;
         end
         
         %         function set.title(obj,value)
@@ -1120,7 +1151,16 @@ classdef nb_axes < handle
                 value = nb_axes.defaultColorMap();
             else
                 if ischar(obj.colorMap)
-                    value = nb_load(value);
+                    try
+                        value = nb_load(value);
+                    catch Err
+                        try
+                            cMapFunc = str2func(obj.colorMap);
+                            value    = cMapFunc();
+                        catch
+                            rethrow(Err)
+                        end    
+                    end
                 end
             end
             
@@ -2226,6 +2266,7 @@ classdef nb_axes < handle
                 'xScale',       obj.xScale,...
                 'yScale',       obj.yScale,...
                 'gridLineStyle',obj.gridLineStyle,...
+                'gridColor',    obj.gridColor,...
                 'UIContextMenu',obj.UIContextMenu,...
                 'xGrid',        obj.grid,...
                 'yGrid',        obj.grid);
@@ -2465,6 +2506,11 @@ classdef nb_axes < handle
             obj.axesHandleRight = axes('units',obj.units,'position',obj.position,'parent',par,'color','none','tickDir',obj.tickDir,'yDir',obj.yDirRight,...
                                        'yAxisLocation','right','xAxisLocation','top','visible',obj.visible,'xScale',obj.xScale,...
                                        'yScale',obj.yScaleRight,'UIContextMenu', obj.UIContextMenu,'lineWidth',obj.lineWidth);
+                                   
+            if isprop(obj.axesHandle,'tickLength')
+                set(obj.axesHandle,'tickLength',obj.tickLength);
+                set(obj.axesHandleRight,'tickLength',obj.tickLength);
+            end
              
             if strcmpi(obj.xTickLocation,'top')
                 set(obj.axesHandle,'xTick',[]);
@@ -2589,9 +2635,11 @@ classdef nb_axes < handle
             %--------------------------------------------------------------
             % Add the grid lines
             %--------------------------------------------------------------
-            set(obj.axesHandle,'gridLineStyle',obj.gridLineStyle,...
-                               'xGrid',obj.grid,...
-                               'yGrid',obj.grid);
+            set(obj.axesHandle,...
+               'gridLineStyle',obj.gridLineStyle,...
+               'gridColor',obj.gridColor,...
+               'xGrid',obj.grid,...
+               'yGrid',obj.grid);
             
             % Do we want the axes?
             %--------------------------------------------------------------
@@ -2648,7 +2696,7 @@ classdef nb_axes < handle
                     xx   = pos(1) + (xx - obj.xLim(1))*(pos(3)/(diff(obj.xLim)));
                     l    = zeros(1,length(obj.xTick) + 1);
                     for ii = 1:length(obj.xTick)
-                        l(ii) = annotation(fig,'line',[xx(ii),xx(ii)],[base, base + 0.015],'color',[0,0,0]);                            
+                        l(ii) = annotation(fig,'line',[xx(ii),xx(ii)],[base, base + obj.tickLength(1)],'color',[0,0,0]);                            
                     end
 
                     l(end) = line(obj.xLim,[baseValue baseValue],'color',[0 0 0],'parent',axH);
@@ -3077,6 +3125,7 @@ classdef nb_axes < handle
                         t(ii) = text(xx(ii),y(ii),xTL{ii},...
                                 'HorizontalAlignment'  ,alignment,...
                                 'VerticalAlignment'    ,vAlignment,...
+                                'interpreter'          ,obj.xTickLabelInterpreter,...
                                 'fontWeight'           ,obj.fontWeight,...
                                 'fontName'             ,obj.fontName,...
                                 'fontUnits'            ,fontU,...
@@ -3162,6 +3211,7 @@ classdef nb_axes < handle
                         t(ii) = text(x,yTickss(ii),yTL{ii},...
                                     'horizontalAlignment'  ,'right',...
                                     'verticalAlignment'    ,'middle',...
+                                    'interpreter'          ,obj.yTickLabelInterpreter,...
                                     'fontName'             ,obj.fontName,...
                                     'fontWeight'           ,obj.fontWeight,...
                                     'fontUnits'            ,fontU,...

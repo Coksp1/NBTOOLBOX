@@ -10,7 +10,7 @@ function reportStatus(obj,state)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     resForDisplay = struct('iteration',obj.iterations,'fval',obj.minFunctionValue);
     update(obj.displayer,obj.minXValue,resForDisplay,state);

@@ -9,7 +9,7 @@ function expandCallback(gui, ~, ~, window)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the new window
     newStart = get(gui.startBox,'string');

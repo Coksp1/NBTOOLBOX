@@ -6,7 +6,7 @@ function options = template()
 % Description:
 %
 % Construct a struct which must be provided to the 
-% nb_archTestStatistic class constructor.
+% nb_ljungBoxTestStatistic class constructor.
 %
 % This structure provided the user the possibility to set different
 % test options.
@@ -17,8 +17,10 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    options = struct();
+    options       = struct();
+    options.nLags = []; 
+    options.type  = 'multivariate';
 
 end

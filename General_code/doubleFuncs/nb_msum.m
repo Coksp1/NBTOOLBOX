@@ -23,7 +23,7 @@ function xout = nb_msum(xin,backward,forward)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [s1,s2,s3] = size(xin);
 
@@ -36,6 +36,6 @@ function xout = nb_msum(xin,backward,forward)
         xback(:,:,:,mm) = [zeros(mm,s2,s3);xin(1:end-mm,:,:)];
     end
 
-    xout = (nansum(xback,4) + xin + nansum(xfor,4)); 
+    xout = (sum(xback,4,'omitnan') + xin + sum(xfor,4,'omitnan')); 
 
 end

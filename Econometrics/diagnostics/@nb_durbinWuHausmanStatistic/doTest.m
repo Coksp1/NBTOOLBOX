@@ -19,7 +19,7 @@ function obj = doTest(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
             
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the estimation results
     if isa(obj.model,'nb_singleEq')

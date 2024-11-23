@@ -34,7 +34,7 @@ function f = skt_pdf(x,a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f = azzalini.dskt(x,a,b,c,d);
     

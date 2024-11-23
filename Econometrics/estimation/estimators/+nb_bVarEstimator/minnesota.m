@@ -60,7 +60,7 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         waitbar = 0;
@@ -113,17 +113,6 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
     a_bar_3 = prior.a_bar_3;
     ARcoeff = prior.ARcoeff;
     
-    % Prior mean on VAR regression coefficients
-    %------------------------------------------
-    priorBeta = [zeros(nExo,numDep); ARcoeff*eye(numDep); zeros((nLags-1)*numDep,numDep)];  %<---- prior mean of ALPHA (parameter matrix) 
-    a_prior   = priorBeta(:);
-    if isfield(prior,'coeffInt')
-        % Specific priors, see nb_estimator.getSpecificPriors
-        p               = prior.coeffInt;
-        a_prior(p(:,1)) = p(:,2);
-    end
-    priorBeta = reshape(a_prior,[numCoeff,numDep]);
-    
     % Minnesota Variance on VAR regression coefficients
     %--------------------------------------------------
     TrawAR = Traw;
@@ -144,6 +133,22 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
     else
         yT = y;
     end
+
+    % Prior mean on VAR regression coefficients
+    %------------------------------------------
+    if isnan(ARcoeff)
+        ARcoeffEach = nb_bVarEstimator.getARCoeffs(yT,TrawAR,constantAR,timeTrend,prior.indCovid);
+        priorBeta   = [zeros(nExo,numDep); diag(ARcoeffEach); zeros((nLags-1)*numDep,numDep)];  %<---- prior mean of ALPHA (parameter matrix)
+    else
+        priorBeta = [zeros(nExo,numDep); ARcoeff*eye(numDep); zeros((nLags-1)*numDep,numDep)];  %<---- prior mean of ALPHA (parameter matrix)
+    end
+    a_prior   = priorBeta(:);
+    if isfield(prior,'coeffInt')
+        % Specific priors, see nb_estimator.getSpecificPriors
+        p               = prior.coeffInt;
+        a_prior(p(:,1)) = p(:,2);
+    end
+    priorBeta = reshape(a_prior,[numCoeff,numDep]);
     
     % Now get residual variances of univariate p_MIN-lag autoregressions. 
     % Here we just run the AR(p) model on each equation, ignoring the 
@@ -158,6 +163,11 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
         yLag_i = yLag_i(nLags+1:TrawAR,:);
         y_i    = yT(nLags+1:TrawAR,ii);
         
+        if ~isempty(prior.indCovid)
+            y_i    = y_i(prior.indCovid(nLags+1:TrawAR));
+            yLag_i = yLag_i(prior.indCovid(nLags+1:TrawAR));
+        end
+
         % OLS estimates of i-th equation
         [~,~,~,~,res] = nb_ols(y_i,yLag_i,constant,timeTrend);
         sigma_sq(ii)  = (1./(TrawAR-normFac))*(res'*res);
@@ -212,6 +222,9 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
         x = [ones(Traw,1), x];
     end
     
+    % Strip observations
+    [y,x,Traw] = nb_bVarEstimator.stripObservations(prior,y,x);
+
     % Expand regressors and remove the variables 
     % restricted to be zero
     %-------------------------------------------
@@ -225,11 +238,13 @@ function [beta,sigma,X,posterior] = minnesota(draws,y,x,nLags,constant,constantA
     if ~strcmpi(method,'default')
         v_post       = Traw - nLags + numDep + 1;
         S_prior      = S_scale*initSigma; % prior scale of SIGMA 
-        [beta,sigma] = nb_bVarEstimator.minnesotaGibbs(draws,y,X,priorBeta,initSigma,a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar);
+        [beta,sigma] = nb_bVarEstimator.minnesotaGibbs(draws,y,X,priorBeta,...
+            initSigma,a_prior,V_prior,S_prior,v_post,restrictions,burn,thin,waitbar);
     else
         v_post       = [];
         S_prior      = [];
-        [beta,sigma] = nb_bVarEstimator.minnesotaMCI(draws,y,X,priorBeta,initSigma,a_prior,V_prior,restrictions);
+        [beta,sigma] = nb_bVarEstimator.minnesotaMCI(draws,y,X,priorBeta,...
+            initSigma,a_prior,V_prior,restrictions);
     end
     
     % Expand to include all zero regressors

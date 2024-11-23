@@ -1,7 +1,7 @@
 function cellEdit(gui,~,event)
 % Callback function when editing the legends    
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = gui.parent;
     if isempty(event.Error)

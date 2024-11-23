@@ -20,7 +20,7 @@ function c = nb_double2cell(d,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     c = cell(size(d));
     for ii = 1:size(d,2)    

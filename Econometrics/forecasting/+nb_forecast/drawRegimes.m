@@ -10,7 +10,7 @@ function [E,X,states,solution] = drawRegimes(y0,model,ss,nSteps,draws,restrictio
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     regimeDraws  = inputs.regimeDraws;
 

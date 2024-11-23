@@ -9,7 +9,7 @@ function save(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.plotter.graphObjects)
         nb_errorWindow('The graph panel is empty and cannot be saved.')

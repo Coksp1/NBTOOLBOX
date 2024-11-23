@@ -5,7 +5,7 @@ function obj = rmfield(obj,field)
 %
 % Description:
 %
-% Remova a field from the nb_struct object.
+% Remove a field from the nb_struct object.
 % 
 % Input:
 % 
@@ -20,7 +20,7 @@ function obj = rmfield(obj,field)
 %
 % Written by Kenneth Sæterhagen Paulsen    
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.s = rmfield(obj.s,field); 
 

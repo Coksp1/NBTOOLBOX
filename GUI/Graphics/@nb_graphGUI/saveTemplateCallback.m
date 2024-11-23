@@ -9,7 +9,7 @@ function saveTemplateCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nb_confirmWindow('Are you sure you want to save the local template?',...
         @no,@(h,e)yes(h,e,gui),[gui.parent.guiName ': Save local template'])

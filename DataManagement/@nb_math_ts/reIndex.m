@@ -29,7 +29,7 @@ function obj = reIndex(obj,date,value)
 %
 % Written by Kenneth S. Paulsen     
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         value = 100;
@@ -52,29 +52,19 @@ function obj = reIndex(obj,date,value)
         else
             % Here we re index to a date with lower frequency 
             % (avarage indexation)
-            switch obj.startDate.frequency 
-                case 2
-                    date  = date.getHalfYear();
-                    extra = 1;
-                case 4
-                    date = date.getQuarter();
-                    extra = 3;
-                case 12
-                    date = date.getMonth();
-                    extra = 11;
-                case 365
-                    date = date.getDay();
-                    if date.leapYear
-                        extra = 365;
-                    else
-                        extra = 364;
-                    end
+            dateHigh = convert(date,obj.startDate.frequency);
+            if obj.startDate.frequency < 52
+                extra = obj.startDate.frequency/date.frequency - 1;
+            elseif obj.startDate.frequency == 52
+                extra = getNumberOfWeeks(date) - 1;
+            else 
+                extra = getNumberOfDays(date) - 1;
             end
-
-            period       = date - obj.startDate + 1;
+            
+            period       = dateHigh - obj.startDate + 1;
             indexPeriods = period:period + extra;
             try
-                indexPeriodData = nanmean(obj.data(indexPeriods,:,:),1);
+                indexPeriodData = mean(obj.data(indexPeriods,:,:),1,'omitnan');
             catch 
                 error('nb_math_ts:reIndex:outsideBounds',[mfilename ':: You cannot index to date which is not part of the objects window!'])
             end

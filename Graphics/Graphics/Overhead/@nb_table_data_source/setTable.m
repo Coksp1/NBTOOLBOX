@@ -20,7 +20,7 @@ function setTable(obj,propertyName,propertyValue)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     set(obj.table,propertyName,propertyValue);
 

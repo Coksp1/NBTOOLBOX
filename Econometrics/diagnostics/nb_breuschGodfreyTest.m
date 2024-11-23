@@ -27,7 +27,7 @@ function [stat,pval] = nb_breuschGodfreyTest(residual,X,lags)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [n, k] = size(X);
     nEq    = size(residual,2);

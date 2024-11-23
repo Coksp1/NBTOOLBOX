@@ -25,7 +25,7 @@ function [cPoint,cAxPoint] = nb_getCurrentPointInAxesUnits(fig,ax)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(fig,'nb_figure')
         hObject = fig.figureHandle;

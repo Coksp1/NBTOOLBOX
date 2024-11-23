@@ -12,7 +12,7 @@ function [x0,P0,Pinf0,H,R,T,A,BQ,G,obs,failed] = getStateSpaceUnstable(alpha,sig
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nStates  = size(H,2)/nDep;
     nExtra   = nStates - nLags;

@@ -30,7 +30,7 @@ function x = meanshift_mode(dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     lb = lb - ms;
     ub = ub - ms;

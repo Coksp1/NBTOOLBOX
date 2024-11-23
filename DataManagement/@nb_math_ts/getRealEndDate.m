@@ -1,7 +1,8 @@
-function realEndDate = getRealEndDate(obj,format)
+function realEndDate = getRealEndDate(obj,format,type)
 % Syntax:
 %
-% realEndDate = getRealEndDate(obj,format)
+% realEndDate = getRealEndDate(obj)
+% realEndDate = getRealEndDate(obj,format,type)
 %
 % Description:
 %
@@ -24,6 +25,8 @@ function realEndDate = getRealEndDate(obj,format)
 %                   the nb_date class:
 %                   > 'nb_date' 
 %
+% - type          : Either 'any' (default) or 'all'.
+%
 % Output:
 % 
 % - realEndData   : The last observation of the object which is not 
@@ -35,16 +38,22 @@ function realEndDate = getRealEndDate(obj,format)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin < 2
-        format = 'default';
+    if nargin < 3
+        type = 'any';
+        if nargin < 2
+            format = 'default';
+        end
     end
 
     isFinite = isfinite(obj.data);
-    isFinite = any(any(isFinite,2),3);
-    first    = find(isFinite,1,'last');
-
+    if strcmpi(type,'all')
+        isFinite = all(all(isFinite,2),3);
+    else
+        isFinite = any(any(isFinite,2),3);
+    end
+    first       = find(isFinite,1,'last');
     realEndDate = obj.startDate + first - 1;
     if ~strcmpi(format,'nb_date')
         realEndDate = realEndDate.toString(format);

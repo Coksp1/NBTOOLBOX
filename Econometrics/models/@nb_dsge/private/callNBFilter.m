@@ -12,7 +12,7 @@ function [obj,out,data_nb_ts] = callNBFilter(obj,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~issolved(obj)
         obj = solve(obj);
@@ -120,7 +120,10 @@ function [obj,out,data_nb_ts] = callNBFilter(obj,inputs)
             if any(strcmpi(inputs.kf_method,{'diffuse','univariate'}))
                 [~,~,~,~,P0,PINF0,failed] = nb_setUpForDiffuseFilter(H,A{1},C{1});
             else
-                CC          = C{1}*C{1}';
+                Cind        = C{1};
+                ind         = ~all(abs(Cind) < inputs.kf_kalmanTol,1);
+                Cind        = Cind(:,ind);
+                CC          = Cind*Cind';
                 [P0,failed] = nb_lyapunovEquation(A{1},CC);
             end
             x0 = obj.solution.ss{1};

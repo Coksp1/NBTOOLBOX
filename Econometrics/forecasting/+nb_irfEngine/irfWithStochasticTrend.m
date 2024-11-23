@@ -10,7 +10,7 @@ function irfData = irfWithStochasticTrend(solution,options,inputs,results)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     periods = inputs.periods;
     shocks  = inputs.shocks;

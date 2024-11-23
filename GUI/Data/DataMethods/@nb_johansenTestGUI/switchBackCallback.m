@@ -9,7 +9,7 @@ function switchBackCallback(gui,~,~)
 % 
 % Written by Eyo Herstad
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     set(gui.panels.optionsPanel,'visible','on');
     set(gui.panels.varSelPanel,'visible','off');

@@ -26,7 +26,7 @@ function xlcell = nb_excelCellOffset(base,x,y)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         y = 0;

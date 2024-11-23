@@ -20,19 +20,13 @@ function obj = today(dayOfWeek)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         dayOfWeek = [];
     end
 
-    c   = clock;
-    y   = str2double(sprintf('%.0f',c(1)));
-    m   = sprintf('%.0f',c(2)+100);
-    m   = str2double(m(2:3));
-    d   = sprintf('%.0f',c(3)+100);
-    d   = str2double(d(2:3));
-    d   = nb_day(d,m,y);
+    d   = nb_day.today();
     obj = d.getWeek(dayOfWeek);
     
 end

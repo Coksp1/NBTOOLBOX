@@ -26,7 +26,7 @@ function p = nb_mvncdf(x,mu,sigma)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [nPoints,nVars] = size(x);
     [smu1,smu2]     = size(mu);

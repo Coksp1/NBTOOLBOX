@@ -22,14 +22,14 @@ function condDB = getCondDB(options,endInd,variables,description)
 %
 % Output:
 % 
-% - X : A T x nVar double. The ordering of the variables is perserved.
+% - X : A T x nVar double. The ordering of the variables is preserved.
 %
 % See also:
 % nb_manualEstimator.estimate
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Prepare conditional information
     if isempty(variables)
@@ -43,9 +43,16 @@ function condDB = getCondDB(options,endInd,variables,description)
         end
         condDB = options.condDB(:,loc);
         if size(condDB,1) < options.nFcstSteps
-            error(['The nFcstSteps option is greater than the number of ',...
-                'observations of the condDB option (' int2str(options.nFcstSteps),...
-                ' vs ' int2str(size(condDB,1)) ')'])
+            if strcmpi(description,'dependent')
+                nExtra = options.nFcstSteps - size(condDB,1);
+                condDB = [condDB; nan(nExtra,size(condDB,2),size(condDB,3))];
+            else
+                error(['The nFcstSteps option is greater than the number of ',...
+                    'observations of the condDB option (' int2str(options.nFcstSteps),...
+                    ' vs ' int2str(size(condDB,1)) ')'])
+            end
+        elseif size(condDB,1) > options.nFcstSteps
+            condDB = condDB(1:options.nFcstSteps,:,:);
         end
         if isfield(options,'exoProj') && ~isempty(options.exoProj)
             

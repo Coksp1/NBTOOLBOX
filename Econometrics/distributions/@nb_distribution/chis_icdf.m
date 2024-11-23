@@ -24,7 +24,7 @@ function x = chis_icdf(p,m)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if any(abs(2*p(:)-1) > 1)
         error([mfilename ':: a probability should be between 0 and 1'])

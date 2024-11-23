@@ -29,7 +29,7 @@ function obj = dance(obj,lowerBound,upperBound)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nBees  = size(obj,1);
     if nBees == 0

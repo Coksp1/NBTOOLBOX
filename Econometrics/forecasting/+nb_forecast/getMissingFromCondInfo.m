@@ -11,7 +11,7 @@ function [nowcast,missing] = getMissingFromCondInfo(options,inputs,restrictions,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(restrictions.Y,3) > 1
         % If we produce recursive conditional forecast we are not yet able

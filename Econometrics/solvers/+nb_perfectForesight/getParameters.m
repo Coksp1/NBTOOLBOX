@@ -9,7 +9,7 @@ function [paramN,paramNS,pars] = getParameters(parser)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [paramN,paramNS,pars] = nb_createGenericNames(parser.parameters,'pars'); 
     

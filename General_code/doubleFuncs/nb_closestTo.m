@@ -28,7 +28,7 @@ function m = nb_closestTo(X,x,dim,method)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(x,dim) ~= 1
         error([mfilename ':: x must have size 1 in the dimension dim'])

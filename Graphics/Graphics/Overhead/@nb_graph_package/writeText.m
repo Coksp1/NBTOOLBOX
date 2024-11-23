@@ -45,7 +45,7 @@ function writeText(obj,folder,language,index,includeFigureNumber,singleFolder,la
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if nargin < 8
         skipConfirmation = false;
@@ -202,13 +202,23 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
             if isa(graphObj,'nb_graph_adv')
 
                 oldLanguage = graphObj.plotter(1).language;
-                for jj = 1:size(graphObj.plotter)
+                for jj = 1:length(graphObj.plotter)
                     graphObj.plotter(jj).language = language;
                 end
                 [numStr,counter]  = nb_getFigureNumbering(graphObj,number,counter);
                 figureTitle       = graphObj.(figTitleProperty);
-                figureTitle       = nb_localVariables(graphObj.localVariables,figureTitle);
-                figureTitle       = nb_localFunction(graphObj,figureTitle);
+                try
+                    figureTitle = nb_localVariables(graphObj.localVariables,figureTitle);
+                catch Err
+                    nb_errorWindow(['Could not interpret the local variable ',...
+                        'of the figure title "' fix(figureTitle) '" of the graph ' iden], Err);
+                end
+                try
+                    figureTitle = nb_localFunction(graphObj,figureTitle,true);
+                catch Err
+                    nb_errorWindow(['Could not interpret the local function ',...
+                        'of the figure title "' fix(figureTitle) '" of the graph ' iden], Err)
+                end
                 if isempty(figureTitle)
                     figureTitle{1} = numStr;
                 else
@@ -216,11 +226,31 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
                 end
                 figureTitles{kk} = figureTitle;
                 footers{kk}      = graphObj.(footerProperty);
-                footers{kk}      = nb_localVariables(graphObj.localVariables,footers{kk});
-                footers{kk}      = nb_localFunction(graphObj,footers{kk});
-                tooltips{ii}     = graphObj.(tooltipProperty);
-                tooltips{ii}     = nb_localVariables(graphObj.localVariables,tooltips{ii});
-                tooltips{ii}     = nb_localFunction(graphObj,tooltips{ii});
+                try
+                    footers{kk} = nb_localVariables(graphObj.localVariables,footers{kk});
+                catch Err
+                    nb_errorWindow(['Could not interpret the local variable ',...
+                        'of the footer "' fix(footers{kk}) '" of the graph ' iden], Err)
+                end
+                try
+                    footers{kk} = nb_localFunction(graphObj,footers{kk},true);
+                catch Err
+                    nb_errorWindow(['Could not interpret the local function ',...
+                        'of the footer "' fix(footers{kk}) '" of the graph ' iden], Err)
+                end
+                tooltips{ii} = graphObj.(tooltipProperty);
+                try
+                    tooltips{ii} = nb_localVariables(graphObj.localVariables,tooltips{ii});
+                catch Err
+                    nb_errorWindow(['Could not interpret the local variable ',...
+                        'of the tooltip "' fix(tooltips{ii}) '" of the graph ' iden], Err)
+                end
+                try
+                    tooltips{ii} = nb_localFunction(graphObj,tooltips{ii},true);
+                catch Err
+                    nb_errorWindow(['Could not interpret the local function ',...
+                        'of the tooltip "' fix(tooltips{ii}) '" of the graph ' iden], Err)
+                end
                 saveNames{kk}    = iden;
                 numbering{kk}    = numStr;
                 kk               = kk + 1;
@@ -229,19 +259,43 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
                     % we may have some subtitles of each graph
                     for gg = 1:size(graphObj.plotter,2)
                         figureTitles{kk} = graphObj.plotter(gg).title;
-                        figureTitles{kk} = nb_localVariables(graphObj.localVariables,figureTitles{kk});
-                        figureTitles{kk} = nb_localFunction(graphObj,figureTitles{kk});
-                        saveNames{kk}    = [iden,'_subtitle_' int2str(gg)];
-                        numbering{kk}    = numStr;
-                        kk               = kk + 1;
+                        try
+                            figureTitles{kk} = nb_localVariables(graphObj.localVariables,figureTitles{kk});
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local variable ',...
+                                'of the figure title "' fix(figureTitles{kk}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        try
+                            figureTitles{kk} = nb_localFunction(graphObj,figureTitles{kk},true);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local function ',...
+                                'of the figure title "' fix(figureTitles{kk}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        saveNames{kk} = [iden,'_subtitle_' int2str(gg)];
+                        numbering{kk} = numStr;
+                        kk            = kk + 1;
                     end
                 end
 
                 % Excel footers
                 for gg = 1:size(graphObj.plotter,2)
                     excelFootersOne = graphObj.plotter(gg).(excelFooterProperty);
-                    excelFootersOne = nb_localVariables(graphObj.plotter(gg).localVariables,excelFootersOne);
-                    excelFootersOne = nb_localFunction(graphObj.plotter(gg),excelFootersOne);
+                    try
+                        excelFootersOne = nb_localVariables(graphObj.plotter(gg).localVariables,excelFootersOne);
+                    catch Err
+                        nb_errorWindow(['Could not interpret the local variable ',...
+                            'of the excel footer "' fix(excelFootersOne) '" of the graph ',...
+                            iden,'_subtitle_' int2str(gg)], Err)
+                    end
+                    try
+                        excelFootersOne = nb_localFunction(graphObj.plotter(gg),excelFootersOne,true);
+                    catch Err
+                        nb_errorWindow(['Could not interpret the local function ',...
+                            'of the excel footer "' fix(excelFootersOne) '" of the graph ',...
+                            iden,'_subtitle_' int2str(gg)], Err)
+                    end
                     if gg == 1
                         excelFooters{ii} = excelFootersOne;
                     else
@@ -249,7 +303,7 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
                     end
                 end
                 numberingExcel{ii} = numStr;
-                for jj = 1:size(graphObj.plotter)
+                for jj = 1:length(graphObj.plotter)
                     graphObj.plotter(jj).language = oldLanguage;
                 end
 
@@ -261,14 +315,26 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
                     if isa(plotter,'nb_graph_adv')
 
                         oldLanguage = plotter.plotter(1).language;
-                        for jj = 1:size(plotter.plotter)
+                        for jj = 1:length(plotter.plotter)
                             plotter.plotter(jj).language = language;
                         end
                         
                         [numStr,counter]  = nb_getFigureNumbering(plotter,number,counter);
                         figureTitle       = plotter.(figTitleProperty);
-                        figureTitle       = nb_localVariables(plotter.localVariables,figureTitle);
-                        figureTitle       = nb_localFunction(plotter,figureTitle);
+                        try
+                            figureTitle = nb_localVariables(plotter.localVariables,figureTitle);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local variable ',...
+                                'of the figure title "' fix(figureTitle) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        try
+                            figureTitle = nb_localFunction(plotter,figureTitle,true);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local function ',...
+                                'of the figure title "' fix(figureTitle) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
                         if isempty(figureTitle)
                             figureTitle{1} = numStr;
                         else
@@ -276,22 +342,58 @@ function yes(h,~,obj,folder,language,index,includeFigureNumber,singleFolder,lazy
                         end
                         figureTitles{kk} = figureTitle;
                         footers{kk}      = plotter.(footerProperty);
-                        footers{kk}      = nb_localVariables(plotter.localVariables,footers{kk});
-                        footers{kk}      = nb_localFunction(plotter,footers{kk});
-                        tooltips{ii}     = plotter.(tooltipProperty);
-                        tooltips{ii}     = nb_localVariables(plotter.localVariables,tooltips{ii});
-                        tooltips{ii}     = nb_localFunction(plotter,tooltips{ii});
+                        try
+                            footers{kk} = nb_localVariables(plotter.localVariables,footers{kk});
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local variable ',...
+                                'of the footer "' fix(footers{kk}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        try
+                            footers{kk} = nb_localFunction(plotter,footers{kk},true);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local function ',...
+                                'of the footer "' fix(footers{kk}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        tooltips{ii} = plotter.(tooltipProperty);
+                        try
+                            tooltips{ii} = nb_localVariables(plotter.localVariables,tooltips{ii});
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local variable ',...
+                                'of the tooltip "' fix(tooltips{ii}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        try
+                            tooltips{ii} = nb_localFunction(plotter,tooltips{ii},true);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local function ',...
+                                'of the tooltip "' fix(tooltips{ii}) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
                         
                         excelFootersOne = plotter.plotter.(excelFooterProperty);
-                        excelFootersOne = nb_localVariables(plotter.plotter.localVariables,excelFootersOne);
-                        excelFootersOne = nb_localFunction(plotter.plotter,excelFootersOne);
+                        try
+                            excelFootersOne = nb_localVariables(plotter.plotter.localVariables,excelFootersOne);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local variable ',...
+                                'of the excel footer "' fix(excelFootersOne) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
+                        try
+                            excelFootersOne = nb_localFunction(plotter.plotter,excelFootersOne,true);
+                        catch Err
+                            nb_errorWindow(['Could not interpret the local function ',...
+                                'of the excel footer "' fix(excelFootersOne) '" of the graph ',...
+                                iden,'_subtitle_' int2str(gg)], Err)
+                        end
                         if gg == 1
                             numberingExcel{ii} = numStr;
                             excelFooters{ii}   = excelFootersOne;
                         else
                             excelFooters{ii} = [excelFooters{ii}; {''}; excelFootersOne];
                         end
-                        for jj = 1:size(plotter.plotter)
+                        for jj = 1:length(plotter.plotter)
                             plotter.plotter(jj).language = oldLanguage;
                         end
 
@@ -517,4 +619,13 @@ end
 function out = removeCurlyBrackets(in)
     s   = strrep(in,'{','');
     out = strrep(s,'}','');
+end
+
+%==========================================================================
+function out = fix(in)
+    if iscellstr(in)
+        out = nb_cellstr2String(in, ' ');
+    else
+        out = in;
+    end
 end

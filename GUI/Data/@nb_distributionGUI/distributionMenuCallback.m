@@ -9,7 +9,7 @@ function distributionMenuCallback(gui, ~, ~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     selectedType = nb_getUIControlValue(gui.distributionMenu);    
     if strcmp(selectedType, 'kernel')

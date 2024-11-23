@@ -12,7 +12,7 @@ function [betaDraws,sigmaDraws,estOpt] = bootstrapModel(~,options,results,method
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         forceNewDraws = true;

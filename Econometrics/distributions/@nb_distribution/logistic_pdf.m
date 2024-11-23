@@ -25,7 +25,7 @@ function f = logistic_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f1 = exp((x - m)./k);
     f2 = k.*(1 + f1).^2;

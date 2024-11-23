@@ -23,7 +23,7 @@ function x = invgamma_kurtosis(m,~)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if m > 4
         x = (30*m - 66)/((m - 3)*(m - 4)) + 3;

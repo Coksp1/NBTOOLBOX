@@ -12,7 +12,7 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,n
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     failed   = false;
     nStates  = size(H,2)/nDep;
@@ -75,8 +75,8 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = getStateSpace(alpha,sigma,nDep,n
         % In this case we just take the covariance of the raw data, and
         % assume RW!
         xBal   = x(:,all(~isnan(x),1))';
-        nLags  = size(A,1)/size(x,1) - 1;
-        covMat = nb_autocovMat(xBal,nLags);
+        xBal   = xBal(:,nExo+1:end);
+        covMat = nb_autocovMat(xBal,nStates-1);
         P0     = nb_constructStackedCorrelationMatrix(covMat);
     end
 

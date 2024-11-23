@@ -22,7 +22,7 @@ function d = corr(obj,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     d = nan(obj.dim2,obj.dim2,obj.dim3);
     for ii = 1:obj.dim3

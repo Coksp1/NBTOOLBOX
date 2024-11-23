@@ -144,7 +144,7 @@ function out = parameterDraws(obj,draws,method,output,stable,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         stable = false;
@@ -836,6 +836,10 @@ function out = posteriorParam(obj,inputs)
             end
         end
 
+        if isfield(model,'R')
+            modelTemp.R = model.R;
+        end
+        
         kk = kk + 1;
         if strcmpi(output,'param')
             betaA(:,:,kk)  = betaD(:,:,ii);

@@ -26,7 +26,7 @@ function f = kernel_cdf(x,domain,density)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     binsL = domain(2) - domain(1);
     CDF   = cumsum(density*binsL); 

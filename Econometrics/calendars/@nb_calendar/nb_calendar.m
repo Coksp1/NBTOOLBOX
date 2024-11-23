@@ -18,7 +18,25 @@ classdef nb_calendar < matlab.mixin.Heterogeneous
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen    
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen   
+
+    properties (Dependent=true)
+
+        % Set if the calendar should be closed or open ended, i.e. if the 
+        % endDate input to the getCalendar or getCalendarSec should return 
+        % the calendar dates so that endDate is less than or equal to the 
+        % last calendar date (closed == false), or so that the last 
+        % calendar date is less than or equal to the endDate input 
+        % (closed == true).
+        closed
+
+    end
+
+    properties (Access=protected)
+
+        closedInternal = false;
+
+    end
     
     methods (Abstract=true)
         
@@ -87,7 +105,7 @@ classdef nb_calendar < matlab.mixin.Heterogeneous
         name = getName(obj)
         
     end
-    
+
     methods
     
         function s = saveobj(obj)
@@ -103,6 +121,22 @@ classdef nb_calendar < matlab.mixin.Heterogeneous
         
              s = struct(obj);
              
+        end
+
+        function obj = set.closed(obj,value)
+            obj = setClosedInternal(obj,value);
+        end
+
+        function value = get.closed(obj)
+            value = getClosedInternal(obj);
+        end
+
+        function value = getClosedInternal(obj)
+            value = obj.closedInternal;
+        end
+
+        function obj = setClosedInternal(obj,value)
+            obj.closedInternal = value;
         end
         
     end
@@ -161,5 +195,13 @@ classdef nb_calendar < matlab.mixin.Heterogeneous
         end
         
     end
+
+    methods (Static,Sealed,Access=protected)
+
+      function default_object = getDefaultScalarElement
+         default_object = nb_allCalendar;
+      end
+      
+   end
     
 end

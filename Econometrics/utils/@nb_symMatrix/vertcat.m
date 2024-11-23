@@ -27,7 +27,7 @@ function obj = vertcat(a,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj      = a;
     varargin = [{a},varargin];

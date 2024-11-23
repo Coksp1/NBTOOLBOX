@@ -9,7 +9,7 @@ function renameVariableCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the expression to evaluate and the the variable name
     if isequal(get(gui.renamepopup,'value'),1)

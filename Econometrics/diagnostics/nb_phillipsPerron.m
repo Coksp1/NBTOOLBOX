@@ -69,7 +69,7 @@ function [results,model] = nb_phillipsPerron(y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     inputs = parseInput(varargin{:});
 
@@ -114,7 +114,7 @@ function [results,model] = nb_phillipsPerron(y,varargin)
         startDate = '1';
         tempVars  = strcat('Var',strtrim(cellstr(int2str([1:N]')))); %#ok<NBRAK>
         iter      = N;
-        ylag      = lag(y);
+        ylag      = nb_lag(y);
         ydiff     = [nan;diff(y)];
         y         = [y,ylag,ydiff];
         y         = y(2:T,:);
@@ -140,7 +140,7 @@ function [results,model] = nb_phillipsPerron(y,varargin)
         startDate = y.startDate.toString();
         tempVars  = y.variables;
         iter      = y.numberOfVariables;
-        ylag      = lag(y);
+        ylag      = nb_lag(y);
         ylag      = addPostfix(ylag,'_lag1');
         ydiff     = diff(y);
         ydiff     = addPrefix(ydiff,'diff_');

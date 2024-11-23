@@ -27,7 +27,7 @@ function result = nb_callMethodWaitbar(obj,meth,classConst,waitbar,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(waitbar,'nb_waitbar5')
         error([mfilename ':: The waitbar input must be a nb_waitbar5 object.'])

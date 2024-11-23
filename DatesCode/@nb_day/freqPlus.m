@@ -1,6 +1,6 @@
 function obj = freqPlus(obj,periods,freq)
 
-    if ~(isscalar(obj) && isa(obj,'nb_day')) % Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+    if ~(isscalar(obj) && isa(obj,'nb_day')) % Copyright (c) 2024, Kenneth Sæterhagen Paulsen
         error([mfilename ':: The object input must be a scalar nb_day object.'])
     end
     if ~nb_isScalarInteger(periods)

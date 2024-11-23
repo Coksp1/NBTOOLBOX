@@ -9,7 +9,7 @@ function remove = removeBeforeEvaluated(model,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     remove = {};
     if strcmpi(inputs.output,'all') || strcmpi(inputs.output,'full')

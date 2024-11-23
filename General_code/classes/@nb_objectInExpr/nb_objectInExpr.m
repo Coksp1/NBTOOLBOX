@@ -9,7 +9,7 @@ classdef (Abstract) nb_objectInExpr
 % 
 % Written by Kenneth Sæterhagen Paulsen   
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
  
     %======================================================================
     % Public and abstract methods
@@ -21,6 +21,7 @@ classdef (Abstract) nb_objectInExpr
         obj       = denton(obj,z,k,type,d)
         disp(obj)
         obj       = expand(obj,newStartDate,newEndDate,type,warningOff)
+        obj       = expandPeriods(obj,periods,type)
         obj       = extrapolate(obj,toDate,varargin)
         obj       = fillNaN(obj,date)
         obj       = window(obj,startDateWin,endDateWin,pages)

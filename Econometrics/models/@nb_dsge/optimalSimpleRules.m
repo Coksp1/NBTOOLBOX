@@ -73,7 +73,7 @@ function [obj,loss,osr_coeff,std_osr_coeff] = optimalSimpleRules(obj,simpleRules
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handles a scalar nb_dsge object.'])
@@ -105,7 +105,10 @@ function [obj,loss,osr_coeff,std_osr_coeff] = optimalSimpleRules(obj,simpleRules
     parser         = obj.parser;
     parser.optimal = false;
     if ~isfield(parser,'equationsParsed')
-        error([mfilename ':: No model has been parsed! See the nb_dsge.parse method on how to parse the model file.'])
+        error([mfilename ':: No model has been parsed or the number of ',...
+            'equations are equal to the number of endogenous variables (so ',...
+            'you cannot add another equation with the simple rule)! ',...
+            'See the nb_dsge.parse method on how to parse the model file.'])
     end
 
     if ischar(simpleRules)

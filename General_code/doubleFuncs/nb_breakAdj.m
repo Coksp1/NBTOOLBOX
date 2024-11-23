@@ -28,7 +28,7 @@ function d = nb_breakAdj(d,method,indexes)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     d(indexes,:,:) = nan;
     d              = nb_interpolate(d,method);

@@ -40,7 +40,7 @@ function [lambda_sm,beta_sm,beta_t_sm,Q_t_sm,V_t_sm,endo_ff] = f_KFS_params(opti
 % - Changed inputs. Many of them are now calculated inside function
 %   instead.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     warning('off','MATLAB:nearlySingularMatrix');
 
@@ -466,9 +466,9 @@ function [lambda_sm,beta_sm,beta_t_sm,Q_t_sm,V_t_sm,endo_ff] = f_KFS_params(opti
     endo_ff      = NaN(5,T);
     endo_ff(1,:) = priors.l_1_endo_update*l_1m;
     endo_ff(2,:) = priors.l_1_endo_update*l_1q;
-    endo_ff(3,:) = priors.l_1_endo_update*l_2;
-    endo_ff(4,:) = priors.l_1_endo_update*l_3;
-    endo_ff(5,:) = priors.l_1_endo_update*l_4;
+    endo_ff(3,:) = priors.l_2_endo_update*l_2;
+    endo_ff(4,:) = priors.l_3_endo_update*l_3;
+    endo_ff(5,:) = priors.l_4_endo_update*l_4;
     
     warning('on','MATLAB:nearlySingularMatrix');
     

@@ -21,7 +21,7 @@ function obj = updateGivenObsModel(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Update list of endogenous 
     obj.dependent.name        = obj.parser.all_endogenous;

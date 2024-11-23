@@ -21,7 +21,7 @@ function importExcelChangeLog(obj,excelFile)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     data = nb_xlsread(excelFile);
     

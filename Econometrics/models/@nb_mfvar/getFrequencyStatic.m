@@ -12,7 +12,7 @@ function [freq,date] = getFrequencyStatic(estOptions,dateInd)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     % Default frequency
     [start,dFreq] = nb_date.date2freq(estOptions.dataStartDate);

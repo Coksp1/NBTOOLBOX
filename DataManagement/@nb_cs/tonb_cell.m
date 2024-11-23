@@ -21,7 +21,7 @@ function nb_cell_DB = tonb_cell(obj)
 % 
 % Written by Kenneth S. Paulsen      
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     cellMatrix = asCell(obj);
     nb_cell_DB = nb_cell(cellMatrix,obj.dataNames);

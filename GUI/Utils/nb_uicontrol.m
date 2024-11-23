@@ -28,7 +28,7 @@ function obj = nb_uicontrol(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create a MATLAB uicontrol object
     obj = uicontrol(varargin{:});

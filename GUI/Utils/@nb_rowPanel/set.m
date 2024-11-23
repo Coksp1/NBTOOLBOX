@@ -19,7 +19,7 @@ function set(obj,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     props = properties(obj);
     ind   = true(size(varargin));

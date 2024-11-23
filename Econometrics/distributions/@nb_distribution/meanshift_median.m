@@ -30,7 +30,7 @@ function x = meanshift_median(dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = nb_distribution.meanshift_icdf(0.5,dist,param,lb,ub,ms);
 

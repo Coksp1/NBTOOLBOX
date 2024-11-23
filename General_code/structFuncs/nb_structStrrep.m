@@ -27,7 +27,7 @@ function [coeff_out] = nb_structStrrep(coeff_in, old, new)
 %
 % Written by Erling M. Kravik
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         old = 'coeff';

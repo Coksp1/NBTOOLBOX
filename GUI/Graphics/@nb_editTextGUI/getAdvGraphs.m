@@ -9,7 +9,7 @@ function advGraphs = getAdvGraphs(graphStruct)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     graphNames = fieldnames(graphStruct);
     graphCell  = struct2cell(graphStruct);

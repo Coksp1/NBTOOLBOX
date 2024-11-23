@@ -9,7 +9,7 @@ function options = removeLeadingAndTrailingNaN(options)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [test,indX]  = ismember(options.observables,options.dataVariables);
     if any(~test)

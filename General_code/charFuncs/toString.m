@@ -1,4 +1,4 @@
-function string = toString(anyObject)
+function string = toString(anyObject,varargin)
 % Syntax:
 %
 % string = toString(anyObject)
@@ -11,6 +11,11 @@ function string = toString(anyObject)
 % 
 % - anyObject : A double, logical, nb_ts, nb_cs, nb_data or cell.
 % 
+% Optional inputs;
+%
+% - 'limit'   : Limit used for when to convert double array to short hand 
+%               notation. Default is numel(x) == 20.
+%
 % Output:
 % 
 % - string    : A string
@@ -20,16 +25,21 @@ function string = toString(anyObject)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if iscellstr(anyObject) 
         string = nb_cellstr2String(anyObject,', ',' and ');
-    elseif isnumeric(anyObject) && numel(anyObject) == 1
+    elseif isnumeric(anyObject) && isscalar(anyObject)
         string = num2str(anyObject); 
     elseif isnumeric(anyObject)
         
+        limit = 20;
+        if nargin > 1
+            limit = nb_parseOneOptional('limit',limit,varargin{:});
+        end
+            
         [s1,s2,s3] = size(anyObject);
-        if s3 > 1 || numel(anyObject) > 20
+        if s3 > 1 || numel(anyObject) > limit
             string = ['double<' int2str(s1) 'x' int2str(s2) 'x' int2str(s3) '>'];
             return
         end
@@ -48,7 +58,7 @@ function string = toString(anyObject)
             string = [string ']'];
         end
         
-    elseif islogical(anyObject) && numel(anyObject) == 1
+    elseif islogical(anyObject) && isscalar(anyObject)
         string = log2str(anyObject);
     elseif islogical(anyObject)
         

@@ -27,7 +27,7 @@ function obj = uncondForecast(obj,nSteps,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = forecast(obj,nSteps,varargin{:});
     

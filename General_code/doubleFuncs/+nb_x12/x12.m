@@ -56,7 +56,7 @@ function [yData,outData,outp,err,mdl] = x12(data,startdate,dummy,options)
 
 % Copyright (C) 2007-2017 IRIS Solutions Team. All rights reserved.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = find(strcmpi(options.mode,{'mult','add','pseudoadd','logadd','auto'}),1);
     if isempty(ind)

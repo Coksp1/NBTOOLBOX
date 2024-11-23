@@ -17,7 +17,7 @@ function residual = getResidual(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This function is only supported for a scalar nb_model_generic as input'])

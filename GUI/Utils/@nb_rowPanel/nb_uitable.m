@@ -24,7 +24,7 @@ function uih = nb_uitable(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen        
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     uih = nb_uitable(obj.panel,varargin{:});
 

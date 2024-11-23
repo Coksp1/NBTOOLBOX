@@ -22,7 +22,7 @@ function [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = doEmpiricalBayesianM
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if nargin < 10
         func = '';
@@ -37,8 +37,8 @@ function [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = doEmpiricalBayesianM
     s     = find(ind,1);
     e     = find(ind,1,'last');
     if any(~ind(s:e))
-        error([mfilename ':: Cannot do empirical bayesian with missing ',...
-            'observations in the middle of the sample for the prior ' origPrior])
+        error(['Cannot do empirical bayesian with missing observations ',...
+            'in the middle of the sample for the prior ' origPrior])
     end
     yFull    = y(ind,:);
     XFull    = X(ind,:);
@@ -48,7 +48,8 @@ function [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = doEmpiricalBayesianM
     XTemp    = XFull(nLags+1:end,:);
     
     % Get hyperparameters, inital values and bounds
-    [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = nb_bVarEstimator.getInitAndHyperParam(options);
+    [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = ...
+        nb_bVarEstimator.getInitAndHyperParam(options);
 
     % Map the parameter using log transformation
     ind = ~isnan(paramMin);
@@ -64,14 +65,17 @@ function [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = doEmpiricalBayesianM
     % Optimize over hyperparameters
     opt = nb_getDefaultOptimset(options.optimset,options.optimizer);
     if strcmpi(func,'calculateRMSE')
-        fh = @(x)nb_bVarEstimator.calculateRMSE(x,paramMin,paramMax,hyperParam,nCoeff,yTemp,XTemp,yFull,XFull,nLags,options);
+        fh = @(x)nb_bVarEstimator.calculateRMSE(x,paramMin,paramMax,...
+            hyperParam,nCoeff,yTemp,XTemp,yFull,XFull,nLags,options);
     else
         if ~any(strcmpi(origPrior,{'glpMF','nwishartMF'}))
             error(['Unsupported prior type ' options.prior.type ' for empirical bayesian estimation.'])
         end
-        fh = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,paramMin,paramMax,hyperParam,nCoeff,yTemp,XTemp,yFull,XFull,nLags,options);
+        fh = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,paramMin,...
+            paramMax,hyperParam,nCoeff,yTemp,XTemp,yFull,XFull,nLags,options);
     end
-    [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,'Error occured during optimization of hyperparameters.');
+    [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,...
+        'Error occured during optimization of hyperparameters.');
     if ~strcmpi(func,'calculateRMSE')
         pY   = -fVal;
         fVal = -fVal;
@@ -98,6 +102,7 @@ function [betaD,sigmaD,R,ys,XX,posterior,options,fVal,pY] = doEmpiricalBayesianM
     options.nLags      = options.nLags + 1;
     
     % Estimate the model at the found hyperparameters
-    [betaD,sigmaD,R,ys,XX,posterior] = nb_bVarEstimator.doBayesianMF(options,h,nLags,restrictions,y,X,freq,H,mixing);
+    [betaD,sigmaD,R,ys,XX,posterior] = nb_bVarEstimator.doBayesianMF(...
+        options,h,nLags,restrictions,y,X,freq,H,mixing);
 
 end

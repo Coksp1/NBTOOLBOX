@@ -24,7 +24,7 @@ function obj = createSeasonalDummy(obj,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2 
         type = 'uncentered';
@@ -59,6 +59,21 @@ function obj = createSeasonalDummy(obj,type)
     
     if ~isempty(temp)
         error('The dataset already has seasonal dummies of this type');
+    end
+    
+    if obj.numberOfDatasets > 1
+        dummy = dummy(:,:,ones(1,obj.numberOfDatasets));
+    end
+    
+    % Secure that dummy stops at the same time as the latest of the other
+    % series 
+    dummy = double(dummy);
+    isNaN = all(isnan(obj.data),2);
+    for ii = 1:obj.numberOfDatasets
+        last = find(~isNaN(:,:,ii),1,'last');
+        if ~isempty(last)
+            dummy(last+1:end,:,ii) = nan;
+        end
     end
     
     vars = [vars,namesOfDummy];

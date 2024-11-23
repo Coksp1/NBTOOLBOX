@@ -23,12 +23,13 @@ function [value,rest] = nb_parseOneOptional(name,default,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = find(strcmpi(name,varargin));
     if isempty(ind)
         value = default;
     else
+        ind = ind(end); % Use last
         if nargin < ind + 3
             error([mfilename ':: Incorrect number of arguments. Input ''' name ''' must be followed with another input.'])
         end

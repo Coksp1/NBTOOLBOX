@@ -27,7 +27,7 @@ function f = wald_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     z = sqrt(m./x).*(x./k - 1);
     y = -sqrt(m./x).*(x./k + 1);

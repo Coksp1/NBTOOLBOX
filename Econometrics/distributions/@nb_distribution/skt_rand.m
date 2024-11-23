@@ -35,7 +35,7 @@ function draws = skt_rand(nrow,ncol,a,b,c,d)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     draws = azzalini.rskt(nrow*ncol,a,b,c,d);
     draws = reshape(draws,[nrow,ncol]);

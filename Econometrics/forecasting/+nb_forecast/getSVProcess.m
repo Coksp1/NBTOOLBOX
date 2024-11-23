@@ -10,7 +10,7 @@ function s = getSVProcess(options,start,nSteps,fcstOnly)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the stochastic volatility process for the whole estimation
     % sample + forecast horizon

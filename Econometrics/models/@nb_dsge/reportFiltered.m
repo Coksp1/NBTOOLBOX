@@ -38,7 +38,7 @@ function [reported,raw] = reportFiltered(obj,expression,extra,type,normalize,eco
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         econometricians = false;
@@ -72,11 +72,15 @@ function reported = doReporting(obj,raw,reporting,extra)
         if shift.endDate < raw.endDate
             shift = expand(shift,'',raw.endDate,'obs');
         end
-        [ind,indS]     = ismember(shift.variables,variables);
-        indS           = indS(ind);
-        shiftData      = double(window(shift,raw.startDate,raw.endDate));
-        shiftData      = shiftData(:,ind,ones(1,pages));
-        data(:,indS,:) = data(:,indS,:) + shiftData;
+        [ind,indS]      = ismember(shift.variables,variables);
+        indS            = indS(ind);
+        [indM,indMS]    = ismember(shift.variables,strcat(variables,'_multshift'));
+        indMS           = indMS(indM);
+        shiftData       = double(window(shift,raw.startDate,raw.endDate));
+        shiftMultData   = shiftData(:,indM,ones(1,pages));
+        data(:,indMS,:) = data(:,indMS,:).*shiftMultData;
+        shiftData       = shiftData(:,ind,ones(1,pages));
+        data(:,indS,:)  = data(:,indS,:) + shiftData;
     end
     
     % Get other variables not estimated by the filter

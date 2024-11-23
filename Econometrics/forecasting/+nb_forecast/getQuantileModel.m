@@ -9,7 +9,7 @@ function model = getQuantileModel(options,model,quantile)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = options(end).quantile == quantile;
     if ~any(ind)

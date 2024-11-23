@@ -14,7 +14,7 @@ function [eqs,test,leadCLag,endoS] = getLeadLagCore(parser,eqs,endo,exo)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     endoS   = flip(sort(endo),2);
     numEndo = length(endo);

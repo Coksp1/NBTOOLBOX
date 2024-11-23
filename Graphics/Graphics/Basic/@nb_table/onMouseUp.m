@@ -35,7 +35,7 @@ end
 %==========================================================================
 function resizeRow(obj,rowNumber, change)
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Restrict change
     minRowHeight = 0.02;

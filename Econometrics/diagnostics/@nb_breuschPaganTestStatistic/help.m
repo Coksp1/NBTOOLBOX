@@ -20,7 +20,7 @@ function help = help(~,option) %#ok<INUSD>
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Genereate help for the different options
     help = '';

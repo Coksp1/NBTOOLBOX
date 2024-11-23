@@ -30,12 +30,15 @@ function obj = merge2Series(obj,var1,var2,new,method,varargin)
 %
 % Optional input:
 %
-% - 'nLags' : The number of lages used for the methods 'diff' and 'growth'.
-%             Default is 1.
+% - 'nLags'    : The number of lages used for the methods 'diff' and 
+%                'growth'. Default is 1.
 %
-% - 'date'  : The date from where to use the second variable. Either a date
-%             as string or a nb_date object. If empty the merge will take
-%             place where the first variable end + 1 period.
+% - 'date'     : The date from where to use the second variable. Either a 
+%                date as string or a nb_date object. If empty the merge 
+%                will take place where the first variable end + 1 period.
+%
+% - 'backfill' : true or false. Flipp problem, and append the var1 series
+%                backwards in time with observations from var2.
 %
 % Output:
 % 
@@ -52,13 +55,19 @@ function obj = merge2Series(obj,var1,var2,new,method,varargin)
 % obj4 = merge2Series(obj,'Var1','Var2','','diff','nLags',4)
 % obj5 = merge2Series(obj,'Var1','Var2','','level','date','2014Q1')
 %
+% obj          = nb_ts.rand('2012Q1',10,2,3);
+% obj(1:2,1,:) = nan;
+%
+% obj6 = merge2Series(obj,'Var1','Var2','','growth','nLags',1,...
+%           'backfill',true);
+%
 % See also:
 % nb_ts.merge, nb_data.merge, nb_cs.merge
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
-
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
+    
     if nargin < 5
         method = 'level';
         if nargin < 4
@@ -84,6 +93,11 @@ function obj = merge2Series(obj,var1,var2,new,method,varargin)
         if any(strcmp(new,obj.variables))
             error([mfilename ':: The name of the created series is already a variable.'])
         end
+    end
+
+    [backfill,varargin] = nb_parseOneOptional('backfill',false,varargin{:});
+    if ~nb_isLogical(backfill)
+        error([mfilename ':: The ''backfill'' input must be set to a logical true/false.'])
     end
     
     [nLags,varargin] = nb_parseOneOptional('nLags',1,varargin{:});
@@ -115,7 +129,14 @@ function obj = merge2Series(obj,var1,var2,new,method,varargin)
     end
     
     % Do the merging
-    newSeries = series1;
+    if backfill
+        series1   = flip(series1);
+        newSeries = series1;
+        series2   = flip(series2);
+    else 
+        newSeries = series1;
+    end
+
     switch lower(method)
         case 'level'
             for pp = 1:obj.numberOfDatasets
@@ -193,6 +214,10 @@ function obj = merge2Series(obj,var1,var2,new,method,varargin)
             error([mfilename ':: Unsupported method ' method '.'])
     end
     
+    if backfill
+        newSeries = flip(newSeries);
+    end
+
     % Add the new variable
     if set2Var1
         obj.data(:,indV1,:) = newSeries;   

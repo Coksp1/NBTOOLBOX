@@ -9,7 +9,7 @@ function updatePanel(gui,object,firstTime)
 % 
 % Written by Kenneth Sæterhagen Paulsen      
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.panelHandle)
         firstTime = 1;

@@ -72,7 +72,7 @@ function lik = nb_kalmanLikelihoodUnivariateTVPDSGE(par,model,y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)
@@ -124,6 +124,9 @@ function lik = nb_kalmanLikelihoodUnivariateTVPDSGE(par,model,y,varargin)
                 x       = x + KS*nut/FS; 
                 P       = P - KS*KS'/FS;
                 lik(tt) = lik(tt) + log(FS) + (nut*nut/FS);
+            elseif FS < 0 || FINF < 0
+                lik = 1e10;
+                return     
             end
 
         end

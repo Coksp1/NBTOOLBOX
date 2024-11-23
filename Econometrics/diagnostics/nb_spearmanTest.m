@@ -24,7 +24,7 @@ function [tTest,pVal] = nb_spearmanTest(X,beta,resid)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [n,nvar] = size(X);
 

@@ -9,7 +9,7 @@ function dependent = getDependent(results,options) %#ok<INUSD,STOUT>
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: This method is not supported by the nb_statespaceEstimator package.'])
 

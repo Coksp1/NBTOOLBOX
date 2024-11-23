@@ -9,7 +9,7 @@ function addPatch(obj,page)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
             
     if any(strcmpi(obj.plotType,{'radar','pie','image'}))
         return
@@ -56,10 +56,10 @@ function addPatch(obj,page)
                 if ~isempty(obj.variableToPlotX)
                     x = getVariable(obj.DB,obj.variableToPlotX,obj.startGraph,obj.endGraph)';
                 else
-                    x = 1:size(yup);
+                    x = 1:size(yup,1);
                 end
             else
-                x = 1:size(yup);
+                x = 1:size(yup,1);
             end
             x = x(good);
             x = [x(:);flipud(x(:))];

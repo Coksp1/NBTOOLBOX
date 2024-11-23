@@ -12,7 +12,7 @@ function options = modelSelectionAlgorithm(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
         
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tempData   = options.data;
 
@@ -76,7 +76,7 @@ function options = modelSelectionAlgorithm(options)
                 for ii = 1:numDep
                     
                     depLagT = {[options.dependent{ii} '_lag1']};
-                    yLagT   = lag(y(:,ii),1);
+                    yLagT   = nb_lag(y(:,ii),1);
                     [nLags(ii),factors{ii},FlagT,yLagT,depLag{ii}] = lagLengthSelectionAlgorithm(options,y(:,ii),X,FT,startInd+1 + options.maxLagLength,factorsT,yLagT,depLagT);
                     
                     yLag    = [yLag,yLagT]; %#ok<AGROW>

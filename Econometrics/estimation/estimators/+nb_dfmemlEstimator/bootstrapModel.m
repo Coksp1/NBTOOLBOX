@@ -10,7 +10,7 @@ function [betaDraws,factorDraws] = bootstrapModel(options,res,iter)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: It is not possible to bootstrap a nb_fmdyn model estimated ',...
                      'with ''estim_method'' set to ''dfmeml''.'])

@@ -30,7 +30,7 @@ function [SERegression,sumOfSqRes] = nb_SERegression(residual,numCoeff)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     sumOfSqRes   = diag(residual'*residual)';
     T            = size(residual,1);

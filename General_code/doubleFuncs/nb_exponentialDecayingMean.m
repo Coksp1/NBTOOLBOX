@@ -23,7 +23,7 @@ function out = nb_exponentialDecayingMean(in,lambda,dim)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         dim = 1;
@@ -48,7 +48,7 @@ function out = nb_exponentialDecayingMean(in,lambda,dim)
     i         = isnan(in);
     lambda(i) = 0;
     lambda    = bsxfun(@rdivide,lambda,sum(lambda));
-    out       = nansum(lambda.*in,1);
+    out       = sum(lambda.*in,1,'omitnan');
     
     if dim == 2
         out = permute(out,[2,1,3]);

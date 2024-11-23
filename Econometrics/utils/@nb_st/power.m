@@ -22,7 +22,7 @@ function obj = power(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nb_isScalarNumber(obj)
         obj = nb_stParam(nb_num2str(obj,another.precision),obj);

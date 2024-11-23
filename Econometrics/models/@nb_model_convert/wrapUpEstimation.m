@@ -24,7 +24,7 @@ function obj = wrapUpEstimation(obj,res,estOpt)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     model = obj.model;
     model = setResult(model,res);

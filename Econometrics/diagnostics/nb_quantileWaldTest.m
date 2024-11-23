@@ -45,7 +45,7 @@ function [wTest,wProb] = nb_quantileWaldTest(A,c,X,beta,residual,q)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     m     = size(A,1); 
     discr = A*beta - c;

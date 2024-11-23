@@ -60,7 +60,7 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         waitbar = 0;
@@ -82,14 +82,14 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
         error('Cannot apply dummy priors for the DSGE prior')
     end
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the Giannone, Lenza and Primiceri (2014) prior.'])
+        error('Block exogenous variables cannot be declared with the DSGE-VAR prior.')
     end
     
     % Are we dealing with all zero regressors?
     [T,numDep] = size(y);
     [x,indZR]  = nb_bVarEstimator.removeZR(x,constant,timeTrend,numDep,0);
     
-    % Initialize priors
+    % Checking inputs
     %-----------------------
     if timeTrend
         error('The option time_trend is not supported for the prior DSGE!')
@@ -102,6 +102,9 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
     if nExo > constant
         error('Cannot add any other exogenous variables than the constant for the dsge prior.')
     end
+
+    % Strip observations
+    [y,x,T] = nb_bVarEstimator.stripObservations(prior,y,x);
     
     % Priors
     %----------------------------------------------------------------------
@@ -115,7 +118,6 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
     
     % sigma | Y ~ IW(lambda*T*S_prior,v_prior)
     S_prior = prior.lambda*T*(prior.GammaYY - prior.GammaYX*A_prior);
-    %v_prior = T - numCoeff;
     
     % Setting up for posterior draws
     %----------------------------------------------------------------------
@@ -142,12 +144,14 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
     else
     
         if prior.lambda < (numCoeff + numDep)/T
-            error(['Improper value of lambda, must at least be; ' num2str((numCoeff + numDep)/T)])
+            error(['Improper value of lambda, must at least be; ',...
+                num2str((numCoeff + numDep)/T)])
         end
         
         % Simulate from posterior using Monte carlo integration
         if draws > 1
-            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_post,S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
+            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_post,S_post,...
+                a_post,V_post,S_post,v_post,restrictions,waitbar);
         else
             beta  = A_post;
             sigma = S_post/v_post;
@@ -157,22 +161,23 @@ function [beta,sigma,X,posterior,pY] = dsge(draws,y,x,nLags,constant,timeTrend,p
         if nargout > 2
             X = kron(eye(numDep),x);
             if nargout > 3
-                posterior = struct('type','dsge','betaD',beta,'sigmaD',sigma,'dependent',y,...
-                                   'a_post',a_post,'S_post',S_post,'v_post',v_post,...
-                                   'V_post',V_post,'restrictions',{restrictions});
+                posterior = struct('type','dsge','betaD',beta,'sigmaD',sigma,...
+                    'dependent',y,'a_post',a_post,'S_post',S_post,'v_post',v_post,...
+                    'V_post',V_post,'restrictions',{restrictions});
                 if nargout > 4
-                    pY = logMarginalLikelihood(prior,T,numDep,numCoeff,x,S_prior,S_post,V_prior_inv);
+                    pY = logMarginalLikelihood(prior,T,numDep,numCoeff,x,...
+                        S_prior,S_post,V_prior_inv);
                 end
             end
         end
         
+        % Expand to include all zero regressors
+        if any(~indZR)
+            beta = nb_bVarEstimator.expandZR(beta,indZR); 
+        end
+        
     end
-    
-    % Expand to include all zero regressors
-    if any(~indZR)
-        beta = nb_bVarEstimator.expandZR(beta,indZR); 
-    end
-    
+     
 end
 
 %==========================================================================

@@ -2,6 +2,7 @@ function nb_errorWindow(message,Err)
 % Syntax:
 %
 % nb_errorWindow(message)
+% nb_errorWindow(message,Err)
 %
 % Description:
 %
@@ -15,14 +16,14 @@ function nb_errorWindow(message,Err)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         Err = [];
     end
 
     % Create the window
-    f = nb_guiFigure([],'Error',[50 40 100 20],'modal','on');
+    f = nb_guiFigure([],'Error',[40,15,500,250],'modal','on',[],'uifigure');
               
     % Print the error message
     if ~isempty(Err)

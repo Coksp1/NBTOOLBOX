@@ -20,7 +20,7 @@ function c = nb_addFields(obj,fields)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     c = nb_addFields(obj.s,fields); 
 

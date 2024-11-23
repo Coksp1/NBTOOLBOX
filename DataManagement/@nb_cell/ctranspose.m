@@ -22,7 +22,7 @@ function obj = ctranspose(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.data = permute(obj.data,[2,1,3]);
     obj.c    = permute(obj.c,[2,1,3]);

@@ -52,7 +52,7 @@ function nb_saveas(fig,saveName,format,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the MATLAB figure handle
     if isa(fig,'nb_figure')
@@ -188,7 +188,7 @@ function nb_saveas(fig,saveName,format,varargin)
                 'paperPositionMode',    'auto',...
                 'renderer',             'painters', ...
                 'invertHardcopy',       'off');
-            print(matFig,'-depsc','-tiff','-r300',[saveName '.eps'])
+            print(fig,'-depsc','-tiff','-r300',[saveName '.eps'])
 
         case 'jpg'
 

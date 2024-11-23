@@ -9,10 +9,10 @@ function [x,u,v] = nb_kalmanfilter(model,y,z,varargin)
 % below (I.e. d,H,R,T,c,A,B,Q,G):
 %
 % Observation equation:
-% y = d + Hx + Gz + v
+% y(t) = d + H*x(t) + T*z(t) + v(t)
 % 
 % State equation:
-% x = c + Ax_1 + Tz + Bu
+% x(t) = c + A*x(t-1) + G*z(t) + B*u(t)
 %
 % Where u ~ N(0,Q) meaning u is gaussian noise with covariance Q
 %       v ~ N(0,R) meaning v is gaussian noise with covariance R
@@ -65,7 +65,7 @@ function [x,u,v] = nb_kalmanfilter(model,y,z,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(z)
         z = zeros(0,size(y,2));
@@ -80,10 +80,10 @@ function [x,u,v] = nb_kalmanfilter(model,y,z,varargin)
         error([mfilename ':: Model could not be solved.'])
     end
     if isempty(G)
-        G = zeros(size(y,1),size(z,1));
+        G = zeros(size(A,1),size(z,1));
     end
     if isempty(T)
-        T = zeros(size(A,1),size(z,1));
+        T = zeros(size(y,1),size(z,1));
     end
     
     % Loop through the kalman filter iterations
@@ -101,10 +101,10 @@ function [x,u,v] = nb_kalmanfilter(model,y,z,varargin)
     for tt = 1:n
         
         % Prediction for state vector and covariance:
-        xt = A*x0 + T*z(:,tt) + c;
+        xt = A*x0 + G*z(:,tt) + c;
 
         % Prediction for observation vector and covariance:
-        nut  = y(:,tt) - G*z(:,tt) -  H*x0 - d;
+        nut  = y(:,tt) - T*z(:,tt) -  H*x0 - d;
         PHT  = P*HT;
         F    = H*PHT + R;
         if rcond(F) < kalmanTol

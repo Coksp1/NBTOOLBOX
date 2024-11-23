@@ -9,7 +9,7 @@ function beta = expandZR(betaIn,indZR)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     beta            = zeros(size(indZR,2),size(betaIn,2),size(betaIn,3));
     beta(indZR,:,:) = betaIn;

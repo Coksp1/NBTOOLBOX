@@ -12,7 +12,7 @@ function res = doTest(res,options,beta,y,X,residual)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     T                      = size(residual,1);
     [numCoeff,numEq]       = size(beta);

@@ -31,7 +31,7 @@ function f = ast_pdf(x,a,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     y = (x - a)./b; % Standardize
     f = (1/b)*centered_pdf(y,c,d,e);

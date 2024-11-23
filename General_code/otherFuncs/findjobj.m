@@ -139,7 +139,7 @@ function [handles,levels,parentIdx,listing] = findjobj(container,varargin) %#ok<
 %
 % Written by Yair M. Altman
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 % License to use and modify this code is granted freely to all interested, as long as the original author is
 % referenced and attributed as such. The original author maintains the right to be solely associated with this work.

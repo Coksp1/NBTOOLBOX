@@ -29,11 +29,11 @@ function [stat,pval] = nb_LMVARTest(residual,X,j)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [T,p]       = size(residual);
     k           = size(X,2)/p;
-    resLag      = lag(residual,j);
+    resLag      = nb_lag(residual,j);
     ind         = isnan(resLag);
     resLag(ind) = 0;
     Z           = [X,resLag];

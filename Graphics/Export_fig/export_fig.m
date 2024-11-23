@@ -271,7 +271,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
 % 23/09/18: Fixed issue #243: only set non-bold font (workaround for issue #69) in R2015b or earlier; warn if changing font
 % 23/09/18: Workaround for issue #241: don't use -r864 in EPS/PDF outputs when -native is requested (solves black lines problem)
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargout
         [imageData, alpha] = deal([]);
@@ -1066,7 +1066,12 @@ function [fig, options] = parse_args(nout, fig, varargin)
                         try
                             zipFileName = 'https://github.com/altmany/export_fig/archive/master.zip';
                             folderName = fileparts(which(mfilename('fullpath')));
-                            targetFileName = fullfile(folderName, datestr(now,'yyyy-mm-dd.zip'));
+                            try
+                                datePart = [char(datetime('now'),'yyyy-MM-dd'),'.zip'];
+                            catch
+                                datePart = datestr(now,'yyyy-mm-dd.zip');
+                            end
+                            targetFileName = fullfile(folderName, datePart);
                             urlwrite(zipFileName,targetFileName);
                         catch
                             error('Could not download %s into %s\n',zipFileName,targetFileName);

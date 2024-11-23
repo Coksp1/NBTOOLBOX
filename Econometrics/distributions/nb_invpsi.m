@@ -22,7 +22,7 @@ function y = nb_invpsi(x,err)
 %
 % Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         err = eps^(1/2);

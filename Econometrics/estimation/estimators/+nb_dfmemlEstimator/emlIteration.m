@@ -24,7 +24,7 @@ function results = emlIteration(options,results,X)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Run kalman filter
     [alpha0,P0,Pinf0] = nb_dfmemlEstimator.intiKF(results);

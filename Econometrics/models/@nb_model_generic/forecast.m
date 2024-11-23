@@ -543,7 +543,7 @@ function [obj,valid] = forecast(obj,nSteps,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         nSteps = 8;
@@ -797,6 +797,22 @@ function [startDate,endDate,condDB,condDBVars] = parseConditionalInfo(startDate,
            endDate = nb_date.date2freq(endDate);
         end
         
+    elseif isnumeric(condDB)
+        
+        if isempty(condDBVars)
+            error('The condDBVars input cannot be empty if the condDB input is a double.')
+        end
+        if size(condDB,2) ~= length(condDBVars)
+            error(['The number of columns of the condDB input must be equal ',...
+                'to the length of the condDBVars input'])
+        end
+        if ischar(startDate) && ~isempty(startDate)
+           startDate = nb_date.date2freq(startDate);
+        end
+        if ischar(endDate) && ~isempty(endDate)
+           endDate = nb_date.date2freq(endDate);
+        end
+        
     elseif isa(condDB,'nb_ts') 
         
         condDBVars = condDB.variables;
@@ -929,6 +945,9 @@ function [inputsW,startInd,endInd,condDB,condDBVars,shockProps,cores,opt] = pars
         inputs(ii).nObj      = nobj;
         inputs(ii).index     = ii;
         inputs(ii).reporting = {};
+        if ~isfield(inputs(ii),'kalmanFilter')
+            inputs(ii).kalmanFilter = false;
+        end
         if isempty(inputs(ii).kalmanFilter)
             inputs(ii).kalmanFilter = false;
         end

@@ -39,7 +39,7 @@ function [dist,path,pred] = nb_shortestpath(A,u,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~issparse(A)
         A = sparse(A);

@@ -17,7 +17,7 @@ function ret = isIdentified(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [s1,s2,s3] = size(obj);
     ret        = false(s1,s2,s3);

@@ -9,7 +9,7 @@ function options = addSeasonalDummies(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
       
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     startDate       = options.dataStartDate;
     [ind,frequency] = nb_isQorM(startDate);
@@ -27,9 +27,11 @@ function options = addSeasonalDummies(options)
         options.dataVariables = [options.dataVariables,seasVars];
 
         % Add to exogenous variables 
-        options.exogenous           = [seasVars,options.exogenous];
-        options.modelSelectionFixed = [true(1,frequency-1),options.modelSelectionFixed];
-
+        options.exogenous = [seasVars,options.exogenous];
+        if isfield(options,'modelSelectionFixed')
+            options.modelSelectionFixed = [true(1,frequency-1),options.modelSelectionFixed];
+        end
+        
     end
 
 end

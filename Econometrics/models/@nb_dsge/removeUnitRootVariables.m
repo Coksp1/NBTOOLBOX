@@ -23,7 +23,7 @@ function parser = removeUnitRootVariables(parser)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(parser,'equationsParsed')
         nUnitRoot = length(parser.unitRootVars);

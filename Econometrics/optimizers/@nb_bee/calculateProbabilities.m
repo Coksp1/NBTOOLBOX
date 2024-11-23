@@ -43,7 +43,7 @@ function prob = calculateProbabilities(employed,hasConstraints)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if hasConstraints
         nBees        = size(employed,1);

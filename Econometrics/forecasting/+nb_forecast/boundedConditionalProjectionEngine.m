@@ -1,4 +1,5 @@
-function [Emean,Xmean,states,solution] = boundedConditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution,inputs)
+function [Emean,Xmean,states,solution] = boundedConditionalProjectionEngine(...
+    y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution,inputs)
 % Syntax:
 %
 % [Emean,Xmean,states,solution]...
@@ -17,18 +18,24 @@ function [Emean,Xmean,states,solution] = boundedConditionalProjectionEngine(y0,A
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if strcmpi(restrictions.condAssumption,'before')
-        error([mfilename ':: The condAssumption cannot be set to ''after'' when using the bounds input.'])
+    if ~strcmpi(restrictions.condAssumption,'before')
+        error(['The condAssumption cannot be set to ''after'' when ',...
+            'using the bounds input.'])
     end
     
+    % Set up model struct
+    model = struct('A',A,'B',B,'C',C,'Qfunc',[]);
+
     % Identify the shocks given the current restrictions.
-    [Emean,Xmean,states,solution] = nb_forecast.conditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution);
+    [Emean,Xmean,states,solution] = nb_forecast.conditionalProjectionEngine(...
+        y0,model,ss,nSteps,restrictions,solution);
     
     % Produce a conditional forecast
-    [Y,states] = nb_forecast.condShockForecastEngine(y0,A,B,C,ss,Qfunc,Xmean,Emean,states,restrictions,nSteps);
-    Y          = Y';
+    [Y,states] = nb_forecast.condShockForecastEngine(y0,A,B,C,ss,Qfunc,...
+        Xmean,Emean,states,restrictions,nSteps);
+    Y = Y';
     
     % Check if bounds are satisfied
     bounds  = inputs.bounds;
@@ -81,7 +88,8 @@ function [Emean,Xmean,states,solution] = boundedConditionalProjectionEngine(y0,A
     
     % Do we need to do another iteration?
     if newRest
-        [Emean,Xmean,states,solution] = nb_forecast.boundedConditionalProjectionEngine(y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution,inputs);
+        [Emean,Xmean,states,solution] = nb_forecast.boundedConditionalProjectionEngine(...
+            y0,A,B,C,ss,Qfunc,nSteps,restrictions,solution,inputs);
     end
 
 end
@@ -95,8 +103,9 @@ function limits = doHalf(limits,var)
         halfInd             = ceil((ind(end) - ind(1) + 1)/2) + ind(1);
         limits(halfInd:end) = 0; 
     else
-        error([mfilename ':: Cannot use the half option when dealing with a variable that breaches the ',...
-            'bound in two (or more) separate sub-periods. Set half to false for the variable ' var '.'])
+        error(['Cannot use the half option when dealing with a variable ',...
+            'that breaches the bound in two (or more) separate sub-periods. ',...
+            'Set half to false for the variable ' var '.'])
     end
     
 

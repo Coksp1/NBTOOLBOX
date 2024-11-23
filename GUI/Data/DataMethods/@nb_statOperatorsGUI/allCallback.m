@@ -9,7 +9,7 @@ function allCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     value = get(hObject,'value');
     dim   = nb_getUIControlValue(gui.comp.dim,'userdata');

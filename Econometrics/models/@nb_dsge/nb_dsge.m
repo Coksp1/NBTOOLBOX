@@ -99,7 +99,7 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties 
         
@@ -430,11 +430,11 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
        
         function param = getParametersNames(obj)
             
-            if ~nb_isempty(obj.estOptions.M_)
+            if isDynare(obj)
                 M_      = obj.estOptions.M_;
                 param   = struct('name',               {strtrim(cellstr(M_.param_names))},...
                                  'value',              obj.results.beta);
-            elseif ~isempty(obj.estOptions.riseObject)
+            elseif isRise(obj)
                 riseObj = obj.estOptions.riseObject;
                 param   = struct('name',                {riseObj.parameters.name'},...
                                  'value',               obj.results.beta,...
@@ -442,7 +442,7 @@ classdef nb_dsge < nb_model_generic & nb_model_sampling & nb_model_parse
                                  'is_trans_prob',       riseObj.parameters.is_trans_prob',...
                                  'is_measurement_error',riseObj.parameters.is_measurement_error',...
                                  'governing_chain',     riseObj.parameters.governing_chain');
-            elseif ~isempty(obj.estOptions.parser)
+            elseif isNB(obj)
                 
                 if ~isfield(obj.estOptions.parser,'parameters_tex_name')
                     obj.estOptions.parser.parameters_tex_name = strrep(obj.estOptions.parser.parameters,'_','\_');

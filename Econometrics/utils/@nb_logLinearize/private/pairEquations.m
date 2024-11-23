@@ -9,7 +9,7 @@ function obj = pairEquations(obj)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = ~isnan(obj.eqInd);
     if any(ind)

@@ -1,11 +1,11 @@
-function tests = nb_addStars(tests,indNT,indW,indARCH,indAT)
+function tests = nb_addStars(tests,indNT,indW,indARCH,indAT,nLags)
 % Syntax:
 %
-% tests = nb_addStars(results,tests,indNT,indW,indARCH,indAT)
+% tests = nb_addStars(tests,indNT,indW,indARCH,indAT,nLags)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Indicate if significant
     if ~isempty(indNT)
@@ -41,7 +41,7 @@ function tests = nb_addStars(tests,indNT,indW,indARCH,indAT)
     if ~isempty(indARCH)
 
         for jj = 1:size(tests,2)
-            pvalARCHT  = 1 - chi2cdf(str2double(tests{indARCH,jj}),2);
+            pvalARCHT  = 1 - chi2cdf(str2double(tests{indARCH,jj}),nLags);
             if pvalARCHT < 0.1
                 if pvalARCHT < 0.05
                     tests{indARCH,jj} = ['**' tests{indARCH,jj}];
@@ -56,7 +56,7 @@ function tests = nb_addStars(tests,indNT,indW,indARCH,indAT)
     if ~isempty(indAT)
 
         for jj = 1:size(tests,2)
-            pvalAT  = 1 - chi2cdf(str2double(tests{indAT,jj}),2);
+            pvalAT  = 1 - chi2cdf(str2double(tests{indAT,jj}),nLags);
             if pvalAT < 0.1
                 if pvalAT < 0.05
                     tests{indAT,jj} = ['**' tests{indAT,jj}];

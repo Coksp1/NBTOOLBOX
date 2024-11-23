@@ -5,7 +5,7 @@ function outOpt = getEstimationOptions(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Set up the estimator
     %------------------------------------------------------
@@ -23,7 +23,7 @@ function outOpt = getEstimationOptions(obj)
         estim_method = obj.options.estim_method;
         switch lower(estim_method)
 
-            case {'ols','quantile'}
+            case {'ols','quantile','lasso','ridge'}
 
                 % Get estimation options
                 %-----------------------
@@ -47,14 +47,13 @@ function outOpt = getEstimationOptions(obj)
                 tempOpt.addLags = true;
                 
                 if not(nb_iswholenumber(options.nStep) && isscalar(options.nStep))
-                    error([mfilename 'The options.nStep option must be an intger greater than 0.'])
+                    error('The options.nStep option must be an intger greater than 0.')
                 end
                 if options.nStep < 1
-                    error([mfilename 'The options.nStep option must be an intger greater than 0.'])
+                    error('The options.nStep option must be an intger greater than 0.')
                 end
 
-                dep               = obj.dependent.name;
-                tempOpt.dependent = nb_cellstrlead(dep,options.nStep);
+                tempOpt.dependent = obj.dependent.name;
                 tempOpt.exogenous = exo;
                 
                 % Get options from options property
@@ -74,14 +73,9 @@ function outOpt = getEstimationOptions(obj)
                        dataObj = window(dataObj,'','','',options.page);
                    end
                 end
-                if isa(dataObj,'nb_ts')
-                    for ii = 1:tempOpt.nStep
-                        dataObj = extMethod(dataObj,'lead',dep,['_lead' int2str(ii)],ii); % Added leaded variables to data
-                    end
-                end
                 tempOpt.data = dataObj.data;
                 if ~isa(dataObj,'nb_ts')
-                    error([mfilename ':: The nb_sa model must be estimated on time-series models.'])
+                    error('The nb_sa model must be estimated on time-series models.')
                 end
                 tempOpt.dataStartDate = toString(dataObj.startDate);
                 if ~isempty(options.estim_end_date)
@@ -107,7 +101,7 @@ function outOpt = getEstimationOptions(obj)
                 
             otherwise
 
-                error([mfilename ':: The estimation method ' estim_method ' is not supported.'])
+                error(['The estimation method ' estim_method ' is not supported.'])
 
         end
 

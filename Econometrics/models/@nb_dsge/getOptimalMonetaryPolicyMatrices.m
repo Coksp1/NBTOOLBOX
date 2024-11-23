@@ -14,7 +14,7 @@ function [Hlead,H0,Hlag,D] = getOptimalMonetaryPolicyMatrices(Alead,A0,Alag,B,W,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [nMult,nEndo] = size(A0); 
     nExo          = size(B,2);

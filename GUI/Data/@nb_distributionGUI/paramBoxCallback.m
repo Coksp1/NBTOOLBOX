@@ -9,7 +9,7 @@ function paramBoxCallback(gui, ~, ~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     paramBoxes  = findobj(horzcat(gui.paramBoxes{:}), 'visible', 'on');
     paramValues = get(paramBoxes, 'string');

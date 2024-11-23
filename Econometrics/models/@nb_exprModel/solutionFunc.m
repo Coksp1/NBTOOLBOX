@@ -32,7 +32,7 @@ function Z = solutionFunc(Z,t,E,h,beta,depTransFunc,depLagFunc,exoFuncs,nLags,nE
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Predict left hand side expression
     for ii = 1:nDep

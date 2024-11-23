@@ -22,7 +22,7 @@ function [x,fval,exitflag] = test()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options           = nb_abcSolve.optimset('cutLimit',10,'maxSolutions',60,...
                             'maxTime',20,'maxSolutions',1);

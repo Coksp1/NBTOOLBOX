@@ -47,7 +47,7 @@ function Y = nb_computeForecastAnticipatedBP(A,B,C,ss,Y,X,E,states)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     numAntPer = size(C{1},3);
     nSteps    = size(Y,2) - 1;

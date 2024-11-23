@@ -41,7 +41,7 @@ function [obj,funEvals] = initialize(obj,objective,lowerBound,upperBound,objecti
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     funEvals   = 0;
     nBees      = size(obj,1);

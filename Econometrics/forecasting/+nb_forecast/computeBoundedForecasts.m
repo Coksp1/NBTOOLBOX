@@ -10,7 +10,7 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     h = inputs.waitbar;
     if isempty(h)
@@ -25,7 +25,8 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
         % Report current status in the waitbar's message field
         if hasWaitbar
             h.status3 = h.status3 + 1;
-            h.text3   = ['Finished with ' int2str(h.status3) ' of ' int2str(h.maxIterations3) ' draws...'];
+            h.text3   = ['Finished with ' int2str(h.status3) ' of ',...
+                int2str(h.maxIterations3) ' draws...'];
         end
         disp('More than 5 iteration is needed...')
         return
@@ -121,7 +122,8 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
         % Report current status in the waitbar's message field
         if hasWaitbar
             h.status3 = h.status3 + 1;
-            h.text3   = ['Finished with ' int2str(h.status3) ' of ' int2str(h.maxIterations3) ' draws...'];
+            h.text3   = ['Finished with ' int2str(h.status3) ' of '...
+                int2str(h.maxIterations3) ' draws...'];
         end
         return
     end
@@ -135,15 +137,20 @@ function [Y,E] = computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs
     restrictions.X     = nan(nSteps,0);
     restrictions.E     = CTs;
 
+    % Set up model struct
+    model = struct('A',A,'B',B,'C',C,'Qfunc',[]);
+
     % Identify the shocks to match the breached bounds
-    [EE,~,~,solution] = nb_forecast.conditionalProjectionEngine(Y(:,1),A,B,C,ss,[],nSteps,restrictions,solution);
+    [EE,~,~,solution] = nb_forecast.conditionalProjectionEngine(Y(:,1),...
+        model,ss,nSteps,restrictions,solution);
 
     % Cut the sample to match the old one. This is not an innocous
     % assumption!!!
     E = MUs + EE(:,1:size(MUs,2));
 
     % Iterate to we now that the restrictions hold for all periods
-    [Y,E] = nb_forecast.computeBoundedForecasts(A,B,C,ss,YF,restrictions,MUx,MUs,inputs,solution,lower,upper,belowL,aboveL,Y,E,iter+1);
+    [Y,E] = nb_forecast.computeBoundedForecasts(A,B,C,ss,YF,restrictions,...
+        MUx,MUs,inputs,solution,lower,upper,belowL,aboveL,Y,E,iter+1);
              
 end
 
@@ -156,8 +163,9 @@ function limits = doHalf(limits,var)
         halfInd             = ceil((ind(end) - ind(1) + 1)/2) + ind(1);
         limits(halfInd:end) = 0; 
     else
-        error([mfilename ':: Cannot use the half option when dealing with a variable that breaches the ',...
-            'bound in two (or more) separate sub-periods. Set half to false for the variable ' var '.'])
+        error(['Cannot use the half option when dealing with a variable ',...
+            'that breaches the bound in two (or more) separate sub-periods. ',...
+            'Set half to false for the variable ' var '.'])
     end
     
 

@@ -25,7 +25,7 @@ function f = finvgamma_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     xx        = -x;
     xx(xx<=0) = 0.01;

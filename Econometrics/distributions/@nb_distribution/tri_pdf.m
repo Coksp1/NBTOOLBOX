@@ -27,7 +27,7 @@ function f = tri_pdf(x,m,k,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f       = x;
     f(x<d)  = 2.*(x(x<d) - m)./((k-m)*(d-m));

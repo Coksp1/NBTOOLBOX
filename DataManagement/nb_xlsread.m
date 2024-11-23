@@ -63,7 +63,7 @@ function [c,sheets,Excel] = nb_xlsread(filename,sheet,range,transpose,mode,Excel
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         Excel = [];

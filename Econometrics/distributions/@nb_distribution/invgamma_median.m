@@ -23,7 +23,7 @@ function x = invgamma_median(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     try
         x = nb_distribution.invgamma_icdf(0.5,m,k);

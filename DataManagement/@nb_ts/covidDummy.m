@@ -35,7 +35,7 @@ function obj = covidDummy(obj,covidDummyDates)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     start  = obj.startDate;
     finish = obj.endDate;
@@ -48,8 +48,13 @@ function obj = covidDummy(obj,covidDummyDates)
         covidDummyDates        = toString(covidDummyDates);
     else
         drop = 0;
-        if ~iscellstr(covidDummyDates)
-            error([mfilename ':: The covidDummyDates input must be a cellstr if provided.'])
+        if isa(covidDummyDates,'nb_date')
+            if covidDummyDates(1).frequency ~= obj.frequency
+                error('The covidDummyDates input is on the wrong frequency.')
+            end
+            covidDummyDates = toString(covidDummyDates);
+        elseif ~iscellstr(covidDummyDates)
+            error('The covidDummyDates input must be a cellstr if provided.')
         end
     end
     

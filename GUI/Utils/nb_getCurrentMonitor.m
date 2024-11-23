@@ -13,7 +13,7 @@ function currentMonitor = nb_getCurrentMonitor()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     figs = findobj('type','figure');
     if isempty(figs)

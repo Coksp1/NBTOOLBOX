@@ -39,7 +39,7 @@ function [index,calendar] = selectCalendar(obj,modelGroup,start,finish,doRecursi
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         fromResults = false;

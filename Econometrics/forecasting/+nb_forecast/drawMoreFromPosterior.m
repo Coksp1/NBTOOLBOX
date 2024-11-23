@@ -11,7 +11,7 @@ function [extra,betaD,sigmaD,yD,pD] = drawMoreFromPosterior(inputs,coeffDraws)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     yD = [];
     if isfield(coeffDraws,'yD')

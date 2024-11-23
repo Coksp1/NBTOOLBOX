@@ -46,7 +46,7 @@ function [lambda,gamma,bandWidth] = nb_zeroSpectrumEstimation(u,kernel,bandWidth
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     T = size(u,1);
     if ~isempty(bandWithCrit)
@@ -144,7 +144,7 @@ function bandWidth = findBandWith(kernel,u,bandWithCrit)
             
             % Estimate the AR(1) model of the residual
             y   = u(2:end);
-            X   = lag(u);
+            X   = nb_lag(u);
             X   = X(2:end);
             rho = nb_ols(y,X);
             

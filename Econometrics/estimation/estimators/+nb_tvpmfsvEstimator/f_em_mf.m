@@ -124,7 +124,7 @@ A = cell(N,1);
 Xobs = cell(N,1);
 
 % Get unconditional mean of the non-missing values of each series
-mu_init = repmat(nanmean(x),T,1);
+mu_init = repmat(mean(x,'omitnan'),T,1);
 
 % Replace missing values with unconditional mean
 y_em = x;

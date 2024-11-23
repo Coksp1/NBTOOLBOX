@@ -3,7 +3,7 @@ function [res,options] = doFunc(options,Z)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [date,freq] = nb_date.date2freq(options.dataStartDate);
     dof         = options.requiredDegreeOfFreedom*freq;

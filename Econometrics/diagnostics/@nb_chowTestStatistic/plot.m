@@ -17,7 +17,7 @@ function plotter = plot(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     data    = nb_ts(obj.results.chowProb,'',obj.results.breakPoint{1},{'Recursive P-values'});
     plotter = nb_graph_ts(data);

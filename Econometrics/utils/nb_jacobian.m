@@ -25,7 +25,7 @@ function JAC = nb_jacobian(func,x,y)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     m   = size(x,1);
     JAC = nan(m,m);

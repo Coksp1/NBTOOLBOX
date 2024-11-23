@@ -26,7 +26,7 @@ function prior = priorTemplate(type,num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     error([mfilename ':: There are no supported priors for the nb_favar class yet!'])
 

@@ -1,7 +1,7 @@
 function makeGUI(gui)
 % Create the main window  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %------------------------------------------------------
     currentMonitor    = nb_getCurrentMonitor();

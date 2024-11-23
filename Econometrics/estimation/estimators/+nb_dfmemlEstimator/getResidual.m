@@ -11,7 +11,7 @@ function residual = getResidual(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isfield(results,'Z')
         residual = nb_ts();

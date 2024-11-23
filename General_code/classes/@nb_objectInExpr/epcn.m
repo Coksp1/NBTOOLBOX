@@ -20,13 +20,8 @@ function obj = epcn(obj,~,~)
 % 
 % - obj       : An nb_objectInExpr object.
 % 
-% Examples:
-%
-% obj = epcn(obj);   % period-on-period growth
-% obj = epcn(obj,4); % 4-periods growth
-% 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 end

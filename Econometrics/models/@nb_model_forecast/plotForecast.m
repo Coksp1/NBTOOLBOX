@@ -55,7 +55,7 @@ function [plotter,plotFunction2Use] = plotForecast(obj,type,startDate,increment,
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4 
         increment = 1;
@@ -545,7 +545,7 @@ function [plotter,plotFunction2Use] = hairyplotMethod(obj,increment)
 
     data = addPages(data,dataActual);
     if nowcast
-        depM = dep(any(obj.forecastOutput.missing,1));
+        depM = dep(any(obj.forecastOutput.missing(:,ind),1));
         for ii = 1:length(depM)
             data = rename(data,'variable',depM{ii},[depM{ii},' (Including nowcasts)']);
         end

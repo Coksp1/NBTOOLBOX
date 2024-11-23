@@ -195,13 +195,13 @@ classdef nb_cs < nb_dataSource
 % 
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 
     properties (SetAccess=protected,Dependent=true)
 
         % Number of types of the object. As a double. 
-        numberOfTypes = 0;   
+        numberOfTypes;   
         
     end
 
@@ -259,9 +259,9 @@ classdef nb_cs < nb_dataSource
                             rethrow(Err);
                         end
                         
-                        if size(datasets,3) == size(NameOfDatasets,2)
+                        if size(datasets,3) == length(NameOfDatasets)
                             obj           = addDataset(obj,datasets,'',types,variables);
-                            obj.dataNames = NameOfDatasets;
+                            obj.dataNames = nb_rowVector(NameOfDatasets);
                         else
                             rethrow(Err);
                         end

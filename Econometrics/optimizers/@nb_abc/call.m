@@ -10,21 +10,21 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 % 
 % Input:
 % 
-% - fh          : See the dcumentation of the objective property of the 
+% - fh          : See the documentation of the objective property of the 
 %                 nb_abc class. 
 %
-% - init        : See the dcumentation of the initialXValue property of the 
+% - init        : See the documentation of the initialXValue property of the 
 %                 nb_abc class.
 %
-% - lb          : See the dcumentation of the lowerBound property of the 
+% - lb          : See the documentation of the lowerBound property of the 
 %                 nb_abc class.
 %
-% - ub          : See the dcumentation of the upperBound property of the 
+% - ub          : See the documentation of the upperBound property of the 
 %                 nb_abc class.
 %
 % - options     : See the nb_abc.optimset method for more on this input.
 % 
-% - constraints : See the dcumentation of the constraints property of the 
+% - constraints : See the documentation of the constraints property of the 
 %                 nb_abc class.
 %
 % Optional inputs:
@@ -34,16 +34,16 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 %
 % Output:
 % 
-% - x        : See the dcumentation of the minXValue property of the 
+% - x        : See the documentation of the minXValue property of the 
 %              nb_abc class.
 %
-% - fval     : See the dcumentation of the minFunctionValue property of  
+% - fval     : See the documentation of the minFunctionValue property of  
 %              the nb_abc class.
 %
-% - exitflag : See the dcumentation of the exitFlag property of  
+% - exitflag : See the documentation of the exitFlag property of  
 %              the nb_abc class.
 %
-% - hessian  : See the dcumentation of the hessian property of  
+% - hessian  : See the documentation of the hessian property of  
 %              the nb_abc class.
 %
 % Examples:
@@ -56,7 +56,7 @@ function [x,fval,exitflag,hessian] = call(fh,init,lb,ub,options,constraints,vara
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6 
         constraints = [];

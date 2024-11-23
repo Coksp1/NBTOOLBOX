@@ -44,7 +44,7 @@ function obj = set(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin == 1
         return
@@ -177,7 +177,7 @@ function obj = set(obj,varargin)
                         if isa(obj(ii),'nb_mfvar') || isa(obj(ii),'nb_fmdyn') || isa(obj(ii),'nb_midas')
                             obj(ii) = setFrequency(obj(ii),inputValue);
                         else
-                            if isa(obj(ii),'nb_manualModel')
+                            if isa(obj(ii),'nb_manualModel') || isa(obj(ii),'nb_harmonizer')
                                 obj(ii).options.(inputName) = inputValue;
                             else
                                 error(['Bad field name of the options property found; ' inputName])
@@ -386,7 +386,7 @@ function obj = set(obj,varargin)
 
                     otherwise
 
-                        if isa(obj(ii),'nb_manualModel')
+                        if isa(obj(ii),'nb_manualModel') || isa(obj(ii),'nb_manualCalculator')
                             obj(ii).options.(inputName) = inputValue;
                         else
                             ind = find(strcmpi(inputName,fields),1);

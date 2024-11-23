@@ -32,7 +32,7 @@ function getObjectiveFunc = getIRFMatchingFunc(obj,irfs,weights,normFunc)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method only handle a scalar nb_dsge object.'])

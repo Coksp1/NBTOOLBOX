@@ -64,13 +64,13 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         waitbar = true;
     end
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the nwishart prior.'])
+        error('Block exogenous variables cannot be declared with the nwishart prior.')
     end
     
     % Are we dealing with all zero regressors?
@@ -103,12 +103,23 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
             TrawOLS = min(TrawOLS,prior.obsSVD - 1);
         end
     end
-    [A_OLS,~,~,~,r,X] = nb_ols(y(1:TrawOLS,:),x(1:TrawOLS,:));
+
+    yOLS = y(1:TrawOLS,:);
+    xOLS = x(1:TrawOLS,:);
+    if ~isempty(prior.indCovid)
+        yOLS = yOLS(prior.indCovid,:);
+        xOLS = xOLS(prior.indCovid,:);
+    end
+
+    [A_OLS,~,~,~,r,X] = nb_ols(yOLS,xOLS);
     SSE               = r'*r;
     A_prior           = zeros(numCoeff,numDep); 
     a_ols             = A_OLS(:);
     v_prior           = prior.V_scale*ones(size(a_ols,1),1);    
     
+    % Strip observations
+    [y,x,T] = nb_bVarEstimator.stripObservations(prior,y,x);
+
     % Prior on Sigma ~ IW(S_prior,v_prior,)
     if isfield(prior,'S_scale')
         S_scale = prior.S_scale;
@@ -135,12 +146,14 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
     if nargout == 1
         % In this case we report the marginal likelihood p(Y)
         eps  = y - x*A_post;
-        beta = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
+        beta = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,...
+            A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
     else
     
         % Simulate from posterior using Monte carlo integration
         if draws > 1
-            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_OLS,S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
+            [beta,sigma] = nb_bVarEstimator.nwishartMCI(draws,A_OLS,...
+                S_post,a_post,V_post,S_post,v_post,restrictions,waitbar);
         else
             beta  = A_post;
             sigma = S_post/v_post;
@@ -153,15 +166,16 @@ function [beta,sigma,X,posterior,pY] = nwishart(draws,y,x,nLags,constant,timeTre
                                'V_post',V_post,'restrictions',{restrictions});
             if nargout > 4
                 eps = y - x*A_post;
-                pY  = logMarginalLikelihood(prior,T,numDep,y,x,v_post - T + nLags,A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
+                pY  = logMarginalLikelihood(prior,T,numDep,y,x,...
+                    v_post - T + nLags,A_prior,A_post,s_prior,v_prior(1:numCoeff),eps);
             end
         end
         
-    end
-    
-    % Expand to include all zero regressors
-    if any(~indZR)
-        beta = nb_bVarEstimator.expandZR(beta,indZR); 
+        % Expand to include all zero regressors
+        if any(~indZR)
+            beta = nb_bVarEstimator.expandZR(beta,indZR); 
+        end
+        
     end
     
 end

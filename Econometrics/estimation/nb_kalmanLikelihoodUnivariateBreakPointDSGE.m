@@ -80,7 +80,7 @@ function lik = nb_kalmanLikelihoodUnivariateBreakPointDSGE(par,model,y,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the (initial) state space matrices (could depend on the
     % hyperparamters of the model)
@@ -131,15 +131,23 @@ function lik = nb_kalmanLikelihoodUnivariateBreakPointDSGE(par,model,y,varargin)
                 x       = x + KS*nut/FS; 
                 P       = P - KS*KS'/FS;
                 lik(tt) = lik(tt) + log(FS) + (nut*nut/FS);
+            elseif FS < 0 || FINF < 0
+                lik = 1e10;
+                return 
             end
 
         end
+
+        % Remove exogenous with zero impact
+        Ct  = C{states(tt+1)};
+        ind = ~all(abs(Ct) < kalmanTol,1);
+        Ct  = Ct(:,ind);
             
         % Forecast 
         rOld = rank(H*Pinf*H',kalmanTol);
-        x    = ss{states(tt+1)} + A{states(tt+1)}*(x - ss{states(tt+1)});               % x t+1|t = A * x t|t
-        P    = A{states(tt+1)}*P*A{states(tt+1)}' + C{states(tt+1)}*C{states(tt+1)}';   % P t+1|t = A * P t|t * A' + B*B';
-        Pinf = A{states(tt+1)}*Pinf*A{states(tt+1)}';                                   % Pinf t+1|t = A * Pinf t|t * A';
+        x    = ss{states(tt+1)} + A{states(tt+1)}*(x - ss{states(tt+1)});   % x t+1|t = A * x t|t
+        P    = A{states(tt+1)}*P*A{states(tt+1)}' + Ct*Ct';                 % P t+1|t = A * P t|t * A' + B*B';
+        Pinf = A{states(tt+1)}*Pinf*A{states(tt+1)}';                       % Pinf t+1|t = A * Pinf t|t * A';
         
         % Check rank
         r = rank(H*Pinf*H',kalmanTol);
@@ -173,9 +181,14 @@ function lik = nb_kalmanLikelihoodUnivariateBreakPointDSGE(par,model,y,varargin)
 
         end 
 
+        % Remove exogenous with zero impact
+        Ct  = C{states(tt+1)};
+        ind = ~all(abs(Ct) < kalmanTol,1);
+        Ct  = Ct(:,ind);
+
         % Forecast 
-        x = ss{states(tt+1)} + A{states(tt+1)}*(x - ss{states(tt+1)});             % x t+1|t = A * x t|t
-        P = A{states(tt+1)}*P*A{states(tt+1)}' + C{states(tt+1)}*C{states(tt+1)}'; % P t+1|t = A * P t|t * A' + B*B';
+        x = ss{states(tt+1)} + A{states(tt+1)}*(x - ss{states(tt+1)});  % x t+1|t = A * x t|t
+        P = A{states(tt+1)}*P*A{states(tt+1)}' + Ct*Ct';                % P t+1|t = A * P t|t * A' + B*B';
          
     end
     

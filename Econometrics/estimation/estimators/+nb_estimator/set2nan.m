@@ -36,9 +36,9 @@ function X = set2nan(X,startDate,observables,set2nan)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    T     = size(X);
+    T     = size(X,1);
     dates = startDate.toDates(0:T-1);
 
     fields = fieldnames(set2nan);

@@ -8,7 +8,7 @@ function getDataOfField(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     expression          = obj.GraphStruct.(obj.fieldName){obj.fieldIndex,1};
     notFound            = ~ismember(expression,obj.DB.variables);

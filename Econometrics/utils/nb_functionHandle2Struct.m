@@ -27,7 +27,7 @@ function s = nb_functionHandle2Struct(f)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     s = functions(f);
     s = rmfield(s, setdiff(fieldnames(s),{'function','workspace'}));

@@ -12,7 +12,7 @@ function help = displayer()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     help = ['The displaying option used. See the nb_optimizerDisplayer class for more on this. ',...
             'Set ''display'' to ''off'' to prevent any displaying during call to nb_lasso.'];

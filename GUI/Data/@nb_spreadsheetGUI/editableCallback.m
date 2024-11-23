@@ -9,7 +9,7 @@ function editableCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     editMenu = findobj(gui.viewMenu,'Label','Editable');
     if gui.editMode == 0

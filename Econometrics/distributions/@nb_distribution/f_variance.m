@@ -26,7 +26,7 @@ function x = f_variance(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if k > 4
         x = 2*k^2*(m + k - 2);

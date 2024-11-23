@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -43,32 +43,7 @@ end
 %==================================================================
 function res = resursivePrint(results,options,precision)
 
-    if strcmpi(options.algorithm,'unrestricted')
-        
-        algorithm = 'Unrestricted MIDAS';
-        switch lower(options.stdType) 
-            case 'w'
-                type = 'White heteroskedasticity robust'; 
-            case 'nw'
-                type = 'Newey-West heteroskedasticity and autocorrelation robust'; 
-            case 'h'
-                type = 'Homoskedasticity only'; 
-            otherwise
-                type = '';
-        end
-        
-    else
-        type = 'Bootstrapped';
-        if strcmpi(options.algorithm,'almon')
-            algorithm = 'Almon lag MIDAS';
-        elseif strcmpi(options.algorithm,'beta')
-            algorithm = 'Beta lag MIDAS';
-        else
-            algorithm    = options.algorithm;
-            algorithm(1) = upper(algorithm(1));
-            algorithm    = [algorithm, ' MIDAS'];
-        end
-    end
+    [algorithm,type] = getInfo(options);
     
     extra = '';
     if isfield(options,'real_time_estim')
@@ -109,8 +84,45 @@ function res = resursivePrint(results,options,precision)
         table(3:2:end,2:end) = nb_double2cell(stdBetaT,precision);
         table(2:2:end,1)     = exo;
         table(1,2:end)       = dates;
-        tableAsChar          = cell2charTable(table);
-        res                  = char(res,tableAsChar);
+        
+        if isfield(results,'lagrangeMult')
+            rowHeader       = {'Lagrange multiplier'};
+            tableR          = repmat({''},1,numObs + 1);
+            tableR(1,2:end) = nb_double2cell(results.lagrangeMult(:,ii)',precision);
+            tableR(1:end,1) = rowHeader;
+            table           = [table;tableR]; %#ok<AGROW>
+        end
+
+        if isfield(results,'regularization')
+
+            if strcmpi(options.algorithm,'lasso')
+                regName = 'Inv. regularization';
+            else
+                regName = 'Regularization';
+            end
+
+            numRows   = 1;
+            rowHeader = {regName};
+            if isfield(results,'regularizationPerc')
+                numRows = 2;
+                if options.restrictConstant
+                    t = '(% of OLS excl. const.)';
+                else
+                    t = '(% of OLS)';
+                end
+                rowHeader = [rowHeader,t]; %#ok<AGROW>
+            end
+            tableR          = repmat({''},numRows,numObs + 1);
+            tableR(1,2:end) = nb_double2cell(1./results.regularization(:,ii)',precision);
+            if isfield(results,'regularizationPerc')
+                tableR(2,2:end) = nb_double2cell(results.regularizationPerc(:,ii)',precision);
+            end
+            tableR(1:end,1) = rowHeader;
+            table           = [table;tableR]; %#ok<AGROW>
+        end
+
+        tableAsChar = cell2charTable(table);
+        res         = char(res,tableAsChar);
         
     end
 
@@ -119,30 +131,7 @@ end
 %--------------------------------------------------------------------------
 function res = normalPrint(results,options,precision)
 
-    if strcmpi(options.algorithm,'unrestricted')
-        switch lower(options.stdType)     
-            case 'w'
-                type = 'White heteroskedasticity robust'; 
-            case 'nw'
-                type = 'Newey-West heteroskedasticity and autocorrelation robust'; 
-            case 'h'
-                type = 'Homoskedasticity only'; 
-            otherwise
-                type = '';
-        end
-        algorithm = 'Unrestricted MIDAS';
-    else
-        type = 'Bootstrapped';
-        if strcmpi(options.algorithm,'almon')
-            algorithm = 'Almon lag MIDAS';
-        elseif strcmpi(options.algorithm,'beta')
-            algorithm = 'Beta lag MIDAS';
-        else
-            algorithm    = options.algorithm;
-            algorithm(1) = upper(algorithm(1));
-            algorithm    = [algorithm, ' MIDAS'];
-        end
-    end
+    [algorithm,type] = getInfo(options);
 
     % Information on estimated equation
     res = sprintf('Method: %s',algorithm);
@@ -179,9 +168,32 @@ function res = normalPrint(results,options,precision)
     table(4:4:end,2:end) = tStatBeta;
     table(5:4:end,2:end) = pValBeta;
 
+    if isfield(results,'lagrangeMult')
+        tableReg = ['Lagrange multiplier',nb_double2cell(results.lagrangeMult,precision)];
+        table    = [table;tableReg];
+    end
+    if isfield(results,'regularization')
+        if strcmpi(options.algorithm,'lasso')
+            regName = 'Inv. regularization';
+        else
+            regName = 'Regularization';
+        end
+        tableReg = [regName,nb_double2cell(1./results.regularization,precision)];
+        table    = [table;tableReg];
+    end
+    if isfield(results,'regularizationPerc')
+        if options.restrictConstant
+            t = '(% of OLS excl. const.)';
+        else
+            t = '(% of OLS)';
+        end
+        tableReg = [t,nb_double2cell(results.regularizationPerc,precision)];
+        table    = [table;tableReg];
+    end
+
     % Convert the test result to a cell matrix on the wanted
     % format
-    if ~options.doTests
+    if ~options.doTests || any(strcmpi(options.algorithm,{'lasso','ridge'}))
         
         tableAsChar = cell2charTable(table);
         res         = char(res,tableAsChar);
@@ -203,7 +215,7 @@ function res = normalPrint(results,options,precision)
             results.normalityTest];
 
         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-        tests = nb_addStars(tests,12,[],10,11);
+        tests = nb_addStars(tests,12,[],10,11,round(options.nLagsTests));
         
         % Test results
         testTable = {
@@ -255,3 +267,63 @@ function res = normalPrint(results,options,precision)
     end
     
 end
+
+%==========================================================================
+function [algorithm,type] = getInfo(options)
+
+    if strcmpi(options.algorithm,'unrestricted')
+        
+        algorithm = 'Unrestricted MIDAS';
+        switch lower(options.stdType) 
+            case 'w'
+                type = 'White heteroskedasticity robust'; 
+            case 'nw'
+                type = 'Newey-West heteroskedasticity and autocorrelation robust'; 
+            case 'h'
+                type = 'Homoskedasticity only'; 
+            otherwise
+                type = '';
+        end
+        
+    else
+        
+        if strcmpi(options.algorithm,'almon')
+            algorithm = 'Almon lag MIDAS';
+            switch lower(options.stdType) 
+                case 'w'
+                    type = 'White heteroskedasticity robust'; 
+                case 'nw'
+                    type = 'Newey-West heteroskedasticity and autocorrelation robust'; 
+                case 'h'
+                    type = 'Homoskedasticity only'; 
+                otherwise
+                    type = '';
+            end
+        elseif strcmpi(options.algorithm,'legendre')
+            algorithm = 'Legendre lag MIDAS';
+            switch lower(options.stdType) 
+                case 'w'
+                    type = 'White heteroskedasticity robust'; 
+                case 'nw'
+                    type = 'Newey-West heteroskedasticity and autocorrelation robust'; 
+                case 'h'
+                    type = 'Homoskedasticity only'; 
+                otherwise
+                    type = '';
+            end    
+        elseif strcmpi(options.algorithm,'beta')
+            algorithm = 'Beta lag MIDAS';
+            type      = 'Bootstrapped';
+        elseif strcmpi(options.algorithm,'lasso')
+            algorithm = 'LASSO MIDAS';
+            type      = 'Missing';    
+        else
+            algorithm    = options.algorithm;
+            algorithm(1) = upper(algorithm(1));
+            algorithm    = [algorithm, ' MIDAS'];
+            type         = 'Unknown';
+        end
+    end
+
+end
+

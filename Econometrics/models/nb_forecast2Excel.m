@@ -19,7 +19,7 @@ function nb_forecast2Excel(fcst,filename)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fcstP     = asCell(permute(fcst)); %#ok<LTARG>
     [~,s2,s3] = size(fcstP);

@@ -22,7 +22,7 @@ function plotter = nb_combineGraphStructDensityGraphs(varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         error([mfilename ':: You need at least two inputs to this function.'])

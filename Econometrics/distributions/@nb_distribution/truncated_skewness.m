@@ -30,7 +30,7 @@ function x = truncated_skewness(dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     draws = nb_distribution.truncated_rand(1000,1,dist,param,lb,ub);
     x     = skewness(draws,0,1);

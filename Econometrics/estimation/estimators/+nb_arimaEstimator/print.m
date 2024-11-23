@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -203,8 +203,8 @@ function method = getMethod(options)
             method = [method,'Hannan-Rissanen'];
         case 'ml'
             method = [method,'Maximum likelihood'];
-        case 'yw'
-            method = [method,'Yule-Walker']; 
+        case 'bayesian'
+            method = [method,'Bayesian Normal-Wishart prior']; 
     end
 
 end

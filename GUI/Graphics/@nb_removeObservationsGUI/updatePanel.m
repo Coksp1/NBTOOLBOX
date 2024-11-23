@@ -9,7 +9,7 @@ function updatePanel(gui,variable)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get plotter object
     plotterT = gui.plotter;

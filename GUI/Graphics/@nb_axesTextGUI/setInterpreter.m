@@ -9,7 +9,7 @@ function setInterpreter(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get value selected
     value = nb_getUIControlValue(hObject);

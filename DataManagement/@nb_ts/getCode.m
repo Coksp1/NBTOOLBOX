@@ -132,7 +132,7 @@ function code = getCode(obj,preamble,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Parse the optional input
     %--------------------------------------------------------------

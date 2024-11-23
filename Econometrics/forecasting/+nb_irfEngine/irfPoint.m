@@ -9,7 +9,7 @@ function irfData = irfPoint(solution,options,inputs,results)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isfield(results,'densities')
         dist = results.densities; % Used by PIT models
@@ -276,8 +276,12 @@ function irfData = irfPoint(solution,options,inputs,results)
         indO       = indO(ind);
         if ~isempty(indO)
             
-            H = solution.H(indO,:,:);  
-            Z = nan(size(G,1),periods + 1,nShocks);
+            if isfield(solution,'G')
+                H = solution.G(indO,:,end); 
+            else
+                H = solution.H(indO,:,end); 
+            end
+            Z = nan(size(H,1),periods + 1,nShocks);
             if size(H,3) > 1
                 error('Cannot produce IRFs of models with time-varying measurement equations!')
             else

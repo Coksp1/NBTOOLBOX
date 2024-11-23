@@ -10,7 +10,7 @@ function obj = transLeadLag(obj)
 % 
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.equations = regexprep(obj.equations,'(?<=[^+-\*\^])\({1}[+]{1}\d{1,2}\){1}','_lead');
     obj.equations = regexprep(obj.equations,'(?<=[^+-\*\^])\({1}[-]{1}\d{1,2}\){1}','_lag');

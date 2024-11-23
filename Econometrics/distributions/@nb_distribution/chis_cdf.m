@@ -23,7 +23,7 @@ function f = chis_cdf(x,m)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f      = gammainc(x/2,m*0.5);
     f(x<0) = zeros;

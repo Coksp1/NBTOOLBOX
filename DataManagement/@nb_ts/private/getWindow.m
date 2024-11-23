@@ -1,7 +1,7 @@
 function [startDateWin,endDateWin,variablesWin,startInd,endInd,variablesInd,pages] = getWindow(obj,startDateWin,endDateWin,variablesWin,pages)
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Which dates to keep
     if ~isempty(startDateWin)

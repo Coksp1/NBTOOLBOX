@@ -23,7 +23,7 @@ function propertyValue = get(obj,propertyName)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~ischar(propertyName)
         error([mfilename ':: The propertyName must be a string.'])
@@ -99,6 +99,10 @@ function propertyValue = get(obj,propertyName)
 
             propertyValue = obj.grid;
 
+        case 'gridcolor'
+
+            propertyValue = obj.gridColor;    
+            
         case 'gridlinestyle'
 
             propertyValue = obj.gridLineStyle;
@@ -174,6 +178,10 @@ function propertyValue = get(obj,propertyName)
         case 'tickdir'
 
             propertyValue = obj.tickDir;
+            
+        case 'ticklength'
+
+            propertyValue = obj.tickLength;    
 
         case 'title'
 
@@ -219,6 +227,10 @@ function propertyValue = get(obj,propertyName)
 
             propertyValue = obj.xTickLabel;
 
+        case 'xticklabelinterpreter'
+
+            propertyValue = obj.xTickLabelInterpreter;       
+            
         case 'xticklabelalignment'
 
             propertyValue = obj.xTickLabelAlignment;  
@@ -283,6 +295,10 @@ function propertyValue = get(obj,propertyName)
 
             propertyValue = obj.yTickLabel;
 
+        case 'yticklabelinterpreter'
+
+            propertyValue = obj.yTickLabelInterpreter;    
+            
         case 'yticklabelright'
 
             propertyValue = obj.yTickLabelRight;

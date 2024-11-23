@@ -43,7 +43,7 @@ function ysim = nb_midasBootstrap(p,resid,x,constant,func,nExo,AR,draws,method)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         method = 'bootstrap';
@@ -68,7 +68,7 @@ function ysim = nb_midasBootstrap(p,resid,x,constant,func,nExo,AR,draws,method)
         nLags = (size(x,2) - constant)/nExo;
         beta  = nb_midasMapToLinear(p,func,AR,constant,nExo,nLags);
         if AR
-            yLag = lag(y);
+            yLag = nb_lag(y);
             x    = [yLag,x];
             x    = x(2:end);
         end

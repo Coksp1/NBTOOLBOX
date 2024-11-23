@@ -9,7 +9,7 @@ function y0 = drawNowcastFromKalmanFilter(yD,pD,draws)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Draw from the distribution of the endogenous variables
     treshold = eps(max(yD(:)))^0.7;

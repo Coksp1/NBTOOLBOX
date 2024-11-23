@@ -58,7 +58,7 @@ function saveData(obj,saveName,language,firstPageName,firstPageName2,roundoff,ex
 % 
 % Written by Per Bjarne Bye and Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 % Some useful Excel functions:
 % White  : 16777215
@@ -436,7 +436,8 @@ function graphSettings = createIndexPage(S,graphSettings,language)
             graph = S.obj.graphs{ii};
             if size(graph.plotter,2) > 1 % We have a 1x2 panel
 
-                graph.letter = true;
+                letterCurrent = graph.letter;
+                graph.letter  = true;
                 for jj = 1:size(graph.plotter,2)
 
                     % Number figures as Data 1.1a - 1.1b
@@ -454,6 +455,7 @@ function graphSettings = createIndexPage(S,graphSettings,language)
                     kk = kk + 1;
 
                 end
+                graph.letter = letterCurrent;
 
             else
 

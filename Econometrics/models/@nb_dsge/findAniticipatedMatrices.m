@@ -29,7 +29,7 @@ function B = findAniticipatedMatrices(B1,nAntSteps,T1AT0iT1)
 % 
 % Written by Kenneth Sæterhagen Paulsen
             
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [nEndo,nExo] = size(B1);
     B            = nan(nEndo,nExo,nAntSteps);

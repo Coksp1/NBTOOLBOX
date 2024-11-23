@@ -8,7 +8,7 @@ function [yRest,XRest,restrict] = applyRestrictions(options,y,X)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     allExo = options.exogenous;
     if options.time_trend

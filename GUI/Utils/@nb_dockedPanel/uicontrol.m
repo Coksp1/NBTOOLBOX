@@ -38,7 +38,7 @@ function uih = uicontrol(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.numberOfChildren = obj.numberOfChildren + 1;
     obj.docked           = [obj.docked,false];

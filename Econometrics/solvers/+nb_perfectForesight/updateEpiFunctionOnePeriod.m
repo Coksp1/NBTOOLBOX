@@ -10,7 +10,7 @@ function funcs = updateEpiFunctionOnePeriod(funcs,YNotEpi,parExoVal,varsSS)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
      % Update with the inputs that does not change for each period.
     G       = funcs.G;

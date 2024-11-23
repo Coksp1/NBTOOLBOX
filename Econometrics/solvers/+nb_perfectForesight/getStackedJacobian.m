@@ -11,7 +11,7 @@ function JF = getStackedJacobian(Y,inputs,funcs,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Are we using symbolic deriv?
     if funcs.symbolic

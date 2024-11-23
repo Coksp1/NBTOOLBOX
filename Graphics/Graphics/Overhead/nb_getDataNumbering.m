@@ -12,7 +12,7 @@ function [numStr,counter] = nb_getDataNumbering(graphObj,numberObj,counter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isempty(graphObj.chapter)
         old               = numberObj.chapter;

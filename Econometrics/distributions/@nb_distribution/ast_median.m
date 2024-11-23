@@ -29,7 +29,7 @@ function x = ast_median(a,b,c,d,e)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = nb_distribution.ast_icdf(0.5,a,b,c,d,e);
 

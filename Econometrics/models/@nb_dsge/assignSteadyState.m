@@ -35,7 +35,7 @@ function ss = assignSteadyState(parser,s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isnumeric(s)
         ss = s;

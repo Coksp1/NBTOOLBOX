@@ -29,7 +29,7 @@ function defaultColors = nb_defaultColors(number,isNB)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         isNB = false;
@@ -119,10 +119,10 @@ function defaultColors = nb_defaultColors(number,isNB)
     if isNB
         old           = defaultColors;
         defaultColors = cell(number,1);
-        for ii = 1:min(8,number)
+        for ii = 1:min(12,number)
             defaultColors{ii} = ['nbcolor', int2str(ii)]; 
         end
-        for ii = 9:length(defaultColors)
+        for ii = 13:length(defaultColors)
             defaultColors{ii} = old(ii,:);
         end
     end

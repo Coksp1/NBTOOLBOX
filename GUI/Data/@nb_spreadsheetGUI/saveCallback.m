@@ -14,7 +14,7 @@ function saveCallback(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get selected save name and assign the spreadsheet (The new
     % name will appear in the figure name)

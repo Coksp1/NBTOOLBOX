@@ -65,7 +65,7 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------
@@ -94,7 +94,10 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
     for tt = 1:T
         
         At  = A{states(tt+1)};
-        CCt = C{states(tt+1)}*C{states(tt+1)}';
+        Ct  = C{states(tt+1)};
+        ind = ~all(abs(Ct) < kalmanTol,1);
+        Ct  = Ct(:,ind);
+        CCt = Ct*Ct';
         mt  = m(:,tt);
         if all(~mt)
             xu(:,tt)       = xf(:,tt);
@@ -120,8 +123,9 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
             if rank(FINF,kalmanTol) < sum(mt)
                 
                 if ~all(abs(FINF(:)) < kalmanTol)
-                    error([mfilename ':: You must use the univariate Kalman filter. If called from the ',...
-                                     'nb_dsge.filter method, set ''kf_method'' to ''univariate''.'])
+                    error(['You must use the univariate Kalman filter. ',...
+                        'If called from the nb_dsge.filter method, set ',...
+                        '''kf_method'' to ''univariate''.'])
                 end
                 break; % Continue with normal iterations
                 
@@ -153,17 +157,16 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
         
     end
     
-    if singular
-        error('The variance of the forecast error remains singular until the end of the diffuse step.')
-    end
-    
     % Loop through the kalman filter iterations
     %--------------------------------------------------------------
     start = tt;
     for tt = start:T
         
         At  = A{states(tt+1)};
-        CCt = C{states(tt+1)}*C{states(tt+1)}';
+        Ct  = C{states(tt+1)};
+        ind = ~all(abs(Ct) < kalmanTol,1);
+        Ct  = Ct(:,ind);
+        CCt = Ct*Ct';
         mt  = m(:,tt);
         if all(~mt)
             xu(:,tt)    = xf(:,tt);
@@ -255,10 +258,16 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
     
     % Get the smoothed shocks
     %-------------------------------------------------------------
-    us      = zeros(nExo,T);
-    us(:,1) = C{states(1)}\(xs(:,1) - ss{states(1)});
+    us        = zeros(nExo,T);
+    Ct        = C{states(1)};
+    ind       = ~all(abs(Ct) < kalmanTol,1);
+    Ct        = Ct(:,ind);
+    us(ind,1) = Ct\(xs(:,1) - ss{states(1)});
     for t = 2:T
-        us(:,t) = C{states(t)}\(xs(:,t) - ss{states(t)} - A{states(t)}*(xs(:,t-1) - ss{states(t)}) );
+        Ct        = C{states(t)};
+        ind       = ~all(abs(Ct) < kalmanTol,1);
+        Ct        = Ct(:,ind);
+        us(ind,t) = Ct\(xs(:,t) - ss{states(t)} - A{states(t)}*(xs(:,t-1) - ss{states(t)}) );
     end
     
     % Report the estimates
@@ -270,9 +279,15 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherDiffuseBreakPointDSGE(H,A,C,ss,obs,
         
         % Get the updated shocks
         uu      = zeros(nExo,T);
-        uu(:,1) = C{states(1)}\(xu(:,1) - ss{states(1)});
+        Ct      = C{states(1)};
+        ind     = ~all(abs(Ct) < kalmanTol,1);
+        Ct      = Ct(:,ind);
+        uu(:,1) = Ct\(xu(:,1) - ss{states(1)});
         for t = 2:T
-            uu(:,t) = C{states(t)}\(xu(:,t) - ss{states(t)} - A{states(t)}*(xu(:,t-1) - ss{states(t)}) );
+            Ct        = C{states(t)};
+            ind       = ~all(abs(Ct) < kalmanTol,1);
+            Ct        = Ct(:,ind);
+            uu(ind,t) = Ct\(xu(:,t) - ss{states(t)} - A{states(t)}*(xu(:,t-1) - ss{states(t)}) );
         end
         uu = uu';
         

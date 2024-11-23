@@ -23,7 +23,7 @@ function demean = nb_demean(data,dim)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         dim = [];
@@ -32,6 +32,6 @@ function demean = nb_demean(data,dim)
         dim = 1;
     end
     
-    demean = data - nanmean(data,dim);
+    demean = data - mean(data,dim,'omitnan');
 
 end

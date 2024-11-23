@@ -22,7 +22,7 @@ function options = template(num)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 1
         num = 1;  
@@ -32,6 +32,7 @@ function options = template(num)
     options.AR                          = false;
     options.algorithm                   = 'unrestricted';
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.dependent                   = {};
     options.doTests                     = 1;
     options.draws                       = 1;
@@ -41,7 +42,12 @@ function options = template(num)
     options.nLags                       = 1;
     options.nLagsTests                  = 5;
     options.nStep                       = 1;
+    options.optimset                    = [];
     options.polyLags                    = [];
+    options.regularization              = [];
+    options.regularizationMode          = 'normal';
+    options.regularizationPerc          = [];
+    options.restrictConstant            = true;
     options.stdType                     = 'h';
     options.unbalanced                  = false;
 

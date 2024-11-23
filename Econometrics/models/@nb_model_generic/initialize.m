@@ -28,7 +28,7 @@ function obj = initialize(objClass,template)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     sStruct = size(template);
     func    = str2func(objClass);

@@ -38,7 +38,7 @@ classdef nb_footer < matlab.mixin.Copyable
 %  
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Protected properties of the object

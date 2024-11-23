@@ -64,7 +64,7 @@ function obj = callop(obj,another,func,type)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         type = 'rename';
@@ -89,32 +89,17 @@ function obj = callop(obj,another,func,type)
     end
     
     % Secure same time span
-    dat    = obj.data;
-    datA   = another.data;
-    startD = obj.startDate;
-    endD   = obj.endDate;
-    if obj.startDate < another.startDate
-        per  = another.startDate - obj.startDate;
-        datA = [nan(per,size(datA,2),size(datA,3));datA];
-    elseif obj.startDate > another.startDate
-        per    = obj.startDate - another.startDate;
-        dat    = [nan(per,size(dat,2),size(dat,3));dat];
-        startD = another.startDate;
-    end
-    if obj.endDate > another.endDate
-        per  = obj.endDate - another.endDate;
-        datA = [datA;nan(per,size(datA,2),size(datA,3))];
-    elseif obj.endDate < another.endDate
-        per  = another.endDate - obj.endDate;
-        dat  = [dat;nan(per,size(dat,2),size(dat,3))];
-        endD = another.endDate;
-    end
+    objUpdateable      = obj.updateable;
+    anotherUpdateable  = another.updateable;
+    obj.updateable     = false;
+    another.updateable = false;
+    [obj,another]      = secureSameSpan(obj,another);
+    obj.updateable     = objUpdateable;
+    another.updateable = anotherUpdateable;
     
-    obj.data      = bsxfun(func,dat,datA);
-    obj.startDate = startD;
-    obj.endDate   = endD;
-    
-    if ~strcmpi(type,'keep')
+    % Call operator on objects
+    obj.data = bsxfun(func,obj.data,another.data);
+    if ~strcmpi(type,'keep') && ~isa(obj,'nb_cell')
         vars          = nb_symMatrix(nb_term.split(obj.variables));
         varsA         = nb_symMatrix(nb_term.split(another.variables));
         obj.variables = cellstr(func(vars,varsA));

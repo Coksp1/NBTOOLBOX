@@ -17,7 +17,7 @@ classdef nb_distributionGUI < handle & nb_historyGUI
 %
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen    
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         

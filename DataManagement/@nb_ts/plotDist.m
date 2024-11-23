@@ -57,7 +57,7 @@ function f = plotDist(obj, varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [d3,   inputs] = nb_parseOneOptional('3d',false,varargin{:});
     [x,    inputs] = nb_parseOneOptional('x','',inputs{:});

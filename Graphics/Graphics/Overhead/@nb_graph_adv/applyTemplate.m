@@ -9,7 +9,7 @@ function applyTemplate(obj,chosen)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     numG = size(obj.plotter,2);
     try
@@ -26,7 +26,7 @@ function applyTemplate(obj,chosen)
         t = rmfield(t,'position');
     end
     fields = fieldnames(t);
-    for ii = 1:size(fields)
+    for ii = 1:size(fields,1)
         if isprop(obj.plotter(1),fields{ii})
             for gg = 1:numG
                 obj.plotter(gg).(fields{ii}) = t(gg).(fields{ii}); 

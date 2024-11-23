@@ -1,7 +1,7 @@
-function obj = cumprod(obj,dim)
+function obj = cumprod(obj,varargin)
 % Syntax:
 %
-% obj = cumprod(obj,dim)
+% obj = cumprod(obj,varargin)
 %
 % Description:
 %
@@ -11,8 +11,9 @@ function obj = cumprod(obj,dim)
 % 
 % - obj : An object of class nb_math_ts
 % 
-% - dim : In which dimension the cumulativ product should be 
-%         calculated. Default is the first dimension.
+% Optional input:
+% 
+% - Same as for the cumprod function made by MathWorks.
 % 
 % Output:
 % 
@@ -23,15 +24,14 @@ function obj = cumprod(obj,dim)
 % Examples:
 % 
 % obj = cumprod(obj,1);
+% obj = cumprod(obj,1,'reverse');
+% obj = cumprod(obj,'omitnan');
+% obj = cumprod(obj,1,'reverse','omitnan');
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if nargin < 2
-        dim = 1;
-    end
-
-    obj.data = cumprod(obj.data,dim);
+    obj.data = cumprod(obj.data,varargin{:});
 
 end

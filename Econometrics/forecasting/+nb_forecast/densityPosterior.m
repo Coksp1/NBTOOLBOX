@@ -11,7 +11,7 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(model.class,'nb_dsge')
         if iscell(model.ss)
@@ -123,12 +123,13 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
                         Y0 = nb_forecast.drawNowcastFromKalmanFilter(yD',pD,regimeDraws*draws);
                     else
                         if ~isfield(options,'pathToSave')
-                            error([mfilename ':: No estimation is done, so can''t draw from the posterior.'])
+                            error('No estimation is done, so can''t draw from the posterior.')
                         end
                         try
                             coeffDraws = nb_loadDraws(options.pathToSave);
                         catch Err
-                            nb_error('It seems to me that the estimation results has been saved in a folder you no longer have access to.',Err)
+                            nb_error('It seems to me that the estimation results has ',...
+                                'been saved in a folder you no longer have access to.',Err)
                         end
                         if ~options.real_time_estim
                             coeffDraws = coeffDraws(iter);
@@ -226,12 +227,13 @@ function [Y,XE,states,PAI,solution] = densityPosterior(y0,restrictions,model,opt
             extra = 0;
         else
             if ~isfield(options,'pathToSave')
-                error([mfilename ':: No bayesian estimation is done, so can''t draw from the posterior.'])
+                error('No bayesian estimation is done, so can''t draw from the posterior.')
             end
             try
                 coeffDraws = nb_loadDraws(options.pathToSave);
             catch Err
-                nb_error('It seems to me that the estimation results has been saved in a folder you no longer have access to.',Err)
+                nb_error('It seems to me that the estimation results has ',...
+                    'been saved in a folder you no longer have access to.',Err)
             end
             if ~options.real_time_estim
                 coeffDraws = coeffDraws(iter);

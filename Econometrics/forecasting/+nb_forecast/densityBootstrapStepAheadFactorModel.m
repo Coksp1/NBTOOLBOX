@@ -10,7 +10,7 @@ function [Y,XE] = densityBootstrapStepAheadFactorModel(y0,restrictions,model,opt
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     draws          = inputs.draws;
     parameterDraws = inputs.parameterDraws;

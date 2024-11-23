@@ -15,7 +15,7 @@ function alpha = alphaMethod2(s,y)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     alpha = s'*s/(y'*y);
 

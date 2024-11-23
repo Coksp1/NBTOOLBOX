@@ -23,7 +23,7 @@ function f = hist_pdf(x,a)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     d        = x(2) - x(1);
     interval = x(1) + d/2:d:x(end) + d/10;

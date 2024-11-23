@@ -24,12 +24,18 @@ function easter = nb_easter(years)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(years,2)>1
         years = years';
     end
-    init    = datenum([repmat('03/01/',length(years),1),int2str(years)]);
+    try
+        init = datetime([repmat('03/01/',length(years),1),int2str(years)],...
+            'InputFormat','MM/dd/yyyy');
+    catch
+        init = datenum([repmat('03/01/',length(years),1),int2str(years)]);
+    end
+
     A1      = 24;
     A2      = 5;
     A3      = mod(years,19);
@@ -40,6 +46,11 @@ function easter = nb_easter(years)
     A8      = 22+A6+A7;
     ind     = A8 == 57 | (A8==56 & A7==6 & A3>10);
     A8(ind) = A8(ind)-7;
-    easter  = cellstr(datestr(init+A8-1,'dd.mm.yyyy'));
-    
+
+    try
+        easter = cellstr(char(init + caldays(A8-1),'dd.MM.yyyy'));
+    catch
+        easter = cellstr(datestr(init+A8-1,'dd.mm.yyyy'));
+    end
+
 end

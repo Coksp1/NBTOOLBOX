@@ -9,7 +9,7 @@ function model = getModelMatrices(model,iter,irf,options,nSteps)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         irf = 0;
@@ -114,8 +114,13 @@ function model = getModelMatrices(model,iter,irf,options,nSteps)
                 G = permute(model.G(:,:,:,1:endHist),[1,2,4,3]);
                 
             else
-                G = model.G(:,:,iter);
-                H = model.G(:,:,iter);
+                if size(model.G,3) == 1
+                    G = model.G(:,:,1);
+                    H = model.G(:,:,1);
+                else
+                    G = model.G(:,:,iter);
+                    H = model.G(:,:,iter);
+                end
             end
             if isfield(model,'R')
                 R = model.R(:,:,iter);

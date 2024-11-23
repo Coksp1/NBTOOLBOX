@@ -27,7 +27,7 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -72,6 +72,10 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
         % spaced. If you do not want tick marks displayed, then set the 
         % property to the empty vector, [].
         ticks       = [];
+        
+        % Mark the value on the colorbar indicating where it is. 
+        % [value,low,high]
+        mark        = [];
         
         ID
         
@@ -165,18 +169,30 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
             if obj.tickLabelsSet
                 tickMarkLabels = obj.tickLabels;
             else
-                if isempty(ax.imageChild)
-                    minObs = 0;
-                    maxObs = 1;
+                if obj.ticksSet
+                    tickMarkLabels = strtrim(cellstr(num2str(obj.ticks(:))))';
                 else
-                    maxObs = max(ax.imageChild.cData(:));
-                    minObs = min(ax.imageChild.cData(:));
+                    if isempty(ax.imageChild)
+                        ind = cellfun(@(x)isa(x,'nb_heatmap'),ax.children);
+                        if any(ind)
+                            heatMap = ax.children{find(ind,1)};
+                            cData   = getImageData(heatMap);
+                            maxObs  = max(cData(:));
+                            minObs  = min(cData(:));
+                        else
+                            minObs = 0;
+                            maxObs = 1;
+                        end
+                    else
+                        maxObs = max(ax.imageChild.cData(:));
+                        minObs = min(ax.imageChild.cData(:));
+                    end
+
+                    % Find MATLAB selected tick labels
+                    p              = plot(axesHandle,[minObs, maxObs]);
+                    tickMarkLabels = get(axesHandle,'yTickLabels');
+                    delete(p);
                 end
-                
-                % Find MATLAB selected tick labels
-                p              = plot(axesHandle,[minObs, maxObs]);
-                tickMarkLabels = get(axesHandle,'yTickLabels');
-                delete(p);
             end
             if strcmpi(obj.language,'norwegian') || strcmpi(obj.language,'norsk')
                 tickMarkLabels = strrep(tickMarkLabels,'.',',');
@@ -228,8 +244,9 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
                 'fontWeight',  obj.fontWeight,...
                 'fontSize',    fontS,...
                 'location',    obj.location,...
-                'tickLabels',  tickMarkLabels,...
-                'ticks',       tickMarks');
+                'tickLabels',  tickMarkLabels(:),...
+                'ticks',       tickMarks(:),...
+                'AxisLocationMode', 'manual');
             drawnow;
             pos = get(axesHandle,'position');
             set(ax.axesHandle,'position',pos);
@@ -244,6 +261,26 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
                 pos    = get(obj.children,'position');
                 pos(1) = pos(1) + obj.space;
                 set(obj.children,'position',pos);
+            end
+            
+            if ~isempty(obj.mark)
+                
+                obj.mark = obj.mark(:);
+                if size(obj.mark,1) ~= 3
+                    error('The mark input must have length 3.')
+                end
+                pos          = get(obj.children,'position');
+                normVal      = nb_pos2pos(obj.mark(1),[obj.mark(2),obj.mark(3)],[pos(1),pos(1) + pos(3)],'normal','normal');
+                a            = annotation('textarrow',[normVal normVal],[pos(2)+pos(4) pos(2)],...
+                    'String', num2str(obj.mark(1), '%.2f'), 'lineWidth',3,'headStyle','none','textColor','black');
+                obj.children = [obj.children,a];
+                
+                % Add listener to the current position of the mouse.
+                %-------------------------------------------------------------
+                if isa(obj.parent.parent,'nb_figure')
+                    obj.listeners = addlistener(obj.parent.parent,'resized',@obj.resizeCallback);
+                end
+                
             end
             
             % Add a uicontext menu to the arrow
@@ -264,6 +301,24 @@ classdef nb_colorbar < nb_annotation & nb_textAnnotation
         % handle
             
             nb_editColorBar(obj);
+        
+        end
+        
+        function resizeCallback(obj,~,~)
+        % Callback function called when figure is resized
+            
+            colorbarHandle  = obj.children(2);
+            if ~ishandle(colorbarHandle)
+                return
+            end
+            textArrowHandle = obj.children(3);
+            if ~ishandle(textArrowHandle)
+                return
+            end
+            
+            pos     = get(colorbarHandle,'position');
+            normVal = nb_pos2pos(obj.mark(1),[obj.mark(2),obj.mark(3)],[pos(1),pos(1) + pos(3)],'normal','normal');
+            set(textArrowHandle,'X',[normVal,normVal],'Y',[pos(2)+pos(4), pos(2)]);
         
         end
         

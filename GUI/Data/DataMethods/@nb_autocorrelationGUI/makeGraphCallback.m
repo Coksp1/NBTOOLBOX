@@ -9,7 +9,7 @@ function makeGraphCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get inputs
     nLags       = str2double(get(gui.nLagsBox,'string'));

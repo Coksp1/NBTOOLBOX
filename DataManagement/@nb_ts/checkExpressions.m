@@ -43,7 +43,7 @@ function obj = checkExpressions(obj,expression,shift)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         shift = [];
@@ -57,17 +57,19 @@ function obj = checkExpressions(obj,expression,shift)
     if ~isempty(shift)
         
         shiftVariables = shift.variables;
-        shiftD         = shift.data;
-        
-        [ind,indS] = ismember(shiftVariables,vars);
-        indS       = indS(ind);
-        d          = size(shiftD,1) - size(dataF,1);
+        shiftD         = shift.data;  
+        [ind,indS]     = ismember(shiftVariables,vars);
+        indS           = indS(ind);
+        [indM,indMS]   = ismember(shiftVariables,strcat(vars,'_multshift'));
+        indMS          = indMS(indM);
+        d              = size(shiftD,1) - size(dataF,1);
         if d < 0
             error([mfilename ':: The shift/trend data has not the correct number of observations.'])
         else
             shiftD = shiftD(1:end-d,:); 
         end
-        dataF(:,indS,:) = dataF(:,indS,:) + shiftD(:,ind);
+        dataF(:,indMS,:) = dataF(:,indMS,:).*shiftD(:,indM);
+        dataF(:,indS,:)  = dataF(:,indS,:) + shiftD(:,ind);
     end
     
     % Check each expression

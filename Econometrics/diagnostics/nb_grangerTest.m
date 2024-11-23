@@ -34,7 +34,7 @@ function [F,FPValue] = nb_grangerTest(x,y,max_lag,criterion)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         criterion = 'aic';
@@ -58,14 +58,14 @@ function [F,FPValue] = nb_grangerTest(x,y,max_lag,criterion)
     % First find the proper model specifications
     %--------------------------------------------------------------
     xls = x(2:end);
-    xrs = lag(x,1);
+    xrs = nb_lag(x,1);
     xrs = xrs(2:end);
     
     [xlag,xls,xrs] = nb_lagLengthSelection(1,0,max_lag,criterion,'ols',xls,xrs);
     xlag = xlag + 1;
     
     yls = y(2:end);
-    yrs = lag(y,1);
+    yrs = nb_lag(y,1);
     yrs = yrs(2:end);
     fix = [true(1,xlag),false];
     [ylag,yls,yrs] = nb_lagLengthSelection(1,0,max_lag,criterion,'ols',yls,[xrs,yrs],fix);

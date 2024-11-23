@@ -54,7 +54,7 @@ function [beta,sigma,x,posterior] = laplace(draws,y,x,constant,timeTrend,prior,r
 %
 % Written by Atle Loneland
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         waitbar = true;
@@ -63,7 +63,7 @@ function [beta,sigma,x,posterior] = laplace(draws,y,x,constant,timeTrend,prior,r
         end
     end
     if ~isempty(restrictions)
-        error([mfilename ':: Block exogenous variables cannot be declared with the laplace prior.'])
+        error('Block exogenous variables cannot be declared with the laplace prior.')
     end
 
     % Are we dealing with all zero regressors?
@@ -78,46 +78,17 @@ function [beta,sigma,x,posterior] = laplace(draws,y,x,constant,timeTrend,prior,r
     end
 
     % Add timetrend if wanted
-    if timeTrend
+    if timeTrend        
         trend = 1:sizeX;
         x     = [trend', x];
     end
 
-    % Add constant if wanted
-    if constant        
-        x = [ones(sizeX,1), x];
-    end
+    % Strip observations
+    [y,x] = nb_bVarEstimator.stripObservations(prior,y,x);
 
-    [T,numCoeff] = size(x);
-    [~,numEq]    = size(y);
-    xx           = x'*x;
-    
-    % Hyper prior
-    lam2Prior = prior.lam2Prior;
-    R2target  = .25;
-    if isempty(lam2Prior)
-        lam2 = sqrt(R2target/(8*numCoeff*(1 - R2target)^2));
-    elseif isnumeric(lam2Prior) == 1
-        lam2 = lam2Prior; 
-    else
-        error('The lam2Prior prior option must be [] or a number!')
-    end
-    
-    % Initialize priors
-    initSigma = zeros(numEq,numEq);
-    initBeta  = zeros(numCoeff,numEq);
-    for n = 1:numEq
-        xy             = x'*y(:,n);
-        RidgeVarAux    = 8*(1 - R2target)*lam2^2;
-        initBeta(:,n)  = (xx+eye(numCoeff)/RidgeVarAux)\xy;
-        res            = y(:,n) - x*initBeta(:,n);
-        SSE            = res'*res;
-        initSigma(n,n) = SSE/(T - numCoeff);
-    end 
-    
-    % Gibbs sampling
-    %------------------------
-    [beta,sigma] = nb_bVarEstimator.laplaceDensity(y,x,initBeta,initSigma,lam2Prior,lam2,draws,prior.burn,prior.thin,waitbar);
+    % Draw from the posterior
+    prior.draws         = draws;
+    [beta,sigma,lambda] = nb_laplace(y,x,prior,constant,0,'waitbar',waitbar);
        
     % Expand to include all zero regressors
     if any(~indZR)
@@ -128,10 +99,17 @@ function [beta,sigma,x,posterior] = laplace(draws,y,x,constant,timeTrend,prior,r
     %----------------------------------------------------
     if nargout > 3
         posterior = struct('type','laplace','betaD',beta,'sigmaD',sigma,...
-                           'regressors',x,'restrictions',{restrictions},'dependent',y,...
-                           'burn',prior.burn,'thin',prior.thin,'lam2Prior',lam2Prior,...
-                           'lam2',lam2);
+            'regressors',x,'restrictions',{restrictions},'dependent',y,...
+            'burn',prior.burn,'thin',prior.thin,'lambda',prior.lambda,...
+            'constantDiffuse',prior.constantDiffuse,'constant',constant);
     end
 
+    % Add constant to x output
+    if constant        
+        x = [ones(sizeX,1), x];
+    end
+
+    % Merge beta and lambda (will be split again later on)
+    beta = [beta;lambda];
     
 end

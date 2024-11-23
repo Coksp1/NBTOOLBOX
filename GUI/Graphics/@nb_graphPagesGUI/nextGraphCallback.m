@@ -9,7 +9,7 @@ function nextGraphCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the current struct name
     displayedGraphMenu = findobj(gui.graphMenu,'checked','on');

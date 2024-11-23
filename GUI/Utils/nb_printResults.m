@@ -15,7 +15,7 @@ function nb_printResults(res,name)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Print the results in a new window for the user
     f = nb_guiFigure([],name,[50 40 120 30],'normal','on');

@@ -9,7 +9,7 @@ function updateMomentsPanel(gui)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     set(gui.meanText, 'string', gui.currentDistribution.mean);
     set(gui.medianText, 'string', gui.currentDistribution.median);

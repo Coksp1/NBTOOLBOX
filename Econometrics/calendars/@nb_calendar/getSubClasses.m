@@ -14,7 +14,7 @@ function classes = getSubClasses()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     classes = {'nb_allCalendar';'nb_currentCalendar';'nb_lastCalendar';...
                'nb_manualCalendar';'nb_numDaysCalendar'};

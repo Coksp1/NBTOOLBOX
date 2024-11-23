@@ -32,7 +32,7 @@ function num = nb_letter2num(letter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~nb_isOneLineChar(letter)
         error([mfilename ':: The letter input must be a one line char.'])

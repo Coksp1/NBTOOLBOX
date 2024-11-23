@@ -22,7 +22,7 @@ function s = nb_defaultField(s,field,default)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(s) > 1
         if ~isfield(s,field)

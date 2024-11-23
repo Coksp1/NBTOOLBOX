@@ -9,7 +9,7 @@ function setTooltipCallback(gui,~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     plotterA = gui.plotter;
     plotter  = gui.plotter.plotter;
@@ -29,15 +29,17 @@ function setTooltipCallback(gui,~,~)
     wrap  = nb_getUIControlValue(gui.tooltipWrapping,'logical');
     plotterA.set('tooltipWrapping',wrap);
     
-    % Update the graph object
+    % Update the graph object 
     try
+        nb_localFunction(plotterA,strEng,true);
+        nb_localFunction(plotterA,strNor,true);
         plotter.graph();
     catch Err
         plotterA.set('tooltipNor' ,oldNor);
         plotterA.set('tooltipEng' ,oldEng);
         plotterA.set('tooltipWrapping' ,oldW);
         plotter.graph();
-        nb_errorWindow('Error while interpreting the figure title:: ', Err);
+        nb_errorWindow('Error while interpreting the tooltip:: ', Err);
         return
     end
     

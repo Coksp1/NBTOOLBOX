@@ -23,7 +23,7 @@ function c = nb_alpha(c1,c2,alpha1,alpha2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     alpha = alpha1 + alpha2*(1-alpha1);
     c     = (c1*alpha1 + c2*alpha2*(1-alpha1))/alpha;

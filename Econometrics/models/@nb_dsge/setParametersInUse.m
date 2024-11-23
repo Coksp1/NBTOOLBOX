@@ -20,7 +20,7 @@ function obj = setParametersInUse(obj,parameters)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind = ismember(parameters,obj.parameters.name);
     if any(~ind)

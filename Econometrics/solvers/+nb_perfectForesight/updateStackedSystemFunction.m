@@ -10,7 +10,7 @@ function funcs = updateStackedSystemFunction(obj,funcs,inputs,iter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if iter == 1
         initVal = cell2mat(struct2cell(inputs.initVal));

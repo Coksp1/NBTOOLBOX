@@ -13,7 +13,7 @@ function [DY,err] = getNewtonUpdateOnePeriod(funcs,JF,solveIter,Y,varargin)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     FY = funcs.F(Y,varargin{:});
     if norm(FY) < sqrt(eps)

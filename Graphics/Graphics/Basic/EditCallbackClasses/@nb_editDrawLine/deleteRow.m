@@ -1,7 +1,7 @@
 function deleteRow(gui,~,~)
 % Add row to the lookupmatrix (i.e. the table)
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the rows to delete
     row = gui.selectedCells;

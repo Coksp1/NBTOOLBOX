@@ -45,7 +45,7 @@ function f = pdf(obj,x,type)
 %                         
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: The input obj must be a scalar nb_copula object.'])

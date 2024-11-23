@@ -62,7 +62,7 @@ function obj = setSystemPrior(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nInp = length(varargin);
     if rem(nInp,2) ~= 0

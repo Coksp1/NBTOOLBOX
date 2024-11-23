@@ -10,7 +10,7 @@ function [YT,err] = blockIteration(obj,funcs,inputs,iter,outer,YT)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Solve for the prologue
     [YT,err] = nb_perfectForesight.proSolver(obj,inputs,YT,iter);

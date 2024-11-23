@@ -14,9 +14,12 @@ function nb_makeFigureIdle(hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     figureHandle = hObject.figureHandle;
+    if isempty(figureHandle)
+        figureHandle = nb_getParentRecursively(hObject.parent);
+    end
     
     % Disable uicontrol object of the figure
     idleControls = findobj(figureHandle,'type','uicontrol');
@@ -25,8 +28,16 @@ function nb_makeFigureIdle(hObject,~)
     idleControls = idleControls(ind); % Only disable the uicontrol object which are enabled
     set(idleControls,'enable','off');
     
+    % Disable uipanels object of the figure
+    idlePanels = findobj(figureHandle,'type','uipanel');
+    ind = get(idlePanels,'enable');
+    ind = strcmpi(ind,'on');
+    idlePanels = idlePanels(ind); % Only disable the uicontrol object which are enabled
+    set(idlePanels,'enable','off');
+
     % Store disabled controls for use by the nb_makeFigureAlive function)
     setappdata(figureHandle, 'idleControls', idleControls);
+    setappdata(figureHandle, 'idlePanels', idlePanels);
     
     % Make the mouse pointer of the figur a time glass
     set(hObject.figureHandle,'pointer','watch')

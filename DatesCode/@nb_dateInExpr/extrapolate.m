@@ -34,14 +34,14 @@ function obj = extrapolate(obj,toDate,varargin)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     types   = {'flow','stock','test'};
     default = {'alpha',     0.05,   @(x)nb_isScalarNumber(x,0);...
                'constant',  false,  @nb_isScalarLogical;...
                'draws',     1000,   @(x)nb_isScalarInteger(x,0);...
                'freq',         1,   @(x)nb_isScalarInteger(x,0);...
-               'method',    'end',  @nb_isOneLineChar;...   
+               'method',    'end',  {@nb_isOneLineChar,'||',@nb_isScalarNumber};...   
                'nLags',     5,      @(x)nb_isScalarInteger(x,0);...
                'takeLog',   false,  @nb_isScalarLogical;...
                'type',      'flow', @(x)nb_ismemberi(x,types)};
@@ -74,6 +74,11 @@ function obj = extrapolate(obj,toDate,varargin)
             end
         end
     end
-    obj.date = nb_date.max(obj.date,toDate);
+    
+    if isa(toDate,'nb_dateInExpr')
+        obj.date = nb_date.max(obj.date,toDate.date);
+    else
+        obj.date = nb_date.max(obj.date,toDate); 
+    end
        
 end

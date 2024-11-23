@@ -25,7 +25,7 @@ function f = normal_cdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     z = (x - m)./(k.*sqrt(2));
     f = 0.5.*erfc(-z);

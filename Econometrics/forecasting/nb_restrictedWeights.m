@@ -38,7 +38,7 @@ function weights = nb_restrictedWeights(scores,limits,selectors)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         selectors = {@(x)max(3,round(x*0.5)),@(x)max(5,round(x*0.2)),@(x)20};
@@ -83,7 +83,7 @@ function weights = selectModelsAndWeight(scores,Q)
             end
         end
     end
-    sumScores = nansum(scores,4);
+    sumScores = sum(scores,4,'omitnan');
     weights   = bsxfun(@rdivide,scores,sumScores);
         
 end

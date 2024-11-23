@@ -9,7 +9,7 @@ function getModeFromCallback(gui,~,~)
 % 
 % Written by Henrik Halvorsen Hortemo and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     dists = {gui.distribution.name};
     dists = [dists(1:gui.currentDistributionIndex-1),dists(gui.currentDistributionIndex+1:end)];

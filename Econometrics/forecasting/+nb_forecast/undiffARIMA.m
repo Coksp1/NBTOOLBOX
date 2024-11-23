@@ -9,7 +9,7 @@ function Y = undiffARIMA(options,start,Y)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     Y    = [nan(1,1,size(Y,3));Y];
     var  = options.dependent{1};

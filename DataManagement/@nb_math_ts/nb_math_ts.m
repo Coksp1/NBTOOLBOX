@@ -72,7 +72,7 @@ classdef nb_math_ts
 % 
 % Written by Kenneth Sæterhagen Paulsen   
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (Dependent=true)
 
@@ -270,6 +270,8 @@ classdef nb_math_ts
             end
 
         end
+        
+        varargout = checkInverseMethodsInput(varargin)
              
     end
     

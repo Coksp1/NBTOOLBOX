@@ -35,7 +35,7 @@ function a = vertcat(a,b,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(a,'nb_math_ts') && ~isa(b,'nb_math_ts')
         error([mfilename ':: Undefined function ''vertcat'' for input arguments of type ''' class(a) ''' and ''' class(b) '''.'])
@@ -55,13 +55,9 @@ function a = vertcat(a,b,varargin)
     end
 
     a.data    = [a.data;b.data];
-    a.dim1    = a.dim1 + b.dim1;
     a.endDate = a.startDate + a.dim1 - 1;
-    
     if ~isempty(varargin)
-        
         a = vertcat(a,varargin{:});
-        
     end
 
 end

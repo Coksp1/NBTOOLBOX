@@ -39,7 +39,7 @@ function priors = getPriors(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     n_f = options.nFactors;
     k   = options.nFactors*options.nLags;
@@ -80,16 +80,16 @@ function priors = getPriors(options)
 
     % set the prior for the VAR coefficients coefficients beta_t
     [beta_0.mean,beta_0.var] = minnesotaKK(options);
-
+    
     % set the prior of the observation equation's variance
     if any(options.indObservedOnly) && ~isempty(options.mixing)
         [~,indY] = ismember(options.observables,options.dataVariables);
         y        = options.data(:,indY);
         V_0      = options.prior.V0VarScale.*ones(options.n,1);      
         if isscalar(options.prior.R_scale)
-            V_0(options.mixingSettings.loc) = nanvar(y(:,options.mixingSettings.loc))/options.prior.R_scale;
+            V_0(options.mixingSettings.loc) = var(y(:,options.mixingSettings.loc),'omitnan')/options.prior.R_scale;
         else
-            varDep = nanvar(y(:,options.prior.R_scale(:,1)))';
+            varDep = var(y(:,options.prior.R_scale(:,1)),'omitnan')';
             V_0(options.prior.R_scale(:,1)) = varDep./options.prior.R_scale(:,2);
         end
         V_0 = diag(V_0);

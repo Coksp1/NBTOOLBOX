@@ -5,7 +5,7 @@ function tempSol = solveRecursive(~,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if options.minLags < 1 && ~istril(options.indCont)
         error([mfilename ':: Cannot forecast a model with contemporaneous ',...

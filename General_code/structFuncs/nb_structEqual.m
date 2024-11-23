@@ -25,7 +25,7 @@ function ret = nb_structEqual(s1,s2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ret = true;
     if ~isstruct(s1)

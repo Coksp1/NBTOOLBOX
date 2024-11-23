@@ -15,7 +15,7 @@ sim     = nb_ts.simulate('2012M1',obs,{'VAR1','VAR2','VAR3'},1,lambda,rho);
 
 %nb_graphSubPlotGUI(sim);
 
-%% Estimate VAR (OLS)
+%% Estimate VAR (LASSO)
 
 % Options
 t                = nb_var.template();
@@ -24,13 +24,30 @@ t.estim_method   = 'lasso';
 t.dependent      = sim.variables;
 t.constant       = false;
 t.nLags          = 2;
-t.doTests        = 1;
 t.optimset       = nb_lasso.optimset();
 t.regularization = 1;
 
 % Create model and estimate
 model = nb_var(t);
 model = estimate(model);
+print(model)
+printCov(model)
+
+%% Estimate VAR (LASSO)
+
+% Options
+t                = nb_var.template();
+t.data           = sim;
+t.estim_method   = 'lasso';
+t.dependent      = sim.variables;
+t.constant       = false;
+t.nLags          = 2;
+t.optimset       = nb_lasso.optimset();
+
+% Create model and estimate
+model       = nb_var(t);
+[reg,model] = getRegularization(model,'perc',0.5);
+model       = estimate(model);
 print(model)
 printCov(model)
 

@@ -34,7 +34,7 @@ function x = meanshift_icdf(p,dist,param,lb,ub,ms)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(ub) && isempty(lb)
         func = str2func(['nb_distribution.' dist '_icdf']);

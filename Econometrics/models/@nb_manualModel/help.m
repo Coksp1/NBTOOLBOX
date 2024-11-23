@@ -24,7 +24,7 @@ function helpText = help(option,maxChars)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         maxChars = [];
@@ -33,7 +33,7 @@ function helpText = help(option,maxChars)
         end
     end
     
-    % Genereate help for the different options
+    % Generate help for the different options
     helper   = nb_writeHelp('nb_manualModel',option,'class','timeseries');
     helper   = set(helper,'max',maxChars);
     helpText = help(helper);

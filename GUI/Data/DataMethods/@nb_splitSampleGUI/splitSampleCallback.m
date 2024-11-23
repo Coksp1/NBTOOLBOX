@@ -9,7 +9,7 @@ function splitSampleCallback(gui,~,~,window)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get and test arguments
     subsampleLength = str2double(get(gui.subsampleLengthBox,'string'));

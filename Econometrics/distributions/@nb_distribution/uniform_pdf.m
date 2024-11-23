@@ -25,7 +25,7 @@ function f = uniform_pdf(x,m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     f              = nan(size(x));
     f(x>=m & x<=k) = 1/(k - m);

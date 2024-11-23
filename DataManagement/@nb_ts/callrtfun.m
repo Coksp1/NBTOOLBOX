@@ -42,7 +42,7 @@ function out = callrtfun(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [func,varargin] = nb_parseOneOptional('func',@(x)x,varargin{:});
     [name,varargin] = nb_parseOneOptional('name','new',varargin{:});
@@ -111,7 +111,7 @@ function out = callrtfun(obj,varargin)
     for ii = 1:nCont
         for jj = 1:nobj
             current    = find(allContexts(ii) >= contextsForEach{jj},1,'last');
-            inputs{jj} = varargin{jj}.data(s:e,:,current);
+            inputs{jj} = varargin{jj}.data(s(jj):e(jj),:,current);
         end
         out.data(:,:,ii) = func(inputs{:});
     end

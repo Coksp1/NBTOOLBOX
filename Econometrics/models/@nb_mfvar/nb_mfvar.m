@@ -1,11 +1,11 @@
-classdef nb_mfvar < nb_var
+classdef nb_mfvar < nb_var & nb_calculate_generic
 % Description:
 %
 % A class for estimation and identification of mixed frequency VAR models.
 %
 % Superclasses:
 %
-% nb_var, nb_model_generic,
+% nb_var, nb_model_generic, nb_calculate_generic
 %
 % Constructor:
 %
@@ -25,7 +25,7 @@ classdef nb_mfvar < nb_var
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     methods
         
@@ -149,6 +149,7 @@ classdef nb_mfvar < nb_var
         varargout = constructScoreLowFreq(varargin)
         varargout = getFrequencyStatic(varargin)
         varargout = help(varargin)
+        varargout = priorHelp(varargin)
         varargout = priorTemplate(varargin)
         varargout = solveNormal(varargin)
         varargout = solveRecursive(varargin)

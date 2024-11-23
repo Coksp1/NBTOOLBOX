@@ -12,7 +12,7 @@ function obj = assignTemplate(obj,template)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = copy(obj); % We copy the object to prevent these settings to be permanent!
     for ii = 1:length(obj.graphs)

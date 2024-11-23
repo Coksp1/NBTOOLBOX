@@ -38,7 +38,7 @@ function p = getParameters(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~iscellstr(varargin)
         error([mfilename ':: All optional inputs must be of type char.'])

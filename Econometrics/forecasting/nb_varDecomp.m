@@ -57,7 +57,7 @@ function decomp = nb_varDecomp(model,options,results,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     perc   = inputs.perc;
     method = inputs.method;

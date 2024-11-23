@@ -17,13 +17,17 @@ function xout = nb_mavg(xin,backward,forward,flag)
 % - forward  : The number of elements forward to include in moving 
 %              average.
 % 
+% - flag     : If set to true the periods that does not have enough
+%              observations forward or backward should be set to nan.
+%              Default is false.
+%
 % Examples:
 % 
 % newseries = nb_mavg(x,9,0); % 10-element moving average
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         flag = false;
@@ -51,7 +55,7 @@ function xout = nb_mavg(xin,backward,forward,flag)
     end
     xback_nzero(isnan(xback)) = zeros;
     
-    xout = (nansum(xback,4) + xin + nansum(xfor,4))./(sum(xback_nzero,4) + sum(xfor_nzero,4) + 1); 
+    xout = (sum(xback,4,'omitnan') + xin + sum(xfor,4,'omitnan'))./(sum(xback_nzero,4) + sum(xfor_nzero,4) + 1); 
 
     if flag
         xout(1:backward,:,:)        = nan;

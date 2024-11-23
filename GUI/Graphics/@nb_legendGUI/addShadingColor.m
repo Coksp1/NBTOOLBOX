@@ -9,7 +9,7 @@ function addShadingColor(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the current fake legend
     string = get(gui.popupmenu2,'string');

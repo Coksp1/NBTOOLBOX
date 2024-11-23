@@ -4,7 +4,7 @@ model = nb_dsge('nb_file','model.nb');
 
 %% Add break point
 
-model = addBreakPoint(model,{'lambda_c'},0.9,date + breakP);
+model = addBreakPoint(model,{'lambda_c'},0.9,'2010Q1');
 
 %% Assign parameters and solve
 
@@ -46,7 +46,7 @@ nb_graphSubPlotGUI(plotter);
 % Set priors
 priors                 = struct();
 priors.lambda_c        = {0.5,0.7,0.2,'normal',0,1};
-priors.lambda_c_2002Q3 = {0.5,0.9,0.2,'normal',0,1};
+priors.lambda_c_2010Q1 = {0.5,0.9,0.2,'normal',0,1};
 priors.lambda_t        = {0.5,0.5,0.2,'beta'};
 priors.std_ec          = {0.9,1,10,'invgamma'};
 priors.std_en          = {0.05,0.1,10,'invgamma'};

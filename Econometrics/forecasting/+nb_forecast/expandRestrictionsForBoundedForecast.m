@@ -9,7 +9,7 @@ function restrictions = expandRestrictionsForBoundedForecast(restrictions,nSteps
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nEndo                      = length(restrictions.endo);
     yRest                      = nan(nSteps,nEndo);

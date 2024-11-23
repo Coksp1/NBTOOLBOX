@@ -13,11 +13,16 @@ function obj = today()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    c   = clock;
-    y   = str2double(sprintf('%.0f',c(1)));
+    try
+        c  = datetime('now');
+        y = year(c);
+    catch
+        c   = clock;
+        y   = str2double(sprintf('%.0f',c(1)));
+    end
     obj = nb_year(y);
-    
+
 end
 

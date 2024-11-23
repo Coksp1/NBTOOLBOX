@@ -14,7 +14,7 @@ function results = dfsane(opt,fVal)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % For now set defaults
     timeSincLast     = 0;

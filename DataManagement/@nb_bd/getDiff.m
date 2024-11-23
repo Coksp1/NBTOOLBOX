@@ -29,7 +29,7 @@ function [diffStr1, diffStr2, sameStr] = getDiff(cellstr1,cellstr2)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     found = zeros(size(cellstr1));
     for ii = 1:length(cellstr1)

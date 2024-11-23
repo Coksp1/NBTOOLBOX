@@ -9,7 +9,7 @@ function checkJacobian(obj,inputs,JFM)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     eqs = obj.parser.equationsParsed; 
     per = size(JFM,1)/length(eqs);

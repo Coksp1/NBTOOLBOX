@@ -33,7 +33,7 @@ function obj = setRisePosteriorSettings(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This method can only be called on a 1x1 nb_dsge object.'])

@@ -14,7 +14,7 @@ sim1  = filter(1,[1,-0.5],draws); % ARIMA(1,0,0)
 
 % Transform to nb_ts object
 data    = nb_ts(sim1,'','2000Q1',{'VAR1'});
-datalag = lag(data);
+datalag = nb_lag(data);
 datalag = addPostfix(datalag,'_lag1');
 data    = [data,datalag]; % Append lagged series to data object
 

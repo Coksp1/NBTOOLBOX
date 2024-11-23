@@ -9,9 +9,9 @@ function [coeff,numCoeff] = getCoeff(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    if strcmpi(options(1).algorithm,'unrestricted')
+    if any(strcmpi(options(1).algorithm,{'unrestricted','lasso','ridge'}))
         exo    = options(1).exogenous(1:options.nExo);
         nCoeff = max(options(1).nLags + 1);
         coeff  = cell(options.nExo,nCoeff);

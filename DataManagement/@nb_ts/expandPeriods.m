@@ -22,19 +22,16 @@ function obj = expandPeriods(obj,periods,type)
 %              - 'rand'  : Expanded data is all random numbers
 %              - 'obs'   : Expand the data with first observation 
 %                          (before) or last observation after
+%              - integer : Expand with a rolling window.
 %
 %
 % Output:
 % 
 % - obj     : An object of class nb_ts.
 %
-% Examples:
-%
-% See also:
-%
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         type = 'nan';
@@ -49,19 +46,33 @@ function obj = expandPeriods(obj,periods,type)
         neg     = 0;
     end
 
-    switch lower(type)
-        
-        case 'nan'
-            data = nan(periods,obj.numberOfVariables,obj.numberOfDatasets);
-        case 'zeros'
-            data = zeros(periods,obj.numberOfVariables,obj.numberOfDatasets);
-        case 'ones'
-            data = ones(periods,obj.numberOfVariables,obj.numberOfDatasets);
-        case 'rand'
-            data = rand(periods,obj.numberOfVariables,obj.numberOfDatasets);
-        case 'obs'
-            data = obj.data(end,:,:);
-            data = data(ones(1,periods),:,:);
+    if nb_isScalarInteger(type)
+        if neg
+            data = obj.data(1:type,:,:);
+            pers = ceil(periods/type);
+            data = repmat(data,[pers,1,1]);
+            data = data(end-periods+1:end,:,:);
+        else
+            data = obj.data(end-type+1:end,:,:);
+            pers = ceil(periods/type);
+            data = repmat(data,[pers,1,1]);
+            data = data(1:periods,:,:);
+        end
+    else
+        switch lower(type)
+
+            case 'nan'
+                data = nan(periods,obj.numberOfVariables,obj.numberOfDatasets);
+            case 'zeros'
+                data = zeros(periods,obj.numberOfVariables,obj.numberOfDatasets);
+            case 'ones'
+                data = ones(periods,obj.numberOfVariables,obj.numberOfDatasets);
+            case 'rand'
+                data = rand(periods,obj.numberOfVariables,obj.numberOfDatasets);
+            case 'obs'
+                data = obj.data(end,:,:);
+                data = data(ones(1,periods),:,:);
+        end
     end
      
     if neg

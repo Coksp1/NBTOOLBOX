@@ -18,6 +18,7 @@ function date = toString(obj,format,first)
 %   > 'pprengelsk' or 'mprenglish' : 'd(d) Monthtext yyyy'
 %   > 'default' (otherwise)        : 'yyyyMm(m)Dd(d)'
 %   > 'vintage'                    : 'yyyymmdd'
+%   > 'gui'                        : 'yyyy-mm-dd'
 % 
 % - first  : 
 %
@@ -44,7 +45,7 @@ function date = toString(obj,format,first)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         first = 0;
@@ -118,6 +119,23 @@ function date = toString(obj,format,first)
                     date = strcat(yearS, int2str(obj.month),int2str(obj.day));
                 end
             end
+
+        case 'gui'
+            
+            yearS = int2str(obj.year);
+            if obj.month < 10
+                if obj.day < 10
+                    date = strcat(yearS, '-0', int2str(obj.month), '-0', int2str(obj.day));
+                else
+                    date = strcat(yearS, '-0', int2str(obj.month), '0', int2str(obj.day));
+                end
+            else
+                if obj.day < 10
+                    date = strcat(yearS, '-', int2str(obj.month), '-0', int2str(obj.day));
+                else
+                    date = strcat(yearS, '-', int2str(obj.month), '-', int2str(obj.day));
+                end
+            end    
 
         case 'fame'
 

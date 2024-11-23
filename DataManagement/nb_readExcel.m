@@ -71,7 +71,7 @@ function data = nb_readExcel(filename,sheet,range,transpose,sorted,c)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         c = {};

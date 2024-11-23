@@ -25,7 +25,7 @@ function obj = forecast(obj,nSteps,varargin)
 %  
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = obj(:);
     nobj = size(obj,1);
@@ -88,7 +88,7 @@ function obj = forecast(obj,nSteps,varargin)
         actual         = reorder(actual,forecastOut.dependent);
         actual         = double(actual);
         shiftVars      = obj(ii).modelIter(end).options.shift.variables;
-        [ind,locS]      = ismember(shiftVars,forecastOut.dependent);
+        [ind,locS]     = ismember(shiftVars,forecastOut.dependent);
         locS           = locS(ind);
         shift          = double(window(obj(ii).modelIter(end).options.shift,forecastOut.start{1},obj(ii).modelIter(end).options.data.endDate));
         actual(:,locS) = actual(:,locS) + shift(:,ind);

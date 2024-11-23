@@ -14,6 +14,12 @@ function prior = priorTemplate(type,num)
 %
 % Caution: Hyperpriors will only be used if both the empirical and 
 %          hyperprior options are set to true!
+%
+% See the nb_var.priorHelp method to get help on the options of each of the
+% below listed priors.
+%
+% You can get more information on each of these priors in the documentation
+% ...\NBTOOLBOX\Documentation\theory.pdf
 % 
 % Input:
 %
@@ -24,20 +30,6 @@ function prior = priorTemplate(type,num)
 %                           apply block exogenous variables with this 
 %                           prior.
 %
-%            > 'ARcoeff'  : Hyperparameter on first lag coefficient of each
-%                           equation. Default is 1.
-%
-%            > 'coeff'    : See same options for the 'minnesota' prior. 
-%
-%            > 'lambda'   : Hyperparameter that controls the overall 
-%                           tightness of this prior. Defualt is 0.2.
-%
-%            > 'Vc'       : Hyperparamter on exogenous variables. Default
-%                           is 1e7.
-%
-%             > 'S_scale' : Prior scale of prior on sigma. Default is 1,
-%                           i.e. OLS. 
-%
 %          - 'glpMF'      : Same as 'glp', but as we now need a 
 %                           gibbs sampler the below options are added. 
 %                           This prior option supports missing 
@@ -47,61 +39,10 @@ function prior = priorTemplate(type,num)
 %                           must be stationary at the prior to run the 
 %                           kalman filter.
 %
-%             > 'burn'    : How many draws that should be used as burn
-%                           in. Default is 500.
-%
-%             > 'thin'    : Every k draws are kept when doing gibbs.
-%                           This options sets k. Default is 2. Increase
-%                           this option to prevent autocorrelated
-%                           draws. See nb_model_generic.checkPosteriors
-%                           to test for autocorrelated draws.
-%
-%          - 'jeffrey'     : Diffuse jeffrey prior. No options.
+%          - 'jeffrey'     : Diffuse jeffrey prior. 
 %
 %          - 'minnesota'   : Minnesota prior options. See page 6 of Koop  
 %                            and Korobilis (2009). Output fields:
-%
-%             > 'a_bar_1' : Hyperparamter on own lags. Default is 0.5.
-%
-%             > 'a_bar_2' : Hyperparamter on other lags. Default is 0.5.
-% 
-%             > 'a_bar_3' : Hyperparamter on exogenous variables. Default 
-%                           is 100.
-%
-%             > 'ARcoeff' : Hyperparameter on first lag coefficient of each
-%                           equation. Default is 0.9.
-%
-%             > 'coeff'   : A N x 2 cell array with specific priors
-%                           on some coefficients. In the first column
-%                           you must provide the name of the coefficient,
-%                           name of dependent + _ + name of rhs variable
-%                           + lag specifier. E.g. 'Var1_Var1_lag1' or
-%                           'Var1_Var2'. In the last example Var2 is an
-%                           exogenous variable. In the second column
-%                           you give the prior value, as a scalar double.
-%
-%             > 'method'  : Sets the method to use to draw from the
-%                           posterior. Either 'default' (default) or any 
-%                           other string. 'default' uses (a fixed) 
-%                           covariance matrix of the shocks (i.e. the 
-%                           prior). Otherwise it also samples from the 
-%                           posterior distribution of the covariance 
-%                           matrix, as in the same way as in the case 
-%                           of the independent normal wishart (inwishart)
-%                           prior. The 'burn', 'thin' and 'S_scale' options 
-%                           only applies to this last case.
-%
-%             > 'burn'    : How many draws that should be used as burn
-%                           in. Default is 500.
-%
-%             > 'thin'    : Every k draws are kept when doing gibbs.
-%                           This options sets k. Default is 2. Increase
-%                           this option to prevent autocorrelated
-%                           draws. See nb_model_generic.checkPosteriors
-%                           to test for autocorrelated draws.
-%
-%             > 'S_scale' : Prior scale of prior on sigma. Default is 1,
-%                           i.e. OLS. 
 %
 %          - 'minnesotaMF' : Same as 'minnesota'. This prior option
 %                            supports missing observations. Cannot apply 
@@ -109,252 +50,34 @@ function prior = priorTemplate(type,num)
 %
 %          - 'nwishart'    : Normal-Wishart prior options. 
 %
-%             > 'V_scale' : Scale of the prior of the variance of the
-%                           coefficients. Default is 10.
-%
-%             > 'S_scale' : Prior scale of sigma. Default is 1.
-%
 %          - 'nwishartMF'  : Same as 'nwishart', but as we now need a 
 %                            gibbs sampler the below options are added. 
 %                            This prior option supports missing 
 %                            observations. Cannot apply block exogenous
 %                            variables with this prior.
 %
-%             > 'burn'    : How many draws that should be used as burn
-%                           in. Default is 500.
-%
-%             > 'thin'    : Every k draws are kept when doing gibbs.
-%                           This options sets k. Default is 2. Increase
-%                           this option to prevent autocorrelated
-%                           draws. See nb_model_generic.checkPosteriors
-%                           to test for autocorrelated draws.
-%
 %          - 'inwishart'   : Independent Normal-Wishart prior options. 
-%
-%             > 'V_scale' : Scale of the prior of the variance of the
-%                           coefficients. Default is 10.
-%
-%             > 'S_scale' : Prior scale of sigma. Default is 1.
-%
-%             > 'burn'    : How many draws that should be used as burn
-%                           in. Default is 500.
-%
-%             > 'thin'    : Every k draws are kept when doing gibbs.
-%                           This options sets k. Default is 2. Increase
-%                           this option to prevent autocorrelated
-%                           draws. See nb_model_generic.checkPosteriors
-%                           to test for autocorrelated draws.
 %
 %          - 'inwishartMF' : Same as 'inwishart'. This prior option
 %                            supports missing observations.
-%
-%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
-%            'nwishart' and 'nwishartMF' priors you also have the 
-%            oppurtunity to apply the prior for the long run as in 
-%            Giannone et. al (2014).
-%
-%             > 'LR'      : Apply priors for the long run. See also
-%                           nb_var.applyLongRunPriors. true or false.
-%
-%             > 'phi'     : Shrinkage parameter for the long run prior. 
-%                           For more see nb_var.applyLongRunPriors. 
-%
-%             > 'H'       : Matrix that specifies the cointegration 
-%                           relations. For more see 
-%                           nb_var.applyLongRunPriors.
-%
-%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
-%            'nwishart' and 'nwishartMF' priors you also have the 
-%            oppurtunity to apply the sum-of-coefficients  prior by Doan, 
-%            Litterman, and Sims (1984).
-%
-%             > 'SC'      : Apply sum-of-coefficients prior. true or false.
-%
-%             > 'mu'      : Shrinkage parameter of the sum-of-coefficients  
-%                           prior. As mu goes to 0 implies the presence  
-%                           of a unit root in each equation and rules out 
-%                           cointegration. 
-%
-%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
-%            'nwishart' and 'nwishartMF' priors you also have the 
-%            oppurtunity to apply the dummy-initial-observation prior by 
-%            Sims (1993).
-%
-%             > 'DIO'     : Apply dummy-initial-observation prior. true or 
-%                           false.
-%
-%             > 'delta'   : Shrinkage parameter of the dummy-initial-
-%                           observation prior. As delta goes to 0 all the 
-%                           variables of the VAR are forced to be at
-%                           their unconditional mean, or the system is 
-%                           characterized by the presence of an
-%                           unspecified number of unit roots without 
-%                           drift. As such, the dummy-initial observation 
-%                           prior is consistent with cointegration
-%
-%          - For the 'glp', 'glpMF', 'jeffrey', 'minnesota', 'minnesotaMF', 
-%            'nwishart' and 'nwishartMF' priors you also have the 
-%            oppurtunity to apply the stochastic-volatility-dummy prior
-%            "How to estimate a vector autoregression after March 2020"
-%            by Lenza and Primiceri (2020).
-%
-%             > 'SVD'        : Apply stochastic-volatility-dummy prior.   
-%                              true or false.
-% 
-%             > 'periodsMax' : Number of periods we allow for estimation
-%                              of s_t. Default is 3.
-%
-%             > 'rho'        : Decay parameter, used for s_t after reaching 
-%                              periodsMax. Default is 0.5.
-%
-%             > 'dateSVD'    : A one line char for where to start the
-%                              stochastic-volatility-dummy prior. E.g.
-%                              '2020Q1'. This must be set, if SVD == true!
 %
 %          - 'kkse'        : This is the prior used in the paper by 
 %                            Koop and Korobilis (2014) extended by Schroder 
 %                            and Eraslan (2021) to handle mixed frequency,
 %                            but adapted to the VAR setting.
 %
-%            > 'f0VarScale'      : Scale factor on the variance of the  
-%                                  prior on the initial value of factors.
-%                                  Default is 10. N(0,f0VarScale*I)
+%          - 'dsge'        : DSGE-VAR prior. See Del Negro and Schorfheide 
+%                            (2004), "Priors from General Equilibrium  
+%                            Models for VARS". Let N be number of 
+%                            dependent variables, L the number of lags of 
+%                            the VAR, and C is equal to 1 if a constant is
+%                            inlcuded. otherwise 0.
 %
-%            > 'lambda0VarScale' : Scale factor on the variance of the  
-%                                  prior on the initial value of the factor 
-%                                  loadings. Default is 1. 
-%                                  N(0,lambdaVarScale*I). !!Remove!!
-%           
-%            > 'V0VarScale'      : Scale factor on the mean of the  
-%                                  prior on the initial value of the 
-%                                  measurement equation covariance matrix.  
-%                                  Default is 0.1. Dogmatic prior set to 
-%                                  V0VarScale*I. !!Remove!!
+%          - 'laplace'     : A Laplace - Diffuse prior, i.e. the bayesian 
+%                            LASSO. For more on this prior see nb_laplace.
 %
-%            > 'Q0VarScale'      : Scale factor on the mean of the  
-%                                  prior on the initial value of the 
-%                                  state equation covariance matrix.  
-%                                  Default is 0.1. Dogmatic prior set to 
-%                                  Q0VarScale*I.
-%
-%            > 'gamma'           : Hyperparameter on prior variance of the
-%                                  coefficients of the state equations. 
-%                                  On the form V(i,j) = gamma./
-%                                  (ceil(j/options.nFactors).^2). Where
-%                                  V is a matrix with size option.nFactors 
-%                                  x option.nLags*option.nFactors. Default 
-%                                  value is 0.1.
-%
-%            > 'l_1m'            : Starting value of:
-%                                  Decay factor for the measurement error
-%                                  variance of the monthly variables. A
-%                                  smaller value puts smaller weight on
-%                                  past observations and thus allows for
-%                                  faster parameter change. A value of 1
-%                                  implies constant parameters. Default
-%                                  is 1. Do not adjust!
-%
-%            > 'l_1q'           :  Starting value of:
-%                                  Decay factor for the measurement error
-%                                  variance of the quarterly variables. A
-%                                  smaller value puts smaller weight on
-%                                  past observations and thus allows for
-%                                  faster parameter change. A value of 1
-%                                  implies constant parameters. Default
-%                                  is 1. Do not adjust!
-%
-%            > 'l_2'              : Starting value of:
-%                                  Decay factor for the factor error
-%                                  variance. A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters. 
-%                                  Default is 1.
-%
-%            > 'l_3'              : Starting value of:
-%                                  Decay factor for the loadings' error
-%                                  variance. A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters.
-%                                  Default is 1. Do not adjust!
-%
-%            > 'l_4'              : Starting value of:
-%                                  Decay factor for the factor VAR
-%                                  parameters' error variance.
-%                                  A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters. 
-%                                  Default is 1.
-%
-%            > 'l_1_endo_update' : Controls the endogenous forgetting
-%                                  factors
-%                                  1: l_1m and l_1q are time-varying/
-%                                     endogenous
-%                                  0: l_1m and l_1q are constant/static 
-%                                  Default is 0. Do not adjust!                                
-%
-%            > 'l_2 endo_update' : Controls the endogenous forgetting
-%                                  factors
-%                                  1: l_2 is time-varying/endogenous
-%                                  0: l_2 is constant/static 
-%                                  Default is 0.
-%
-%            > 'l_3_endo_update' : Controls the endogenous forgetting
-%                                  factors
-%                                  1: l_3 is time-varying/endogenous
-%                                  0: l_3 is constant/static 
-%                                  Default is 0. Do not adjust!
-%
-%            > 'l_4_endo_update' : Controls the endogenous forgetting
-%                                  factors
-%                                  1: l_4 is time-varying/endogenous
-%                                  0: l_4 is constant/static 
-%                                  Default is 0.
-%
-%          - 'dsge' : DSGE-VAR prior. See Del Negro and Schorfheide 
-%                     (2004), "Priors from General Equilibrium Models for 
-%                     VARS". Let N be number of dependent variables, L the 
-%                     number of lags of the VAR, and C is equal to 1 if a 
-%                     constant is inlcuded. otherwise 0.
-%
-%            > 'lambda'  : DSGE-VAR weight.
-%
-%            > 'GammaYY' : A N x N double with the nonstandardized sample
-%                          moments of the left-hand variables of the VAR.
-%
-%            > 'GammaXX' : A (C + N*L) x (C + N*L) double with the 
-%                          nonstandardized sample moments of the right-hand 
-%                          variables of the VAR.
-%
-%            > 'GammaXY' : A (C + N*L) x N double with the nonstandardized 
-%                          sample moments between the right-hand
-%                          variables and the left-hand variables of the 
-%                          VAR.
-%
-%            The last 3 fields can be found from a nb_model_generic model
-%            using the method nb_model_generic.getDSGEVARPriorMoments.
-%
-%          Settings for econometric bayesian and hyper-learning:
-%
-%            > 'logTransformation' : Set to true to use the log 
-%                                    transformation -log((MAX-VALUE)
-%                                    ./(VALUE-MIN)) to the parameters to 
-%                                    optimize over. May be important if the
-%                                    optimizer chosen do not support lower
-%                                    and upper bounds! 
-%
-%            > 'optParam'           : A cellstr with the parameters to
-%                                     optimize over or empty. If empty 
-%                                     it tries to optimize over all hyper
-%                                     parameters of the selected prior.
-%
-%          Settings for missing observations priors:
-%
-%            > 'nonStationary' : Set to true to use some tricks to be able
-%                                to handle problems related to models in
-%                                levels. 
+%          - 'horseshoe'   : 
+%                           
 %
 % - num  : Number of prior templates to make.
 %
@@ -364,11 +87,12 @@ function prior = priorTemplate(type,num)
 %
 % See also:
 % nb_var, nb_model_generic.checkPosteriors, 
-% nb_model_generic.getDSGEVARPriorMoments
+% nb_model_generic.getDSGEVARPriorMoments, nb_var.priorHelp, 
+% nb_var.setPrior
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -414,6 +138,7 @@ function prior = priorTemplate(type,num)
             prior.S_scale = 1;
             prior.burn    = 500;
             prior.thin    = 2;
+            prior.R_scale = [];
 
             % Hyperpriors
             % Gamma with mode 1 and std 1
@@ -446,6 +171,7 @@ function prior = priorTemplate(type,num)
             
             if strcmpi(prior.type,'minnesotamf')
                 prior.nonStationary = false;
+                prior.R_scale       = [];
             end
              
         case 'nwishart'
@@ -473,6 +199,7 @@ function prior = priorTemplate(type,num)
             prior.mu      = 1;
             prior.DIO     = false;
             prior.delta   = 1;
+            prior.R_scale = [];
             
             % Hyperpriors
             % Gamma with mode 10 and std 10
@@ -489,6 +216,10 @@ function prior = priorTemplate(type,num)
             prior.S_scale = 1;
             prior.burn    = 500;
             prior.thin    = 2;
+            
+            if strcmpi(prior.type,'inwishartmf')
+                prior.R_scale = [];
+            end
             
         case 'kkse'
             
@@ -514,11 +245,21 @@ function prior = priorTemplate(type,num)
             prior.burn    = 500;
             prior.thin    = 2;
             
+            % horseshoe prior settings
+            prior.lambda  = 0.1;
+            prior.tau     = 0.1;
+            prior.nu      = 0.1;
+            prior.xi      = 0.1;
+            
+            prior.sv      = 0; % 0: constant variance 1: stochastic volatility
+            
         case 'laplace'
             
-            prior.lam2Prior = [];
-            prior.burn      = 500;
-            prior.thin      = 2;
+            prior.constantDiffuse = true;
+            prior.lambda          = [];
+            prior.burn            = 500;
+            prior.thin            = 2;
+            
             
         case 'dsge'
             

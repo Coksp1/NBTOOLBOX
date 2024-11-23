@@ -9,7 +9,7 @@ function exportTextStruct(gui,~,~)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     graphInfo = gui.infoStruct;
     

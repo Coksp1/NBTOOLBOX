@@ -32,7 +32,7 @@ function x = skt_median(a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = nb_distribution.skt_icdf(0.5,a,b,c,d);
 

@@ -68,7 +68,7 @@ function [nlags,y,X] = nb_lagLengthSelection(constant,time_trend,maxLagLength,cr
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         startInd = [];

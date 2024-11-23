@@ -28,7 +28,7 @@ function obj = convertEach(obj,freq,methods,varargin)
 %
 % Written by Kenneth S. Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         methods = '';
@@ -42,8 +42,10 @@ function obj = convertEach(obj,freq,methods,varargin)
         end
         obj.preventSettingData = false;
         obj.options.data       = convertEach(obj.options.data,freq,methods,varargin{:});
-        obj.options.shift      = convert(obj.options.shift,freq); % Does not support de-trending in this case, but we just make it not provide an error here
-        obj.options.shift      = expand(obj.options.shift,'',obj.options.data.endDate + 2,'zeros','off');
+        if isfield(obj.options,'shift')
+            obj.options.shift = convert(obj.options.shift,freq); % Does not support de-trending in this case, but we just make it not provide an error here
+            obj.options.shift = expand(obj.options.shift,'',obj.options.data.endDate + 2,'zeros','off');
+        end
         obj.preventSettingData = true;
     else
         if isempty(obj.dataOrig)

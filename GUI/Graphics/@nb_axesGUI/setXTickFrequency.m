@@ -9,7 +9,7 @@ function setXTickFrequency(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
    % Get the value selected
     index   = get(hObject,'value');

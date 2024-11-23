@@ -109,7 +109,7 @@ function [obj,weights,plotter] = combineForecast(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error([mfilename ':: When combining forecast the obj input can only consist of one nb_model_group object'])

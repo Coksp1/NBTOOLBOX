@@ -13,7 +13,7 @@ function obj = checkReporting(obj)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(obj,'nb_model_vintages')
         error([mfilename ':: Cannot call this method on a nb_model_vintages object. This is done '...

@@ -23,7 +23,7 @@ function x = nb_bkfilter(y,low,high)
 %   
 % Written by Kenneth Sæterhagen Paulsen 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if high <= low
         error([mfilename ':: the lowest frequency cannot be be higher than the highest frequency.'])

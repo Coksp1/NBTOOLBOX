@@ -22,7 +22,7 @@ function [beta,sigma,yDraws,PDraws] = inwishartMFGibbs(draws,y,x,H,R_prior,initB
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Waitbar
     [h,note,isWaitbar] = nb_bVarEstimator.openWaitbar(waitbar,burn + draws);

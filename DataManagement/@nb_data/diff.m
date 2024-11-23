@@ -36,7 +36,7 @@ function obj = diff(obj,lags,skipNaN)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         skipNaN = 0;
@@ -57,7 +57,7 @@ function obj = diff(obj,lags,skipNaN)
                 dataTT              = dataT(:,jj,ii);
                 isNaN               = isnan(dataTT);
                 y                   = dataTT(~isNaN);
-                dataT(~isNaN,jj,ii) = y - lag(y,lags);
+                dataT(~isNaN,jj,ii) = y - nb_lag(y,lags);
                 
             end
             
@@ -65,7 +65,7 @@ function obj = diff(obj,lags,skipNaN)
         obj.data = dataT;
         
     else
-        obj.data = obj.data - lag(obj.data,lags); 
+        obj.data = obj.data - nb_lag(obj.data,lags); 
     end
     
     if obj.isUpdateable()

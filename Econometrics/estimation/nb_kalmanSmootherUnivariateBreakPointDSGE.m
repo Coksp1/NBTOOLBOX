@@ -65,7 +65,7 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherUnivariateBreakPointDSGE(H,A,C,ss,~
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------
@@ -122,6 +122,10 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherUnivariateBreakPointDSGE(H,A,C,ss,~
             elseif FS(ii,tt) > kalmanTol
                 xt  = xt + KS(:,ii,tt)*vf(ii,tt)/FS(ii,tt); 
                 PSU = PSU - KS(:,ii,tt)*KS(:,ii,tt)'/FS(ii,tt);
+            elseif FS(ii,tt) < 0 || FINF(ii,tt) < 0
+                error(['Numerical problem with negative forecast errors ',...
+                    'during iteration ' int2str(tt) ' and variable at id ',...
+                    int2str(ii) ' of the univariate Kalman filter.'])     
             end
 
         end
@@ -226,10 +230,16 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherUnivariateBreakPointDSGE(H,A,C,ss,~
     
     % Get the smoothed shocks
     %-------------------------------------------------------------
-    us      = zeros(nExo,S);
-    us(:,1) = C{states(1)}\(xs(:,1) - ss{states(1)});
+    us        = zeros(nExo,S);
+    Ct        = C{states(1)};
+    ind       = ~all(abs(Ct) < kalmanTol,1);
+    Ct        = Ct(:,ind);
+    us(ind,1) = Ct\(xs(:,1) - ss{states(1)});
     for t = 2:S
-        us(:,t) = C{states(t)}\(xs(:,t) - ss{states(t)} - A{states(t)}*(xs(:,t-1) - ss{states(t)}) );
+        Ct        = C{states(t)};
+        ind       = ~all(abs(Ct) < kalmanTol,1);
+        Ct        = Ct(:,ind);
+        us(ind,t) = Ct\(xs(:,t) - ss{states(t)} - A{states(t)}*(xs(:,t-1) - ss{states(t)}) );
     end
     
     % Report the estimates
@@ -241,9 +251,15 @@ function [xf,xs,us,xu,uu] = nb_kalmanSmootherUnivariateBreakPointDSGE(H,A,C,ss,~
         
         % Get the updated shocks
         uu      = zeros(nExo,S);
-        uu(:,1) = C{states(1)}\(xu(:,1) - ss{states(1)});
+        Ct      = C{states(1)};
+        ind     = ~all(abs(Ct) < kalmanTol,1);
+        Ct      = Ct(:,ind);
+        uu(:,1) = Ct\(xu(:,1) - ss{states(1)});
         for t = 2:S
-            uu(:,t) = C{states(t)}\(xu(:,t) - ss{states(t)} - A{states(t)}*(xu(:,t-1) - ss{states(t)}) );
+            Ct        = C{states(t)};
+            ind       = ~all(abs(Ct) < kalmanTol,1);
+            Ct        = Ct(:,ind);
+            uu(ind,t) = Ct\(xu(:,t) - ss{states(t)} - A{states(t)}*(xu(:,t-1) - ss{states(t)}) );
         end
         uu = uu';
         

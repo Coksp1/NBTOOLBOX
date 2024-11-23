@@ -17,7 +17,7 @@ function Y = unexpectedSolver(obj,funcs,inputs,Y,funcHandle)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nSilent = ~obj.options.silent;
     nEndo   = obj.dependent.number;

@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % The final solution
     nRec      = size(results.T,3);
@@ -87,7 +87,7 @@ function tempSol = calibrateR(tempSol,options,obs)
         start = size(Y,1) - 1;
     end
     for ii = 1:nPeriods
-        tempSol.RCalib(loc,loc,ii) = diag(nanvar(Y(1:start+ii,:))./R_scale);
+        tempSol.RCalib(loc,loc,ii) = diag(var(Y(1:start+ii,:),'omitnan')./R_scale);
     end
     
 end  

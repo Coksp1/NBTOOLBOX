@@ -12,109 +12,19 @@ function prior = priorTemplate(type,num)
 % The structure provided the user the possibility to set different
 % prior options.
 %
+% See the nb_mfvar.priorHelp method to get help on the options of each of 
+% the below listed priors.
+%
+% You can get more information on each of these priors in the documentation
+% ...\NBTOOLBOX\Documentation\theory.pdf
+%
 % Input:
 %
 % - type : A string;
 %
-%          - 'kkse'        : This is the prior used in the paper by 
-%                          Koop and Korobilis (2014) extended by Schroder 
-%                          and Eraslan (2021) to handle mixed frequency.
-%
-%            > 'f0VarScale'      : Scale factor on the variance of the  
-%                                  prior on the initial value of factors.
-%                                  Default is 10. N(0,f0VarScale*I)
-%
-%            > 'lambda0VarScale' : Scale factor on the variance of the  
-%                                  prior on the initial value of the factor 
-%                                  loadings. Default is 1. 
-%                                  N(0,lambdaVarScale*I)
-%           
-%            > 'V0VarScale'      : Scale factor on the mean of the  
-%                                  prior on the initial value of the 
-%                                  measurement equation covariance matrix.  
-%                                  Default is 0.1. Dogmatic prior set to 
-%                                  V0VarScale*I.
-%
-%            > 'Q0VarScale'      : Scale factor on the mean of the  
-%                                  prior on the initial value of the 
-%                                  state equation covariance matrix.  
-%                                  Default is 0.1. Dogmatic prior set to 
-%                                  Q0VarScale*I.
-%
-%            > 'gamma'           : Hyperparameter on prior variance of the
-%                                  coefficients of the state equations. 
-%                                  On the form V(i,j) = gamma./
-%                                  (ceil(j/options.nFactors).^2). Where
-%                                  V is a matrix with size option.nFactors 
-%                                  x option.nLags*option.nFactors. Default 
-%                                  value is 0.1.
-%
-%           > 'l_1m'             : Starting value of:
-%                                  Decay factor for the measurement error
-%                                  variance of the monthly variables. A
-%                                  smaller value puts smaller weight on
-%                                  past observations and thus allows for
-%                                  faster parameter change. A value of 1
-%                                  implies constant parameters. Default
-%                                  is 0.9.
-%
-%            > 'l_1q'           :  Starting value of:
-%                                  Decay factor for the measurement error
-%                                  variance of the quarterly variables. A
-%                                  smaller value puts smaller weight on
-%                                  past observations and thus allows for
-%                                  faster parameter change. A value of 1
-%                                  implies constant parameters. Default
-%                                  is 0.9.
-%
-%            > 'l_2'              : Starting value of:
-%                                  Decay factor for the factor error
-%                                  variance. A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters. 
-%                                  Default is 0.9.
-%
-%            > 'l_3'              : Starting value of:
-%                                  Decay factor for the loadings' error
-%                                  variance. A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters.
-%                                  Default is 0.9.
-%
-%            > 'l_4'              : Starting value of:
-%                                  Decay factor for the factor VAR
-%                                  parameters' error variance.
-%                                  A smaller value puts smaller 
-%                                  weight on past observations and thus 
-%                                  allows for faster parameter change. A 
-%                                  value of 1 implies constant parameters. 
-%                                  Default is 0.9.
-%
-%            > 'l_1_endo_update': Controls the endogenous forgetting
-%                                 factors
-%                                 1: l_1m and l_1q are time-varying/endogenous
-%                                 0: l_1m and l_1q are constant/static 
-%                                 Default is 0.
-%                                
-%            > 'l_2 endo_update': Controls the endogenous forgetting
-%                                 factors
-%                                 1: l_2 is time-varying/endogenous
-%                                 0: l_2 is constant/static 
-%                                 Default is 0.
-%
-%            > 'l_3_endo_update': Controls the endogenous forgetting
-%                                 factors
-%                                 1: l_3 is time-varying/endogenous
-%                                 0: l_3 is constant/static
-%                                 Default is 0.
-%
-%            > 'l_4_endo_update': Controls the endogenous forgetting
-%                                 factors
-%                                 1: l_4 is time-varying/endogenous
-%                                 0: l_4 is constant/static 
-%                                 Default is 0.
+%          - 'kkse' : This is the prior used in the paper by 
+%                     Koop and Korobilis (2014) extended by Schroder 
+%                     and Eraslan (2021) to handle mixed frequency.
 %
 % - num  : Number of prior templates to make.
 %
@@ -123,11 +33,11 @@ function prior = priorTemplate(type,num)
 % - options : A struct.
 %
 % See also:
-% nb_fmdyn
+% nb_fmdyn, nb_fmdyn.setPrior, nb_fmdyn.priorHelp
 %
 % Written by Kenneth Sæterhagen Paulsen and Maximilian Schröder
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         num = 1; 
@@ -139,7 +49,7 @@ function prior = priorTemplate(type,num)
     if num == 1
         prior = struct();
     else
-        prior = nb_struct(num,{'constant'}); % Make it possible to initalize many objects
+        prior = nb_struct(num,{'gamma'}); % Make it possible to initalize many objects
     end
     
     prior.type = type;
@@ -147,12 +57,12 @@ function prior = priorTemplate(type,num)
         
         case 'kkse'
             
-            prior.f0VarScale     = 10;
+            prior.f0VarScale      = 10;
             prior.lambda0VarScale = 1;
-            prior.V0VarScale     = 0.1;
-            prior.Q0VarScale     = 0.1;
-            prior.gamma          = 0.1;
-            prior.method         = 'tvpmfsv';
+            prior.V0VarScale      = 0.1;
+            prior.Q0VarScale      = 0.1;
+            prior.gamma           = 0.1;
+            prior.method          = 'tvpmfsv';
             prior.l_1m            = 0.9;
             prior.l_1q            = 0.9;
             prior.l_2             = 0.9;
@@ -165,7 +75,7 @@ function prior = priorTemplate(type,num)
             
         otherwise
 
-            error([mfilename ':: Unsupported prior type ' type])
+            error(['Unsupported prior type ' type])
 
     end
 

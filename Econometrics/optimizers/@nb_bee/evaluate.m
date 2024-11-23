@@ -25,7 +25,7 @@ function obj = evaluate(obj,objective,constrFunc)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(constrFunc)
         for ii = 1:size(obj,1)

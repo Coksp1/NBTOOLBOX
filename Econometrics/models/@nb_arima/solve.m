@@ -21,7 +21,7 @@ function obj = solve(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = obj(:);
     nobj = numel(obj);
@@ -42,7 +42,7 @@ function obj = solve(obj)
         end
         res = obj.results;
         opt = obj.estOptions(end);
-        if obj.options.recursive_estim
+        if opt.recursive_estim
             obj.solution = nb_arima.solveRecursive(res,opt);
         else
             obj.solution = nb_arima.solveNormal(res,opt);

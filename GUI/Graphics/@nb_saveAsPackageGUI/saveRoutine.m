@@ -9,7 +9,7 @@ function saveRoutine(gui,hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~ishandle(gui.parent.figureHandle)
         nb_errorWindow(['You have closed the main window of DAG, which you are trying to save '...

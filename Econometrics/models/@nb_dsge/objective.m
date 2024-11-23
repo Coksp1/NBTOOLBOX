@@ -45,7 +45,7 @@ function fval = objective(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Calculate minus the log likelihood
     [fval,sol] = nb_dsge.likelihood(par,estStruct);

@@ -97,7 +97,7 @@ function obj = append(obj,DB,interpolateDate,method,rename,type)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
    if nargin < 6
        type = '';

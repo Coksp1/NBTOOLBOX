@@ -16,14 +16,17 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if nargin < 9
         func = '';
     end
 
+    options = nb_bVarEstimator.applyCovidFilter(options,y);
+
     % Get hyperparameters, inital values and bounds
-    [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = nb_bVarEstimator.getInitAndHyperParam(options);
+    [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = ...
+        nb_bVarEstimator.getInitAndHyperParam(options);
 
     % Map the parameter using log transformation
     ind = ~isnan(paramMin);
@@ -36,14 +39,17 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
     % Optimize over hyperparameters
     opt = nb_getDefaultOptimset(options.optimset,options.optimizer);
     if strcmpi(func,'calculateRMSE')
-        fh = @(x)nb_bVarEstimator.calculateRMSE(x,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
+        fh = @(x)nb_bVarEstimator.calculateRMSE(x,paramMin,paramMax,...
+            hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
     else
         if ~any(strcmpi(options.prior.type,{'glp','nwishart','dsge'}))
             error(['Unsupported prior type ' options.prior.type ' for empirical bayesian estimation.'])
         end
-        fh = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
+        fh = @(x)nb_bVarEstimator.calculateMarginalLikelihood(x,paramMin,...
+            paramMax,hyperParam,nCoeff,y,X,yFull,XFull,nLags,options);
     end
-    [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,'Error occured during optimization of hyperparameters.');
+    [estPar,fVal] = nb_callOptimizer(options.optimizer,fh,init,lb,ub,opt,...
+        'Error occured during optimization of hyperparameters.');
     if ~strcmpi(func,'calculateRMSE')
         fVal = -fVal;
     end
@@ -63,6 +69,7 @@ function [betaD,sigmaD,XX,posterior,options,fVal,pY] = doEmpiricalBayesian(optio
     end
     
     % Estimate the model at the found hyperparameters
-    [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(options,h,nLags,restrictions,y,X,yFull,XFull);
+    [betaD,sigmaD,XX,posterior,pY] = nb_bVarEstimator.doBayesian(...
+        options,h,nLags,restrictions,y,X,yFull,XFull);
 
 end

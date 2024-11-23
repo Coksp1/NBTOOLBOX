@@ -17,7 +17,7 @@ function obj = exp(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     objDeriv     = nb_mySD.addPar(obj.derivatives,true); 
     objStrInFunc = nb_mySD.addPar(obj.values,false);

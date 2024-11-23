@@ -41,7 +41,7 @@ function obj = plus(obj,DBOrNum)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(DBOrNum,'nb_ts') && ~(isnumeric(DBOrNum) && size(DBOrNum,1) == 1 && size(DBOrNum,2) == 1)
         error([mfilename,':: You can only add an object of class nb_ts with an object of class nb_ts.'])

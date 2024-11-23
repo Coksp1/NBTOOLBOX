@@ -25,7 +25,7 @@ classdef nb_arima < nb_model_generic
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     methods
         
@@ -83,6 +83,8 @@ classdef nb_arima < nb_model_generic
     methods(Static=true)
         
         varargout = template(varargin)
+        varargout = priorHelp(varargin)
+        varargout = priorTemplate(varargin)
         varargout = help(varargin)
         varargout = solveNormal(varargin)
         varargout = solveRecursive(varargin)

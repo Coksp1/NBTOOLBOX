@@ -25,7 +25,7 @@ function x = f_median(m,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = nb_distribution.f_icdf(0.5,m,k);
 

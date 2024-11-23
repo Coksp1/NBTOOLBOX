@@ -9,7 +9,7 @@ function setValue(gui,hObject,~,type)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if type == 1
         m = 2;

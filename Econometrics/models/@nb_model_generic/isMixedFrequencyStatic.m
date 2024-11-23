@@ -21,7 +21,7 @@ function ret = isMixedFrequencyStatic(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if strcmpi(options.class,'nb_mfvar')
         ret = true;

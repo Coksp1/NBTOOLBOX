@@ -9,7 +9,7 @@ function [X,exo] = getDeterministic(options,inputs,nSteps,exo,constant)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     X = nan(nSteps,0,inputs.nPeriods);
     if isfield(options,'constant') 
@@ -48,14 +48,19 @@ function [X,exo] = getDeterministic(options,inputs,nSteps,exo,constant)
         if ~isempty(options.seasonalDummy)
             [seasonals,freq] = nb_isQorM(options.dataStartDate);
             if seasonals
+                if inputs.nPeriods == 1
+                    et = inputs.startInd;
+                else
+                    et = inputs.endInd;
+                end
                 exo          = exo(freq:end);
                 seasVars     = strcat('Seasonal_',cellstr(int2str([1:freq-1]'))'); %#ok<NBRAK>
                 [~,indS]     = ismember(seasVars,options.dataVariables);
-                seasData     = options.data(:,indS); 
-                seasData2Rep = seasData(end-freq+1:end,indS);
+                seasData     = options.data(1:et,indS); 
+                seasData2Rep = seasData(end-freq+1:end,:);
                 seasData2Rep = repmat(seasData2Rep,[ceil(nSteps/freq),1]);
                 seasData     = [seasData;seasData2Rep];
-                seasData     = seasData(inputs.startInd:end,:);
+                seasData     = seasData(inputs.startInd+1:end,:);
                 seasData     = nb_splitSample(seasData,nSteps);
                 seasData     = seasData(:,:,1:inputs.nPeriods);
                 X            = [X,seasData];

@@ -96,7 +96,7 @@ function [dec, plotter] = grouped_decomposition(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: The input must be a scalar nb_ecm model.'])
@@ -153,15 +153,16 @@ function [dec, plotter] = grouped_decomposition(obj,varargin)
     %--------------------------------------------------------------
     if ~isempty(inputs.modelCond)
        
-        decFcst = window(dec,obj.forecastOutput.start{end});
-        Ybase   = sum(decFcst.data,2);
-        fcst    = getForecast(inputs.modelCond,inputs.modelCond.forecastOutput.start{end},true);
-        fcst    = window(fcst,'',decFcst.endDate);
-        YCond   = getVariable(fcst,obj.dependent.name{1});
-        YCondT  = trans(YCond);
-        diff    = YCondT(end-size(Ybase,1)+1:end) - Ybase;
-        diff    = [zeros(decFcst.startDate - dec.startDate,1);diff];
-        dec     = addVariable(dec,dec.startDate,diff,'condY');
+        startFcst = nb_date.date2freq(obj.forecastOutput.start{end}) - obj.forecastOutput.nowcast;
+        decFcst   = window(dec,startFcst);
+        Ybase     = sum(decFcst.data,2);
+        fcst      = getForecast(inputs.modelCond,inputs.modelCond.forecastOutput.start{end},true);
+        fcst      = window(fcst,'',decFcst.endDate);
+        YCond     = getVariable(fcst,obj.dependent.name{1});
+        YCondT    = trans(YCond);
+        diff      = YCondT(end-size(Ybase,1)+1:end) - Ybase;
+        diff      = [zeros(decFcst.startDate - dec.startDate,1);diff];
+        dec       = addVariable(dec,dec.startDate,diff,'condY');
         
     end
     
@@ -201,8 +202,18 @@ function dec = useRecursiveForecast(obj,trans,seasonalPattern)
         exoHist = window(getHistory(obj,exo),startEst,endEst);
     catch Err
         if isforecasted(obj)
-            error([mfilename ':: The data you condition on when producing forecast must be contained in ',...
-                             'the ''data'' option of the nb_ecm object.'])
+            exoHist   = window(getHistory(obj,exo),startEst);
+            [ind,loc] = ismember(exo,obj.forecastOutput.variables);
+            if any(~ind)
+                error(['The data you condition on when producing forecast ',...
+                    'must be contained in the ''data'' option of the ' class(obj),...
+                    ' object or you need to set the ''output'' input to ''all'' ',...
+                    'to the call to the forecast method, so the the forecast ',...
+                    'of all the exogenous variables are returned..'])
+            end
+            startFcst = nb_date.date2freq(obj.forecastOutput.start{end}) - obj.forecastOutput.nowcast;
+            exoFcst   = nb_ts(obj.forecastOutput.data(:,loc),'',startFcst,exo);
+            exoHist   = append(exoHist,exoFcst);
         else
             rethrow(Err);
         end
@@ -305,7 +316,7 @@ function dec = useRecursiveForecast(obj,trans,seasonalPattern)
     % Calculate residual and convert to nb_ts
     dec = dec';
     if isforecasted(obj)
-        nSteps = obj.forecastOutput.nSteps;
+        nSteps = obj.forecastOutput.nSteps + obj.forecastOutput.nowcast;
         histY  = window(obj.options.data,startEst,endEst-nSteps,obj.dependent.name);
         histYD = double(histY);
         indV   = strcmp(obj.dependent.name,obj.forecastOutput.variables);

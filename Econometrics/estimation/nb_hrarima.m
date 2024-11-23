@@ -1,8 +1,9 @@
-function results = nb_hrarima(y,p,i,q,constant,test,z,x)
+function results = nb_hrarima(y,p,i,q,constant,test,z,x,varargin)
 % Syntax:
 %
 % results = nb_hrarima(y,p,i,q,constant)
 % results = nb_hrarima(y,p,i,q,constant,test,z,x)
+% results = nb_hrarima(y,p,i,q,constant,test,z,x,...)
 %
 % Description:
 %
@@ -35,13 +36,22 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
 % - x         : Exogenous regressors in the transition equation. As 
 %               a nobs x mvars. Defualt is [].
 %
+% Optional input:
+%
+% - 'remove'  : Rows to remove from the estimation problem. As a 
+%               nobs x 1 logical array. Specifies the rows of the 
+%               dependent variable that includes data points needed 
+%               to be removed. Lagged variables are being taken care 
+%               of automatically! Elements to remove should be set to 
+%               false.
+%
 % Output:
 % 
 % - results : A struct consiting of:
 %
 %             > beta       : The estimated coefficient of the 
-%                            constant. Constant, AR coefficients
-%                            then MA coefficients.
+%                            constant. Order; constant, AR, MA, ('texo', 
+%                            'exo').
 %             
 %             > stdBeta    : The standard deviation of the estimated  
 %                            coefficients. Constant, AR 
@@ -81,7 +91,7 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         x = [];
@@ -96,9 +106,15 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
         end
     end
 
+    default = {'remove', [], @(x)or(islogical(x),isempty(x))};
+    [inputs,message] = nb_parseInputs(mfilename,default,varargin{:});
+    if ~isempty(message)
+        error(message)
+    end
+
     [T,dim2] = size(y);
     if dim2 > 1
-        error([mfilename ':: The y input must be an nobs x 1 double.'])
+        error('The y input must be an nobs x 1 double.')
     end
     
     %==============================================================
@@ -107,9 +123,41 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
     for hh = 1:i
         y = diff(y);
     end 
+    z = z(1+i:end,:);
+    x = x(1+i:end,:);
+
+    if ~isempty(inputs.remove)
+
+        inputs.remove = inputs.remove(:);
+        if size(inputs.remove,1) ~= T
+            error('The ''remove'' input must has as many observations as the y input.')
+        end
+
+        % Remove these rows of the estimation problem, where remove more
+        % rows, as we add lags!
+        locRem             = find(~inputs.remove,1,'last');
+        addedLags          = locRem + 1:min(locRem + p + q,size(y,1));
+        indKeep            = inputs.remove;
+        indKeep(addedLags) = false;
+        indKeep            = indKeep(1+i:end);
+
+    else
+        indKeep = true(size(y));
+    end
     
     if ~isempty(z) || constant
-        [estParZ,stdEstParZ,tStatEstParZ,pValEstParZ,u] = nb_ols(y,z,constant);
+        [estParZ,stdEstParZ,tStatEstParZ,pValEstParZ,u] = nb_ols(y(indKeep),z(indKeep,:),constant);
+        if any(~indKeep)
+            % Fill in removed observations 
+            zRem = z(~indKeep,:);
+            if constant
+                zRem = [ones(size(zRem,1),1),zRem];
+            end
+            uAll           = nan(size(y));
+            uAll(indKeep)  = u;
+            uAll(~indKeep) = y(~indKeep) - zRem*estParZ;
+            u              = uAll;
+        end
     else
         u = y;
     end
@@ -124,28 +172,39 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
     if r + q >= T
         error('The sample is to short to use the Hannan-Rissanen algorithm.')
     end
-    ulag = nb_mlag(u,r);
-    ut   = u(r + 1:end);
-    ulag = ulag(r + 1:end,:);
+    ulag    = nb_mlag(u,r);
+    ut      = u(r + 1:end);
+    ulag    = ulag(r + 1:end,:);
+    indKeep = indKeep(r + 1:end);
     if isempty(x)
         X = ulag;
     else
-        if size(x,1) ~= T
+        if size(x,1) ~= size(y,1)
             error('The x input must has as many observations as the y input.')
         end
         X = [ulag,x(r+1:end,:)];
     end
-    [~,~,~,~,res] = nb_ols(ut,X,false);
+    [beta,~,~,~,res] = nb_ols(ut(indKeep),X(indKeep,:),false);
+    if any(~indKeep)
+        % Fill in removed observations
+        XRem             = X(~indKeep,:);
+        resAll           = nan(size(ut));
+        resAll(indKeep)  = res;
+        resAll(~indKeep) = ut(~indKeep) - XRem*beta;
+        res              = resAll;
+    end
+
 
     % Second step: Use the residuals to from the step before to 
     % estimate the ARMA(p,q) coefficients until convergance
     %--------------------------------------------------------------
 
     % Form the regressors
-    reslag = nb_mlag(res,q);  
-    ut     = ut(q + 1:end);
-    reslag = reslag(q + 1:end,:);
-    ulag   = ulag(q + 1:end,1:p);
+    reslag  = nb_mlag(res,q);  
+    ut      = ut(q + 1:end);
+    reslag  = reslag(q + 1:end,:);
+    ulag    = ulag(q + 1:end,1:p);
+    indKeep = indKeep(q + 1:end,:);
     if isempty(x)
         X = [ulag,reslag];
     else
@@ -153,7 +212,16 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
     end
 
     % Estimate 
-    [estPar,stdEstPar,tStatEstPar,pValEstPar,res2] = nb_ols(ut,X,false);
+    [estPar,stdEstPar,tStatEstPar,pValEstPar,residual] = nb_ols(ut(indKeep),X(indKeep,:),false);
+
+    if any(~indKeep)
+        XRem             = X(~indKeep,:);
+        resAll           = nan(size(ut));
+        resAll(indKeep)  = residual;
+        resAll(~indKeep) = ut(~indKeep) - XRem*beta;
+    else
+        resAll = residual;
+    end
 
     if ~isempty(z) || constant
         if constant 
@@ -181,7 +249,6 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
     
     % Report results
     %--------------------------------------------------------------
-    residual           = res2;
     results            = struct();
     results.beta       = estPar;
     results.stdBeta    = stdEstPar;
@@ -189,7 +256,7 @@ function results = nb_hrarima(y,p,i,q,constant,test,z,x)
     results.pValBeta   = pValEstPar;
     results.sigma      = residual'*residual/(size(residual,1) - size(estPar,1));
     results.likelihood = nb_olsLikelihood(residual);
-    results.residual   = residual;
+    results.residual   = resAll;
     results.X          = X;
     results.y          = y(r + q + 1:end,:);
     results.u          = ut;

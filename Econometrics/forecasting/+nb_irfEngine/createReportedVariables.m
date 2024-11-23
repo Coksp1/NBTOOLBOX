@@ -13,7 +13,7 @@ function [Y,dep] = createReportedVariables(options,inputs,Y,dep,results,ss)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [nSteps,~,nShocks] = size(Y);
     nHistObs           = 10;

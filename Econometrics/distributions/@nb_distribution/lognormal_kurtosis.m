@@ -23,7 +23,7 @@ function x = lognormal_kurtosis(~,k)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     x = exp(4*k^2) + 2*exp(3*k^2) + 3*exp(2*k^2) - 3;
 

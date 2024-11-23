@@ -35,7 +35,7 @@ function [A,D,DE,err] = rationalExpectationSolver(parser,solution,options,expand
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     err  = '';   
     ind  = solution.jacobianType;

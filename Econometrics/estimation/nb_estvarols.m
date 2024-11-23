@@ -56,7 +56,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x] = nb_estvarols(y,nlag,x,co
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 6
         stdType = 'h';

@@ -15,7 +15,7 @@ sim     = nb_ts.simulate('2012M1',obs,{'VAR1','VAR2','VAR3'},1,lambda,rho);
 
 %nb_graphSubPlotGUI(sim);
 
-%% Estimate VAR (OLS)
+%% Estimate VAR (RIDGE)
 
 % Options
 t              = nb_var.template();
@@ -24,13 +24,49 @@ t.estim_method = 'ridge';
 t.dependent    = sim.variables;
 t.constant     = false;
 t.nLags        = 2;
-t.doTests      = 1;
 
 % Create model and estimate
 model = nb_var(t);
 model = estimate(model);
 print(model)
 printCov(model)
+
+%% Estimate VAR (RIDGE)
+% Set L2 regularization as percentage of OLS estimate
+
+% Options
+t                    = nb_var.template();
+t.data               = sim;
+t.estim_method       = 'ridge';
+t.dependent          = sim.variables;
+t.constant           = false;
+t.nLags              = 2;
+t.regularizationPerc = 0.8;
+
+% Create model and estimate
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
+%% Estimate VAR (RIDGE)
+% Set lagrange multiplier
+
+% Options
+t                = nb_var.template();
+t.data           = sim;
+t.estim_method   = 'ridge';
+t.dependent      = sim.variables;
+t.constant       = false;
+t.nLags          = 2;
+t.regularization = 10;
+
+% Create model and estimate
+model = nb_var(t);
+model = estimate(model);
+print(model)
+printCov(model)
+
 
 %% Estimate VAR (Recursive)
 

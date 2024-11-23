@@ -3,7 +3,7 @@ function res = estimateFactors(options,y,Z,ZF)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     T = size(Z,1);
     if strcmpi(options.modelType,'favar') % Factor augmented VAR

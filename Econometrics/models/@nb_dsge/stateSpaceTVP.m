@@ -51,7 +51,7 @@ function sol = stateSpaceTVP(par,estStruct)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Assign current estimate
     beta                   = estStruct.beta;
@@ -60,7 +60,8 @@ function sol = stateSpaceTVP(par,estStruct)
     % Solve main model (first regime)
     options = estStruct.options;
     periods = size(estStruct.timeVarying,2);
-    if isempty(estStruct.options.parser.all_endogenous)
+    if ~isfield(estStruct.options.parser,'obs_endogenous') || ...
+            isempty(estStruct.options.parser.obs_endogenous)
         nEndo   = length(estStruct.options.parser.endogenous);
         nExo    = length(estStruct.options.parser.exogenous);
         B       = nan(nEndo,0,periods); 
@@ -101,7 +102,7 @@ function sol = stateSpaceTVP(par,estStruct)
     
         for tt = 1:periods
             beta(estStruct.indTimeVarying) = estStruct.timeVarying(:,tt);
-            [Att,Btt,Ctt,~,sstt,~,sol.err]     = nb_dsge.solveOneRegime(options,beta);
+            [Att,Btt,Ctt,~,sstt,~,sol.err] = nb_dsge.solveOneRegime(options,beta);
             if ~isempty(sol.err)
                 return
             end

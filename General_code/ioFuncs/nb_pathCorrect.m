@@ -13,7 +13,7 @@ function path = nb_pathCorrect(path)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 
     ind1  = strfind(path,'\');

@@ -9,7 +9,7 @@ function lastFolder = nb_getLastFolder(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     parent = nb_getParentRecursively(gui);
     if parent == gui

@@ -31,7 +31,7 @@ function setPropPlotType(obj,propertyName,propertyValue)
 % 
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     oldPlotType        = obj.(propertyName);
     obj.(propertyName) = lower(propertyValue);

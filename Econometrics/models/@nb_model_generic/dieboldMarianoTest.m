@@ -70,7 +70,7 @@ function [test,pval,res] = dieboldMarianoTest(obj1,obj2,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Parse inputs
     if numel(obj1) > 1

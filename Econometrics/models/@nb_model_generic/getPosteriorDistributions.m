@@ -26,7 +26,7 @@ function [distr,paramNames] = getPosteriorDistributions(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: This method only works on a scalar object.']) 
@@ -41,9 +41,23 @@ function [distr,paramNames] = getPosteriorDistributions(obj,varargin)
     end
     
     draws     = nb_parseOneOptional('draws',[],varargin{:}); 
-    estOpt    = obj.estOptions;
-    posterior = nb_loadDraws(estOpt.pathToSave);
-    beta      = posterior.betaD;
+    posterior = nb_loadDraws(obj.estOptions.pathToSave);
+    if isfield(posterior,'output')
+        % A posterior sampler is used in a separate step, and we may
+        % also have stored the posterior draws to files.
+        if nb_isempty(posterior.output)
+            error([mfilename ':: No sampling is done.'])
+        end
+        output = posterior.output;
+        beta   = nb_mcmc.loadBetaFromOuput(output);
+        beta   = permute(beta,[2,4,1,3]);
+        siz    = size(beta);
+        siz(3) = siz(3)*siz(4);
+        beta   = reshape(beta,siz(1:3));
+    else
+        posterior = nb_loadDraws(estOpt.pathToSave);
+        beta      = posterior.betaD;
+    end
     if ~isempty(draws) && draws < size(beta,3)
         
         defaultStream = RandStream.getGlobalStream;
@@ -70,7 +84,7 @@ function [distr,paramNames] = getPosteriorDistributions(obj,varargin)
         func = str2func(['nb_' lower(options.estim_method) 'Estimator.getCoeff']);
     end
     paramNames = func(options);
-    if size(posterior.betaD,2) > 1
+    if size(beta,2) > 1
         % Robustify for multiple equation models
         dep         = options.dependent;
         paramNamesT = {};

@@ -14,14 +14,26 @@ function nb_makeFigureAlive(hObject,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
+
+    figureHandle = hObject.figureHandle;
+    if isempty(figureHandle)
+        figureHandle = nb_getParentRecursively(hObject.parent);
+    end
 
     % Stored by nb_makeFigureIdle
-    idleControls = getappdata(hObject.figureHandle, 'idleControls');
-    setappdata(hObject.figureHandle, 'idleControls', []);
+    idleControls = getappdata(figureHandle, 'idleControls');
+    setappdata(figureHandle, 'idleControls', []);
+    idleControls = idleControls(ishandle(idleControls));
     set(idleControls,'enable','on');
 
-    % Make the mouse pointer of the figur a time glass
-    set(hObject.figureHandle,'pointer','arrow')
+    idlePanels = getappdata(figureHandle, 'idlePanels');
+    setappdata(figureHandle, 'idlePanels', []);
+    idlePanels = idlePanels(ishandle(idlePanels));
+    set(idlePanels,'enable','on');
+
+    % Make the mouse pointer of the figur a pointer
+    set(figureHandle,'pointer','arrow')
+    pause(0.1);
 
 end

@@ -22,7 +22,7 @@ classdef nb_manualCalendar < nb_calendar
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     properties
         
@@ -46,6 +46,9 @@ classdef nb_manualCalendar < nb_calendar
             if nargin < 1
                 return
             end
+            if isempty(calendar)
+                return
+            end
             if ~iscellstr(calendar)
                 error([mfilename ':: The calendar input must be a cellstr.'])
             end
@@ -64,8 +67,11 @@ classdef nb_manualCalendar < nb_calendar
         end
         
         function s = struct(obj)
-           s = struct('class',   class(obj),...
-                      'calendar',{obj.calendar}); 
+            s = struct('class',   class(obj),...
+                       'calendar',{obj.calendar}); 
+            if obj.closed
+                s.closed = obj.closed;
+            end
         end
         
         function name = getName(~)
@@ -78,6 +84,9 @@ classdef nb_manualCalendar < nb_calendar
        
         function obj = unstruct(s)
             obj = nb_manualCalendar(s.calendar);
+            if isfield(s,'closed')
+                obj.closed = s.closed;
+            end
         end
         
     end

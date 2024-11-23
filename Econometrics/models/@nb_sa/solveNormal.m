@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,opt)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Estimation results
     beta       = permute(results.beta,[2,1,3,4]); % numDep x nExo x nPeriods x nQuantiles
@@ -48,7 +48,7 @@ function tempSol = solveNormal(results,opt)
     vcv = results.sigma;
     
     % Get the ordering
-    tempSol.endo  = dep;
+    tempSol.endo  = nb_cellstrlead(dep,numDep);
     tempSol.exo   = exo;
     tempSol.res   = strcat('E_',dep);
     tempSol.vcv   = vcv;

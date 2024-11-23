@@ -85,7 +85,7 @@ function [data,plotter] = uncertaintyDecomposition(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) ~= 1
         error('This method only supports scalar nb_model_generic objects as input.')

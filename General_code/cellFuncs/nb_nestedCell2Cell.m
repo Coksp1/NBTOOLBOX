@@ -17,7 +17,7 @@ function C = nb_nestedCell2Cell(nested)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     C = {};
     for i = 1:numel(nested)

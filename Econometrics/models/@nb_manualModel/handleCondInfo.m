@@ -13,12 +13,12 @@ function ret = handleCondInfo(obj)
 % 
 % Output:
 % 
-% - ret : true or false. true if the estimation settings is so that the
+% - ret : true or false. true if the estimation settings are so that the
 %         model handle conditional info.
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ret = obj.options.handleCondInfo;
 

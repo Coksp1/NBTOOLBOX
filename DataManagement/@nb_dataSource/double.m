@@ -24,7 +24,7 @@ function dataOfObject = double(obj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(obj.data,'nb_distribution')
         dataOfObject = mean(obj.data);

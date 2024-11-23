@@ -15,14 +15,14 @@ end
 
 % Transform to nb_ts object
 data     = nb_ts([sim1,sim2],'','2000Q1',{'VAREXO','VAR'});
-datalag  = lag(data);
+datalag  = nb_lag(data);
 datalag  = addPostfix(datalag,'_lag1');
 data     = [data,datalag]; % Append lagged series to data object
 
 %% Dynamic nb_singleEq (ols) 
 
 % In this case we need to add lag 3 as well
-datalag3 = lag(data,3);
+datalag3 = nb_lag(data,3);
 datalag3 = addPostfix(datalag3,'_lag3');
 dataT    = [data,datalag3];
 

@@ -38,7 +38,7 @@ function obj = sum(obj,dim)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         dim = 2;
@@ -60,14 +60,14 @@ function obj = sum(obj,dim)
 
             else
 
-                sumOfData = nan(obj.dim1,1,obj.dim3);
+                sumOfData = nan(1,obj.dim2,obj.dim3);
                 for ii = 1:obj.dim3
 
                     for jj = 1:obj.dim2
 
-                        dataTemp           = obj.data(jj,:,ii);
-                        isNaNTemp          = isNaNAll(jj,:,ii);
-                        dataTemp           = sum(dataTemp(~isNaNTemp),2);
+                        dataTemp           = obj.data(:,jj,ii);
+                        isNaNTemp          = isNaNAll(:,jj,ii);
+                        dataTemp           = sum(dataTemp(~isNaNTemp),1);
                         sumOfData(1,jj,ii) =  dataTemp;
 
                     end
@@ -87,7 +87,7 @@ function obj = sum(obj,dim)
             else
 
                 sumOfData = nan(obj.dim1,1,obj.dim3);
-                for ii = 1:obj.dim1
+                for ii = 1:obj.dim3
 
                     for jj = 1:obj.dim1
 

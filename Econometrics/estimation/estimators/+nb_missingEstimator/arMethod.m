@@ -9,7 +9,7 @@ function options = arMethod(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Set up ARIMA models
     finish                = options.estim_end_ind;

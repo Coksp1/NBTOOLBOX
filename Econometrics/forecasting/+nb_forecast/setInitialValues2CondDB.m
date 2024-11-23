@@ -12,7 +12,7 @@ function Y0 = setInitialValues2CondDB(Y0,model,restrictions)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
     
     if isempty(restrictions.initDBVars)
         return

@@ -62,7 +62,7 @@ function eps2pdf(source, dest, crop, append, gray, quality, flip, gs_options)
 % 16/01/18: Improved appending of multiple EPS files into single PDF (issue #233; thanks @shartjen)
 % 18/11/15: Added the flip input, Kenneth S. Paulsen,
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Intialise the options string for ghostscript
     options = ['-q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="' dest '"'];

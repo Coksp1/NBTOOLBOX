@@ -5,7 +5,7 @@ function tempSol = solveNormal(results,opt)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tempSol = nb_midas.solveRecursive(results,opt);
     

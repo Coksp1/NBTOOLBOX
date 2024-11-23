@@ -27,7 +27,7 @@ function obj = forecast(obj,nSteps,varargin)
 %  
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = obj(:);
     for ii = 1:size(obj,1)

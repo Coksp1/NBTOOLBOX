@@ -89,7 +89,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Initialize state estimate from first observation if needed
     %--------------------------------------------------------------
@@ -103,6 +103,10 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     xu    = zeros(nEndo,T+1);       % x t|t
     invF  = cell(1,T);
     K     = cell(1,T);
+    if size(H,3) == 1
+        % We allow for the measurement equation to be time-varying
+        H = H(:,:,ones(1,T));
+    end
     
     if nargin < 10
         G = zeros(nEndo,0);
@@ -121,7 +125,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     vf       = nan(N,T);
     I        = eye(size(H,1));
     Ia       = eye(nEndo);
-    HT       = H';
+    HT       = permute(H,[2,1,3]);
     AT       = A';
     m        = ~isnan(y);
     
@@ -142,7 +146,11 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
         
         mt = m(:,t);
         if all(~mt)
-            xu(:,t+1) = xf(:,t);
+            if nargin > 10
+                xu(:,t+1) = A*xu(:,t) + G*z(:,t);
+            else
+                xu(:,tt+1) = A*xu(:,t);
+            end
             if nargin > 10
                 xf(:,t+1) = A*xf(:,t) + G*z(:,t);  % x t+1 | t = A * x t|t + G * z t + 1
             else
@@ -155,10 +163,10 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
         else
         
             % Prediction for observation vector and covariance:
-            Hmt = H(mt,:);
+            Hmt = H(mt,:,t);
             Nmt = size(Hmt,1);
             nut = y(mt,t) - Hmt*xf(:,t);
-            PHT = Pf(:,:,t)*HT(:,mt);
+            PHT = Pf(:,:,t)*HT(:,mt,t);
             F   = Hmt*PHT + R(mt,mt);
             if rcond(F) < kalmanTol
                 singular = true;
@@ -212,20 +220,26 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     
     % Then we do the smoothing
     %-------------------------------------------------------------
-    us = nan(nExo,T);
-    xs = nan(nEndo,T);          
-    r  = zeros(nEndo,T + 1);
-    t  = T + 1;
-    BT = B';
+    us        = nan(nExo,T);
+    xs        = nan(nEndo,T);          
+    r         = zeros(nEndo,T + 1);
+    t         = T + 1;
+    BT        = B';
+    stillMiss = true;
     while t > 1
         t  = t - 1;
         mt = m(:,t);
         if any(mt)
-            r(:,t) = AT*r(:,t+1) + H(mt,:)'*invF{t}*vf(mt,t) - H(mt,:)'*(A*K{t})'*r(:,t+1); 
+            stillMiss = false;
+            r(:,t)    = AT*r(:,t+1) + H(mt,:,t)'*invF{t}*vf(mt,t) - H(mt,:,t)'*(A*K{t})'*r(:,t+1); 
         else
             r(:,t) = AT*r(:,t+1);    
         end
-        xs(:,t) = xf(:,t) + Pf(:,:,t)*r(:,t);
+        if stillMiss
+            xs(:,t) = xu(:,t+1);
+        else
+            xs(:,t) = xf(:,t) + Pf(:,:,t)*r(:,t);
+        end
         if nargin <= 10
             us(:,t) = BT*r(:,t);
         end
@@ -253,7 +267,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pu] = nb_kalmanSmootherAndLikelihood(H,R,A,
     
     % Final period
     Ps(:,:,T+1) = Pu(:,:, T+1);                           % P T|T
-    Ps_1(:,:,T) = (Ia - K{end}*H(m(:,T),:))*A*Pu(:,:, T); % P_1 T|T = (I - K*Hmt)*A*(P T-1|T-1)
+    Ps_1(:,:,T) = (Ia - K{end}*H(m(:,T),:,T))*A*Pu(:,:, T); % P_1 T|T = (I - K*Hmt)*A*(P T-1|T-1)
     
     % See equation 13.6.11 of Hamilton (1994)
     J2 = Pu(:,:, T)*A'*pinv(Pf(:,:, T)); % J T-1 = P T-1|T-1*A'*P T|T-1

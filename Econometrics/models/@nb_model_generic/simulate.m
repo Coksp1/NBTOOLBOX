@@ -79,7 +79,7 @@ function out = simulate(obj,nSteps,varargin)
 %
 % - 'observables'    : A cellstr with the observables you want the
 %                      simulation of. Only for factor models. Will be
-%                      discared for all other types of models.
+%                      discarded for all other types of models.
 %
 % - 'output'         : Either 'endo' (default), 'fullendo' or 'all'. This 
 %                      input indicates which variables to return the 
@@ -170,7 +170,7 @@ function out = simulate(obj,nSteps,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen  
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         nSteps = 100;

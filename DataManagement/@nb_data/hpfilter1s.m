@@ -29,7 +29,7 @@ function obj = hpfilter1s(obj,lambda)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     filter = nan(obj.numberOfObservations,obj.numberOfVariables,obj.numberOfDatasets);
     for ii = 1:obj.numberOfVariables

@@ -35,7 +35,7 @@ function obj = solveNB(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj  = set(obj,varargin{:});
     nobj = numel(obj);
@@ -78,6 +78,12 @@ function obj = solveNB(obj,varargin)
     
     % Solve for the steady-state
     if ~obj.steadyStateSolved
+        if obj.parser.optimal
+            if isfield(obj.solution,'ssOriginal')
+                % Re-solving
+                obj.parser.endogenous = obj.parser.endogenous(~obj.parser.isMultiplier);
+            end
+        end
         obj = interpretSteadyStateInit(obj);
         obj = checkSteadyState(obj);
         if isfield(obj.solution,'ssOriginal')

@@ -9,7 +9,7 @@ function [lb,ub] = getBounds(options)
 % 
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get upper and lower bound from truncated distributions 
     priorInp = options.prior(:,4);

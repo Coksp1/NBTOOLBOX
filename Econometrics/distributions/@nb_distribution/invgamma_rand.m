@@ -28,7 +28,7 @@ function draws = invgamma_rand(nrow,ncol,m,k)
 %
 % Modified by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if m <= 0
        error([mfilename ':: Parameter m is wrong'])

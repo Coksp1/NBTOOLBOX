@@ -14,7 +14,7 @@ function parser = parseSimpleRules(parser,simpleRules)
 %
 % Written by Kenneth Sæterhagen Paulsen
   
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     param       = parser.parameters;
     inUse       = parser.parametersInUse;
@@ -52,11 +52,21 @@ function parser = parseSimpleRules(parser,simpleRules)
     parser.parametersInUse       = inUse;
     parser.parametersIsUncertain = isUncertain;
     parser.equations             = [parser.equations; simpleRules];
-    parser.equationsParsed       = [parser.equationsParsed; simpleRulesParsed];
     parser.optimalSimpleRule     = true;
+    
+    % Remove auxiliary variables before gettin lead/lag incidence, or
+    % else the auxiliary variable will be added once more
+    parser.endogenous = parser.endogenous(~parser.isAuxiliary);
     
     % Get lead/ lag incidence
     parser = nb_dsge.getLeadLag(parser);
+    if ~isempty(parser.obs_equations)
+        parser = nb_dsge.getLeadLagObsModel(parser,true);
+    else
+        parser.all_endogenous  = parser.endogenous;
+        parser.all_exogenous   = parser.exogenous;
+        parser.all_isAuxiliary = parser.isAuxiliary;
+    end
     
     % Store simple rules to the model parser
     parser.simpleRules           = simpleRules;

@@ -33,7 +33,7 @@ function obj = cov(obj,varargin)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     robust = false;
     for ii = 1:2:size(varargin,2)

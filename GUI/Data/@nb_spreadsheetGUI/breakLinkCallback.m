@@ -9,7 +9,7 @@ function breakLinkCallback(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.data) || ~gui.data.isUpdateable
         nb_errorWindow('The data is not updateable. No link to break.')

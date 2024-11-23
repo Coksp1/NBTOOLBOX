@@ -33,7 +33,7 @@ function obj = rand(rows,columns,pages,dist)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         dist = nb_distribution('type', 'uniform');

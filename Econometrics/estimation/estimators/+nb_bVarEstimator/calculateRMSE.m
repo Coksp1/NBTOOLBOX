@@ -9,9 +9,10 @@ function rmse = calculateRMSE(par,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    options = nb_defaultField(options,'hyperLearningSettings',nb_bVarEstimator.defaultHyperLearningSettings());
+    options = nb_defaultField(options,'hyperLearningSettings'...
+        ,nb_bVarEstimator.defaultHyperLearningSettings());
 
     % Evaluate the hyperpriors
     if options.hyperprior
@@ -64,31 +65,40 @@ function rmse = calculateRMSE(par,paramMin,paramMax,hyperParam,nCoeff,y,X,yFull,
         XFullTemp = XFull(1:end-rem,:);
         
         % Apply dummy priors
-        [yTemp,XTemp,constant,options] = nb_bVarEstimator.applyDummyPrior(options,yTemp,XTemp,yFullTemp,XFullTemp);
+        [yTemp,XTemp,constant,options] = nb_bVarEstimator.applyDummyPrior(...
+            options,yTemp,XTemp,yFullTemp,XFullTemp);
 
         % Evaluate the marginal likelihood
         if strcmp(options.prior.type,'glp')
-            [beta,~] = nb_bVarEstimator.glp([],yTemp,XTemp,nLags,options.constant,options.constantAR,options.time_trend,options.prior,[],[]);   
+            [beta,~] = nb_bVarEstimator.glp([],yTemp,XTemp,nLags,...
+                options.constant,options.constantAR,options.time_trend,...
+                options.prior,[],[]);   
         elseif strcmp(options.prior.type,'jeffrey') 
-            [beta,~] = nb_bVarEstimator.jeffrey([],yTemp,XTemp,options.constant,options.time_trend,[],[]);
+            [beta,~] = nb_bVarEstimator.jeffrey([],yTemp,XTemp,...
+                options.constant,options.time_trend,options.prior,[],[]);
         elseif strcmp(options.prior.type,'minnesota') 
             if strcmpi(options.prior.method,'default')
                 draws = 1;
             else
                 draws = options.draws;
             end
-            [beta,~] = nb_bVarEstimator.minnesota(draws,yTemp,XTemp,nLags,options.constant,options.constantAR,options.time_trend,options.prior,[],[]); 
+            [beta,~] = nb_bVarEstimator.minnesota(draws,yTemp,XTemp,...
+                nLags,options.constant,options.constantAR,options.time_trend,...
+                options.prior,[],[]); 
             if draws > 1
                 beta = mean(beta,3);
             end
         elseif strcmp(options.prior.type,'inwishart') 
-            [beta,~] = nb_bVarEstimator.inwishart(options.draws,yTemp,XTemp,options.constant,options.time_trend,options.prior,[],[]); 
+            [beta,~] = nb_bVarEstimator.inwishart(options.draws,yTemp,...
+                XTemp,options.constant,options.time_trend,options.prior,[],[]); 
             beta     = mean(beta,3);
         elseif strcmp(options.prior.type,'laplace') 
-            [beta,~] = nb_bVarEstimator.laplace(options.draws,yTemp,XTemp,options.constant,options.time_trend,options.prior,[],[]);
+            [beta,~] = nb_bVarEstimator.laplace(options.draws,yTemp,...
+                XTemp,options.constant,options.time_trend,options.prior,[],[]);
             beta     = mean(beta,3);    
         else
-            [beta,~] = nb_bVarEstimator.nwishart([],yTemp,XTemp,nLags,options.constant,options.time_trend,options.prior,[],[]);
+            [beta,~] = nb_bVarEstimator.nwishart([],yTemp,XTemp,nLags,...
+                options.constant,options.time_trend,options.prior,[],[]);
         end
         
         XEnd = XFullTemp(end,:);

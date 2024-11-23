@@ -12,7 +12,7 @@ function [alpha0,P0,Pinf0] = intiKF(results)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     alpha0      = zeros(size(results.T,1),1);
     BB          = results.BQ*results.BQ';

@@ -50,7 +50,7 @@ function [AB,BB,CB,CEB,ssB,JACB,err] = solveBreakPoints(options,beta,A,B,C,CE,ss
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 9
         silent = true;

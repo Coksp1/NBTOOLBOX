@@ -55,7 +55,7 @@ classdef nb_legend < nb_annotation & nb_movableAnnotation
 %     
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -1190,9 +1190,10 @@ classdef nb_legend < nb_annotation & nb_movableAnnotation
             end
             
             % Remove leg info with line style 'none'
-            indR = strcmp('line',{leg.type}) & strcmp('none',{leg.lineStyle}) & strcmp('none',{leg.lineMarker});
-            leg  = leg(~indR);
-            
+            if ~isempty(leg)
+                indR = strcmp('line',{leg.type}) & strcmp('none',{leg.lineStyle}) & strcmp('none',{leg.lineMarker});
+                leg  = leg(~indR);
+            end
             if ~isempty(obj.fakeLegends)
                 fakeLegend = getFakeLegend(obj);
                 leg        = [leg, fakeLegend];
@@ -1223,6 +1224,9 @@ classdef nb_legend < nb_annotation & nb_movableAnnotation
         function obj = interpretFontColor(obj)
         % Interpret the fontColor property
         
+            if isempty(obj.legendDetails)
+                return
+            end
             totSize    = size(obj.legendDetails,2);
             fontColors = vertcat(obj.legendDetails.fontColor);
             ind        = all(fontColors == 0,2);

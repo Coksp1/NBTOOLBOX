@@ -17,10 +17,11 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options                             = struct();
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.data                        = [];
     options.dataStartDate               = '';
     options.dataTypes                   = {};
@@ -35,6 +36,7 @@ function options = template()
     options.recursive_estim             = 0;
     options.recursive_estim_start_ind   = [];
     options.regularization              = [];
+    options.regularizationPerc          = [];
     options.requiredDegreeOfFreedom     = 3;
     options.rollingWindow               = [];
     options.seasonalDummy               = '';

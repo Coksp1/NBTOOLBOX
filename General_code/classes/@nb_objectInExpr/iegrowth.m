@@ -19,14 +19,8 @@ function obj = iegrowth(obj,~,~)
 % 
 % - obj           : An nb_objectInExpr object.
 % 
-% Examples:
-%
-% obj = iegrowth(obj);
-% obj = iegrowth(obj,100);
-% obj = iegrowth(obj,[78,89]);
-% 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
   
 end

@@ -32,15 +32,15 @@ function x = skt_variance(a,b,c,d)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if d > 2
         if d == inf
             delta = c/sqrt(1 + c^2);
             x     = b^2*(1 - (2*delta^2)/pi);
         else
-            g1 = gamma(0.5*(d - 1));
-            if g1 == inf
+            g2 = gamma(0.5*(d));
+            if g2 == inf
                 delta = c/sqrt(1 + c^2);
                 x     = b^2*(1 - (2*delta^2)/pi);
             else

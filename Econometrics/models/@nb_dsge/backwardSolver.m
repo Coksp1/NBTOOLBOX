@@ -28,7 +28,7 @@ function [A,B,BE,err] = backwardSolver(model,solution,options,expandedOnly)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     err = ''; 
     ind = solution.jacobianType;

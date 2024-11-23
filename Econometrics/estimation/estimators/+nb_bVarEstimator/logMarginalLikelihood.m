@@ -36,7 +36,7 @@ function pY = logMarginalLikelihood(T,n,d,xx,A_prior,A_post,PSI,Omega,eps)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Log determinant of prior on Sigma
     if isvector(PSI)

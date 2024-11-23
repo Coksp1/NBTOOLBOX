@@ -58,12 +58,11 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = nb_arimaStateSpace(par,p,q,sp,sq
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         stabilityTest = false;
     end
-    failed = false;
 
     % Get the AR(p) and MA(q) initial values
     s     = max([p,q + 1]);
@@ -111,23 +110,25 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G,obs,failed] = nb_arimaStateSpace(par,p,q,sp,sq
     T                = zeros(1,nExo);
     T(nExoT+1:end)   = exo(nExoT+1:end);
     
-    c = 0; % No constant in the state equation
-    A = [[rho;zeros(s - p,1)],[eye(s - 1); zeros(1,s - 1)]]; % Transition matrix 
-    if stabilityTest
-        [~,~,modulus] = nb_calcRoots(A);
-        if any(modulus >= 1)
-            failed = true;
-        end
-    end
+    c            = 0; % No constant in the state equation
+    A            = [[rho;zeros(s - p,1)],[eye(s - 1); zeros(1,s - 1)]]; % Transition matrix
     B            = [theta;zeros(s - q - 1,1)]; % MA terms contribution to the error term in the state eq.
     Q            = sigma; % Error of the state equation
     G            = zeros(size(A,1),nExo);
     G(1,1:nExoT) = exo(1:nExoT);
+    if stabilityTest
+        [~,~,modulus] = nb_calcRoots(A);
+        if any(modulus >= 1)
+            failed = true;
+            x0     = zeros(s,1);
+            P0     = eye(s);
+            return
+        end
+    end
     
     % Get initalial values of the kalman filter
-    x0    = zeros(s,1);
-    BQB   = B*Q*B';
-    vecP0 = (eye(s*s) - kron(A,A))\BQB(:);
-    P0    = reshape(vecP0,[s,s]);
+    x0          = zeros(s,1);
+    BQB         = B*Q*B';
+    [P0,failed] = nb_lyapunovEquation(A,BQB);
      
 end

@@ -13,7 +13,7 @@ function [out,parser] = interpretSteadyStateChange(parser,inputValue,inParsing)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(inputValue)
         out = inputValue;

@@ -58,7 +58,7 @@ function score = constructScore(forecastOutput,type,allPeriods,startDate,endDate
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         lambda = [];
@@ -202,12 +202,12 @@ function score = constructScore(forecastOutput,type,allPeriods,startDate,endDate
                 score = fcstEval;
                 for ii = 1:nPer
                     fcstEvalT     = fcstEval(:,:,tt(ii):ii);
-                    score(:,:,ii) = nanstd(fcstEvalT,1,3);
+                    score(:,:,ii) = std(fcstEvalT,1,3,'omitnan');
                 end
                 
             else
                 fcstEvalT = fcstEval(:,:,tt:end);
-                score     = nanstd(fcstEvalT,1,3); 
+                score     = std(fcstEvalT,1,3,'omitnan'); 
             end
             score = 1./score;
             
@@ -320,7 +320,7 @@ function score = meanScore(fcstEval,allPeriods,tt,lambda,nPer)
             if ~isempty(lambda)
                 score(:,:,ii) = nb_exponentialDecayingMean(fcstEvalT,lambda,3);
             else
-                score(:,:,ii) = nanmean(fcstEvalT,3);
+                score(:,:,ii) = mean(fcstEvalT,3,'omitnan');
             end
         end
 
@@ -329,7 +329,7 @@ function score = meanScore(fcstEval,allPeriods,tt,lambda,nPer)
         if ~isempty(lambda)
             score = nb_exponentialDecayingMean(fcstEvalT,lambda,3);
         else
-            score = nanmean(fcstEvalT,3);
+            score = mean(fcstEvalT,3,'omitnan');
         end 
     end
 
@@ -346,7 +346,7 @@ function score = sumScore(fcstEval,allPeriods,tt,lambda,nPer)
             if ~isempty(lambda)
                 score(:,:,ii) = nb_exponentialDecayingSum(fcstEvalT,lambda,3);
             else
-                score(:,:,ii) = nansum(fcstEvalT,3);
+                score(:,:,ii) = sum(fcstEvalT,3,'omitnan');
             end
         end
 
@@ -355,7 +355,7 @@ function score = sumScore(fcstEval,allPeriods,tt,lambda,nPer)
         if ~isempty(lambda)
             score = nb_exponentialDecayingSum(fcstEvalT,lambda,3);
         else
-            score = nansum(fcstEvalT,3);
+            score = sum(fcstEvalT,3,'omitnan');
         end 
     end
 

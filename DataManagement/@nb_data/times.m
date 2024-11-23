@@ -32,7 +32,7 @@ function obj = times(obj,DB)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(obj,'nb_data') || ~isa(DB,'nb_data')
         error([mfilename,':: You can only multiply element-wise a object of class with another object of class nb_data'])

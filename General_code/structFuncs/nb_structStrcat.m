@@ -27,7 +27,7 @@ function [coeff_out] = nb_structStrcat(coeff_in, what, where)
 %
 % Written by Erling Motzfeldt Kravik
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         where='front';

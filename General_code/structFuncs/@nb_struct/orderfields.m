@@ -22,7 +22,7 @@ function varargout = orderfields(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen   
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [obj.s,varargout{2}] = orderfields(obj.s,varargin{:}); 
     varargout{1}         = obj;

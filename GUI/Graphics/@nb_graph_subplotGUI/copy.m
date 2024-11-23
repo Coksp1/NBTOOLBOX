@@ -9,7 +9,7 @@ function copy(gui,~,~,subPlotter)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     gui.parent.copiedObject = copy(subPlotter);
     

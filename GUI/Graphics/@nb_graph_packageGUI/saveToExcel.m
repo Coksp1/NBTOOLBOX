@@ -9,7 +9,7 @@ function saveToExcel(gui,~,~,language)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(gui.package.graphs)
         nb_errorWindow('The graph package is empty and cannot be saved to excel.')

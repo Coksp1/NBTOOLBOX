@@ -17,7 +17,7 @@ function obj = steady_state(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Do nothing!
     for ii = 1:numel(obj)

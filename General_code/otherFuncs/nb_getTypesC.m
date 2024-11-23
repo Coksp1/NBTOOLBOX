@@ -33,7 +33,7 @@ function [out,type] = nb_getTypesC(out,variables,data)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Replace math operators with matching function 
     mOper = {'./','/','.*','*','.^','^','-','+'};

@@ -62,7 +62,7 @@ function [beta,sigma,residual,X] = nb_nwhishart(y,x,prior,constant,timeTrend)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         timeTrend = 0;
@@ -201,7 +201,7 @@ function [beta,sigma,residual,X] = nb_nwhishart(y,x,prior,constant,timeTrend)
     end
     
     % Standard deviation of the estimated paramteres (beta)
-    if nargout > 4
+    if nargout > 2
         residual = y - x*mean(beta,3);
     end
     

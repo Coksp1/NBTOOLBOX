@@ -57,7 +57,7 @@ function locations = locateVariables(variables,state,logic,silent)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<4
         silent = false; % if true no error on variables not found

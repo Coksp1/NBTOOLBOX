@@ -18,7 +18,7 @@ function ret = isStateSpaceModel(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if any(~issolved(obj))
         error('All elements of the input must be solved!')

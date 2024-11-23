@@ -1,8 +1,8 @@
-function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriods)
+function [results,options] = recursiveEstimation(options,y,X,nExo,indCovid)
 % Syntax:
 %
 % [results,options] = nb_midasEstimator.recursiveEstimation(options,...
-%                                       y,X,nExo,startLowPeriods)
+%       y,X,nExo,indCovid)
 %
 % Description:
 %
@@ -13,10 +13,10 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Check the sample
-    if strcmpi(options.algorithm,'unrestricted')
+    if any(strcmpi(options.algorithm,{'unrestricted','lasso','ridge'})) 
         numCoeff = size(X,2) + options.constant + options.AR;
     elseif strcmpi(options.algorithm,'beta')
         numCoeff = 1 + nExo + options.constant + options.AR;
@@ -26,11 +26,12 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
         numCoeff = sum(options.polyLags) + options.constant + options.AR;
     end
     T                       = size(y,1);
-    [start,iter,ss,options] = checkDOFRecursive(options,numCoeff + options.nStep,T);
+    [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T);
     
     % Create waiting bar window
     waitbar = false;
-    if options.waitbar && ~strcmpi(options.algorithm,'unrestricted')
+    if options.waitbar && (strcmpi(options.algorithm,'beta') || ...
+            strcmpi(options.algorithm,'lasso'))
         h = nb_estimator.openWaitbar(options,iter);
         if ~isempty(h)
             waitbar = true;       
@@ -49,6 +50,19 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
     stdType  = options.stdType;
     residual = nan(T-1,options.nStep,iter);
     sigma    = nan(options.nStep,options.nStep,iter);
+    if any(strcmpi(options.algorithm,{'lasso','ridge'}))
+        reg     = nan(iter,options.nStep);
+        regPerc = nan(iter,options.nStep);
+    else
+        reg     = nan(iter,0);
+        regPerc = nan(iter,0);
+    end
+    if strcmpi(options.algorithm,'ridge')
+        lagMulti = nan(iter,options.nStep);
+    else
+        lagMulti = nan(iter,0);
+    end
+
     if options.draws > 1
         betaD  = nan(numCoeff,options.nStep,options.draws,iter);
         sigmaD = nan(options.nStep,options.nStep,options.draws,iter);
@@ -58,9 +72,24 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
     end
     kk = 1;
     for tt = start:T
-        [beta(:,:,kk),stdBeta(:,:,kk),~,~,residual(ss(kk):tt-1,:,kk),sigma(:,:,kk),betaD(:,:,:,kk),sigmaD(:,:,:,kk)] = ...
+
+        if ~isempty(indCovid)
+            indCovidTT = indCovid(ss(kk):tt,:);
+        else
+            indCovidTT = [];
+        end
+
+        [beta(:,:,kk),stdBeta(:,:,kk),~,~,residual(ss(kk):tt-1,:,kk),...
+         sigma(:,:,kk),betaD(:,:,:,kk),sigmaD(:,:,:,kk),reg(kk,:),regPerc(kk,:),lagMulti(kk,:)] = ...
             nb_midasFunc(y(ss(kk):tt,:),X(ss(kk):tt,:),constant,options.AR,options.algorithm,...
-                   options.nStep,stdType,nExo,options.nLags+1,'draws',options.draws,'polyLags',options.polyLags);
+               options.nStep,stdType,nExo,options.nLags+1,...
+               'draws',options.draws,'polyLags',options.polyLags,...
+               'regularization',options.regularization, ...
+               'regularizationPerc',options.regularizationPerc, ...
+               'restrictConstant',options.restrictConstant,...
+               'optimset',options.optimset,'remove',indCovidTT,...
+               'regularizationMode',options.regularizationMode);
+
         if waitbar 
             nb_estimator.notifyWaitbar(h,kk,iter,note)
         end                                                            
@@ -76,6 +105,15 @@ function [results,options] = recursiveEstimation(options,y,X,nExo,startLowPeriod
     results.residual = residual;
     results.betaD    = betaD;
     results.sigmaD   = sigmaD;
+
+    % Extra LASSO results
+    if ~isempty(reg)
+        results.regularization     = reg;
+        results.regularizationPerc = regPerc;
+    end
+    if strcmpi(options.algorithm,'ridge')
+        results.lagrangeMult = lagMulti;
+    end
     
     % Get recursive estimation start ind of low frequency
     options.recursive_estim_start_ind_low = options.start_low_in_low + (start - 1);
@@ -93,6 +131,15 @@ function [start,iter,ss,options] = checkDOFRecursive(options,numCoeff,T)
 % 
 % While something is in high frequency:
 % - options.recursive_estim_start_ind, options.estim_start_ind
+
+    numCoeff = numCoeff + options.nStep; % Leads eat up observations!
+    if isfield(options,'regularizationMode')
+        if strcmpi(options.regularizationMode,'lagrangian')
+            options.requiredDegreeOfFreedom = (20/options.dataFrequency)*options.frequency;
+            numCoeff                        = 0;
+        end
+    end
+
 
     [sDataDate,options.dataFrequency] = nb_date.date2freq(options.dataStartDate);
     sDataDateL    = convert(sDataDate,options.frequency);

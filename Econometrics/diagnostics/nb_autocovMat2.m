@@ -33,7 +33,7 @@ function acf = nb_autocovMat2(y,lags,demean,shrink)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         shrink = false;
@@ -63,7 +63,7 @@ function acf = nb_autocovMat2(y,lags,demean,shrink)
         Y(:,1:nVar) = y(lags+1:end,:);
         for ii = 1:lags
             ind      = ii*nVar + 1:(ii + 1)*nVar;
-            ylag     = lag(y(:,:,pp),ii);
+            ylag     = nb_lag(y(:,:,pp),ii);
             Y(:,ind) = ylag(lags + 1:end,:);
         end
         

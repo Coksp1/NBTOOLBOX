@@ -10,7 +10,7 @@ function fcst = midas(model,options,results,startInd,endInd,nSteps,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Use the same seed when returning the "random" numbers
     %--------------------------------------------------------------
@@ -41,7 +41,8 @@ end
 function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)  
     
     if numel(options) > 1
-        error('It is not possible to forecast MIDAS models using the real_time_estim option set to true.')
+        error(['It is not possible to forecast MIDAS models using the ',... 
+            'real_time_estim option set to true.'])
     end
     
     % Get actual data (and values of lagged dependent variable)
@@ -106,7 +107,8 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
     if options.constant
        X0 = [ones(size(X0,1),1,size(X0,3)),X0]; 
     end
-    restrictions = struct('X',X0,'type',1,'softConditioning',false,'condDistribution',false,'states',ones(nSteps,1));
+    restrictions = struct('X',X0,'type',1,'softConditioning',false,...
+        'condDistribution',false,'states',ones(nSteps,1));
     
     % Get the actual lower and upper percentiles
     if isempty(inputs.draws)
@@ -141,7 +143,9 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         end
         [ind,indV] = ismember(vars,fcstVar);
         if any(~ind)
-            error([mfilename ':: The following variables cannot be asked for (''varOfInterest'' input.) for MIDAS models, i.e; ' toString(vars(~ind))])
+            error(['The following variables cannot be asked for ',...
+                '(''varOfInterest'' input.) for MIDAS models, i.e; ',...
+                toString(vars(~ind))])
         end
         indV       = indV(ind);
         fcstVar    = fcstVar(indV);
@@ -170,43 +174,53 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
                         'the start date of estimation + 1 (' toString(startEstP1) '). Reset to first possible value.'])
                     start = 2;
                 else
-                    error([mfilename ':: Cannot start recursive forecast before the ',...
+                    error(['Cannot start recursive forecast before the ',...
                         'start date of estimation + 1; ' toString(startEstP1) '.'])
                 end
             end
         end
         
         if isempty(finish)
-            finish = nb_date.date2freq(options.estim_end_date_low) - convert(nb_date.date2freq(options.dataStartDate),1) + 1;
+            if options.recursive_estim
+                finish = (options.recursive_estim_start_ind_low -...
+                    (options.start_low_in_low - 1)) + (size(model.A,3));
+            else
+                finish = options.end_low_in_low - options.start_low_in_low + 2;
+            end
         end
         startFcst = start:finish;
         if options.recursive_estim
             if finish > (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3))
                 startDLow  = nb_date.date2freq(options.estim_start_date_low);
                 endRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3) - 1);
-                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set endDate to something else!'])
+                error(['Cannot pruce recursive forecast after ',...
+                    toString(endRecFcst) '. Set endDate to something else!'])
             end
             if isempty(startFcst)
                 startDLow  = nb_date.date2freq(options.estim_start_date_low);
                 endRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1)) + (size(model.A,3) - 1);
-                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set startDate to something else!'])
+                error(['Cannot pruce recursive forecast after ',...
+                    toString(endRecFcst) '. Set startDate to something else!'])
             end
         else
-            if finish > options.end_low_in_low
+            if finish > options.end_low_in_low - options.start_low_in_low + 2
                 startDLow  = nb_date.date2freq(options.estim_start_date_low);
-                endRecFcst = startDLow + (options.end_low_in_low - 1);
-                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set endDate to something else!'])
+                endRecFcst = startDLow + (options.end_low_in_low - options.start_low_in_low + 2);
+                error(['Cannot pruce recursive forecast after ',...
+                    toString(endRecFcst) '. Set endDate to something else!'])
             end
             if isempty(startFcst)
                 startDLow  = nb_date.date2freq(options.estim_start_date_low);
-                endRecFcst = startDLow + (options.end_low_in_low - 1);
-                error(['Cannot pruce recursive forecast after ' toString(endRecFcst) '. Set startDate to something else!'])
+                endRecFcst = startDLow + (options.end_low_in_low - options.start_low_in_low + 2);
+                error(['Cannot pruce recursive forecast after ',...
+                    toString(endRecFcst) '. Set startDate to something else!'])
             end
             if startFcst(1) < 2
-                start     = nb_date.date2freq(options.estim_start_date_low);
-                startRec  = start + 1;
-                startFcst = start + (startFcst(1) - 1);
-                error([mfilename ':: Cannot evaluate forecast. Start date (' toString(startFcst) ') is before the start date of estimation + 1 (' toString(startRec) ')'])
+                startDLow = nb_date.date2freq(options.estim_start_date_low);
+                startRec  = startDLow + 1;
+                startFcst = startDLow + (startFcst(1) - 1);
+                error(['Cannot evaluate forecast. Start date (' toString(startFcst),...
+                    ') is before the start date of estimation + 1 (' toString(startRec) ')'])
             end
         end
         
@@ -214,19 +228,8 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         actual = nb_forecast.getActual(options,inputs,model,nSteps,fcstVar,startFcst);
           
         % Create waiting bar window
-        iter = finish - start + 1;
-        if inputs.parallel
-            h = inputs.waitbar;
-        else
-            if isfield(inputs,'index')
-                h = nb_waitbar5([],['Recursive Forecast for Model '  int2str(inputs.index) ' of ' int2str(inputs.nObj) ],true);
-            else
-                h = nb_waitbar5([],'Recursive Forecast',true);
-            end
-            h.maxIterations1 = iter;
-            h.text1          = 'Starting...'; 
-            inputs.waitbar   = h;
-        end
+        [h,iter,closeWaitbar] = nb_forecast.createWaitbar(inputs,start,finish);
+        inputs.waitbar        = h;
         
         % Do the recursive forecast for each period   
         forecastData = nan(nSteps,numVar,dim3,iter);
@@ -236,7 +239,8 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
             if jj < 1
                 startDLow    = nb_date.date2freq(options.estim_start_date_low);
                 startRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1));
-                error(['Cannot pruce recursive forecast before ' toString(startRecFcst) '. Set startDate to something else!'])
+                error(['Cannot pruce recursive forecast before ' ,...
+                    toString(startRecFcst) '. Set startDate to something else!'])
             end
         else
             jj = 1;
@@ -260,11 +264,13 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
             end
             
             if inputs.draws < 2 && inputs.parameterDraws < 2
-                [Y,evalFcstT] = nb_forecast.midasPointForecast(y0,restrictions,model,options,results,...
-                                            nSteps,index,actual(:,:,kk),inputs);
+                [Y,evalFcstT] = nb_forecast.midasPointForecast(y0,...
+                    restrictions,model,options,results,nSteps,index,...
+                    actual(:,:,kk),inputs);
             else
-                [Y,evalFcstT] = nb_forecast.midasDensityForecast(y0,restrictions,model,options,results,...
-                                            nSteps,index,actual(:,:,kk),inputs);
+                [Y,evalFcstT] = nb_forecast.midasDensityForecast(y0,...
+                    restrictions,model,options,results,nSteps,...
+                    index,actual(:,:,kk),inputs);
             end
             
             % Collect forecast of dependent variables
@@ -277,15 +283,18 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
             
             % Report current estimate in the waitbar's message field
             if inputs.parallel
-                fprintf(h.Value,['Recursive Forecast for Model '  int2str(inputs.index) ' of ' int2str(inputs.nObj) '; '...
-                                 'Finished with ' int2str(kk) ' of ' int2str(iter) ' iterations...\r\n']); 
+                fprintf(h.Value,['Recursive Forecast for Model ',...
+                    int2str(inputs.index) ' of ' int2str(inputs.nObj) '; '...
+                    'Finished with ' int2str(kk) ' of ' int2str(iter),...
+                    ' iterations...\r\n']); 
             else
                 if h.canceling
                     error([mfilename ':: User terminated'])
                 end
                 if rem(kk,note) == 0
                     h.status1 = kk;
-                    h.text1   = ['Finished with ' int2str(kk) ' of ' int2str(iter) ' iterations...'];
+                    h.text1   = ['Finished with ' int2str(kk) ' of ',...
+                        int2str(iter) ' iterations...'];
                 end
             end 
             kk = kk + 1;
@@ -294,7 +303,7 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         end
         
         % Delete waiting bar
-        if ~inputs.parallel
+        if closeWaitbar
             delete(h);
         end
         
@@ -313,12 +322,13 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
                 startDLow = nb_date.date2freq(options.estim_start_date_low);
                 startFcst = startDLow + (start-1);
                 startC    = startDLow + 1;
-                error([mfilename ':: Cannot forecast from a date (' toString(startFcst) ') before the start date of estimation + 1 (' toString(startC) ').'])
+                error(['Cannot forecast from a date (' toString(startFcst) ,...
+                    ') before the start date of estimation + 1 (' toString(startC) ').'])
             elseif start > options.end_low_in_low
                 startDLow = nb_date.date2freq(options.estim_start_date_low);
                 startFcst = startDLow + (start-1);
                 startC    = startDLow + options.end_low_in_low - options.start_low_in_low + 1;
-                error([mfilename ':: Cannot forecast from a date (' toString(startFcst) ') as it ',...
+                error(['Cannot forecast from a date (' toString(startFcst) ') as it ',...
                        'is after the end date of estimation + 1 (' toString(startC) ').'])
             end
             y0 = Y0(start-1,:);
@@ -330,7 +340,8 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
             if iter < 1
                 startDLow    = nb_date.date2freq(options.estim_start_date_low);
                 startRecFcst = startDLow + (options.recursive_estim_start_ind_low - (options.start_low_in_low - 1));
-                error(['Cannot produce forecast before the recursive start date + 1; ' toString(startRecFcst)])
+                error(['Cannot produce forecast before the recursive ',...
+                    'start date + 1; ' toString(startRecFcst)])
             end
         else
             iter = 1;
@@ -340,9 +351,11 @@ function fcst = midasFcst(model,options,results,start,finish,nSteps,inputs)
         restrictions.index = startFcst - 1; % How to index restrictions.X
         restrictions.start = startFcst - 1; % The index of last date of history in low units
         if inputs.draws < 2 && inputs.parameterDraws < 2 && inputs.regimeDraws < 2
-            [Y,evalFcst] = nb_forecast.midasPointForecast(y0',restrictions,model,options,results,nSteps,iter,[],inputs);
+            [Y,evalFcst] = nb_forecast.midasPointForecast(y0',...
+                restrictions,model,options,results,nSteps,iter,[],inputs);
         else
-            [Y,evalFcst] = nb_forecast.midasDensityForecast(y0',restrictions,model,options,results,nSteps,iter,[],inputs);
+            [Y,evalFcst] = nb_forecast.midasDensityForecast(y0',...
+                restrictions,model,options,results,nSteps,iter,[],inputs);
         end
         forecastData = Y;
         

@@ -108,7 +108,7 @@ function obj = set_identification(obj,type,varargin)
 % "Underidentified SVAR models: A framework for combining short and long-run restrictions with sign-restrictions,"
 % Working Paper 2013/14, Norges Bank.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         type = 'cholesky';

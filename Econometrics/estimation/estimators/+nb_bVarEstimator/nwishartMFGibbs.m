@@ -22,7 +22,7 @@ function [beta,sigma,yDraws,PDraws] = nwishartMFGibbs(draws,y,x,H,R_prior,initBe
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 17
         dummyPriorOptions = [];

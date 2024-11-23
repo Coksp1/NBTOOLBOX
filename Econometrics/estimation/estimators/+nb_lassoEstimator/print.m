@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -85,9 +85,13 @@ function res = resursivePrint(results,options,precision)
     dates   = start:finish;
     dates   = dates(startRecursive:end)';
     numObs  = size(beta,3);
-    dep     = options.dependent;
-    if isfield(options,'block_exogenous')
-        dep = [dep,options.block_exogenous];
+    if options.nStep > 0
+        dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+    else
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
     end
     numDep  = length(dep);
     for ii = 1:numDep
@@ -104,9 +108,32 @@ function res = resursivePrint(results,options,precision)
         table(3:2:end,2:end) = nb_double2cell(stdBetaT,precision);
         table(2:2:end,1)     = exo;
         table(1,2:end)       = dates;
-        tableAsChar          = cell2charTable(table);
-        res                  = char(res,tableAsChar);
         
+        if isfield(results,'regularization')
+
+            numRows   = 1;
+            rowHeader = {'Inv. regularization'};
+            if isfield(results,'regularizationPerc')
+                numRows = 2;
+                if options.restrictConstant
+                    t = '(% of OLS excl. const.)';
+                else
+                    t = '(% of OLS)';
+                end
+                rowHeader = [rowHeader,t]; %#ok<AGROW>
+            end
+            tableR          = repmat({''},numRows,numObs + 1);
+            tableR(1,2:end) = nb_double2cell(1./results.regularization(:,ii)',precision);
+            if isfield(results,'regularizationPerc')
+                tableR(2,2:end) = nb_double2cell(results.regularizationPerc(:,ii)',precision);
+            end
+            tableR(1:end,1) = rowHeader;
+            table           = [table;tableR]; %#ok<AGROW>
+        end
+
+        tableAsChar = cell2charTable(table);
+        res         = char(res,tableAsChar);
+
     end
 
 end
@@ -154,18 +181,36 @@ function res = normalPrint(results,options,precision)
     [exo,numExo] = nb_lassoEstimator.getCoeff(options);
 
     % Fill table
-    firstRow = options.dependent;
-    if isfield(options,'block_exogenous')
-        firstRow = [firstRow,options.block_exogenous];
+    if options.nStep > 0
+        dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+    else
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
     end
     table{1,1}           = 'Variable';
-    table(1,2:end)       = firstRow;
+    table(1,2:end)       = dep;
     table(2:2:end,1)     = exo;
     table(3:2:end,1)     = repmat({'(Std. Error)'},numExo,1);
     beta                 = nb_double2cell(beta,precision);
     stdBeta              = nb_double2cell(stdBeta,precision);
     table(2:2:end,2:end) = beta;
     table(3:2:end,2:end) = stdBeta;
+
+    if isfield(results,'regularization')
+        tableReg = ['Inv. regularization',nb_double2cell(1./results.regularization,precision)];
+        table    = [table;tableReg];
+    end
+    if isfield(results,'regularizationPerc')
+        if options.restrictConstant
+            t = '(% of OLS excl. const.)';
+        else
+            t = '(% of OLS)';
+        end
+        tableReg = [t,nb_double2cell(results.regularizationPerc,precision)];
+        table    = [table;tableReg];
+    end
 
     % Convert the test result to a cell matrix on the wanted
     % format   

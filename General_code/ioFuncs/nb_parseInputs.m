@@ -38,7 +38,7 @@ function [inputs,message,index] = nb_parseInputs(mfile,default,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Expand varargin if given as struct
     if length(varargin) == 1

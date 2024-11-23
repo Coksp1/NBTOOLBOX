@@ -324,7 +324,7 @@ classdef nb_ts < nb_dataSource
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties (SetAccess=protected,Dependent=true)
         
@@ -801,6 +801,8 @@ classdef nb_ts < nb_dataSource
         
         varargout = getWindow(varargin)
         
+        varargout = checkInverseMethodsInput(varargin)
+        
     end
     
     %==============================================================
@@ -905,7 +907,7 @@ classdef nb_ts < nb_dataSource
                     return
                 elseif strcmpi(dataset,'smart')
                     try
-                        [data, variables, startDate, endDate, frequency] = ...
+                        [data, variables, startDate, endDate, frequency, userData] = ...
                             nb_smart2Properties(var, startDate, vintage, sorted);
                     catch Err
                         if ~exist('nb_smart2Properties','file')
@@ -1047,6 +1049,11 @@ classdef nb_ts < nb_dataSource
                     catch
                         rethrow(Err);
                     end
+                end
+                if isa(frequency,'Frequency')
+                    % Newer versions of IRIS uses the Frequency class
+                    % instead of scalar integer!
+                    frequency = double(frequency);
                 end
                 try
                     startDate = get(dataset,'start');

@@ -39,7 +39,7 @@ classdef nb_month < nb_date
 %
 % Written by Kenneth Sæterhagen Paulsen
    
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     properties
         
@@ -197,7 +197,7 @@ classdef nb_month < nb_date
         function cellOfObjects = toCellOfObjects(months,years)
             
             cellOfObjects = cell(size(months));
-            for ii = 1:size(months)
+            for ii = 1:length(months)
                 cellOfObjects{ii} = nb_month(months(ii),years(ii));
             end
             

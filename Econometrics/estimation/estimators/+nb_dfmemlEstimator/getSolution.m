@@ -20,7 +20,7 @@ function results = getSolution(options,H,AF,QF,AI,QI,R)
 %
 % Written by Kenneth S. Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen 
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen 
 
     N = size(H,1);
     if options.mixedFrequency

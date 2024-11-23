@@ -31,7 +31,7 @@ function Y = nb_computeMidasForecast(A,B,Y,X,E)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nSteps = size(Y,2) - 1;
     if isempty(A)

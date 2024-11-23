@@ -14,7 +14,7 @@ function invWeights = constructInvWeights(prior,T)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     TC         = prior.obsSVD;
     invWeights = ones(T,1); % vector of s_t

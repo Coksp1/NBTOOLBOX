@@ -17,7 +17,7 @@ function obj = times(obj,another)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     type = loopObjects(obj,another);
     if type > 0

@@ -13,7 +13,7 @@ function loadOptionsWhenExist(gui)
 %
 % Written by Eyo I. Herstad and Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create the window
     f = nb_guiFigure(gui.parent,'Import Option',[50 40 100 20],'modal','off');                   

@@ -29,7 +29,7 @@ function obj = reIndex(obj,date,baseValue)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         baseValue = 100;
@@ -43,26 +43,15 @@ function obj = reIndex(obj,date,baseValue)
         else
             % Here we re index to a date with lower frequency 
             % (average indexation)
-            switch obj.startDate.frequency 
-                case 2
-                    dateT  = dateT.getHalfYear();
-                    extra = 1;
-                case 4
-                    dateT = dateT.getQuarter();
-                    extra = 3;
-                case 12
-                    dateT = dateT.getMonth();
-                    extra = 11;
-                case 365
-                    dateT = dateT.getDay();
-                    if dateT.leapYear
-                        extra = 365;
-                    else
-                        extra = 364;
-                    end
+            dateHigh = convert(dateT,obj.startDate.frequency);
+            if obj.startDate.frequency < 52
+                extra = obj.startDate.frequency/dateT.frequency - 1;
+            elseif obj.startDate.frequency == 52
+                extra = getNumberOfWeeks(dateT) - 1;
+            else 
+                extra = getNumberOfDays(dateT) - 1;
             end
-
-            period       = dateT - obj.startDate + 1;
+            period       = dateHigh - obj.startDate + 1;
             indexPeriods = period:period + extra;
             try
                 indexPeriodData = mean(obj.data(indexPeriods,:,:),1);

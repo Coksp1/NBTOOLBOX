@@ -14,20 +14,24 @@ function [yPlus,xPlus] = setUpPriorSC(prior,y,x,lags,constant,timeTrend)
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if timeTrend
-        error([mfilename ':: If you apply the sum-of-coefficients prior you cannot include a time trend.'])
+        error(['If you apply the sum-of-coefficients prior you cannot ',...
+            'include a time trend.'])
     end
     if isfield(prior,'mu')
         mu = prior.mu;
     else
-        error([mfilename ':: If you apply the sum-of-coefficients prior you need to specify the mu option.'])
+        error(['If you apply the sum-of-coefficients prior you need to ',...
+            'specify the mu option.'])
     end
     if isempty(mu)
-        error([mfilename ':: If you apply the sum-of-coefficients prior you need to set the mu option to a number.'])
+        error(['If you apply the sum-of-coefficients prior you need to ',...
+            'set the mu option to a number.'])
     elseif ~nb_isScalarNumber(mu,0)
-        error([mfilename ':: If you apply the sum-of-coefficients prior you need to set the mu option to a number greater than 0.'])
+        error(['If you apply the sum-of-coefficients prior you need to ',...
+            'set the mu option to a number greater than 0.'])
     end
     
     % Remove missing observations at the start
@@ -42,7 +46,7 @@ function [yPlus,xPlus] = setUpPriorSC(prior,y,x,lags,constant,timeTrend)
     yPlus = diag(y0/mu);
     xPlus = repmat(yPlus,[1,lags]);
     if ~isempty(x)
-        xPlus = [repmat(mean(x(1:lags,:)),[n,1]),xPlus];
+        xPlus = [repmat(mean(x(1:lags,:),1),[n,1]),xPlus];
     end
     if constant
         xPlus = [zeros(n,1),xPlus];

@@ -94,7 +94,7 @@ function [decomp,decompBands,plotter,plotterBands] = variance_decomposition(obj,
 % Output:
 % 
 % - decomp      : A structure of nb_ts objects with the variance 
-%                 decomosition for each model. (If simulated it will store
+%                 decomposition for each model. (If simulated it will store
 %                 the median or closest to median dependent on the 'output'
 %                 option)
 %
@@ -117,7 +117,7 @@ function [decomp,decompBands,plotter,plotterBands] = variance_decomposition(obj,
 %
 % Written by Kenneth Sæterhagen Paulsen    
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj   = obj(:);
     nobj  = numel(obj);

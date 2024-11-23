@@ -42,7 +42,7 @@ function plotter = graphCorrelation(variable,movingVar,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         error([mfilename ':: The number of variable number of arguments in must at least be 2'])

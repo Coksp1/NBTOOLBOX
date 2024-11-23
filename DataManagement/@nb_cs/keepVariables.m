@@ -58,7 +58,7 @@ function obj = keepVariables(obj,keptVar)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
 
     if ~ischar(keptVar) && ~iscellstr(keptVar)

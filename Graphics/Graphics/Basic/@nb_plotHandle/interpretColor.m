@@ -43,7 +43,7 @@ function colors = interpretColor(colors)
 %
 % Written by Kenneth Sæterhagen Paulsen
            
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ischar(colors)
         colors = cellstr(colors);
@@ -61,21 +61,29 @@ function colors = interpretColor(colors)
 
         switch lower(cellOfColors{ii})
             case 'nbcolor1'
-                doubleColors(ii,:) = [34 89 120]/255;
+                doubleColors(ii,:) = [0 38 255]/255;
             case 'nbcolor2'
-                doubleColors(ii,:) = [205 140 65]/255;
+                doubleColors(ii,:) = [239 149 74]/255;  
             case 'nbcolor3'
-                doubleColors(ii,:) = [150 90 150]/255;    
+                doubleColors(ii,:) = [61 209 115]/255;  
             case 'nbcolor4'
-                doubleColors(ii,:) = [120 165 125]/255;
+                doubleColors(ii,:) = [170 170 170]/255; 
             case 'nbcolor5'
-                doubleColors(ii,:) = [221 34 45]/255;   
+                doubleColors(ii,:) = [78 194 226]/255;  
             case 'nbcolor6'
-                doubleColors(ii,:) = [73 180 223]/255;   
+                doubleColors(ii,:) = [214 82 24]/255;    
             case 'nbcolor7'
-                doubleColors(ii,:) = [195 185 150]/255;
+                doubleColors(ii,:) = [0 117 95]/255;   
             case 'nbcolor8'
-                doubleColors(ii,:) = [176 222 241]/255;   
+                doubleColors(ii,:) = [175 157 255]/255; 
+            case 'nbcolor9'
+                doubleColors(ii,:) = [10 88 119]/255;   
+            case 'nbcolor10'
+                doubleColors(ii,:) = [252 192 131]/255;
+            case 'nbcolor11'
+                doubleColors(ii,:) = [255 0 0]/255;
+            case 'nbcolor12'
+                doubleColors(ii,:) = [0 21 56]/255;
             case {'blue','blå','b'}
                 doubleColors(ii,:) = [52 114 166]/255;
             case {'nbblue','nbblå','nbb'}

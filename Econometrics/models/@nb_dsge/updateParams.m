@@ -9,7 +9,7 @@ function model = updateParams(model,results)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     param = model.parameters.name';
     calib = [param,num2cell(results.beta)];

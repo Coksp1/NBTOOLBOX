@@ -9,7 +9,7 @@ function makeGUI(gui)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isa(gui.parent,'nb_GUI')
         error('The parent must be a nb_GUI window');

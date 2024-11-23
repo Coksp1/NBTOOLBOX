@@ -24,7 +24,7 @@ function wrapped = nb_wrapped(string,max)
 %
 % Written by Tobias Ingebrigtsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     ind     = [find(isspace(string)),length(string)];
     jj      = 1;

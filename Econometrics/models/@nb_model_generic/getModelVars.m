@@ -28,7 +28,7 @@ function vars = getModelVars(obj,varsIn)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isscalar(obj)
         error([mfilename ':: Only scalar nb_model_generic object are supported.'])
@@ -58,6 +58,8 @@ function vars = getModelVars(obj,varsIn)
                 'model uses.'])
         end
         vars = obj.options.allVariables;
+    elseif isa(obj,'nb_harmonizer')
+        vars = nb_harmonizeEstimator.getVariables(obj.options);
     else
         vars = {};
         if isprop(obj,'dependent')
@@ -80,7 +82,10 @@ function vars = getModelVars(obj,varsIn)
         end
         if isfield(obj.options,'measurementEqRestriction')
             if ~nb_isempty(obj.options.measurementEqRestriction)
-                vars = [vars,{obj.options.measurementEqRestriction.restricted}];
+                restr = unique({obj.options.measurementEqRestriction.restricted}); 
+                indR  = ~ismember(restr,dep);
+                restr = restr(indR);    
+                vars = [vars,restr];
             end
         end
     end

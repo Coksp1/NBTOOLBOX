@@ -35,7 +35,7 @@ function [employed,newScouts] = dance(employed,lowerBound,upperBound,F,jacobianF
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nBees = size(employed,1);
     if nBees == 0

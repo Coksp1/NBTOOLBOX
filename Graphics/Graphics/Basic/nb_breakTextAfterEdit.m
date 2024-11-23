@@ -25,7 +25,7 @@ function index = nb_breakTextAfterEdit(textObj,fitTo,index)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     string = get(textObj,'string');
     if ~iscell(string)

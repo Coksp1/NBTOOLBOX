@@ -9,7 +9,7 @@ function spreadsheetFanData(gui,~,~)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the data of the curent displayed graph
     %--------------------------------------------------------------

@@ -12,7 +12,7 @@ function [out,data_nb_ts] = callDynareFilter(obj,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     M_       = obj.estOptions.M_;
     oo_      = obj.estOptions.oo_;

@@ -9,7 +9,7 @@ function message = nb_checkPostFix(postfix)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     message        = '';
     indN           = regexp(postfix,'\d','start');

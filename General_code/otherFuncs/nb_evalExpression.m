@@ -31,7 +31,7 @@ function [out,str] = nb_evalExpression(out,type,nInp)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if length(out) == 1
         out = out{1}; % Final output

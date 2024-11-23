@@ -1,4 +1,5 @@
-function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar,algo)
+function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = ...
+    nb_qreg(q,y,x,constant,timeTrend,method,draws,restr,waitbar,algo)
 % Syntax:
 %
 % beta = nb_qreg(y,x)
@@ -89,7 +90,7 @@ function [beta,stdBeta,tStatBeta,pValBeta,residual,x,betaB] = nb_qreg(q,y,x,cons
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 10
         algo = 'qreg';
@@ -309,7 +310,7 @@ function beta = qReg(y,x,T,E,N,q,numQ)
         for ii = 1:E
 
             B              = y(:,ii);
-            [betaT,~,flag] = linprog(f',[],[],A,B,lb,ub,[],opt);
+            [betaT,~,flag] = linprog(f',[],[],A,B,lb,ub,opt);
             nb_interpretExitFlag(flag,'linprog',[' Quantile ' num2str(q(qq)) '.']);
             betaT          = betaT(end-N+1:end);
             beta(:,ii,qq)  = betaT;
@@ -340,7 +341,7 @@ function beta = qRegRestr(y,x,T,E,N,q,numQ,restr)
             f              = [q(qq)*O;(1-q(qq))*O;zeros(NT,1)];
             A              = [I,-I, x(:,r)];
             B              = y(:,ii);
-            [betaT,~,flag] = linprog(f',[],[],A,B,lb,ub,[],opt);
+            [betaT,~,flag] = linprog(f',[],[],A,B,lb,ub,opt);
             nb_interpretExitFlag(flag,'linprog',[' Quantile ' num2str(q(qq)) '.']);
             betaT          = betaT(end-N+1:end);
             beta(:,ii)     = betaT;

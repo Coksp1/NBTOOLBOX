@@ -12,7 +12,7 @@ function options = getSVDPrior(options,y)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(options.prior.dateSVD)
         error('You have not provided a value to the dateSVD field of the prior option.')

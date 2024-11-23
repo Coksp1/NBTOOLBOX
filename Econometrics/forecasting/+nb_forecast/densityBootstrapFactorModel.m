@@ -10,7 +10,7 @@ function [Y,XE,solution] = densityBootstrapFactorModel(y0,restrictions,model,opt
 %
 % Written by Kenneth Sæterhagen Paulsen
     
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isempty(inputs.missing)
         error([mfilename ':: Density forecast of factor models that are estimated with missing '...

@@ -35,7 +35,7 @@ classdef nb_graph_data < nb_graph
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     %======================================================================
     % Properties of the class 
@@ -1321,7 +1321,7 @@ classdef nb_graph_data < nb_graph
                         'ySpacingRight'};
              
             obj.inputs = struct();        
-            for ii = 1:size(fields)
+            for ii = 1:length(fields)
                 
                 obj.inputs.(fields{ii}) = [];
                 
@@ -1654,7 +1654,7 @@ classdef nb_graph_data < nb_graph
                         xlim = [xlim(1) - 0.5, xlim(2) + 0.5];
                     end
                     
-                elseif xlim(1) == xlim(2)
+                elseif xlim(1) == xlim(2) || strcmpi(obj.plotType,'heatmap')
                     
                     xlim = [xlim(1) - 0.5, xlim(2) + 0.5]; 
                     
@@ -1770,17 +1770,19 @@ classdef nb_graph_data < nb_graph
                 obj.axesHandle.xTickLabelSet = 1;
             end
             
-            obj.axesHandle.xTickLabelLocation   = obj.xTickLabelLocation;         
-            obj.axesHandle.xTickLabelAlignment  = obj.xTickLabelAlignment;
-            obj.axesHandle.xTickLocation        = obj.xTickLocation; 
-            obj.axesHandle.xTickRotation        = obj.xTickRotation;
-            obj.axesHandle.yDir                 = obj.yDir;
-            obj.axesHandle.yDirRight            = obj.yDirRight;
-            obj.axesHandle.yLim                 = ylim;
-            obj.axesHandle.yLimRight            = ylimright;
-            obj.axesHandle.yOffset              = obj.yOffset;
-            obj.axesHandle.yScale               = obj.yScale;
-            obj.axesHandle.yScaleRight          = obj.yScaleRight;
+            obj.axesHandle.xTickLabelLocation    = obj.xTickLabelLocation;         
+            obj.axesHandle.xTickLabelAlignment   = obj.xTickLabelAlignment;
+            obj.axesHandle.xTickLabelInterpreter = obj.xTickLabelInterpreter;
+            obj.axesHandle.xTickLocation         = obj.xTickLocation; 
+            obj.axesHandle.xTickRotation         = obj.xTickRotation;
+            obj.axesHandle.yDir                  = obj.yDir;
+            obj.axesHandle.yDirRight             = obj.yDirRight;
+            obj.axesHandle.yLim                  = ylim;
+            obj.axesHandle.yLimRight             = ylimright;
+            obj.axesHandle.yOffset               = obj.yOffset;
+            obj.axesHandle.yScale                = obj.yScale;
+            obj.axesHandle.yScaleRight           = obj.yScaleRight;
+            obj.axesHandle.yTickLabelInterpreter = obj.yTickLabelInterpreter;
             
             if ~isempty(ylim)
                 obj.axesHandle.yLimSet = 1;
@@ -1862,6 +1864,12 @@ classdef nb_graph_data < nb_graph
             end 
             
             applyNotTickOptions(obj);
+            
+            % Special stuff for heatmap
+            %--------------------------------------------------------------
+            if strcmpi(obj.plotType,'heatmap')
+                setHeatmapAxes(obj)
+            end
             
             % Then update and plot the axes
             %--------------------------------------------------------------

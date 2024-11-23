@@ -27,7 +27,7 @@ function value = nb_maxDeriv(expr1,expr2,deriv1,deriv2)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     term       = expr1 - expr2;
     condition1 = term > eps;

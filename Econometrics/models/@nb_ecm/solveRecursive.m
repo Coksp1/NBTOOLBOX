@@ -5,26 +5,14 @@ function tempSol = solveRecursive(results,opt)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
-    iter     = size(results.beta,3);
-    nEndo    = length(opt.endogenous);
-    rhs      = opt.rhs((nEndo+1)*2:end); % The flexible right hand side variables
-    depLags  = regexp(rhs,opt.dependent);
-    endoLags = rhs(cellfun(@isempty,depLags));
-    depLags  = rhs(~cellfun(@isempty,depLags));
-    nDepLags = regexp(depLags,'\d+$','match');
-    nDepLags = str2num(char([nDepLags{:}]')); %#ok<ST2NM>
-    mDepLags = max(nDepLags);
-    if isempty(mDepLags)
-        mDepLags = 1;
-    end
-    nExo = length(opt.exogenous) + opt.constant + opt.time_trend + length(endoLags) + nEndo*2;
-    nEq  = mDepLags + 1;
-    A    = nan(nEq,nEq,iter);
-    B    = nan(nEq,nExo,iter);
-    C    = nan(nEq,1,iter);
-    for ii = 1:iter
+    iter    = size(results.beta,3);
+    tempSol = nb_ecm.solveNormal(results,opt,1);
+    A       = tempSol.A(:,:,ones(1,iter));
+    B       = tempSol.B(:,:,ones(1,iter));
+    C       = tempSol.C(:,:,ones(1,iter));
+    for ii = 2:iter
         tempSol   = nb_ecm.solveNormal(results,opt,ii);
         A(:,:,ii) = tempSol.A;
         B(:,:,ii) = tempSol.B;

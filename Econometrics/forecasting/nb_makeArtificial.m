@@ -12,7 +12,7 @@ function YDRAW = nb_makeArtificial(model,options,results,method,replic,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     replic = ceil(replic);
     if isempty(method)
@@ -36,10 +36,21 @@ function YDRAW = nb_makeArtificial(model,options,results,method,replic,iter)
             nobs  = nobs + 1;
         end
     elseif strcmpi(model.class,'nb_sa')
-        finish = finish + options.nStep; 
-        ind    = ceil(nobs*rand(options.nStep,1));
-        nobs   = nobs + options.nStep;
-        resid  = [resid; resid(ind,:)]; % Put random residuals to the end here...
+        % Only forecast one steap ahead!
+        if all(nb_contains(options.dependent,'lead'))
+            % Steap ahead estimated with nb_singleEq
+            numEndo     = length(options.dependent);
+            indB        = ismember(endo,options.dependent);
+            endo        = options.dependent;
+            B           = B(indB,:);
+            singleEqDir = true;
+        else
+            numEndo     = length(options.dependent);
+            endo        = strrep(endo(1:numEndo),'_lead1','');
+            B           = B(1:numEndo,:);
+            resid       = resid(:,1:numEndo); 
+            singleEqDir = false;
+        end
     end
     [~,indY] = ismember(endo,options.dataVariables);
     
@@ -116,4 +127,9 @@ function YDRAW = nb_makeArtificial(model,options,results,method,replic,iter)
     end
     YDRAW = permute(YDRAW,[3,1,2]); 
     
+    if strcmpi(model.class,'nb_sa') && ~singleEqDir
+        % In this case YDRAW contains leaded y!
+        YDRAW = [repmat(Y(:,1)',[1,1,replic]);YDRAW];
+    end
+
 end

@@ -32,7 +32,7 @@ function y = hpfilter1s(x,lamb,perc,fcstLen)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 4
         fcstLen = 0;
@@ -50,12 +50,13 @@ function y = hpfilter1s(x,lamb,perc,fcstLen)
             % Find first finite observation 
             isFin = isfinite(x(:,cc,pp));
             f     = find(isFin,1);
+            rt    = find(isFin,1,'last');
 
             % Need at least 5 observation 
             l = f + 4;
 
             % Do the one sided filter
-            while l <= r
+            while l <= rt
                 tempData   = x(f:l,cc,pp);
                 isF        = isFin(f:l);
                 tempData   = tempData(isF);
@@ -63,11 +64,8 @@ function y = hpfilter1s(x,lamb,perc,fcstLen)
                     fcst     = mean(tempData(end-3:end));
                     tempData = [tempData;fcst(ones(fcstLen,1),1)]; %#ok<AGROW>
                 end
-                temp = hpfilter(tempData,lamb);
-                if fcstLen > 0
-                    tempData = tempData(1:end-fcstLen); %#ok<NASGU>
-                end
-                y(l,cc,pp) = temp(end);
+                temp       = hpfilter(tempData,lamb);
+                y(l,cc,pp) = temp(end-fcstLen);
                 l          = l + 1;
             end
             

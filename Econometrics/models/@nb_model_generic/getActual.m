@@ -39,7 +39,7 @@ function actual = getActual(options,solution,vars,startFcst,nSteps,inputs,nowcas
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 7
         nowcast = 0;

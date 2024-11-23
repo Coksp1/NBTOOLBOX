@@ -18,7 +18,7 @@ function c = nb_cov2corr(c)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     nLags = size(c,3);
     stds  = sqrt(diag(c(:,:,1)));

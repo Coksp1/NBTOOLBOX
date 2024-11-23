@@ -17,7 +17,7 @@ function portraitPDF(filename,append)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     [p,n,e] = fileparts(filename);
     if ~isempty(e)

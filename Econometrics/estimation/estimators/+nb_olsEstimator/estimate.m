@@ -24,7 +24,7 @@ function [results,options] = estimate(options)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     tStart = tic;
 
@@ -40,144 +40,16 @@ function [results,options] = estimate(options)
     options = nb_defaultField(options,'restrictions',{});
     options = nb_defaultField(options,'unbalanced',false);
     options = nb_defaultField(options,'removeZeroRegressors',false);
+    options = nb_defaultField(options,'covidAdj',{});
+    options = nb_defaultField(options,'nStep',0);
     
     if ~ismember(options.stdType,{'h','w','nw'})
         options.stdType = 'h';
     end
     
-    % Are we dealing with a VAR?
-    %-------------------------------------------------------
-    if isfield(options,'class')
-        if strcmpi(options.class,'nb_var')
-            options = nb_olsEstimator.varModifications(options); 
-        end
-    end
-    
-    % Get the estimation options
-    %------------------------------------------------------
-    tempDep  = cellstr(options.dependent);
-    if isempty(tempDep)
-        error([mfilename ':: No dependent variables selected, please assign the dependent field of the options property.'])
-    end
-    options.exogenous = cellstr(options.exogenous);
-    
-    if isempty(options.data)
-        error([mfilename ':: Cannot estimate without data.'])
-    end
-
-    if isempty(options.modelSelectionFixed)
-        fixed = false(1,length(options.exogenous));
-    else
-        fixed = options.modelSelectionFixed;
-        if ~islogical(fixed)
-            fixed = logical(options.modelSelectionFixed);
-        end
-    end
-    options.modelSelectionFixed = fixed;
-
     % Get the estimation data
     %------------------------------------------------------
-    if isempty(options.estim_types) % Time-series
-
-        % Add seasonal dummies
-        if ~isempty(options.seasonalDummy)
-            options = nb_olsEstimator.addSeasonalDummies(options); 
-        end
-        
-        % Do we deal with unbalanced dataset?
-        if options.unbalanced
-            options = nb_estimator.correctOptionsForUnbalanced(options);
-        elseif strcmpi(options.class,'nb_sa')
-            if ~isempty(options.estim_end_ind)
-                options.estim_end_ind = options.estim_end_ind - options.nStep;
-            end
-            if ~isempty(options.recursive_estim_start_ind)
-                options.recursive_estim_start_ind = options.recursive_estim_start_ind - options.nStep;
-            end
-        end
-        
-        % Add lags or find best model
-        if ~isempty(options.modelSelection)
-
-            if options.unbalanced
-                error([mfilename ':: The unbalanced option cannot be set to true at the same time as using model selection.'])
-            end
-            if ~isempty(options.restrictions)
-                error([mfilename ':: Parameter restrictions cannot be applied at the same time as using model selection.'])
-            end
-            minLags = [];
-            if isfield(options,'class')
-                if strcmpi(options.class,'nb_var')
-                    minLags = 0; 
-                end
-            end
-            options = nb_olsEstimator.modelSelectionAlgorithm(options,minLags); 
-            
-        else
-            if options.addLags
-                if iscell(options.nLags)
-                    if isfield(options,'class')
-                        if strcmpi(options.class,'nb_var')
-                            error([mfilename ':: The ''nLags'' cannot be a cell, if the model is of class nb_var.'])
-                        end
-                    end
-                    options = nb_estimator.addExoLags(options,'nLags');  
-                elseif ~all(options.nLags == 0) 
-                    options = nb_olsEstimator.addLags(options);
-                end
-            end
-            if options.unbalanced
-                options = nb_olsEstimator.addLeads(options);
-            end
-        end
-        
-        % Check if we need have a block_exogenous model
-        %----------------------------------------------
-        blockRest = {};
-        if isfield(options,'block_exogenous')
-            if ~isempty(options.block_exogenous)
-                tempDep   = [tempDep,options.block_exogenous];
-                blockRest = nb_estimator.getBlockExogenousRestrictions(options);
-            end
-        end
-        
-        % Get data
-        [testY,indY] = ismember(tempDep,options.dataVariables);
-        [testX,indX] = ismember(options.exogenous,options.dataVariables);
-        if any(~testY)
-            error([mfilename ':: Some of the dependent variable are not found to be in the dataset; ' toString(tempDep(~testY))])
-        end
-        if any(~testX)
-            error([mfilename ':: Some of the exogenous variable are not found to be in the dataset; ' toString(options.exogenous(~testX))])
-        end
-        y = options.data(:,indY);
-        X = options.data(:,indX);
-        if isempty(y)
-            error([mfilename ':: The selected sample cannot be empty.'])
-        end
-        
-    else
-
-        % Get data as a double
-        [testY,indY] = ismember(tempDep,options.dataVariables);
-        [testT,indT] = ismember(options.estim_types,options.dataTypes);
-        [testX,indX] = ismember(options.exogenous,options.dataVariables);
-        if any(~testY)
-            error([mfilename ':: Some of the dependent variables are not found to be in the dataset; ' toString(tempDep(~testY))])
-        end
-        if any(~testX)
-            error([mfilename ':: Some of the exogenous variables are not found to be in the dataset; ' toString(options.exogenous(~testX))])
-        end
-        if any(~testT)
-            error([mfilename ':: Some of the types are not found to be in the dataset; ' toString(options.estim_types(~testT))])
-        end
-        y = options.data(indT,indY);
-        X = options.data(indT,indX);
-        if isempty(y)
-            error([mfilename ':: The number of selected types cannot be 0.'])
-        end
-
-    end
+    [y,X,blockRest,options] = nb_estimator.preprareDataForEstimation(options);
     
     % Apply restrictions
     if ~isempty(options.restrictions)
@@ -186,33 +58,25 @@ function [results,options] = estimate(options)
         yRest = y;
         XRest = X;
     end
-    
+
     % Do the estimation
     %------------------------------------------------------
-%     if size(X,2) == 0 && ~options.constant && ~options.time_trend
-%         error([mfilename ':: You must select some regressors.'])
-%     end
-
-    % Check for constant regressors, which we do not allow
-    if ~options.removeZeroRegressors
-        if any(all(diff(X,1) == 0,1))
-            error([mfilename ':: One or more of the selected exogenous variables is/are constant. '...
-                             'Use the constant option instead.'])
-        end
-    end
 
     if options.recursive_estim
 
         if ~isempty(options.estim_types)
-            error([mfilename ':: Recursive estimation is only supported for time-series.'])
+            error('Recursive estimation is only supported for time-series.')
         end
         
         % Shorten sample
         [options,yRest,XRest] = nb_estimator.testSample(options,yRest,XRest);
 
+        % Ignore some covid dates?
+        indCovid = nb_estimator.applyCovidFilter(options,yRest);
+
         % Check the sample
-        numCoeff                = size(XRest,2) + options.constant + options.time_trend;
-        T                       = size(yRest,1);
+        numCoeff = size(XRest,2) + options.constant + options.time_trend;
+        T        = size(yRest,1);
         [start,iter,ss,options] = nb_estimator.checkDOFRecursive(options,numCoeff,T);
             
         if numCoeff == 0
@@ -242,15 +106,18 @@ function [results,options] = estimate(options)
             
             % Estimate the model recursively
             %--------------------------------------------------
-            numDep     = size(yRest,2);
+            if options.nStep > 0
+                numDep = size(yRest,2)*options.nStep;
+            else
+                numDep = size(yRest,2);
+            end
             beta       = zeros(numCoeff,numDep,iter);
             stdBeta    = nan(numCoeff,numDep,iter);
             constant   = options.constant;
             time_trend = options.time_trend;
             stdType    = options.stdType;
-            residual   = nan(T,numDep,iter);
+            residual   = nan(T - double(options.nStep>0),numDep,iter);
             kk         = 1;
-            vcv        = nan(numDep,numDep,iter);
             if isempty(blockRest)
                 for tt = start:T
                     
@@ -261,8 +128,49 @@ function [results,options] = estimate(options)
                         ind  = true(1,size(XRest,2));
                         indA = true(1,numCoeff);
                     end
-                    
-                    [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,residual(ss(kk):tt,:,kk)] = nb_ols(yRest(ss(kk):tt,:),XRest(ss(kk):tt,ind),constant,time_trend,stdType);
+
+                    yEst = yRest(ss(kk):tt,:);
+                    XEst = XRest(ss(kk):tt,ind);
+
+                    if options.nStep > 0 % nb_sa models
+
+                        if ~isempty(indCovid)
+                            indCovidTT = indCovid(ss(kk):tt,:);
+                        else
+                            indCovidTT = [];
+                        end
+                        N = size(yRest,2);
+                        for ii = 1:N
+                            indDep = ii:N:N*options.nStep;
+                            [beta(indA,indDep,kk),stdBeta(indA,indDep,kk),~,~,res] = ...
+                                nb_midasFunc(yEst(:,ii),XEst,constant,false,'unrestricted',...
+                                options.nStep,stdType,length(options.uniqueExogenous),...
+                                options.nLags,'draws',0,'remove',indCovidTT);
+
+                            residual(ss(kk):tt-1,indDep,kk) = res;
+                        end
+
+                    else
+
+                        if ~isempty(indCovid)
+                            % Strip covid dates from estimation
+                            yEstCov = yEst(~indCovid(ss(kk):tt,:),:);
+                            XEstCov = XEst(~indCovid(ss(kk):tt,:),:);
+                            yEst    = yEst(indCovid(ss(kk):tt,:),:);
+                            XEst    = XEst(indCovid(ss(kk):tt,:),:);
+                        end
+    
+                        [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,res] = ...
+                            nb_ols(yEst,XEst,constant,time_trend,stdType);
+
+                        if ~isempty(indCovid)
+                            res = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                                constant,time_trend,beta(indA,:,kk),res,...
+                                indCovid(ss(kk):tt,:));
+                        end
+                        residual(ss(kk):tt,:,kk) = res;
+    
+                    end
                     kk = kk + 1;
                 end
             else
@@ -275,34 +183,51 @@ function [results,options] = estimate(options)
                         ind  = true(1,size(XRest,2));
                         indA = true(1,numCoeff);
                     end
-                    blockRestIndexed                                                  = indexBlockRest(options,blockRest,ind);
-                    [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,residual(ss(kk):tt,:,kk)] = nb_olsRestricted(yRest(ss(kk):tt,:),XRest(ss(kk):tt,ind),blockRestIndexed,constant,time_trend,stdType);
+
+                    yEst = yRest(ss(kk):tt,:);
+                    XEst = XRest(ss(kk):tt,ind);
+                    if ~isempty(indCovid)
+                        % Strip covid dates from estimation
+                        yEstCov = yEst(~indCovid(ss(kk):tt,:),:);
+                        XEstCov = XEst(~indCovid(ss(kk):tt,:),:);
+                        yEst    = yEst(indCovid(ss(kk):tt,:),:);
+                        XEst    = XEst(indCovid(ss(kk):tt,:),:);
+                    end
+
+                    blockRestIndexed = indexBlockRest(options,blockRest,ind);
+
+                    [beta(indA,:,kk),stdBeta(indA,:,kk),~,~,res] = ...
+                        nb_olsRestricted(yEst,XEst,blockRestIndexed,constant,time_trend,stdType);
+                    
+                    if ~isempty(indCovid)
+                        res = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                            constant,time_trend,beta(indA,:,kk),res,...
+                            indCovid(ss(kk):tt,:));
+                    end
+                    residual(ss(kk):tt,:,kk) = res;
+                    
                     kk = kk + 1;
                 end
             end
             
             % Estimate the covariance matrix
             %--------------------------------
-            kk = 1;
-            for tt = start:T
-                resid       = residual(ss(kk):tt,:,kk);
-                vcv(:,:,kk) = resid'*resid/(size(resid,1) - numCoeff);
-                kk          = kk + 1;
-            end
+            vcv = nb_estimator.estimateCovarianceMatrixDuringRecEst(...
+                options,residual,indCovid,start,T,ss,numCoeff);
             
         end
         
         % Get estimation results
         %--------------------------------------------------
-        res          = struct();
-        res.beta     = beta;
-        res.stdBeta  = stdBeta;
-        res.sigma    = vcv;
-        res.residual = residual;
+        results          = struct();
+        results.beta     = beta;
+        results.stdBeta  = stdBeta;
+        results.sigma    = vcv;
+        results.residual = residual;
         
         % Add restrictions to results
         if ~isempty(options.restrictions)
-            res = nb_estimator.addRestrictions(options,res,restrict);
+            results = nb_estimator.addRestrictions(options,results,restrict);
         end
 
     %======================
@@ -321,6 +246,9 @@ function [results,options] = estimate(options)
             T        = size(XRest,1);
             nb_estimator.checkDOF(options,numCoeff,T);
 
+            % Ignore some covid dates?
+            indCovid = nb_estimator.applyCovidFilter(options,yRest);
+
         else
             
             numCoeff = size(XRest,2) + options.constant;
@@ -332,8 +260,9 @@ function [results,options] = estimate(options)
             testData = [yRest,XRest];
             testData = testData(:);
             if any(isnan(testData))
-                error([mfilename ':: The estimation data is not balanced.'])
+                error('The estimation data is not balanced.')
             end
+            indCovid = [];
             
         end
         
@@ -341,13 +270,14 @@ function [results,options] = estimate(options)
         %--------------------------------------------------
         if numCoeff == 0
             % All parameters are restricted
-            numDep    = size(yRest,2);
-            beta      = nan(numCoeff,numDep);
-            stdBeta   = nan(numCoeff,numDep);
-            tStatBeta = nan(numCoeff,numDep);
-            pValBeta  = nan(numCoeff,numDep);
-            residual  = yRest;
-            XX        = [];
+            numDep           = size(yRest,2);
+            beta             = nan(numCoeff,numDep);
+            stdBeta          = nan(numCoeff,numDep);
+            tStatBeta        = nan(numCoeff,numDep);
+            pValBeta         = nan(numCoeff,numDep);
+            residual         = yRest;
+            residualStripped = residual;
+            XX               = [];
         else
             
             if options.removeZeroRegressors
@@ -355,82 +285,139 @@ function [results,options] = estimate(options)
             else
                 ind  = true(1,size(XRest,2));
             end
-            
-            if isempty(blockRest)
-                [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = nb_ols(yRest,XRest(:,ind),options.constant,options.time_trend,options.stdType);
+            yEst = yRest;
+            XEst = XRest(:,ind);
+
+            if options.nStep > 0
+
+                if options.removeZeroRegressors
+                    indA = [true(1,numCoeff - size(XRest,2)), ind];
+                else
+                    indA = true(1,numCoeff);
+                end
+
+                N         = size(yRest,2);
+                numDep    = N*options.nStep;
+                beta      = zeros(numCoeff,numDep);
+                stdBeta   = nan(numCoeff,numDep);
+                tStatBeta = zeros(numCoeff,numDep);
+                pValBeta  = nan(numCoeff,numDep);
+                residual  = nan(size(yRest,1) - 1,numDep);
+                for ii = 1:N
+                    indDep = ii:N:N*options.nStep;
+                    [beta(indA,indDep),stdBeta(indA,indDep),tStatBeta(indA,indDep),...
+                        pValBeta(indA,indDep),residual(:,indDep)] = ...
+                        nb_midasFunc(yEst(:,ii),XEst,options.constant,false,'unrestricted',...
+                        options.nStep,options.stdType,length(options.uniqueExogenous),...
+                        options.nLags,'draws',0,'remove',indCovid);
+                end
+                
+                XX = [];
+
+                % Strip residual
+                [residualStripped,stripInd] = nb_estimator.stripSteapAheadResiduals(...
+                    options,residual,indCovid);
+                
             else
-                blockRestIndexed                              = indexBlockRest(options,blockRest,ind);
-                [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = nb_olsRestricted(yRest,XRest(:,ind),blockRestIndexed,options.constant,options.time_trend,options.stdType);
+
+                if ~isempty(indCovid)
+                    yEstCov = yEst(~indCovid,:);
+                    XEstCov = XEst(~indCovid,:);
+                    yEst    = yEst(indCovid,:);
+                    XEst    = XEst(indCovid,:);
+                end
+                
+                if isempty(blockRest)
+                    [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = ...
+                        nb_ols(yEst,XEst,options.constant,options.time_trend,options.stdType);
+                else
+                    blockRestIndexed = indexBlockRest(options,blockRest,ind);
+                    [beta,stdBeta,tStatBeta,pValBeta,residual,XX] = ...
+                        nb_olsRestricted(yEst,XEst,blockRestIndexed,...
+                        options.constant,options.time_trend,options.stdType);
+                end
+
+                residualStripped = residual;
+                if ~isempty(indCovid)
+                    residual = nb_estimator.predictResidual(yEstCov,XEstCov,...
+                        options.constant,options.time_trend,beta,residual,...
+                        indCovid);
+                end
+
             end
-            
+           
         end
         
         % Estimate the covariance matrix
         %-------------------------------
-        T     = size(residual,1);
-        sigma = residual'*residual/(T - numCoeff);
-        
+        T     = size(residualStripped,1);
+        sigma = residualStripped'*residualStripped/(T - numCoeff);
+
         % Get estimation results
         %--------------------------------------------------
-        res = struct();
-        if options.removeZeroRegressors
-            numEq                 = size(y,2);
-            indA                  = [true(1,numCoeff - size(XRest,2)), ind];
-            res.beta              = zeros(numCoeff,numEq);
-            res.beta(indA,:)      = beta;
-            res.stdBeta           = nan(numCoeff,numEq);
-            res.stdBeta(indA,:)   = stdBeta; 
-            res.tStatBeta         = nan(numCoeff,numEq);
-            res.tStatBeta(indA,:) = tStatBeta;
-            res.pValBeta          = nan(numCoeff,numEq);
-            res.pValBeta(indA,:)  = pValBeta;
+        results = struct();
+        if options.removeZeroRegressors && options.nStep == 0
+            numEq                     = size(y,2);
+            indA                      = [true(1,numCoeff - size(XRest,2)), ind];
+            results.beta              = zeros(numCoeff,numEq);
+            results.beta(indA,:)      = beta;
+            results.stdBeta           = nan(numCoeff,numEq);
+            results.stdBeta(indA,:)   = stdBeta; 
+            results.tStatBeta         = nan(numCoeff,numEq);
+            results.tStatBeta(indA,:) = tStatBeta;
+            results.pValBeta          = nan(numCoeff,numEq);
+            results.pValBeta(indA,:)  = pValBeta;
         else
-            res.beta       = beta;
-            res.stdBeta    = stdBeta;
-            res.tStatBeta  = tStatBeta;
-            res.pValBeta   = pValBeta;
+            results.beta       = beta;
+            results.stdBeta    = stdBeta;
+            results.tStatBeta  = tStatBeta;
+            results.pValBeta   = pValBeta;
         end
-        res.residual   = residual;
-        res.sigma      = sigma;
-        res.predicted  = y - residual;
-        res.regressors = XX;
+        results.residual = residual;
+        results.sigma    = sigma;
+        if options.nStep > 0
+            yLead         = nb_mlead(y,options.nStep,'varFast');
+            yLead         = yLead(1:end-1,:);
+            results.predicted = yLead - residual;
+        else
+            results.predicted = y - residual;
+        end
+        results.regressors = XX;
         
         % Add restrictions to results
         if ~isempty(options.restrictions)
-            res = nb_estimator.addRestrictions(options,res,restrict);
+            results = nb_estimator.addRestrictions(options,results,restrict);
         end
         
         % Get aditional test results
         %--------------------------------------------------
         if options.doTests
-            res = nb_olsEstimator.doTest(res,options,res.beta,y,X,residual);
+            if isempty(indCovid)
+                if options.nStep == 0
+                    yTest = y;
+                    XTest = X;
+                else
+                    yTest = yLead(~stripInd,:);
+                    XTest = yLead(~stripInd,:);
+                end
+            else
+                if options.nStep == 0
+                    yTest = y(indCovid,:);
+                    XTest = X(indCovid,:);
+                else
+                    yTest = yLead(~stripInd,:);
+                    XTest = yLead(~stripInd,:);
+                end
+            end
+            results = nb_olsEstimator.doTest(results,options,results.beta,yTest,...
+                XTest,residualStripped);
         end
         
     end
     
-    % Correct estimation dates for nb_sa models
-    if strcmpi(options.class,'nb_sa')
-        options.estim_end_ind             = options.estim_end_ind + options.nStep;
-        options.recursive_estim_start_ind = options.recursive_estim_start_ind + options.nStep;
-    end
-    
-    if options.unbalanced 
-        [res,options] = nb_estimator.correctResultsGivenUnbalanced(options,res);
-    end
-    
-    % Secure that all lags of the solution is in the data!
-    if isempty(options.estim_types) && strcmpi(options.class,'nb_singleEq') % Time-series
-        options = nb_olsEstimator.secureAllLags(options);
-    end
-    
-    % Assign generic results
-    res.includedObservations = size(yRest,1);
-    res.elapsedTime          = toc(tStart);
-    
-    % Assign results
-    results = res;
-    options.estimator = 'nb_olsEstimator';
-    options.estimType = 'classic';
+    % Wrap up estimation
+    [options,results] = nb_estimator.wrapUpEstimation(options,results,...
+        'nb_olsEstimator','classic',yRest,tStart);
 
 end
 
@@ -454,4 +441,3 @@ function blockRestIndexed = indexBlockRest(options,blockRest,ind)
     end
 
 end
-

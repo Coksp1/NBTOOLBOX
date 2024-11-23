@@ -30,7 +30,7 @@ function x = truncated_kurtosis(dist,param,lb,ub)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Some distribution may have a close form solution here, and
     % at some point I may want to add those!

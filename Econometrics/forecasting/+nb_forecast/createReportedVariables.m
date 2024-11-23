@@ -13,7 +13,13 @@ function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
+
+    if isfield(options,'reportingWarning')
+        reportingWarning = options.reportingWarning;
+    else
+        reportingWarning = true;
+    end
 
     % If we are dealing with real-time data we need to index the
     % options struct to get hold of the correct vintage of historical 
@@ -21,6 +27,7 @@ function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     reporting = inputs.reporting;
     if ~isempty(inputs.varOfInterest)
         if ~any(ismember(inputs.varOfInterest,reporting(:,1)))
+            Yout = Y;
             return
         end
     end
@@ -71,34 +78,9 @@ function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     
     % Add shift variables
     if isfield(inputs,'shift')
-        
-        shift = inputs.shift;
-        if ~isempty(shift)
-            
-            if size(shift,3) > 1 % Real-time de-trending
-                shift = shift(:,:,iter);
-            end
-
-            [ind,indS] = ismember(inputs.shiftVariables,variables);
-            indS       = indS(ind);
-            try
-                shiftData  = shift(endInd - histObs + 1:endInd+nSteps,ind);
-            catch %#ok<CTCH>
-                d = nSteps - size(shift(endInd+1:end,1),1);
-                if d > 0
-                    error([mfilename ':: The shift/trend data has not been forecast enough steps. Missing steps; ' int2str(abs(d)) '. '...
-                                     'See the fcstHorizon input to the createVariables method, or you may need to update your data!'])
-                else
-                    shiftData = shift(1:endInd+nSteps,ind); % Less then 20 observations...
-                    if size(shiftData,1) < size(data,1)
-                        error([mfilename ':: To short estimation sample to be able to use the reporting option. Need at least ' int2str(size(data,1) - nSteps) ' observations.'])
-                    end
-                end
-            end
-            shiftData      = shiftData(:,:,ones(1,nDraws));
-            data(:,indS,:) = data(:,indS,:) + shiftData;
+        if ~isempty(inputs.shift)
+            data = addShift(inputs,data,variables,endInd,histObs,nSteps,nDraws);
         end
-        
     end
     
     % Convert to nb_math_ts
@@ -119,17 +101,19 @@ function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
             warning('nb_forecast:createReportedVariables:couldNotEvaluate','%s',Err.message);
             continue
         end 
-        if any(double(isnan(dataTSOne(nHistObs+1:end,:))))
-            if nb_model_generic.isMixedFrequencyStatic(options)
-                if all(double(isnan(dataTSOne(nHistObs+1:end,:))))
-                    warning('nb_forecast:createReportedVariables:returnedNaN',...
-                        ['The expression ' expression ' returned nan values' contextText]);
-                end 
-            else
-                d   = dates(dataTSOne(nHistObs+1:end,:));
-                ind = isnan(double(dataTSOne(nHistObs+1:end,:)));
-                warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ,...
-                    ' returned nan values for the dates ' toString(d(ind)) contextText]);
+        if reportingWarning
+            if any(double(isnan(dataTSOne(nHistObs+1:end,:))))
+                if nb_model_generic.isMixedFrequencyStatic(options)
+                    if all(double(isnan(dataTSOne(nHistObs+1:end,:))))
+                        warning('nb_forecast:createReportedVariables:returnedNaN',...
+                            ['The expression ' expression ' returned nan values' contextText]);
+                    end 
+                else
+                    d   = dates(dataTSOne(nHistObs+1:end,:));
+                    ind = isnan(double(dataTSOne(nHistObs+1:end,:,1)));
+                    warning('nb_forecast:createReportedVariables:returnedNaN',['The expression ' expression ,...
+                        ' returned nan values for the dates ' toString(d(ind)) contextText]);
+                end
             end
         end
 
@@ -162,4 +146,46 @@ function [Yout,dep] = createReportedVariables(options,inputs,Y,dep,start,iter)
     end
     dep = outVars;
     
+end
+
+%==========================================================================
+function data = addShift(inputs,data,variables,endInd,histObs,nSteps,nDraws)
+
+    shift = inputs.shift;
+    if size(shift,3) > 1 % Real-time de-trending
+        shift = shift(:,:,iter);
+    end
+
+    [ind,indS] = ismember(inputs.shiftVariables,variables);
+    indS       = indS(ind);
+    try
+        shiftData  = shift(endInd - histObs + 1:endInd+nSteps,ind);
+    catch %#ok<CTCH>
+        d = nSteps - size(shift(endInd+1:end,1),1);
+        if d > 0
+            error([mfilename ':: The shift/trend data has not been forecast enough steps. Missing steps; ' int2str(abs(d)) '. '...
+                             'See the fcstHorizon input to the createVariables method, or you may need to update your data!'])
+        else
+            shiftData = shift(1:endInd+nSteps,ind); % Less then 20 observations...
+            if size(shiftData,1) < size(data,1)
+                error([mfilename ':: To short estimation sample to be able to use the reporting option. Need at least ' int2str(size(data,1) - nSteps) ' observations.'])
+            end
+        end
+    end
+    [indM,indMS] = ismember(inputs.shiftVariables,strcat(variables,'_multshift'));
+    indMS        = indMS(indM);
+    try
+        shiftMultData = shift(endInd - histObs + 1:endInd+nSteps,indM);
+    catch %#ok<CTCH>
+        shiftMultData = shift(1:endInd+nSteps,indM); % Less then 20 observations...
+    end
+    
+    % Multiplicative shift
+    shiftMultData   = shiftMultData(:,:,ones(1,nDraws));
+    data(:,indMS,:) = data(:,indMS,:).*shiftMultData;
+    
+    % Additative shift
+    shiftData      = shiftData(:,:,ones(1,nDraws));
+    data(:,indS,:) = data(:,indS,:) + shiftData;
+            
 end

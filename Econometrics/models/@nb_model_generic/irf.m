@@ -22,7 +22,7 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 % - 'compare'        : Give true if you have a scalar nb_dsge model and 
 %                      you want to graph the irfs from the different 
 %                      regimes from a NBToolbox solved model against 
-%                      eachother. Default is false.
+%                      each other. Default is false.
 %
 % - 'compareShocks'  : Give true if you want to plot all the IRFs of
 %                      different shocks in the same graphs (one separate
@@ -60,7 +60,7 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 %                      the 'type' input.
 %
 % - 'factor'         : A cell array with the factors to multiply the
-%                      irf of the indiviual model variables.
+%                      irf of the individual model variables.
 %                      I.e. {'var1',100,...} or 
 %                      {{'var1','var2'},100,...}
 %
@@ -320,7 +320,7 @@ function [irfs,irfsBands,plotter,obj] = irf(obj,varargin)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj   = obj(:);
     names = getModelNames(obj);

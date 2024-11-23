@@ -3,9 +3,9 @@ function tempSol = solveNormal(results,opt,ident)
 %
 % tempSol = nb_var.solveNormal(results,opt,ident)
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         ident = [];
@@ -73,7 +73,7 @@ function tempSol = solveNormal(results,opt,ident)
             numObs              = length(obs);
             R                   = zeros(numObs,1);
             R_scale             = [opt.measurementEqRestriction.R_scale];
-            R(numDep+1:end)     = nanvar(yRest)./R_scale;
+            R(numDep+1:end)     = var(yRest,0,'omitnan')./R_scale;
             tempSol.R           = R;
             tempSol.observables = obs;
             
@@ -215,11 +215,11 @@ function tempSol = appendMeasurementRest(tempSol,opt,results,obs,numDep,numRows)
     tempSol.observables = obs;
 
     % Measurement error covariance matrix
-    if ~isfield(results,'R')
+    if ~isfield(results,'R') || isempty(results.R)
         numObs                  = length(obs);
         tempSol.R               = zeros(numObs,1);
         R_scale                 = [opt.measurementEqRestriction.R_scale];
-        tempSol.R(numDep+1:end) = nanvar(yRest)./R_scale;
+        tempSol.R(numDep+1:end) = var(yRest,0,'omitnan')./R_scale;
     else
         tempSol.R = results.R; 
     end
@@ -243,10 +243,10 @@ function tempSol = calibrateR(tempSol,opt,obs)
     [~,locY] = ismember(vars,opt.dataVariables);
     sample   = opt.estim_start_ind:opt.estim_end_ind;
     Y        = opt.data(sample,locY);
-    if size(tempSol.RCalib,2) > 1
-        tempSol.RCalib(loc,loc) = diag(nanvar(Y)./R_scale);
+    if ~isvector(tempSol.RCalib)
+        tempSol.RCalib(loc,loc) = diag(var(Y,0,'omitnan')./R_scale);
     else
-        tempSol.RCalib(loc) = nanvar(Y)./R_scale;
+        tempSol.RCalib(loc) = var(Y,0,'omitnan')./R_scale;
     end
     
 end

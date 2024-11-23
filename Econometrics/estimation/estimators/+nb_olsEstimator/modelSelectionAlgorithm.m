@@ -12,10 +12,14 @@ function options = modelSelectionAlgorithm(options,minLags)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         minLags = [];
+    end
+
+    if ~isempty(options.covidAdj)
+        error('Model selection is not supported when covidAdj is not empty')
     end
 
     tempData   = options.data;

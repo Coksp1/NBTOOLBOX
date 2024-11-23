@@ -10,7 +10,7 @@ function calculateCallback(gui, ~, ~, window)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get the number of periods to expand by
     greedy = get(gui.components.greedy,'value');

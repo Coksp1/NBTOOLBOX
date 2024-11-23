@@ -10,7 +10,7 @@ function options = checkForMissing(options,startInd,endInd)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Get data that is used by the model
     tempData = options.data(:,:,end); % Use last vintage for real-time data

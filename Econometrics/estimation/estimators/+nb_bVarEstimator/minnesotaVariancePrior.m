@@ -14,7 +14,7 @@ function sigma_sq = minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mix
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if ~isempty(freq) || ~isempty(mixing) % MF-VAR
         
@@ -129,7 +129,9 @@ function sigma_sq = minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mix
                 y_i    = y(s+1:e,ii);
                 T_yi   = size(y_i,1);
                 if T_yi < nLagsAR + 3
-                    error([mfilename ':: Cannot use a Minnesota Variance Prior when having less then 3 observations (adjusted for ' int2str(nLagsAR) ') on any variable.'])
+                    error(['Cannot use a Minnesota Variance Prior when ',...
+                        'having less then 3 observations (adjusted for ',...
+                        int2str(nLagsAR) ') on any variable.'])
                 end
 
                 % OLS estimates of i-th equation
@@ -140,26 +142,6 @@ function sigma_sq = minnesotaVariancePrior(prior,y,constant,timeTrend,H,freq,mix
 
         end
         
-%         sigma_sq = zeros(1,numDep);
-%         for ii = 1:numDep
-% 
-%             % Create lags of dependent variables   
-%             yi   = y(:,ii);
-%             yi   = yi(~isnan(yi));
-%             T_yi = size(yi,1);
-%             if T_yi < nLagsAR + 3
-%                 error([mfilename ':: Cannot use a Minnesota Prior when having less then 3 observations (adjusted for ' int2str(nLagsAR) ') on any variable.'])
-%             end
-%             yLag_i = nb_mlag(yi,nLagsAR);
-%             yLag_i = yLag_i(nLagsAR+1:T_yi,:);
-%             y_i    = yi(nLagsAR+1:T_yi);
-%             
-%             % OLS estimates of i-th equation
-%             [~,~,~,~,res] = nb_ols(y_i,yLag_i,constant,timeTrend);
-%             sigma_sq(ii)  = (1./(T_yi-normFac))*(res'*res);
-% 
-%         end
-
     end
 
 end

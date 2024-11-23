@@ -35,7 +35,7 @@ function Y = nb_computeForecastAnticipated(A,B,C,Y,X,E)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     numAntPer = size(C,3);
     nSteps    = size(Y,2) - 1;

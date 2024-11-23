@@ -22,7 +22,7 @@ function obj = unstruct(s)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(s,'nb_model_sampling')
         obj = s; % This is for backward compatibility
@@ -157,14 +157,67 @@ function obj = unstruct(s)
     % Set so old loaded objects are set default parsing options that has
     % been added afterwards
     if isa(obj,'nb_dsge')
-        default     = nb_dsge.getDefaultParser();
-        obj.parser  = nb_structcat(obj.parser,default,'first');
+        if isNB(obj)
+            default     = nb_dsge.getDefaultParser();
+            obj.parser  = nb_structcat(obj.parser,default,'first');
+        end
     end
     
     if isa(obj,'nb_calculate_expr')
         if isfield(obj.options,'func')
             if isstruct(obj.options.func)
                 obj.options.func = nb_struct2functionHandle(obj.options.func);
+            end
+        end
+    end
+
+    % Handle nb_date objects
+    if isfield(obj.options,'covidAdj')
+        if isstruct(obj.options.covidAdj) 
+            if nb_isempty(obj.options.covidAdj)
+                obj.options.covidAdj = {};
+            else
+                obj.options.covidAdj = obj.options.covidAdj(:);
+                covidAdjObj          = nb_date.initialize(obj.options.covidAdj(1).frequency,...
+                    size(obj.options.covidAdj,1),1);
+                for ii = 1:size(obj.options.covidAdj,1)
+                    covidAdjObj(ii) = nb_date.unstruct(obj.options.covidAdj(ii));
+                end
+                obj.options.covidAdj = covidAdjObj;
+            end 
+        end
+    end
+
+    if isfield(obj.options,'set2nan')
+        set2nan = obj.options.set2nan;
+        fields  = fieldnames(set2nan);
+        for ii = 1:length(fields)
+            datesThis = set2nan.(fields{ii});
+            if isstruct(datesThis) 
+                if nb_isempty(datesThis)
+                    set2nan.(fields{ii}) = {};
+                else
+                    datesThis    = datesThis(:);
+                    datesThisObj = nb_date.initialize(datesThis(1).frequency,...
+                        size(datesThis,1),1);
+                    for jj = 1:size(datesThis,1)
+                        datesThisObj(jj) = nb_date.unstruct(datesThis(jj));
+                    end
+                    set2nan.(fields{ii}) = datesThisObj;
+                end 
+            end
+        end
+        obj.options.set2nan = set2nan;
+    end
+
+    % Handle nan values
+    if isfield(obj.options,'prior')
+        if ~nb_isempty(obj.options.prior)
+            if isfield(obj.options.prior,'ARcoeff')
+                if isempty(obj.options.prior.ARcoeff)
+                    % nan is converted to [] when exported to json!
+                    obj.options.prior.ARcoeff = nan;
+                end
             end
         end
     end

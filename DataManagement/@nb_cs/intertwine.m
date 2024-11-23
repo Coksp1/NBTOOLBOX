@@ -9,7 +9,7 @@ function obj = intertwine(obj, obj2, postfix2, varargin)
 % 
 % Written by Henrik Halvorsen Hortemo
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj = interwine(obj, obj2, postfix2, varargin{:});
     

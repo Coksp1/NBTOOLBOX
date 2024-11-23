@@ -59,7 +59,7 @@ end
 %==========================================================================
 function format = updateFormat(format,newFormat)
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     fields = fieldnames(newFormat);
     for ii = 1:length(fields)

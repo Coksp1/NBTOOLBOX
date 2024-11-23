@@ -21,7 +21,7 @@ function obj = empty(obj)
 %
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     obj.startDate = nb_date();
     obj.endDate   = nb_date();

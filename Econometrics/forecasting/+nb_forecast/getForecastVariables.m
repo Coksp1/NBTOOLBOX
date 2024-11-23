@@ -7,9 +7,9 @@ function dep = getForecastVariables(options,model,inputs,type)
 %
 % Get forecast variables from model
 %
-% Written by Kenneth Sæterhagen Paulsen
+% Written by Kenneth S�terhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if any(strcmpi(model.class,{'nb_sa','nb_midas','nb_fmsa'}))
         dep = unique(regexprep(options(end).dependent,'_{0,1}lead[0-9]*$',''));
@@ -29,14 +29,17 @@ function dep = getForecastVariables(options,model,inputs,type)
                 dep = [options(end).dependent, options(end).block_exogenous];
                 if isfield(options,'measurementEqRestriction') && ...
                             ~nb_isempty(options.measurementEqRestriction)
-                    dep = [dep,{options.measurementEqRestriction.restricted}]; 
+                    restr = unique({options.measurementEqRestriction.restricted}); 
+                    indR  = ~ismember(restr,dep);
+                    restr = restr(indR);    
+                    dep   = [dep,restr];
                 end
                 if size(options.indObservedOnly,2) == length(dep)
                     % Normal B-VAR where measurement restrictions are
                     % taken into account during estimation
                     remove = sum(options.indObservedOnly);
                 else
-                    remove = sum(options.indObservedOnly) + length(options.measurementEqRestriction); 
+                    remove = sum(options.indObservedOnly) + length(restr); 
                 end
                 nDep = length(dep) - remove;
                 dep  = [dep, model.endo(1:nDep)];
@@ -58,7 +61,7 @@ function dep = getForecastVariables(options,model,inputs,type)
             end
         elseif strcmpi(model.class,'nb_fmdyn') % Dynamic Factor model
             dep = model.endo(1:options.nFactors);
-            if ~strcmpi(type,'pointForecast')
+            if ~(strcmpi(type,'pointForecast') || strcmpi(type,'densityForecast'))
                 % In point forecast these are added later on
                 if isempty(inputs.observables)
                     dep = [dep,model.observables];
@@ -76,8 +79,15 @@ function dep = getForecastVariables(options,model,inputs,type)
                 dep = [dep,options(end).block_exogenous];
             end
             if isfield(options,'measurementEqRestriction') && ...
-                        ~nb_isempty(options(end).measurementEqRestriction)
-                dep = [dep,{options(end).measurementEqRestriction.restricted}]; 
+                            ~nb_isempty(options(end).measurementEqRestriction)
+                if strcmpi(type,'pointForecast') || strcmpi(type,'densityForecast')
+                    dep = [dep,{options.measurementEqRestriction.restricted}];
+                else
+                    restr = unique({options.measurementEqRestriction.restricted}); 
+                    indR  = ~ismember(restr,dep);
+                    restr = restr(indR);
+                    dep   = [dep,restr]; 
+                end
             end
         end
         
@@ -87,7 +97,7 @@ function dep = getForecastVariables(options,model,inputs,type)
         
         if strcmpi(model.class,'nb_favar')% F-VAR
             dep = [dep,options(end).factors];
-            if ~strcmpi(type,'pointForecast')
+            if ~(strcmpi(type,'pointForecast') || strcmpi(type,'densityForecast'))
                 % In point forecast these are added later on
                 if isempty(inputs.observables)
                     dep = [dep,model.observables];

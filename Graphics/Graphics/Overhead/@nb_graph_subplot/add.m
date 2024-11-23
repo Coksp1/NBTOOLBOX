@@ -22,7 +22,7 @@ function copiedObject = add(obj,graphObj)
 % 
 % Written by Kenneth S. Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isa(graphObj,'nb_graph_obj') || isa(graphObj,'nb_graph_adv')
         copiedObject     = copy(graphObj);

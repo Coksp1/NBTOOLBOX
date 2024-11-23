@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -157,7 +157,7 @@ function res = normalPrint(results,options,precision)
                 results.tests{ii}.normalityTest];
 
             tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-            tests = nb_addStars(tests,16,13,14,15);
+            tests = nb_addStars(tests,16,13,14,15,round(options.nLagsTests));
 
             % Test results
             testTable = {

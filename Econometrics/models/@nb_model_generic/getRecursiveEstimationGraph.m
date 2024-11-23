@@ -17,7 +17,7 @@ function plotter = getRecursiveEstimationGraph(obj)
 % Output:
 % 
 % - plotter : An object of class nb_graph_ts. Use the graphSubPlots method
-%             or the nb_graphSubplotGUI class to produce the graphs.
+%             or the nb_graphSubPlotGUI class to produce the graphs.
 %
 % Examples:
 %
@@ -25,11 +25,11 @@ function plotter = getRecursiveEstimationGraph(obj)
 % plotter.graphSubPlots();
 %
 % See also:
-% nb_graph_ts
+% nb_graph_ts, nb_graphSubPlotGUI
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if numel(obj) > 1
         error([mfilename ':: This function does not support a vector of nb_model_generic inputs.'])
@@ -90,15 +90,38 @@ function plotter = getRecursiveEstimationGraph(obj)
     end
     
     % Transform from numCoeff x numeq x time to time x numCoeff x numeq
-    beta = permute(beta,[3,1,2]);
+    beta = permute(beta,[3,1,2,4]);
     if ~isempty(stdBeta)     
-        stdBeta = permute(stdBeta,[3,1,2]);
+        stdBeta = permute(stdBeta,[3,1,2,4]);
     else
         stdBeta = nan(size(beta));
     end
     upperD  = beta + 1.96*stdBeta;
     lowerD  = beta - 1.96*stdBeta;
-    if size(beta,3) > 1
+    if size(beta,4) > 1
+
+        recData = nb_ts();
+        q       = estopt.quantile;
+        for ii = 1:size(beta,4)
+
+            dataN               = strtrim(cellstr(num2str([1:numEq]'))); %#ok<NBRAK>
+            dataN               = strcat('Eq',dataN,'Q',int2str(q(ii)*100))';
+            recDataT            = nb_ts(beta(:,:,:,ii),'',start,exo);
+            recDataT.dataNames  = dataN;
+            recDataT            = squeeze(recDataT);
+            upperTS             = nb_ts(upperD(:,:,:,ii),'',start,exo);
+            upperTS.dataNames   = dataN;
+            upperTS             = squeeze(upperTS);
+            lowerTS             = nb_ts(lowerD(:,:,:,ii),'',start,exo);
+            lowerTS.dataNames   = dataN;
+            lowerTS             = squeeze(lowerTS);
+            recDataT            = addPages(recDataT,lowerTS,upperTS);
+            recDataT.dataNames  = {'Estimated coefficient','Lower','Upper'};
+            recData             = merge(recData,recDataT);
+            
+        end
+
+    elseif size(beta,3) > 1
     
         dataN             = strtrim(cellstr(num2str([1:numEq]'))); %#ok<NBRAK>
         dataN             = strcat('Eq',dataN,'')';

@@ -12,7 +12,7 @@ function [out,data_nb_ts] = callRISEFilter(obj,inputs)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     out = obj.results;
 

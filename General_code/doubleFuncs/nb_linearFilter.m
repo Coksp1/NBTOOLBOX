@@ -17,7 +17,7 @@ function y = nb_linearFilter(x)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Create a nobs*(nvar*npage)*1 matrix 
     [r,c,p]  = size(x);

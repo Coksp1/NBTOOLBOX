@@ -11,7 +11,7 @@ function YQ = quantileDensityForecast(y0,restrictions,model,options,results,nSte
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     q   = options(end).quantile;
     med = false;

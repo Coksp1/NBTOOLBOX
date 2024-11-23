@@ -6,14 +6,14 @@ function dout = iepcnnan(din,t,periods)
 % Description:
 %
 % - Uses iepcn, but is robust for trailing and leading NaNs. It also
-%   checks whether theres any NaNs in between observations in the 
-%   double, and returns an error if it is the case. 
+%   checks whether there is any NaNs in between observations in the 
+%   double, and returns nan if this is the case. 
 % 
 % Input:
 %
 % - din     : A double matrix with dimensions [r,c,p].
 %
-% - t       : A double matrix with dimensions [r,c,p].
+% - t       : A double matrix with dimensions [r,c,p]. Initial values
 % 
 % - periods : The number of periods the din has been growthed over.
 %
@@ -26,7 +26,7 @@ function dout = iepcnnan(din,t,periods)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 3
         periods = 1;

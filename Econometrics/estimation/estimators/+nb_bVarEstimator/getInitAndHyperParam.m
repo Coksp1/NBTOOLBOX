@@ -13,7 +13,7 @@ function [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = getInitAndHyperParam
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 2
         throwErr = true;
@@ -114,7 +114,7 @@ function [hyperParam,nCoeff,init,lb,ub,paramMin,paramMax] = getInitAndHyperParam
             end
             
         case {'laplace'}
-            hyperParam = {'lam2Prior'};
+            hyperParam = {'lambda'};
             lb         = 0.0001;
             ub         = 10000;
             if options.prior.logTransformation

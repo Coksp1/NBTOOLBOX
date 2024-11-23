@@ -25,7 +25,7 @@ function bool = nb_compareCell2TXT(cell,file)
 %
 % Written by Per Bjarne Bye
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if size(cell,2) > size(cell,1)
         cell = cell';

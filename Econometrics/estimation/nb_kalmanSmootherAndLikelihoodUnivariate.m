@@ -98,7 +98,7 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
 %
 % Written by Kenneth Sæterhagen Paulsen.
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 8
         kf_presample = 5;
@@ -171,6 +171,9 @@ function [xf,xu,xs,us,lik,Ps,Ps_1,Pf,Pinf,Pu,Pinfu] = nb_kalmanSmootherAndLikeli
                 PU           = PU - KS(:,ii,tt)*KS(:,ii,tt)'/FS(ii,tt);
                 lik(tt)      = lik(tt) + log(FS(ii,tt)) + (vf(ii,tt)*vf(ii,tt)/FS(ii,tt));
                 incrSmoother = 1;
+            elseif FS(ii,tt) < 0 || FINF(ii,tt) < 0
+                lik = 1e10;
+                return     
             end
 
         end

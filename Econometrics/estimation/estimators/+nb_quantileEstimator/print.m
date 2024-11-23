@@ -23,7 +23,7 @@ function res = print(results,options,precision)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin<3
         precision = '';
@@ -86,9 +86,13 @@ function res = resursivePrint(results,options,precision)
     dates   = start:finish;
     dates   = dates(startRecursive:end)';
     numObs  = size(beta,3);
-    dep     = options.dependent;
-    if isfield(options,'block_exogenous')
-        dep = [dep,options.block_exogenous];
+    if options.nStep > 0
+        dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+    else
+        dep = options.dependent;
+        if isfield(options,'block_exogenous')
+            dep = [dep,options.block_exogenous];
+        end
     end
     quantiles  = options.quantile;
     nQuantiles = length(quantiles);
@@ -163,9 +167,13 @@ function res = normalPrint(results,options,precision)
     
     if numQ > 1
         
-        dep = options.dependent;
-        if isfield(options,'block_exogenous')
-            dep = [dep,options.block_exogenous];
+        if options.nStep > 0
+            dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+        else
+            dep = options.dependent;
+            if isfield(options,'block_exogenous')
+                dep = [dep,options.block_exogenous];
+            end
         end
         table    = cell(numPar*4 + 1,numQ + 1);
         firstRow = strtrim(cellstr(num2str(options.quantile(:))))';
@@ -200,12 +208,16 @@ function res = normalPrint(results,options,precision)
 
         % Fill table
         table    = cell(numPar*4 + 1,numEndo + 1);
-        firstRow = options.dependent;
-        if isfield(options,'block_exogenous')
-            firstRow = [firstRow,options.block_exogenous];
+        if options.nStep > 0
+            dep = nb_cellstrlead(options.dependent,options.nStep,'varFast');
+        else
+            dep = options.dependent;
+            if isfield(options,'block_exogenous')
+                dep = [dep,options.block_exogenous];
+            end
         end
         table{1,1}           = 'Variable';
-        table(1,2:end)       = firstRow;
+        table(1,2:end)       = dep;
         table(2:4:end,1)     = exo;
         table(3:4:end,1)     = repmat({'(Std. Error)'},numExo,1);
         table(4:4:end,1)     = repmat({'(t-Statistics)'},numExo,1);
@@ -223,81 +235,5 @@ function res = normalPrint(results,options,precision)
         res         = char(res,tableAsChar);
 
     end
-        
-    % Convert the test result to a cell matrix on the wanted
-    % format
-%     if ~options.doTests
-        
-        
-        
-%     else
-%         
-%         tests = [...
-%             results.rSquared;
-%             results.adjRSquared;
-%             results.SERegression;
-%             results.sumOfSqRes;
-%             results.logLikelihood;
-%             results.fTest;
-%             results.fProb;
-%             results.aic;
-%             results.sic;
-%             results.hqc;
-%             results.archTest;
-%             results.autocorrTest;
-%             results.normalityTest];
-% 
-%         tests = [repmat({''},1,size(tests,2));nb_double2cell(tests,precision)];
-%         tests = nb_addStars(tests,16,13,14,15);
-%         
-%         % Test results
-%         testTable = {
-%             '';
-%             'R-squared';
-%             'Adjusted R-squared'; 
-%             'S.E. of regression';
-%             'Sum squared residuals'; 
-%             'Log likelihood';
-%             'F-statistic';
-%             'P-value(F-statistic)';
-%             'Akaike info criterion'; 
-%             'Schwarz criterion';
-%             'Hannan-Quinn criterion';
-%             ['Arch test(' int2str(options.nLagsTests) ')'];
-%             ['Autocorrelation test(' int2str(options.nLagsTests) ')'];
-%             'Normality test'};
-%         testTable   = [testTable,tests];
-%         table       = [table;testTable];
-%         tableAsChar = cell2charTable(table);
-%         res         = char(res,tableAsChar);
-% 
-%         % Aslo report full statistics if we have a system of eq
-%         if size(tests,2) > 1
-% 
-%             res = char(res,'');
-%             res = char(res,'Full system:');
-%             res = char(res,'');
-% 
-%             tests = [...
-%             results.fullLogLikelihood;
-%             results.aicFull;
-%             results.sicFull;
-%             results.hqcFull];
-% 
-%             tests = nb_double2cell(tests,precision);
-% 
-%             testTable = {
-%             'Log likelihood';
-%             'Akaike info criterion'; 
-%             'Schwarz criterion';
-%             'Hannan-Quinn criterion'};
-% 
-%             testTable   = [testTable,tests];
-%             tableAsChar = cell2charTable(testTable);
-%             res         = char(res,tableAsChar);
-% 
-%         end
-%         
-%     end
-    
+       
 end

@@ -11,7 +11,7 @@ function [Y,states,PAI,MUs] = condShockForecastEngine(y0,A,B,C,ss,Qfunc,MUx,MUs,
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 12
         inputs = [];

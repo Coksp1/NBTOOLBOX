@@ -14,7 +14,7 @@ function [betaDraws,sigmaDraws,yD,pD] = myDrawParamFunc(results,options,draws,it
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Not in use, as this model does not handle missing observations!
     yD = nan(0,0,draws);

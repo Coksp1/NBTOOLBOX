@@ -67,7 +67,7 @@ function [estPar,fval,Hessian,err] = nb_callOptimizer(optimizer,fh,init,lb,ub,op
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Parse constraint options
     [Aeq,varargin]     = nb_parseOneOptional('Aeq',[],varargin{:});

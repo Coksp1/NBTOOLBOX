@@ -11,7 +11,7 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G] = getStateSpace(model,nObs,yHist,nSteps)
 % 
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     % Observation equation:
     % y(t) = d + H*x(t) + T*z(t) + v(t), v ~ N(0,R)
@@ -69,7 +69,7 @@ function [x0,P0,d,H,R,T,c,A,B,Q,G] = getStateSpace(model,nObs,yHist,nSteps)
     if isfield(model,'RCalib') && ~isempty(model.RCalib)
         RAll                  = zeros(nObs,nObs,tHist + nSteps);
         RAll(:,:,1:tHist)     = R(:,:,ones(1,tHist));
-        if size(model.RCalib,2) == 1
+        if isvector(model.RCalib)
             model.RCalib = diag(model.RCalib);
         end
         RAll(:,:,tHist+1:end) = model.RCalib(:,:,ones(1,nSteps));

@@ -9,7 +9,7 @@ function [Y,dep] = mapToObservablesMFVAR(Y,options,model,inputs,start)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     dep   = nb_forecast.getForecastVariables(options,model,inputs,'notAll');
     YT    = permute(Y,[2,1,3]);

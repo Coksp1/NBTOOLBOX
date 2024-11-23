@@ -30,7 +30,7 @@ end
 %==========================================================================
 function [changed,newFormat] = checkFormat(format,newFormat)
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     changed = false;
     fields  = fieldnames(newFormat);

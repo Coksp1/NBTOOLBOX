@@ -18,7 +18,7 @@ function start = getEstimationStartDate(obj)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if isempty(obj.model)
         error([mfilename ':: The nb_model_convert object is empty, so to call this function make no sense!'])

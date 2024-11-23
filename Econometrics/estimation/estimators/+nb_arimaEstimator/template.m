@@ -17,13 +17,14 @@ function options = template()
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     options                             = struct();
     options.algorithm                   = 'hr';
     options.alpha                       = 0.05;
     options.AR                          = nan;
     options.constant                    = 1;
+    options.covidAdj                    = {};
     options.covrepair                   = false;
     options.criterion                   = '';
     options.data                        = [];

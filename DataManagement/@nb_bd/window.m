@@ -55,7 +55,7 @@ function obj = window(obj,startDateWin,endDateWin,variablesWin,pages)
 %
 % Written by Per Bjarne Bye 
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     if nargin < 5
         pages = [];

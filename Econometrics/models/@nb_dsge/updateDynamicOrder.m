@@ -14,7 +14,7 @@ function parser = updateDynamicOrder(parser)
 %
 % Written by Kenneth Sæterhagen Paulsen
 
-% Copyright (c) 2023, Kenneth Sæterhagen Paulsen
+% Copyright (c) 2024, Kenneth Sæterhagen Paulsen
 
     endo                = parser.endogenous;
     purlyBackward       = endo(parser.isPurlyBackward);
